@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    <appender name="file" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${catalina.home}/logs/gazap-global-site.log"/>
+        <param name="Append" value="true"/>
+        <param name="Encoding" value="UTF-8"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601}|%p|%t|%x|%c{2}|%m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="gazap">
+        <level value="info"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="info"/>
+        <appender-ref ref="file"/>
+    </logger>
+    <logger name="org.apache.http">
+        <level value="info"/>
+        <appender-ref ref="file"/>
+    </logger>
+
+    <!-- ignore
+    <logger name="org.hibernate.SQL">
+        <level value="debug"/>
+        <appender-ref ref="file"/>
+    </logger>
+    <logger name="org.hibernate.type" >
+        <level value="trace"/>
+        <appender-ref ref="file"/>
+    </logger>
+    -->
+</log4j:configuration>
