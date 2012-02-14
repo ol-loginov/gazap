@@ -7,7 +7,7 @@
 
     <xsl:variable name="au" select="//modules/cdn/server"/>
     <xsl:variable name="cp" select="//modules/cdn/contextPath"/>
-    <xsl:variable name="stylesRoot" select="concat($au,'/static/themes/default')"/>
-    <xsl:variable name="scriptsRoot" select="concat($au,'/static/scripts')"/>
+    <xsl:variable name="stylesRoot" select="concat($cp,'/static/css')"/>
+    <xsl:variable name="scriptsRoot" select="concat($cp,'/static/scripts')"/>
     <xsl:variable name="content" select="child::node()"/>
 </xsl:stylesheet>

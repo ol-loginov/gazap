@@ -51,7 +51,7 @@
         <app.engine.cache>false</app.engine.cache>
 
         <app.db.urlo>?characterEncoding=utf8&amp;rewriteBatchedStatements=true</app.db.urlo>
-        <app.db.url>jdbc:mysql://localhost:3306/gazap{app.db.urlo}</app.db.url>
+        <app.db.url>jdbc:mysql://localhost:3306/gazap${app.db.urlo}</app.db.url>
         <app.db.user>gazap</app.db.user>
         <app.db.pass>gazap</app.db.pass>
         <app.db.show_sql>true</app.db.show_sql>

@@ -9,7 +9,7 @@
     <xsl:include href="shared/layout-single.xsl"/>
 
     <xsl:template match="/WelcomePage" mode="styles">
-        <link rel="stylesheet/less" href="{$stylesRoot}/catalog.less"/>
+        <link rel="stylesheet/less" href="{$stylesRoot}/layout-single.less"/>
     </xsl:template>
 
     <xsl:template match="/WelcomePage" mode="scripts"/>

@@ -9,6 +9,7 @@
 
     <xsl:template name="html-head">
         <xsl:param name="styles"/>
+        <xsl:param name="scripts"/>
 
         <xsl:copy-of select="$styles"/>
         <xsl:apply-templates select="$content" mode="styles"/>
@@ -19,12 +20,7 @@
             <xsl:value-of select="r:t($rs,'E.SCE')"/>
             <xsl:text>'};</xsl:text>
         </script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        <script type="text/javascript" src="{$scriptsRoot}/visitor.js"></script>
-        <script type="text/javascript" src="{$scriptsRoot}/site-navigation.js"></script>
-        <script type="text/javascript" src="{$scriptsRoot}/ajax-forms.js"></script>
-        <script type="text/javascript" src="{$scriptsRoot}/less/less-1.1.6.min.js"></script>
-        <script type="text/javascript" src="{$scriptsRoot}/jquery/jquery.form-2.94.min.js"></script>
+        <xsl:copy-of select="$scripts"/>
         <xsl:apply-templates select="$content" mode="scripts"/>
     </xsl:template>
 
@@ -45,65 +41,88 @@
     </xsl:template>
 
     <xsl:template name="topbar">
-        <div id="topbarMenu">
-            <ul class="hmenu unstyled">
-                <li class="navigation">
-                    <a id="navigationCaller" href="{$au}">
-                        <xsl:value-of select="r:t($rs,'tb.menu.welcome')"/>
-                    </a>
-                </li>
-                <xsl:if test="/*/modules/visitor/debug='true'">
-                    <li>
-                        <a id="debugCaller" href="?d:v=xml">
-                            <xsl:text>[xml]</xsl:text>
-                        </a>
-                    </li>
-                </xsl:if>
-                <li class="account">
-                    <xsl:choose>
-                        <xsl:when test="//modules/visitor/logged='true'">
-                            <a id="accountCaller" href="{$cp}/account">
-                                <xsl:value-of select="r:t($rs,'tb.menu.account.welcome.prefix')"/>
-                                <span class="name">
-                                    <xsl:value-of select="//modules/visitor/name"/>
-                                </span>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <ul class="nav">
+                        <li>
+                            <a href="#">
+                                <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
                             </a>
+                        </li>
+                    </ul>
+                    <a class="brand" href="{$au}">
+                        gamza
+                    </a>
+
+                    <xsl:variable name="v" select="/*/modules/visitor"/>
+                    <xsl:choose>
+                        <xsl:when test="$v/logged='true'">
+                            <xsl:call-template name="topbar-menu-logged">
+                                <xsl:with-param name="visitor" select="$v"/>
+                            </xsl:call-template>
                         </xsl:when>
                         <xsl:otherwise>
-                            <a id="accountCaller" href="{$cp}/auth">
-                                <xsl:value-of select="r:t($rs, 'tb.menu.account.login')"/>
-                            </a>
+                            <xsl:call-template name="topbar-menu-anonymous"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                </li>
-            </ul>
-            <div class="clear"/>
-            <div id="navigation" class="hidden topmenu">
-                <ul class="unstyled">
-                    <li>
-                        <xsl:call-template name="topbar-menu-button">
-                            <xsl:with-param name="header" select="'tb.menu.channels'"/>
-                            <xsl:with-param name="route" select="concat($cp,'/channels')"/>
-                            <xsl:with-param name="thumb" select="concat($stylesRoot,'/img/topmenu/gallery.png')"/>
-                        </xsl:call-template>
-                    </li>
-                    <li>
-                        <xsl:call-template name="topbar-menu-button">
-                            <xsl:with-param name="header" select="'tb.menu.settings'"/>
-                            <xsl:with-param name="route" select="concat($cp,'/settings')"/>
-                            <xsl:with-param name="thumb" select="concat($stylesRoot,'/img/topmenu/tools.png')"/>
-                        </xsl:call-template>
-                    </li>
-                </ul>
-                <div class="clear"/>
-            </div>
-
-            <xsl:variable name="visitor" select="/*/modules/visitor"/>
-            <div id="account" class="hidden topmenu logged-{$visitor/logged}">
-                <xsl:apply-templates select="$visitor" mode="render-account-menu"/>
-                <div class="clear"/>
+                </div>
             </div>
         </div>
+    </xsl:template>
+
+    <xsl:template name="topbar-menu-anonymous">
+        <form class="navbar-search pull-left">
+            <input type="text" class="search-query" placeholder="{r:t($rs, 'tb.menu.search')}"/>
+        </form>
+
+        <ul class="nav  pull-right">
+            <li>
+                <a id="auth-welcome" href="{$au}/auth">
+                    <xsl:value-of select="r:t($rs, 'tb.menu.login')"/>
+                </a>
+            </li>
+        </ul>
+    </xsl:template>
+
+    <xsl:template name="topbar-menu-logged">
+        <xsl:param name="visitor"/>
+
+        <ul class="nav pull-left" style="margin-left: 50px;">
+            <!-- visitor display -->
+            <li class="gamer-label">
+                <span>
+                    <span>
+                        <xsl:value-of select="r:t($rs,'tb.menu.welcome')"/>
+                    </span>
+                    <a>
+                        <xsl:value-of select="$visitor/name"/>
+                    </a>
+                    <span style="padding-left:5px;">
+                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.gamer.aka')"/>
+                    </span>
+                </span>
+            </li>
+            <!-- player selection -->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <xsl:if test="count($visitor/player)>0">
+                        <xsl:value-of select="$visitor/player/name"/>
+                    </xsl:if>
+                    <xsl:if test="not(count($visitor/player)>0)">
+                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.gamer.aka.none')"/>
+                    </xsl:if>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{$cp}/players/add">
+                            добавить
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </xsl:template>
 
     <xsl:template match="/*/modules/visitor[logged='false']" mode="render-account-menu">

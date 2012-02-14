@@ -10,26 +10,30 @@
             <head>
                 <xsl:call-template name="html-head">
                     <xsl:with-param name="styles">
-                        <link rel="stylesheet/less" href="{$stylesRoot}/config.less"/>
-                        <link rel="stylesheet/less" href="{$stylesRoot}/_layout-single.less"/>
+                        <link rel="stylesheet" href="{$cp}/static/bootstrap/dist/css/bootstrap.css"/>
+                    </xsl:with-param>
+                    <xsl:with-param name="scripts">
+                        <script type="text/javascript"
+                                src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+                        <script type="text/javascript" src="{$scriptsRoot}/less/less-1.2.1.min.js"></script>
+                        <script type="text/javascript" src="{$scriptsRoot}/jquery/jquery.form-2.94.min.js"></script>
+                        <script type="text/javascript" src="{$cp}/static/bootstrap/dist/js/bootstrap.min.js"/>
+                        <script type="text/javascript" src="{$scriptsRoot}/visitor.js"></script>
                     </xsl:with-param>
                 </xsl:call-template>
             </head>
-            <body>
-                <header id="header">
-                    <div class="content">
+            <body style="padding-top: 40px;">
+                <div class="container">
+                    <header id="header">
                         <xsl:call-template name="topbar"/>
-                    </div>
-                </header>
-                <div id="body">
+                    </header>
+
                     <xsl:apply-templates select="$content"/>
-                    <div class="clear"/>
-                </div>
-                <footer id="footer">
-                    <div class="content">
+
+                    <footer id="footer">
                         <xsl:call-template name="footer"/>
-                    </div>
-                </footer>
+                    </footer>
+                </div>
             </body>
         </html>
     </xsl:template>

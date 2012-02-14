@@ -22,8 +22,8 @@ public class UserServiceImpl implements UserService {
         UserProfile user = new UserProfile();
         user.setPassword(HashUtil.newUuid());
         user.setContactEmail(HashUtil.isNull(email, ""));
+        user.setDisplayName("");
         profileDao.create(user);
-
         return user;
     }
 
