@@ -44,16 +44,7 @@
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <ul class="nav">
-                        <li>
-                            <a href="#">
-                                <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
-                            </a>
-                        </li>
-                    </ul>
-                    <a class="brand" href="{$au}">
-                        gamza
-                    </a>
+                    <xsl:call-template name="topbar-menu-brand"/>
 
                     <xsl:variable name="v" select="/*/modules/visitor"/>
                     <xsl:choose>
@@ -71,11 +62,23 @@
         </div>
     </xsl:template>
 
+    <xsl:template name="topbar-menu-brand">
+        <a class="brand" href="{$au}">
+            gamza
+        </a>
+    </xsl:template>
+
     <xsl:template name="topbar-menu-anonymous">
+        <ul class="nav">
+            <li>
+                <a href="#">
+                    <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
+                </a>
+            </li>
+        </ul>
         <form class="navbar-search pull-left">
             <input type="text" class="search-query" placeholder="{r:t($rs, 'tb.menu.search')}"/>
         </form>
-
         <ul class="nav  pull-right">
             <li>
                 <a id="auth-welcome" href="{$au}/auth">
@@ -88,39 +91,53 @@
     <xsl:template name="topbar-menu-logged">
         <xsl:param name="visitor"/>
 
-        <ul class="nav pull-left" style="margin-left: 50px;">
+        <ul class="nav pull-left">
             <!-- visitor display -->
-            <li class="gamer-label">
-                <span>
-                    <span>
-                        <xsl:value-of select="r:t($rs,'tb.menu.welcome')"/>
+            <li class="unfade">
+                <a href="{$cp}/profile">
+                    <img src="http://www.gravatar.com/avatar/{$visitor/gravatar}?s=24"
+                         style="position:absolute;left;top:50%;margin-top:-12px;"/>
+                    <span style="margin-left: 32px;">
+                        <xsl:if test="string-length($visitor/name)>0">
+                            <xsl:value-of select="$visitor/name"/>
+                        </xsl:if>
+                        <xsl:if test="not(string-length($visitor/name)>0)">
+                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.anonymous.name')"/>
+                        </xsl:if>
                     </span>
-                    <a>
-                        <xsl:value-of select="$visitor/name"/>
-                    </a>
-                    <span style="padding-left:5px;">
-                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.gamer.aka')"/>
-                    </span>
-                </span>
+                </a>
             </li>
             <!-- player selection -->
-            <li class="dropdown">
+            <li class="dropdown unfade">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <xsl:if test="count($visitor/player)>0">
-                        <xsl:value-of select="$visitor/player/name"/>
-                    </xsl:if>
-                    <xsl:if test="not(count($visitor/player)>0)">
-                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.gamer.aka.none')"/>
-                    </xsl:if>
+                    <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto')"/>
                     <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a href="{$cp}/players/add">
-                            добавить
+                        <a href="{$cp}/players">
+                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.players')"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{$cp}/maps">
+                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.maps')"/>
+                        </a>
+                    </li>
+                    <li class="divider"/>
+                    <li>
+                        <a href="{$cp}/auth/logout">
+                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.logout')"/>
                         </a>
                     </li>
                 </ul>
+            </li>
+        </ul>
+        <ul class="nav pull-right">
+            <li>
+                <a href="{$cp}/catalog">
+                    <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
+                </a>
             </li>
         </ul>
     </xsl:template>

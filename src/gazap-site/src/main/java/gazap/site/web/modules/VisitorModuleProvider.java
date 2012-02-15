@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Random;
 
 @Service
 public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
+    private final Random random = new Random(System.currentTimeMillis());
     private boolean debug;
 
     @Value("${engine.debug}")
@@ -23,6 +25,7 @@ public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
         UserProfile user = getLoggedUser();
         module.setDebug(debug);
         module.setLogged(user != null);
+        module.setWelcomePrompt(Integer.toString(random.nextInt(5)));
         setThumbnail(module, user);
         setProfileInfo(module, user);
         setAuthProviders(module, user);

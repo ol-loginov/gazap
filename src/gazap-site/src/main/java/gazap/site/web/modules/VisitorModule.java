@@ -1,7 +1,6 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.ContentModule;
-import gazap.site.model.PlayerProfileShort;
 import gazap.site.model.SocialProfileProvider;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,14 +19,11 @@ public class VisitorModule extends ContentModule {
     private String name;
     @XmlElement
     private String gravatar;
+    @XmlElement
+    private String welcomePrompt;
     @XmlElementWrapper(name = "authProviders", required = false)
     @XmlElement(name = "provider")
     private List<SocialProfileProvider> authProviders;
-    @XmlElementWrapper(name = "playerSelect", required = false)
-    @XmlElement(name = "player")
-    private List<PlayerProfileShort> playerSelect;
-    @XmlElement(name = "player")
-    private PlayerProfileShort player;
 
     public boolean isLogged() {
         return logged;
@@ -52,13 +48,6 @@ public class VisitorModule extends ContentModule {
         return authProviders;
     }
 
-    public List<PlayerProfileShort> getPlayerSelect() {
-        if (playerSelect == null) {
-            playerSelect = new ArrayList<PlayerProfileShort>();
-        }
-        return playerSelect;
-    }
-
     public String getName() {
         return name;
     }
@@ -75,11 +64,11 @@ public class VisitorModule extends ContentModule {
         this.debug = debug;
     }
 
-    public PlayerProfileShort getPlayer() {
-        return player;
+    public String getWelcomePrompt() {
+        return welcomePrompt;
     }
 
-    public void setPlayer(PlayerProfileShort player) {
-        this.player = player;
+    public void setWelcomePrompt(String welcomePrompt) {
+        this.welcomePrompt = welcomePrompt;
     }
 }
