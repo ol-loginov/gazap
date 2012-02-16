@@ -31,17 +31,6 @@
             </xsl:for-each>
         </ul>
         <xsl:apply-templates select="suggestions"/>
-        <div class="row">
-            <div class="span4">
-                Игры
-            </div>
-            <div class="span4">
-                Популярные карты
-            </div>
-            <div class="span4">
-                Бета-карты
-            </div>
-        </div>
     </xsl:template>
 
     <xsl:template match="Listing/suggestions">
