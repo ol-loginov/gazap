@@ -5,6 +5,7 @@ import com.iserv2.commons.mvc.views.ContentModule;
 import com.iserv2.commons.mvc.views.ModuleList;
 import com.iserv2.commons.mvc.views.ModuleUtil;
 import gazap.site.web.modules.CdnModule;
+import gazap.site.web.modules.ViewMetaModule;
 import gazap.site.web.modules.VisitorModule;
 
 import javax.xml.bind.annotation.*;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlSeeAlso({CdnModule.class, VisitorModule.class})
-@ModuleList({CdnModule.class, VisitorModule.class})
+@XmlSeeAlso({CdnModule.class, VisitorModule.class, ViewMetaModule.class})
+@ModuleList({CdnModule.class, VisitorModule.class, ViewMetaModule.class})
 public abstract class GazapEditPage<Form extends BaseEditForm> extends com.iserv2.commons.mvc.model.BaseEditPage<Form> {
     @XmlElementWrapper(name = "modules")
     @XmlAnyElement

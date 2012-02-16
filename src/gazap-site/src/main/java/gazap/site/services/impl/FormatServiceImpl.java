@@ -1,19 +1,18 @@
 package gazap.site.services.impl;
 
 import com.iserv2.commons.text.FormatPluralizer;
+import com.iserv2.commons.text.FormatPluralizerMap;
 import gazap.site.services.FormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Locale;
 
 @Service
 public class FormatServiceImpl implements FormatService {
     private MessageSource messageSource;
-    private final Map<String, FormatPluralizer> pluralizers = Collections.synchronizedMap(new HashMap<String, FormatPluralizer>(100));
+    private FormatPluralizerMap pluralizers = new FormatPluralizerMap();
 
     @Autowired
     protected void setMessageSource(MessageSource messageSource) {
@@ -21,18 +20,18 @@ public class FormatServiceImpl implements FormatService {
     }
 
     @Override
-    public String getMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, code, null);
+    public String getMessage(Locale locale, String code, Object... args) {
+        return messageSource.getMessage(code, args, code, locale);
     }
 
     @Override
-    public String pluralize(long value, String code) {
-        FormatPluralizer pluralizer = pluralizers.get(code);
+    public String pluralize(Locale locale, long value, String code) {
+        FormatPluralizer pluralizer = pluralizers.get(locale, code);
         if (pluralizer == null) {
-            pluralizer = new FormatPluralizer(code, messageSource.getMessage(code + "!pl", null, null, null));
-            pluralizers.put(code, pluralizer);
+            pluralizer = new FormatPluralizer(code, messageSource.getMessage(code + "!pl", null, null, locale));
+            pluralizers.put(locale, code, pluralizer);
         }
         String pluralForm = pluralizer.selectCode(value);
-        return messageSource.getMessage(pluralForm, new Object[]{value}, pluralForm, null);
+        return messageSource.getMessage(pluralForm, new Object[]{value}, pluralForm, locale);
     }
 }

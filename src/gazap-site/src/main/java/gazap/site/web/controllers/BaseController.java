@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
+import java.util.Locale;
 
 public abstract class BaseController {
     protected UserAccess auth;
@@ -48,43 +49,43 @@ public abstract class BaseController {
         return new RedirectContent(url);
     }
 
-    public <T extends OperationStatusKeeper> T error(T response, ServiceError error) {
-        return error == null ? response : error(response, error, error.getCode());
+    public <T extends OperationStatusKeeper> T error(T response, ServiceError error, Locale locale) {
+        return error == null ? response : error(response, error, error.getCode(), locale);
     }
 
-    public <T extends OperationStatusKeeper> T error(T response, ServiceError error, String resString) {
+    public <T extends OperationStatusKeeper> T error(T response, ServiceError error, String resString, Locale locale) {
         response.getOperationStatus().setSuccess(false);
         if (error != null) {
             response.getOperationStatus().setCode(error.getCode());
-            response.getOperationStatus().setMessage(format.getMessage(resString));
+            response.getOperationStatus().setMessage(format.getMessage(locale, resString));
         }
         return response;
     }
 
-    public <T extends OperationStatusKeeper> T error(T response, Errors errors) {
-        storeErrors(response.getOperationStatus(), errors.getFieldErrors());
-        return error(response, ServiceError.PAGE_VALIDATION_FAILED);
+    public <T extends OperationStatusKeeper> T error(T response, Errors errors, Locale locale) {
+        storeErrors(response.getOperationStatus(), errors.getFieldErrors(), locale);
+        return error(response, ServiceError.PAGE_VALIDATION_FAILED, locale);
     }
 
-    public <T extends FieldErrors> T storeErrors(T errorReceiver, List<org.springframework.validation.FieldError> errors) {
+    public <T extends FieldErrors> T storeErrors(T errorReceiver, List<org.springframework.validation.FieldError> errors, Locale locale) {
         if (errors == null) {
             return errorReceiver;
         }
         for (org.springframework.validation.FieldError err : errors) {
             FieldError fieldError = new FieldError();
             fieldError.setField(err.getField());
-            fieldError.setError(getErrorMessage(err));
+            fieldError.setError(getErrorMessage(err, locale));
             errorReceiver.getInvalidFields().add(fieldError);
         }
         return errorReceiver;
     }
 
-    public String getErrorMessage(org.springframework.validation.FieldError error) {
+    public String getErrorMessage(org.springframework.validation.FieldError error, Locale locale) {
         if (error == null) {
             return null;
         }
         String code = Collections.firstOrNull(error.getCodes());
-        return format.getMessage(code == null ? "message.unknown" : code, error.getArguments());
+        return format.getMessage(locale, code == null ? "message.unknown" : code, error.getArguments());
     }
 
     private static class ModelAndViewContent extends ModelAndView implements Content {

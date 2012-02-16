@@ -1,7 +1,9 @@
 package gazap.site.services;
 
-public interface FormatService {
-    String getMessage(String code, Object... args);
+import java.util.Locale;
 
-    String pluralize(long value, String code);
+public interface FormatService {
+    String getMessage(Locale locale, String code, Object... args);
+
+    String pluralize(Locale locale, long value, String code);
 }

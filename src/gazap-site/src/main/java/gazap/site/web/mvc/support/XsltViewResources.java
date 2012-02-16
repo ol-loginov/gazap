@@ -27,13 +27,13 @@ public class XsltViewResources {
     }
 
     private String translate(String code, Object... args) {
-        return f.getMessage(code, args);
+        return f.getMessage(null, code, args);
     }
 
     public String p(String code, String number) {
         if (number == null) {
             return null;
         }
-        return f.pluralize(Long.parseLong(number), code);
+        return f.pluralize(null, Long.parseLong(number), code);
     }
 }
