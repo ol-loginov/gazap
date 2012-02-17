@@ -1,11 +1,11 @@
 package gazap.site.services.impl;
 
 import com.iserv2.commons.lang.HashUtil;
+import gazap.common.web.model.SocialProfile;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.site.model.ServiceErrorException;
-import gazap.site.model.SocialProfile;
 import gazap.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.ConnectionKey;

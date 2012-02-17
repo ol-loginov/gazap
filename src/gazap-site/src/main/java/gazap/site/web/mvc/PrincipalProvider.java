@@ -1,16 +1,20 @@
 package gazap.site.web.mvc;
 
+import gazap.common.web.security.PrincipalImpl;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.site.services.UserAccess;
 import gazap.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public abstract class PrincipalProvider {
+    private AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
+
     @Autowired
     protected UserService userService;
     @Autowired
@@ -22,7 +26,10 @@ public abstract class PrincipalProvider {
         if (profile == null) {
             throw new UsernameNotFoundException("no such user");
         }
-        return new PrincipalImpl(profile);
+
+        PrincipalImpl principal = new PrincipalImpl(profile);
+        checker.check(principal);
+        return principal;
     }
 
     protected UserProfile getLoggedUser() {

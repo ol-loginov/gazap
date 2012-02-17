@@ -10,7 +10,7 @@
             <head>
                 <xsl:call-template name="html-head">
                     <xsl:with-param name="styles">
-                        <link rel="stylesheet" href="{$cp}/static/bootstrap/dist/css/bootstrap.css"/>
+                        <link rel="stylesheet" href="{$cp}/static/bootstrap/dist/css/bootstrap.min.css"/>
                     </xsl:with-param>
                     <xsl:with-param name="scripts">
                         <script type="text/javascript"

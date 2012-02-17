@@ -1,8 +1,8 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.Content;
+import gazap.common.util.GravatarHelper;
 import gazap.domain.entity.UserProfile;
-import gazap.site.util.GravatarHelper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,6 @@ public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
         module.setWelcomePrompt(Integer.toString(random.nextInt(5)));
         setThumbnail(module, user);
         setProfileInfo(module, user);
-        setAuthProviders(module, user);
         return true;
     }
 
@@ -37,13 +36,6 @@ public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
             return;
         }
         module.setName(user.getDisplayName());
-    }
-
-    private void setAuthProviders(VisitorModule module, UserProfile user) {
-        if (user != null) {
-            return;
-        }
-        module.getAuthProviders().addAll(auth.getAvailableSocialProviders());
     }
 
     private void setThumbnail(VisitorModule module, UserProfile profile) {

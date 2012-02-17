@@ -2,12 +2,12 @@ package gazap.site.services.impl;
 
 import com.iserv2.test.ServiceTest;
 import com.iserv2.test.Values;
+import gazap.common.web.model.SocialProfileProviders;
+import gazap.common.web.security.PrincipalImpl;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.domain.entity.base.EntityUtil;
-import gazap.site.services.UserAccess;
-import gazap.site.web.mvc.PrincipalImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -33,34 +33,34 @@ public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
 
         link = new UserSocialLink();
         link.setProvider("google");
-        Assert.assertEquals(UserAccess.PROVIDER_GOOGLE, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_GOOGLE, service.createSocialProvider(link));
         link = new UserSocialLink();
         link.setProvider("www.google.com");
-        Assert.assertEquals(UserAccess.PROVIDER_GOOGLE, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_GOOGLE, service.createSocialProvider(link));
 
         link = new UserSocialLink();
         link.setProvider("yandex");
-        Assert.assertEquals(UserAccess.PROVIDER_YANDEX, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_YANDEX, service.createSocialProvider(link));
         link = new UserSocialLink();
         link.setProvider("openid.yandex.ru");
-        Assert.assertEquals(UserAccess.PROVIDER_YANDEX, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_YANDEX, service.createSocialProvider(link));
 
         link = new UserSocialLink();
         link.setProvider("twitter");
-        Assert.assertEquals(UserAccess.PROVIDER_TWITTER, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_TWITTER, service.createSocialProvider(link));
 
         link = new UserSocialLink();
         link.setProvider("facebook");
-        Assert.assertEquals(UserAccess.PROVIDER_FACEBOOK, service.createSocialProvider(link));
+        Assert.assertEquals(SocialProfileProviders.PROVIDER_FACEBOOK, service.createSocialProvider(link));
     }
 
     @Test
     public void getAvailableSocialProviders() {
         Assert.assertEquals(4, service.getAvailableSocialProviders().size());
-        Values.assertContains(service.getAvailableSocialProviders(), UserAccess.PROVIDER_FACEBOOK);
-        Values.assertContains(service.getAvailableSocialProviders(), UserAccess.PROVIDER_GOOGLE);
-        Values.assertContains(service.getAvailableSocialProviders(), UserAccess.PROVIDER_TWITTER);
-        Values.assertContains(service.getAvailableSocialProviders(), UserAccess.PROVIDER_YANDEX);
+        Values.assertContains(service.getAvailableSocialProviders(), SocialProfileProviders.PROVIDER_FACEBOOK);
+        Values.assertContains(service.getAvailableSocialProviders(), SocialProfileProviders.PROVIDER_GOOGLE);
+        Values.assertContains(service.getAvailableSocialProviders(), SocialProfileProviders.PROVIDER_TWITTER);
+        Values.assertContains(service.getAvailableSocialProviders(), SocialProfileProviders.PROVIDER_YANDEX);
     }
 
     @Test

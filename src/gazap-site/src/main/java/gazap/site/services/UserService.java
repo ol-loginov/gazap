@@ -1,9 +1,9 @@
 package gazap.site.services;
 
+import gazap.common.web.model.SocialProfile;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.site.model.ServiceErrorException;
-import gazap.site.model.SocialProfile;
 import org.springframework.social.connect.ConnectionKey;
 
 public interface UserService {

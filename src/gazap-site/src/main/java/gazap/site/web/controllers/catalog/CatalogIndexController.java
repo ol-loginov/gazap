@@ -1,7 +1,7 @@
 package gazap.site.web.controllers.catalog;
 
 import com.iserv2.commons.mvc.views.ViewName;
-import gazap.site.model.Anchor;
+import gazap.common.web.model.Anchor;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.catalog.Listing;
 import org.springframework.stereotype.Controller;

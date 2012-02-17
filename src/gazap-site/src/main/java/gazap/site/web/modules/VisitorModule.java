@@ -1,13 +1,9 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.ContentModule;
-import gazap.site.model.SocialProfileProvider;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
 
 @XmlRootElement(name = "visitor")
 public class VisitorModule extends ContentModule {
@@ -21,9 +17,6 @@ public class VisitorModule extends ContentModule {
     private String gravatar;
     @XmlElement
     private String welcomePrompt;
-    @XmlElementWrapper(name = "authProviders", required = false)
-    @XmlElement(name = "provider")
-    private List<SocialProfileProvider> authProviders;
 
     public boolean isLogged() {
         return logged;
@@ -39,13 +32,6 @@ public class VisitorModule extends ContentModule {
 
     public void setGravatar(String gravatar) {
         this.gravatar = gravatar;
-    }
-
-    public List<SocialProfileProvider> getAuthProviders() {
-        if (authProviders == null) {
-            authProviders = new ArrayList<SocialProfileProvider>();
-        }
-        return authProviders;
     }
 
     public String getName() {

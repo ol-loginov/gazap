@@ -1,9 +1,9 @@
 package gazap.site.web.mvc;
 
+import gazap.common.web.model.SocialProfile;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.site.model.ServiceErrorException;
-import gazap.site.model.SocialProfile;
 import gazap.site.web.mvc.oauth.OAuthAuthenticationToken;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;

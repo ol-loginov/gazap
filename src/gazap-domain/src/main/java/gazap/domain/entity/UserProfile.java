@@ -1,10 +1,11 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCUD;
+import org.hibernate.annotations.CollectionOfElements;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collections;
+import java.util.Set;
 
 @Entity
 @Table(name = "UserProfile")
@@ -14,12 +15,27 @@ public class UserProfile extends IntegerIdentityCUD {
     public static final int PASSWORD_LENGTH = 64;
     public static final int DISPLAY_NAME_LENGTH = 64;
 
+    @Column(name = "systemAccount", nullable = false)
+    private boolean systemAccount;
     @Column(name = "contactEmail", nullable = false, length = CONTACT_EMAIL_LENGTH)
     private String contactEmail;
     @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
     private String password;
     @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
     private String displayName;
+    @JoinTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
+    @Column(name = "aclRole", nullable = false)
+    @CollectionOfElements(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    private Set<UserAcl> roles = Collections.emptySet();
+
+    public boolean isSystemAccount() {
+        return systemAccount;
+    }
+
+    public void setSystemAccount(boolean systemAccount) {
+        this.systemAccount = systemAccount;
+    }
 
     public String getContactEmail() {
         return contactEmail;
@@ -43,5 +59,13 @@ public class UserProfile extends IntegerIdentityCUD {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Set<UserAcl> getRoles() {
+        return roles;
+    }
+
+    protected void setRoles(Set<UserAcl> roles) {
+        this.roles = roles;
     }
 }

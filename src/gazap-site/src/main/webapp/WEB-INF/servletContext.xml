@@ -54,7 +54,7 @@
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" scope="prototype"
           p:extractValueFromSingleKeyModel="true" p:encoding="UTF8" p:modelKey="content">
         <property name="objectMapper">
-            <bean class="gazap.site.util.JaxbJacksonObjectMapper" scope="prototype"/>
+            <bean class="gazap.common.util.JaxbJacksonObjectMapper" scope="prototype"/>
         </property>
     </bean>
 

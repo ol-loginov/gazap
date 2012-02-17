@@ -8,6 +8,8 @@
         <mapping class="gazap.domain.entity.UserProfile"/>
         <mapping class="gazap.domain.entity.UserSocialLink"/>
 
+        <mapping class="gazap.domain.entity.CatalogGroup"/>
+
         <event type="pre-insert">
             <listener class="gazap.domain.dao.SessionListener"/>
         </event>

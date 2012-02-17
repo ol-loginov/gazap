@@ -79,6 +79,13 @@
                                 <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
                             </a>
                         </li>
+                        <xsl:if test="$v/debug='true'">
+                            <li>
+                                <a href="?d:v=xml">
+                                    [xml]
+                                </a>
+                            </li>
+                        </xsl:if>
                     </ul>
                 </div>
             </div>

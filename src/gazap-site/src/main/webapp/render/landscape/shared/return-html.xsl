@@ -5,8 +5,8 @@
 
     <xsl:param name="rs"/>
 
-    <xsl:variable name="au" select="//modules/cdn/server"/>
     <xsl:variable name="cp" select="//modules/cdn/contextPath"/>
+    <xsl:variable name="au" select="concat(//modules/cdn/server,$cp)"/>
     <xsl:variable name="stylesRoot" select="concat($cp,'/static/css')"/>
     <xsl:variable name="scriptsRoot" select="concat($cp,'/static/scripts')"/>
     <xsl:variable name="content" select="child::node()"/>

@@ -1,6 +1,6 @@
 package gazap.site.web.views.catalog;
 
-import gazap.site.model.Anchor;
+import gazap.common.web.model.Anchor;
 import gazap.site.web.views.GazapPage;
 
 import javax.xml.bind.annotation.*;

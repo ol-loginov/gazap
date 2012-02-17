@@ -1,8 +1,8 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.Content;
+import gazap.common.util.DateUtil;
 import gazap.site.services.EngineSetup;
-import gazap.site.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
