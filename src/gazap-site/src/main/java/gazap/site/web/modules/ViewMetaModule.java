@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "viewMeta")
 @XmlAccessorType(XmlAccessType.NONE)
 public class ViewMetaModule extends ContentModule {
-    @XmlElement
+    @XmlElement(required = false)
     private String titleKey;
-    @XmlElement
+    @XmlElement(required = false)
     private String title;
 
     public String getTitle() {

@@ -34,9 +34,11 @@
         <security:intercept-url pattern="/my" access="IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED"/>
         <security:intercept-url pattern="/my/*" access="IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED"/>
 
-        <security:form-login login-page="/auth" default-target-url="/" authentication-failure-handler-ref=""/>
+        <security:form-login login-page="/auth" default-target-url="/"
+                             authentication-failure-handler-ref="authenticationHandler"/>
 
-        <security:openid-login user-service-ref="principalProvider">
+        <security:openid-login user-service-ref="principalProvider"
+                               authentication-failure-handler-ref="authenticationHandler">
             <security:attribute-exchange>
                 <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"
                                            count="1"/>
@@ -52,7 +54,8 @@
 
     <bean id="oauthAuthenticationFilter" class="gazap.site.web.mvc.oauth.OAuthAuthenticationFilter"
           p:authenticationManager-ref="authenticationManager"
-          p:rememberMeServices-ref="rememberMeServices"/>
+          p:rememberMeServices-ref="rememberMeServices"
+          p:authenticationFailureHandler-ref="authenticationHandler"/>
     <bean id="oauthAuthenticationProvider" class="gazap.site.web.mvc.oauth.OAuthAuthenticationProvider"
           p:userDetailsService-ref="principalProvider"/>
 

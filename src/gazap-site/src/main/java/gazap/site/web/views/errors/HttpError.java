@@ -8,7 +8,7 @@ import java.util.List;
 
 @XmlRootElement(name = "ErrorPage")
 @XmlAccessorType(XmlAccessType.NONE)
-public class ErrorPage extends GazapPage {
+public class HttpError extends GazapPage {
     @XmlElement(required = false)
     private String bugEmail;
     @XmlElement(required = false)

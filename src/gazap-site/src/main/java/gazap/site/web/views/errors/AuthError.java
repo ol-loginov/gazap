@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ErrorPage")
-public class PageOauthError extends ErrorPage {
+public class AuthError extends HttpError {
     @XmlElement(required = false)
     private String returnUrl;
     @XmlElement(required = false)
