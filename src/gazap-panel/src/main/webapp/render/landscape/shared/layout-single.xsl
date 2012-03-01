@@ -10,14 +10,12 @@
             <head>
                 <xsl:call-template name="html-head">
                     <xsl:with-param name="styles">
-                        <link rel="stylesheet" href="{$cp}/static/bootstrap/dist/css/bootstrap.css"/>
+                        <link rel="stylesheet" href="{$cp}/static/landscape/dist/gazap.css"/>
                     </xsl:with-param>
                     <xsl:with-param name="scripts">
                         <script type="text/javascript"
                                 src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-                        <script type="text/javascript" src="{$scriptsRoot}/less/less-1.2.1.min.js"></script>
                         <script type="text/javascript" src="{$scriptsRoot}/jquery/jquery.form-2.94.min.js"></script>
-                        <script type="text/javascript" src="{$cp}/static/bootstrap/dist/js/bootstrap.min.js"/>
                         <script type="text/javascript" src="{$scriptsRoot}/visitor.js"></script>
                     </xsl:with-param>
                 </xsl:call-template>

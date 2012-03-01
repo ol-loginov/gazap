@@ -10,7 +10,7 @@
     <xsl:template match="/ErrorPage" mode="scripts"/>
 
     <xsl:template match="/ErrorPage">
-        <xsl:variable name="prefix" select="concat('http.', http)"/>
+        <xsl:variable name="prefix" select="concat('auth.', errorCode)"/>
 
         <div class="error-disclaimer">
             <h1>

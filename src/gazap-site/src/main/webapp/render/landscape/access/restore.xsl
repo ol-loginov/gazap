@@ -5,7 +5,6 @@
     <xsl:include href="../shared/layout-single.xsl"/>
 
     <xsl:template match="/Restore" mode="styles">
-        <link rel="stylesheet/less" href="{$stylesRoot}/layout-single.less"/>
     </xsl:template>
 
     <xsl:template match="/Restore" mode="scripts"/>

@@ -2,6 +2,7 @@ package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.Content;
 import gazap.site.web.annotations.PageTitleKey;
+import gazap.site.web.views.errors.AuthError;
 import gazap.site.web.views.errors.HttpError;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,7 +18,9 @@ public class ViewMetaModuleProvider extends GazapModuleBuilder<ViewMetaModule> {
             return false;
         }
 
-        if (content instanceof HttpError) {
+        if (content instanceof AuthError) {
+            setHeader((AuthError) content, module);
+        } else if (content instanceof HttpError) {
             setHeader((HttpError) content, module);
         } else if (content.getClass().getAnnotation(PageTitleKey.class) != null) {
             setHeader(content.getClass().getAnnotation(PageTitleKey.class), module);
@@ -29,6 +32,12 @@ public class ViewMetaModuleProvider extends GazapModuleBuilder<ViewMetaModule> {
     private void setHeader(PageTitleKey annotation, ViewMetaModule module) {
         if (StringUtils.hasText(annotation.value())) {
             module.setTitleKey(annotation.value());
+        }
+    }
+
+    private void setHeader(AuthError view, ViewMetaModule module) {
+        if (StringUtils.hasText(view.getErrorCode())) {
+            module.setTitleKey("auth." + view.getErrorCode() + ".pageTitle");
         }
     }
 

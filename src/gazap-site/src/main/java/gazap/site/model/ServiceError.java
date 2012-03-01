@@ -15,7 +15,7 @@ public enum ServiceError {
         this.code = code;
     }
 
-    public String getCode() {
+    public String code() {
         return code;
     }
 }

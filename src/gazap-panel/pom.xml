@@ -4,7 +4,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>gazap global site</name>
+    <name>gazap panel site</name>
     <groupId>gazap</groupId>
     <artifactId>gazap-panel</artifactId>
     <version>1.0</version>

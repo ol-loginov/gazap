@@ -50,13 +50,13 @@ public abstract class BaseController {
     }
 
     public <T extends OperationStatusKeeper> T error(T response, ServiceError error, Locale locale) {
-        return error == null ? response : error(response, error, error.getCode(), locale);
+        return error == null ? response : error(response, error, error.code(), locale);
     }
 
     public <T extends OperationStatusKeeper> T error(T response, ServiceError error, String resString, Locale locale) {
         response.getOperationStatus().setSuccess(false);
         if (error != null) {
-            response.getOperationStatus().setCode(error.getCode());
+            response.getOperationStatus().setCode(error.code());
             response.getOperationStatus().setMessage(format.getMessage(locale, resString));
         }
         return response;

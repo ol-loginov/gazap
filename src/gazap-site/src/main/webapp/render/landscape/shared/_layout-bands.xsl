@@ -52,105 +52,59 @@
         </div>
     </xsl:template>
 
-    <xsl:template name="topbar">
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <xsl:call-template name="topbar-menu-brand"/>
-
-                    <xsl:variable name="v" select="/*/modules/visitor"/>
-                    <xsl:choose>
-                        <xsl:when test="$v/logged='true'">
-                            <xsl:call-template name="topbar-menu-logged">
-                                <xsl:with-param name="visitor" select="$v"/>
-                            </xsl:call-template>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:call-template name="topbar-menu-anonymous"/>
-                        </xsl:otherwise>
-                    </xsl:choose>
-
-                    <form class="navbar-search pull-right">
-                        <input type="text" class="search-query" placeholder="{r:t($rs, 'tb.menu.search')}"/>
-                    </form>
-                    <ul class="nav pull-right">
-                        <li>
-                            <a href="{$cp}/catalog">
-                                <xsl:value-of select="r:t($rs, 'tb.menu.catalog')"/>
-                            </a>
-                        </li>
-                        <xsl:if test="$v/debug='true'">
-                            <li>
-                                <a href="?d:v=xml">
-                                    [xml]
-                                </a>
-                            </li>
-                        </xsl:if>
-                    </ul>
-                </div>
-            </div>
+    <xsl:template name="application-bar">
+        <div class="application-bar">
+            <ul class="unstyled">
+                <li>
+                    <a href="{$au}" class="brand">GAMZA</a>
+                </li>
+            </ul>
+            <xsl:call-template name="application-bar-account-band"/>
         </div>
     </xsl:template>
 
-    <xsl:template name="topbar-menu-brand">
-        <a class="brand" href="{$au}">
-            gamza
-        </a>
+    <xsl:template name="application-bar-account-band">
+        <xsl:variable name="v" select="/*/modules/visitor"/>
+        <xsl:choose>
+            <xsl:when test="$v/logged='true'">
+                <xsl:call-template name="application-bar-account-band-logged">
+                    <xsl:with-param name="visitor" select="$v"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="application-bar-account-band-anonymous"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
-    <xsl:template name="topbar-menu-anonymous">
-        <ul class="nav  pull-left">
+    <xsl:template name="application-bar-account-band-anonymous">
+        <ul class="unstyled" id="accountBar">
             <li>
-                <a id="auth-welcome" href="{$au}/auth">
+                <a id="auth-welcome" class="a" href="{$au}/auth">
                     <xsl:value-of select="r:t($rs, 'tb.menu.login')"/>
                 </a>
             </li>
         </ul>
     </xsl:template>
 
-    <xsl:template name="topbar-menu-logged">
+    <xsl:template name="application-bar-account-band-logged">
         <xsl:param name="visitor"/>
 
-        <ul class="nav pull-left">
+        <ul class="unstyled" id="accountBar">
             <!-- visitor display -->
-            <li class="unfade">
-                <div class="btn-group">
-                    <a href="{$cp}/profile" class="btn">
-                        <img src="http://www.gravatar.com/avatar/{$visitor/gravatar}?s=24"
-                             style="position:absolute;left;top:50%;margin-top:-12px;margin-left: -6px;"/>
-                        <span style="margin-left: 24px;">
-                            <xsl:if test="string-length($visitor/name)>0">
-                                <xsl:value-of select="$visitor/name"/>
-                            </xsl:if>
-                            <xsl:if test="not(string-length($visitor/name)>0)">
-                                <xsl:value-of select="r:t($rs,'tb.menu.welcome.anonymous.name')"/>
-                            </xsl:if>
-                        </span>
-                    </a>
-                    <!-- menu selection -->
-                    <a href="#" class="btn dropdown-toggle" data-toggle="dropdown">
-                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto')"/>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="{$cp}/players">
-                                <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.players')"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{$cp}/maps">
-                                <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.maps')"/>
-                            </a>
-                        </li>
-                        <li class="divider"/>
-                        <li>
-                            <a href="{$cp}/auth/logout">
-                                <xsl:value-of select="r:t($rs,'tb.menu.welcome.goto.logout')"/>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <li>
+                <a href="{$cp}/profile" class="btn">
+                    <img src="http://www.gravatar.com/avatar/{$visitor/gravatar}?s=24"
+                         style="position:absolute;left;top:50%;margin-top:-12px;margin-left: -6px;"/>
+                    <span style="margin-left: 24px;">
+                        <xsl:if test="string-length($visitor/name)>0">
+                            <xsl:value-of select="$visitor/name"/>
+                        </xsl:if>
+                        <xsl:if test="not(string-length($visitor/name)>0)">
+                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.anonymous.name')"/>
+                        </xsl:if>
+                    </span>
+                </a>
             </li>
         </ul>
 
@@ -177,7 +131,7 @@
 
     <xsl:template match="/*/modules/visitor/authProviders/provider[type='openid']" mode="render-account-menu">
         <a href="{$cp}/auth/openid?url={url}">
-            <img src="{$stylesRoot}/img/socials/{provider}-48x48.png"/>
+            <img src="{$imagesRoot}/socials/{provider}-48x48.png"/>
             <div class="detail">
                 <xsl:value-of select="r:t($rs, concat('authProvider.title.', provider))"/>
             </div>
@@ -186,7 +140,7 @@
 
     <xsl:template match="/*/modules/visitor/authProviders/provider[type='oauth']" mode="render-account-menu">
         <a href="{$cp}/auth/oauth?oauth_provider={provider}">
-            <img src="{$stylesRoot}/img/socials/{provider}-48x48.png"/>
+            <img src="{$imagesRoot}/socials/{provider}-48x48.png"/>
             <div class="detail">
                 <xsl:value-of select="r:t($rs, concat('authProvider.title.', provider))"/>
             </div>
@@ -199,14 +153,14 @@
                 <xsl:call-template name="topbar-menu-button">
                     <xsl:with-param name="header" select="'tb.menu.studio'"/>
                     <xsl:with-param name="route" select="concat($cp,'/studio')"/>
-                    <xsl:with-param name="thumb" select="concat($stylesRoot,'/img/topmenu/palette.png')"/>
+                    <xsl:with-param name="thumb" select="concat($stylesRoot,'/topmenu/palette.png')"/>
                 </xsl:call-template>
             </li>
             <li>
                 <xsl:call-template name="topbar-menu-button">
                     <xsl:with-param name="header" select="'tb.menu.account'"/>
                     <xsl:with-param name="route" select="concat($cp,'/account')"/>
-                    <xsl:with-param name="thumb" select="concat($stylesRoot,'/img/topmenu/tools.png')"/>
+                    <xsl:with-param name="thumb" select="concat($stylesRoot,'/topmenu/tools.png')"/>
                 </xsl:call-template>
             </li>
         </ul>
