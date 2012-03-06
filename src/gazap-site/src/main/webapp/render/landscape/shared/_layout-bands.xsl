@@ -7,35 +7,6 @@
                 xmlns:r="com.elurm.gsite.web.mvc.support.XsltViewResources"
                 extension-element-prefixes="r">
 
-    <xsl:template name="html-head">
-        <xsl:param name="styles"/>
-        <xsl:param name="scripts"/>
-
-        <xsl:copy-of select="$styles"/>
-        <xsl:apply-templates select="$content" mode="styles"/>
-
-        <script type="text/javascript">V={};</script>
-        <script type="text/javascript">
-            <xsl:text>E={"SCE":'</xsl:text>
-            <xsl:value-of select="r:t($rs,'E.SCE')"/>
-            <xsl:text>'};</xsl:text>
-        </script>
-        <xsl:copy-of select="$scripts"/>
-        <xsl:apply-templates select="$content" mode="scripts"/>
-
-        <xsl:variable name="meta" select="/*/modules/viewMeta"/>
-        <xsl:if test="string-length($meta/titleKey)>0">
-            <title>
-                <xsl:value-of select="r:t($rs, $meta/titleKey)"/>
-            </title>
-        </xsl:if>
-        <xsl:if test="string-length($meta/title)>0">
-            <title>
-                <xsl:value-of select="r:t($rs, $meta/title)"/>
-            </title>
-        </xsl:if>
-    </xsl:template>
-
     <xsl:template name="topbar-menu-button">
         <xsl:param name="header"/>
         <xsl:param name="route"/>
@@ -54,7 +25,7 @@
 
     <xsl:template name="application-bar">
         <div class="application-bar">
-            <ul class="unstyled">
+            <ul>
                 <li>
                     <a href="{$au}" class="brand">GAMZA</a>
                 </li>
@@ -78,7 +49,7 @@
     </xsl:template>
 
     <xsl:template name="application-bar-account-band-anonymous">
-        <ul class="unstyled" id="accountBar">
+        <ul id="accountBar">
             <li>
                 <a id="auth-welcome" class="a" href="{$au}/auth">
                     <xsl:value-of select="r:t($rs, 'tb.menu.login')"/>
@@ -90,7 +61,7 @@
     <xsl:template name="application-bar-account-band-logged">
         <xsl:param name="visitor"/>
 
-        <ul class="unstyled" id="accountBar">
+        <ul id="accountBar">
             <!-- visitor display -->
             <li>
                 <a href="{$cp}/profile" class="btn">

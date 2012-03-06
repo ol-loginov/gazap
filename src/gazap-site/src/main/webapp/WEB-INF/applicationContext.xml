@@ -35,6 +35,7 @@
         <security:intercept-url pattern="/my/*" access="IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED"/>
 
         <security:form-login login-page="/auth" default-target-url="/"
+                             authentication-success-handler-ref="authenticationHandler"
                              authentication-failure-handler-ref="authenticationHandler"/>
 
         <security:openid-login user-service-ref="principalProvider"

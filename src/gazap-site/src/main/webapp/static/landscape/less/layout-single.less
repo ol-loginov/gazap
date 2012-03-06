@@ -1,83 +1,127 @@
 body {
      font-family: Arial,sans-serif;
-     padding-top: 30px;
-    >#footer {
-        position: absolute;
-        bottom:0;
-        height: 32px;
-    }
-    >#bar {
-        position:absolute;
-        top:0;
-        height: 30px;
+     background: white;
+}
+
+a,
+a:visited {
+    text-decoration: underline;
+    color: #555;
+    cursor:pointer;
+    &:hover,
+    &:focus {
+        color: #000;
     }
 }
 
-#bar {
-    a {
-        text-decoration: none;
+#brandBar {
+    position: relative;
+    width: 250px;
+    margin-left: 5px;
+    text-align: center;
+    a.brand-logo {
+        font-family: Verdana;
         display: inline-block;
-        line-height: 29px;
-        height: 29px;
-        padding-right: 10px;
-        padding-left: 10px;
-        border-right: solid 1px #C0C0C0;
-        border-bottom: solid 1px #C0C0C0;
-
-        &.brand {
-            background: #C0C0C0;
-            color:white;
-            line-height: 30px;
-        }
-        &.a {
-            text-decoration: underline;
-        }
-    }
-    ul, li {
-        float:left;
+        /*background: transparent url(../img/logo-32x32.png) 3px center no-repeat;*/
+        line-height: 38px;
+        font-size: 20px;
+        color: #bbb;
+        font-weight: bold;
+        text-decoration: none;
+        text-shadow: 1px 1px 2px #111;
     }
 }
 
-.login-variants {
-    >h1 {
-        color: rgba(70,130,180, .5);
-        margin: 9px auto;
+#accountBar {
+    position: relative;
+    width: 250px;
+    margin-left: 5px;
+    text-align: center;
+    >h3 {
+        font-size: 12px;
+        line-height: 14px;
+        color: #696969;
     }
-    .login-variant {
-        >h2{
-            color: white;
-            font-size: 14px;
-            text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
-            text-indent: 10px;
-            background: #4682B4;
-            border-radius: 3px 3px 0 0;
+    >p {
+        font-size: 12px;
+        line-height: 14px;
+        color: #696969;
+        a {
+            font-style: italic;
         }
-        .well {
-            border-radius: 0;
-            form {
-                margin-bottom: 0;
+    }
+    &.logged-false {
+    }
+}
+
+#modalLogin {
+     >h1 {
+        border-radius: 5px 5px 0 0;
+         color: white;
+         text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
+         padding: 10px 10px 5px;
+         background: #4682B4;
+         >.notice {
+             display: block;
+             font-size: 12px;
+             line-height: 20px;
+             text-align: right;
+             padding: 0 10px;
+             a,a:visited,a:hover,a:focus{
+                color: white;
+             }
+         }
+     }
+     >div {
+        background:white;
+        padding: 10px;
+        &.by-form {
+             >form{
+                width: 250px;
+                margin: 0 auto;
+                input {
+                    width: 90%;
+                }
+                .control-group{
+                    margin-bottom: 5px;
+                }
+                .submit-option {
+                    margin-left: 5px;
+                }
+             }
+        }
+        &.by-social {
+            background: #F5F5F5;
+            border-top: solid 1px #F5F5DC;
+            border-radius: 0 0 5px 5px;
+            >.welcome {
+                line-height: 26px;
+            }
+            >ul.auth-list{
+                margin:0;
+                display:inline;
+                margin-left: 3px;
+                li {
+                    display:inline;
+                    margin-left: 3px;
+                    a {
+                        float:none;
+                    }
+                }
             }
         }
-    }
-}
+     }
+ }
 
-ul.inline {
-    text-align: center;
-    margin-bottom: 0;
-    >li{
-        display: inline-block;
-    }
-}
-
-input.auth-provider-invoke.x48,
-.btn.auth-provider-invoke.x48
+a.auth-provider-invoke.x26
 {
-    line-height: 48px;
-    width: 48px;
-    height: 48px;
-    background: transparent url(../img/socials-48.png) no-repeat 48px 48px;
+    display: inline-block;
+    line-height: 26px;
+    width: 26px;
+    height: 26px;
+    background: transparent url(../img/socials-26.png) no-repeat 26px 26px;
     border: none;
-    border-radius: 10px;
+    border-radius: 1px;
     text-indent: -9999px;
     &:focus {
       border-color: rgba(82,168,236,.8);
@@ -86,19 +130,14 @@ input.auth-provider-invoke.x48,
         background-position: 0 0;
     }
     &.twitter {
-        background-position: 0 -96px;
+        background-position: 0 -52px;
     }
     &.google {
-        background-position: 0 -48px;
+        background-position: 0 -26px;
     }
     &.yandex {
-        background-position: 0 -144px;
+        background-position: 0 -78px;
     }
 }
 
-.form-buttons {
-    a.link {
-        text-decoration: underline;
-        margin-left: 20px;
-    }
-}
+
