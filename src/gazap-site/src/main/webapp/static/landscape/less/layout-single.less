@@ -14,6 +14,13 @@ a:visited {
     }
 }
 
+.fancybox-wrap {
+    top: 0 !important;
+    .fancybox-close {
+        display: none !important;
+    }
+}
+
 #brandBar {
     position: relative;
     width: 250px;
@@ -54,64 +61,97 @@ a:visited {
     }
 }
 
-#modalLogin {
-     >h1 {
-        border-radius: 5px 5px 0 0;
-         color: white;
-         text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
-         padding: 10px 10px 5px;
-         background: #4682B4;
-         >.notice {
-             display: block;
-             font-size: 12px;
-             line-height: 20px;
-             text-align: right;
-             padding: 0 10px;
-             a,a:visited,a:hover,a:focus{
+.small-modal-dialog {
+    width: 400px;
+    background:white;
+    border-radius: 0 0 5px 5px;
+    >h1 {
+        color: white;
+        text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
+        padding: 10px 10px 5px;
+        background: #4682B4;
+        >.notice {
+            display: block;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: right;
+            padding: 5px 10px;
+            a,
+            a:visited,
+            a:hover,
+            a:focus {
                 color: white;
-             }
-         }
+            }
+        }
+     }
+     > p.notice {
+        padding: 5px 10px;
+        font-size: @baseFontSize * .8;
+        line-height: @baseLineHeight * .8;
+        margin-bottom: 0;
+        text-align: center;
      }
      >div {
-        background:white;
-        padding: 10px;
-        &.by-form {
-             >form{
-                width: 250px;
+        padding: 0 10px 10px;
+        >form {
+            margin-bottom:0;
+            margin-top: 10px;
+            >.control-group{
+                padding-bottom: 5px;
                 margin: 0 auto;
+                width: 250px;
                 input {
                     width: 90%;
                 }
-                .control-group{
-                    margin-bottom: 5px;
-                }
-                .submit-option {
-                    margin-left: 5px;
-                }
-             }
-        }
-        &.by-social {
-            background: #F5F5F5;
-            border-top: solid 1px #F5F5DC;
-            border-radius: 0 0 5px 5px;
-            >.welcome {
-                line-height: 26px;
             }
-            >ul.auth-list{
-                margin:0;
+            >.alert {
+                margin-bottom: 0;
+                margin-top: 5px;
+                >ul {
+                    margin-bottom: 0;
+                }
+            }
+            .submit-option {
+                margin-left: 5px;
+            }
+            >.alert-progress {
+                display: none;
+            }
+            &.submit-in-progress {
+                >.alert-progress {
+                    display: inherit;
+                }
+                >.submit-group {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+#modalLogin {
+    >div.by-social {
+        background: #F5F5F5;
+        border-top: solid 1px #F5F5DC;
+        border-radius: 0 0 5px 5px;
+        padding-top:10px;
+        >.welcome {
+            line-height: 26px;
+        }
+        >ul.auth-list{
+            margin:0;
+            display:inline;
+            margin-left: 3px;
+            li {
                 display:inline;
                 margin-left: 3px;
-                li {
-                    display:inline;
-                    margin-left: 3px;
-                    a {
-                        float:none;
-                    }
+                a {
+                    float:none;
                 }
             }
         }
-     }
- }
+    }
+}
 
 a.auth-provider-invoke.x26
 {

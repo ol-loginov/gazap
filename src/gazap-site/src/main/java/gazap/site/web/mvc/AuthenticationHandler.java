@@ -1,6 +1,6 @@
 package gazap.site.web.mvc;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.model.ApiAnswerType;
 import gazap.site.web.controllers.access.StatusController;
 import gazap.site.web.controllers.errors.AuthErrorsController;
 import org.springframework.security.core.Authentication;
@@ -41,9 +41,9 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
         }
     }
 
-    private String typedRoute(String baseUrl, ApiAnswer responseType) {
-        return responseType == null
+    private String typedRoute(String baseUrl, ApiAnswerType answerType) {
+        return answerType == null
                 ? baseUrl
-                : String.format("%s.%s", baseUrl, responseType.toString().toLowerCase(Locale.ENGLISH));
+                : String.format("%s.%s", baseUrl, answerType.toString().toLowerCase(Locale.ENGLISH));
     }
 }

@@ -36,4 +36,8 @@ public class XsltViewResources {
         }
         return f.pluralize(null, Long.parseLong(number), code);
     }
+
+    public long now() {
+        return System.currentTimeMillis();
+    }
 }

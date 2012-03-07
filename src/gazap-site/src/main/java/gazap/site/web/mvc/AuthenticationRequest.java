@@ -1,6 +1,6 @@
 package gazap.site.web.mvc;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.model.ApiAnswerType;
 import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,11 +31,11 @@ public class AuthenticationRequest {
         return removeAttribute(request, FAILURE);
     }
 
-    public void storeAnswer(HttpServletRequest request, ApiAnswer responseType) {
-        addAttribute(request, RESPONSE_TYPE, responseType);
+    public void storeAnswer(HttpServletRequest request, ApiAnswerType answerType) {
+        addAttribute(request, RESPONSE_TYPE, answerType);
     }
 
-    public ApiAnswer retrieveAnswer(HttpServletRequest request) {
+    public ApiAnswerType retrieveAnswer(HttpServletRequest request) {
         return removeAttribute(request, RESPONSE_TYPE);
     }
 

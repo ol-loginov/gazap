@@ -7,7 +7,8 @@ public enum ServiceError {
     AUTH_ACCOUNT_LOCKED("EA002"),
     AUTH_WRONG_IDENTITY_URL("EA003"),
 
-    PAGE_VALIDATION_FAILED("EP001");
+    VALIDATION_FAILED("EP001"),
+    VALIDATION_FAILED_FOR_PAGE("EP002");
 
     private final String code;
 

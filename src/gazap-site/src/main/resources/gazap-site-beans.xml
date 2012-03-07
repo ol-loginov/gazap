@@ -17,6 +17,7 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="gazap.domain.dao"/>
     <context:component-scan base-package="gazap.site.services"/>
+    <context:component-scan base-package="gazap.site.validation"/>
     <context:component-scan base-package="gazap.site.web.mvc"/>
 
     <!-- dao configuration -->
@@ -58,6 +59,7 @@
                 <value>classpath:/server-global-site</value>
                 <value>classpath:/i18n/messages</value>
                 <value>WEB-INF/i18n/ui</value>
+                <value>WEB-INF/i18n/validation</value>
             </list>
         </property>
     </bean>
@@ -96,4 +98,6 @@
             </props>
         </property>
     </bean>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 </beans>

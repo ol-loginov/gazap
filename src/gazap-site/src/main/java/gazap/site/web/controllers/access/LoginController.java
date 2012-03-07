@@ -2,7 +2,7 @@ package gazap.site.web.controllers.access;
 
 import com.iserv2.commons.mvc.views.Content;
 import com.iserv2.commons.mvc.views.ViewName;
-import gazap.site.model.ApiAnswer;
+import gazap.site.model.ApiAnswerType;
 import gazap.site.services.UserAccess;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.mvc.AuthenticationRequest;
@@ -35,7 +35,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "/auth.ajax", method = RequestMethod.POST)
     public void proceedFormLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        authenticationRequest.storeAnswer(request, ApiAnswer.JSON);
+        authenticationRequest.storeAnswer(request, ApiAnswerType.JSON);
         authenticationRequest.storeResponse(request, AuthenticationResponse.STATUS);
         request.getRequestDispatcher("/j_spring_security_check").forward(request, response);
     }

@@ -5,33 +5,46 @@
     <xsl:include href="../shared/html.xsl"/>
 
     <xsl:template match="/Login">
-        <div id="modalLogin" class="section-dialog login-variants" style="width: 400px;">
+        <div id="modalLogin" class="small-modal-dialog">
             <h1>
-                <xsl:value-of select="r:t($rs, 'Login.auth.title')"/>
+                <xsl:value-of select="r:t($rs, 'Login.title')"/>
                 <span class="notice">
-                    <xsl:value-of select="r:t($rs, 'Login.auth.registration', $au)" disable-output-escaping="yes"/>
+                    <xsl:value-of select="r:t($rs, 'Login.title.registration', $au)" disable-output-escaping="yes"/>
                 </span>
             </h1>
+            <p class="notice alert-info">
+                <xsl:value-of select="r:t($rs, 'Login.notice.forget', $au)" disable-output-escaping="yes"/>
+            </p>
             <div class="by-form">
-                <form id="loginForm" action="{$au}/auth" a-action="{$au}/auth.ajax" method="post">
+                <form id="loginForm" action="{$au}/auth" data-ax-action="{$au}/auth.ajax" method="post">
                     <div class="control-group">
-                        <input type="text" placeholder="{r:t($rs, 'Login.auth.form.username.placeholder')}"
-                               name="j_username"/>
+                        <div class="controls">
+                            <input type="email" placeholder="{r:t($rs, 'Login.auth.form.username.placeholder')}"
+                                   name="j_username"/>
+                            <span class="help-inline"/>
+                        </div>
                     </div>
                     <div class="control-group">
-                        <input type="password" placeholder="{r:t($rs, 'Login.auth.form.password.placeholder')}"
-                               name="j_password"/>
+                        <div class="controls">
+                            <input type="password" placeholder="{r:t($rs, 'Login.auth.form.password.placeholder')}"
+                                   name="j_password"/>
+                            <span class="help-inline"/>
+                        </div>
                     </div>
-                    <div class="control-group">
-                        <button class="btn form-firer" type="submit">
-                            <xsl:value-of select="r:t($rs, 'Login.auth.form.submit')"/>
+                    <div class="control-group submit-group">
+                        <button class="btn" type="submit">
+                            <xsl:value-of select="r:t($rs, 'Login.form.submit')"/>
                         </button>
-                        <a href="{$au}/auth/restore" a-href="{$au}/auth/restore.ajax" class="submit-option modal-firer">
-                            <xsl:value-of select="r:t($rs, 'Login.auth.form.forget')"/>
+                        <a class="submit-option modal-closer">
+                            <xsl:value-of select="r:t($rs, 'Login.form.cancel')"/>
                         </a>
                     </div>
+                    <div class="alert alert-message alert-progress hidden">
+                        <xsl:value-of select="r:t($rs, 'Login.form.submitting')"/>
+                    </div>
+                    <div class="alert alert-error hidden"/>
                 </form>
-                <script type="text/javascript">UI.triggerInitLoginDialogAjax('#loginForm')</script>
+                <script type="text/javascript">UI.triggerInitModalLoginDialog('#loginForm')</script>
             </div>
             <div class="by-social">
                 <span class="welcome">
