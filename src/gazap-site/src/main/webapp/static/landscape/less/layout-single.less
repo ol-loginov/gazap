@@ -57,7 +57,30 @@ a:visited {
             font-style: italic;
         }
     }
-    &.logged-false {
+    &.logged-true {
+        >.account-name {
+            a {
+                padding: 4px;
+                font-size: 12px;
+                text-decoration:none;
+                box-shadow: 0 0 2px #DDD;
+                border-radius: 3px;
+                > img {
+                    position: relative;
+                    top: 4px;
+                }
+                > span {
+                    padding-left: 4px;
+                }
+                &:hover,
+                &:focus {
+                    background: #F9F9F9;
+                }
+            }
+        }
+        >.account-menu {
+            margin-top: 4px;
+        }
     }
 }
 

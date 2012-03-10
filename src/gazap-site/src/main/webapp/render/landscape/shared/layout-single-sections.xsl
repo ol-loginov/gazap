@@ -43,22 +43,26 @@
 
     <xsl:template name="layout-single-accountBar-logged">
         <xsl:param name="visitor"/>
-        <ul id="accountBar">
-            <!-- visitor display -->
-            <li>
-                <a href="{$cp}/profile" class="btn">
-                    <img src="http://www.gravatar.com/avatar/{$visitor/gravatar}?s=24"
-                         style="position:absolute;left;top:50%;margin-top:-12px;margin-left: -6px;"/>
-                    <span style="margin-left: 24px;">
-                        <xsl:if test="string-length($visitor/name)>0">
-                            <xsl:value-of select="$visitor/name"/>
-                        </xsl:if>
-                        <xsl:if test="not(string-length($visitor/name)>0)">
-                            <xsl:value-of select="r:t($rs,'tb.menu.welcome.anonymous.name')"/>
-                        </xsl:if>
-                    </span>
-                </a>
-            </li>
-        </ul>
+
+        <div class="account-name">
+            <a href="{$cp}/profile">
+                <img src="http://www.gravatar.com/avatar/{$visitor/gravatar}?s=16"/>
+                <span>
+                    <xsl:if test="string-length($visitor/name)>0">
+                        <xsl:value-of select="$visitor/name"/>
+                    </xsl:if>
+                    <xsl:if test="not(string-length($visitor/name)>0)">
+                        <xsl:value-of select="r:t($rs,'tb.menu.welcome.anonymous.name')"/>
+                    </xsl:if>
+                </span>
+            </a>
+        </div>
+        <div class="account-menu">
+            <ul class="unstyled">
+                <li>
+                    <a href="{$cp}/user/{$visitor/@id}/maps">Карты</a>
+                </li>
+            </ul>
+        </div>
     </xsl:template>
 </xsl:stylesheet>
