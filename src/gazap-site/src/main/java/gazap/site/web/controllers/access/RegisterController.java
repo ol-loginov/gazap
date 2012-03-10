@@ -1,21 +1,25 @@
 package gazap.site.web.controllers.access;
 
+import com.iserv2.commons.mvc.views.Content;
 import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswer;
-import gazap.site.model.ServiceError;
+import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.access.Register;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
 public class RegisterController extends BaseController {
+    @Autowired
+    protected UserService userService;
+
     @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.GET)
     @ViewName(name = "access/register.ajax", response = Register.class)
     public Register showFormAjax() {
@@ -25,14 +29,28 @@ public class RegisterController extends BaseController {
     }
 
     @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.POST)
-    public ModelAndView submitForm(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
-        ApiAnswer response = new ApiAnswer();
+    public Content submitForm(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
+        ApiAnswerWithLoginUrl response = new ApiAnswerWithLoginUrl();
         if (formBinding.hasErrors()) {
-            response.setSuccess(false);
-            response.setCode(ServiceError.VALIDATION_FAILED.code());
-            response.setMessage(format.getMessage(locale, response.getCode()));
-            response.setErrorList(storeErrors(formBinding.getAllErrors(), locale));
+            response = contentFactory(locale).validationErrors(response, formBinding);
+            return contentFactory(locale).json(response);
         }
-        return json(response);
+
+        userService.createUser(form.getUsername(), form.getPassword());
+        response.setSuccess(true);
+        response.setLoginUrl(LoginController.LOGIN_ROUTE_AJAX);
+        return contentFactory(locale).json(response);
+    }
+
+    public static class ApiAnswerWithLoginUrl extends ApiAnswer {
+        private String loginUrl;
+
+        public String getLoginUrl() {
+            return loginUrl;
+        }
+
+        public void setLoginUrl(String loginUrl) {
+            this.loginUrl = loginUrl;
+        }
     }
 }

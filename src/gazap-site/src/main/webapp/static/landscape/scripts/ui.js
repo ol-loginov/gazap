@@ -1,18 +1,3 @@
-(function ($) {
-    $('.modal-firer').live('click', function () {
-        var href = $(this).attr('data-ax-href');
-        if (!href) {
-            return true;
-        }
-        $.fancybox.open({type:'ajax', href:href, padding:0});
-        return false;
-    });
-    $('.modal-closer').live('click', function () {
-        $.fancybox.close();
-        return false;
-    });
-})(jQuery);
-
 if (typeof(UI) == "undefined") {
     UI = {
         addTrigger:function (eventName) {
@@ -33,11 +18,18 @@ if (typeof(UI) == "undefined") {
         },
         isJsonResponse:function (xhr) {
             return /json\b/i.test(xhr.getResponseHeader("content-type"));
+        },
+        closeModal:function () {
+            $.fancybox.close();
+        },
+        cancelModal:function () {
+            $.fancybox.cancel();
         }
     };
     _.extend(UI, Backbone.Events);
     UI.addTrigger('InitModalLoginDialog');
     UI.addTrigger('InitModalRegisterDialog');
+    UI.addTrigger('LogIn');
 }
 
 function FormHelper(form) {
@@ -64,8 +56,10 @@ FormHelper.prototype = {
     },
     setError:function (text, errorList) {
         var self = this;
-        var errorPlace = $('.alert-error', self.form).empty();
-        errorPlace.text(text).show();
+        var errorPlace = $('.alert-error', self.form).empty().show();
+        if (text) {
+            errorPlace.text(text)
+        }
         if (errorList) {
             var ul = $('<ul/>').appendTo(errorPlace);
             $.each(errorList, function () {
@@ -100,5 +94,23 @@ FormHelper.prototype = {
     },
     getFieldPopoverTemplate:function () {
         return '<div class="popover field-popover"><div class="popover-inner"><h2 class="popover-title"></h2><div class="popover-content"><div></div></div></div></div>';
+    },
+    value:function (inputName) {
+        return $('*[name=' + inputName + ']', this.form).val();
     }
 };
+
+(function ($) {
+    $('.modal-firer').live('click', function () {
+        var href = $(this).attr('data-ax-href');
+        if (!href) {
+            return true;
+        }
+        $.fancybox.open({type:'ajax', href:href, padding:0});
+        return false;
+    });
+    $('.modal-closer').live('click', function () {
+        UI.closeModal();
+        return false;
+    });
+})(jQuery);

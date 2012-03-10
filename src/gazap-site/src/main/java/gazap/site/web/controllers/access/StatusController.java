@@ -6,12 +6,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Locale;
+
 @Controller
 public class StatusController extends BaseController {
     public final static String ROUTE = "/auth/status";
 
     @RequestMapping(ROUTE + ".json")
-    public ModelAndView statusJson() {
-        return json(new ApiAnswer());
+    public ModelAndView statusJson(Locale locale) {
+        ApiAnswer answer = new ApiAnswer();
+        answer.setSuccess(true);
+        return contentFactory(locale).json(answer);
     }
 }

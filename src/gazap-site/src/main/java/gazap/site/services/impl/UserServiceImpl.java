@@ -8,6 +8,8 @@ import gazap.domain.entity.UserSocialLink;
 import gazap.site.model.ServiceErrorException;
 import gazap.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +19,23 @@ import org.springframework.util.Assert;
 public class UserServiceImpl implements UserService {
     @Autowired
     protected UserProfileDao profileDao;
+    @Autowired
+    @Qualifier("passwordEncoder")
+    protected PasswordEncoder passwordEncoder;
 
-    private UserProfile createUser(String email) throws ServiceErrorException {
+    private UserProfile createUserWithRandomPassword(String email) throws ServiceErrorException {
+        return createUser(HashUtil.isNull(email, ""), HashUtil.newUuid());
+    }
+
+    @Override
+    @Transactional
+    public UserProfile createUser(String email, String password) {
         UserProfile user = new UserProfile();
-        user.setPassword(HashUtil.newUuid());
+        user.setPassword(passwordEncoder.encodePassword(password, null));
         user.setContactEmail(HashUtil.isNull(email, ""));
         user.setDisplayName("");
         profileDao.create(user);
-        return user;
+        return null;
     }
 
     @Override
@@ -37,7 +48,7 @@ public class UserServiceImpl implements UserService {
         socialLink.setProviderUser(key.getProviderUserId());
         socialLink.setUserUrl(social.getUrl());
         socialLink.setUserEmail(social.getEmail());
-        socialLink.setUser(user != null ? user : createUser(social.getEmail()));
+        socialLink.setUser(user != null ? user : createUserWithRandomPassword(social.getEmail()));
 
         profileDao.create(socialLink);
         return socialLink;

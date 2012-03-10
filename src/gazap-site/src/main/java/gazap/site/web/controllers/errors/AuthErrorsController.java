@@ -45,6 +45,6 @@ public class AuthErrorsController extends BaseController {
             status.setCode(ServiceError.AUTH_BAD_CREDENTIALS.code());
             status.setMessage(format.getMessage(locale, status.getCode()));
         }
-        return json(status);
+        return contentFactory(locale).json(status);
     }
 }

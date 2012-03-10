@@ -21,9 +21,8 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        authenticationRequest.storeError(request, exception);
+        authenticationRequest.withError(request, exception);
         forward(request, response, AuthErrorsController.ROUTE);
-
     }
 
     private void forward(HttpServletRequest request, HttpServletResponse response, String baseUrl) throws IOException, ServletException {

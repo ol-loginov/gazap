@@ -1,5 +1,6 @@
 *.iml
 *.pdb
+*.lnk
 .idea/
 target/
 dist/

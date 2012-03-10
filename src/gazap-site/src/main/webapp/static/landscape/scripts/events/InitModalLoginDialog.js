@@ -5,7 +5,8 @@ UI.bindInitModalLoginDialog(function (selector) {
             formHelper.setSubmitting(false);
             if (UI.isJsonResponse(xhr)) {
                 if (ans.success) {
-
+                    UI.closeModal();
+                    UI.triggerLogIn();
                 } else {
                     formHelper.setError(ans.message);
                 }

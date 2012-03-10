@@ -17,18 +17,17 @@
             </p>
             <div class="by-form">
                 <form id="loginForm" action="{$au}/auth" data-ax-action="{$au}/auth.ajax" method="post">
+                    <input type="hidden" name="_spring_security_remember_me" value="on"/>
                     <div class="control-group">
                         <div class="controls">
                             <input type="email" placeholder="{r:t($rs, 'Login.auth.form.username.placeholder')}"
                                    name="j_username"/>
-                            <span class="help-inline"/>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <input type="password" placeholder="{r:t($rs, 'Login.auth.form.password.placeholder')}"
                                    name="j_password"/>
-                            <span class="help-inline"/>
                         </div>
                     </div>
                     <div class="control-group submit-group">

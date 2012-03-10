@@ -8,4 +8,6 @@ import org.springframework.social.connect.ConnectionKey;
 
 public interface UserService {
     UserSocialLink createSocialConnection(UserProfile profile, ConnectionKey key, SocialProfile socialProfile) throws ServiceErrorException;
+
+    UserProfile createUser(String email, String password);
 }
