@@ -13,12 +13,11 @@ import java.util.List;
 @XmlSeeAlso({CdnModule.class, VisitorModule.class, ViewMetaModule.class})
 @ModuleList({CdnModule.class, VisitorModule.class, ViewMetaModule.class})
 public abstract class GazapPage implements Content, OperationStatusKeeper {
-    @XmlElementWrapper(name = "modules")
-    @XmlAnyElement
     private List<ContentModule> modules;
-    @XmlElement
     private OperationStatus operationStatus;
 
+    @XmlElementWrapper(name = "modules")
+    @XmlAnyElement
     @Override
     public List<ContentModule> getModules() {
         if (modules == null) {
@@ -32,6 +31,24 @@ public abstract class GazapPage implements Content, OperationStatusKeeper {
         return ModuleUtil.getModule(getModules(), moduleClass);
     }
 
+    // needed in JSTL
+    public CdnModule getModuleCdn() {
+        return ModuleUtil.getModule(getModules(), CdnModule.class);
+    }
+
+    // needed in JSTL
+    @SuppressWarnings("UnusedDeclaration")
+    public VisitorModule getModuleVisitor() {
+        return ModuleUtil.getModule(getModules(), VisitorModule.class);
+    }
+
+    // needed in JSTL
+    @SuppressWarnings("UnusedDeclaration")
+    public ViewMetaModule getModuleViewMeta() {
+        return ModuleUtil.getModule(getModules(), ViewMetaModule.class);
+    }
+
+    @XmlElement
     @Override
     public OperationStatus getOperationStatus() {
         if (operationStatus == null) {
