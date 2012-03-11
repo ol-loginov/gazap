@@ -1,4 +1,6 @@
 UI.bindInitModalRegisterDialog(function (selector) {
+    UI.triggerReloadCaptcha();
+
     var formHelper = new FormHelper($(selector));
     var loginPerformer = function (loginUrl) {
         var loginArgs = {

@@ -7,17 +7,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "visitor")
 public class VisitorModule extends ContentModule {
-    @XmlElement(required = false, defaultValue = "false")
+    private int id;
     private boolean debug;
-    @XmlElement
     private boolean logged;
-    @XmlElement
     private String name;
-    @XmlElement
     private String gravatar;
-    @XmlElement
     private String welcomePrompt;
 
+    @XmlElement
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @XmlElement
     public boolean isLogged() {
         return logged;
     }
@@ -26,6 +32,7 @@ public class VisitorModule extends ContentModule {
         this.logged = logged;
     }
 
+    @XmlElement
     public String getGravatar() {
         return gravatar;
     }
@@ -34,6 +41,7 @@ public class VisitorModule extends ContentModule {
         this.gravatar = gravatar;
     }
 
+    @XmlElement
     public String getName() {
         return name;
     }
@@ -42,6 +50,7 @@ public class VisitorModule extends ContentModule {
         this.name = name;
     }
 
+    @XmlElement(required = false, defaultValue = "false")
     public boolean isDebug() {
         return debug;
     }
@@ -50,6 +59,7 @@ public class VisitorModule extends ContentModule {
         this.debug = debug;
     }
 
+    @XmlElement
     public String getWelcomePrompt() {
         return welcomePrompt;
     }

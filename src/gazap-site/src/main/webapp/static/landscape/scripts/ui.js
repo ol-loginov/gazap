@@ -30,6 +30,8 @@ if (typeof(UI) == "undefined") {
     UI.addTrigger('InitModalLoginDialog');
     UI.addTrigger('InitModalRegisterDialog');
     UI.addTrigger('LogIn');
+    UI.addTrigger('ReloadCaptcha');
+    UI.addTrigger('InitCaptcha');
 }
 
 function FormHelper(form) {

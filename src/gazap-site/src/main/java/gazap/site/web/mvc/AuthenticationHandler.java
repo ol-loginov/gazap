@@ -35,6 +35,7 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
         switch (responseView) {
             case STATUS:
                 forward(request, response, StatusController.ROUTE);
+                break;
             default:
                 throw new IllegalStateException("not implemented response for view " + responseView);
         }

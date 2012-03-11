@@ -56,7 +56,7 @@
           p:defaultEncoding="UTF-8" p:fileEncodings="UTF-8" p:useCodeAsDefaultMessage="true" p:cacheSeconds="5">
         <property name="basenames">
             <list>
-                <value>classpath:/server-global-site</value>
+                <value>classpath:/gazap-site</value>
                 <value>classpath:/i18n/messages</value>
                 <value>WEB-INF/i18n/ui</value>
                 <value>WEB-INF/i18n/validation</value>

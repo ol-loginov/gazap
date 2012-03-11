@@ -24,17 +24,14 @@
     <bean id="viewResolverMarshallers" class="com.iserv2.commons.mvc.support.Marshallers"
           p:marshallerClass="com.iserv2.commons.mvc.support.Marshallers.Jaxb2"/>
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="0"
+    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="2"
           p:cache="${engine.cache}" p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/render-jsp/"
           p:suffix=".jsp"/>
 
     <bean id="viewResolverXslt" class="com.iserv2.commons.mvc.support.XsltViewResolver" p:sourceKey="content"
-          p:order="1">
-        <property name="cache" value="${engine.cache}"/>
-        <property name="cacheTemplates" value="${engine.cache}"/>
-
-        <property name="prefix" value="/render/"/>
-        <property name="suffix" value=".xsl"/>
+          p:order="3" p:cache="${engine.cache}" p:cacheTemplates="${engine.cache}" p:prefix="/render/" p:suffix=".xsl">
 
         <property name="staticViewParameter" value="d:v"/>
         <property name="viewClass" value="gazap.site.web.mvc.support.XsltView"/>
@@ -54,7 +51,6 @@
     </bean>
 
     <bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>
-    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
 
     <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" scope="prototype"
           p:extractValueFromSingleKeyModel="true" p:encoding="UTF8" p:modelKey="content">
