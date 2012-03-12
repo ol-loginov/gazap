@@ -39,6 +39,6 @@ public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
     }
 
     private void setThumbnail(VisitorModule module, UserProfile profile) {
-        module.setGravatar(GravatarHelper.hashOrDefault(profile.getContactEmail()));
+        module.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
     }
 }

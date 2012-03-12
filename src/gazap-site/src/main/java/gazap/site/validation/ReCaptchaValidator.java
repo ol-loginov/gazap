@@ -4,6 +4,7 @@ import gazap.site.services.RecaptchaValidator;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -26,6 +27,8 @@ public class ReCaptchaValidator implements ConstraintValidator<ReCaptcha, Object
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
         String challenge = (String) beanWrapper.getPropertyValue(challengeField);
         String response = (String) beanWrapper.getPropertyValue(responseField);
-        return captchaValidator.validate(challenge, response);
+        return StringUtils.hasText(challenge)
+                && StringUtils.hasText(response)
+                && captchaValidator.validate(challenge, response);
     }
 }

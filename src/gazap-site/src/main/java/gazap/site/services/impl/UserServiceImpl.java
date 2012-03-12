@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public UserProfile createUser(String email, String password) {
         UserProfile user = new UserProfile();
         user.setPassword(passwordEncoder.encodePassword(password, null));
-        user.setContactEmail(HashUtil.isNull(email, ""));
+        user.setEmail(HashUtil.isNull(email, ""));
         user.setDisplayName("");
         profileDao.create(user);
         return null;

@@ -27,7 +27,7 @@ public class PrincipalProviderDirector extends PrincipalProvider implements User
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return createPrincipal(userProfileDao.findUserByContactEmail(userName));
+        return createPrincipal(userProfileDao.findUserByEmail(userName));
     }
 
     @Override

@@ -3,6 +3,7 @@ package gazap.site.web.controllers.access;
 import gazap.domain.entity.UserProfile;
 import gazap.site.validation.ReCaptcha;
 import gazap.site.validation.UserEmail;
+import gazap.site.validation.UserEmailRegistered;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,13 +16,12 @@ import javax.xml.bind.annotation.XmlElement;
 public class RegisterForm {
     @UserEmail
     @Size(min = 1, max = UserProfile.CONTACT_EMAIL_LENGTH)
+    @UserEmailRegistered(false)
     private String username;
     @NotNull
     @Size(min = 1)
     private String password;
-    @Size(min = 1)
     private String recaptcha_challenge_field;
-    @Size(min = 1)
     private String recaptcha_response_field;
 
     @XmlElement(required = false)

@@ -8,5 +8,5 @@ public interface UserProfileDao extends Dao {
 
     UserProfile getUser(int id);
 
-    UserProfile findUserByContactEmail(String contactEmail);
+    UserProfile findUserByEmail(String contactEmail);
 }

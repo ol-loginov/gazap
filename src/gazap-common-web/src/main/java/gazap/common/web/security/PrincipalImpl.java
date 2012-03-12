@@ -28,7 +28,7 @@ public class PrincipalImpl implements UserDetails {
         if (profile != null) {
             this.userId = profile.getId();
             this.userPass = profile.getPassword();
-            this.userName = profile.getContactEmail();
+            this.userName = profile.getEmail();
         } else {
             this.userId = 0;
             this.userName = null;

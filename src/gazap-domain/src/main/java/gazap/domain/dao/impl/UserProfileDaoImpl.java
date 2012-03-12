@@ -44,12 +44,12 @@ public class UserProfileDaoImpl extends DaoImpl implements UserProfileDao {
     }
 
     @Override
-    public UserProfile findUserByContactEmail(String contactEmail) {
-        if (!StringUtils.hasText(contactEmail)) {
+    public UserProfile findUserByEmail(String email) {
+        if (!StringUtils.hasText(email)) {
             return null;
         }
-        return (UserProfile) getSession().createQuery("from UserProfile  where contactEmail=:contactEmail")
-                .setParameter("contactEmail", contactEmail)
+        return (UserProfile) getSession().createQuery("from UserProfile  where email=:email")
+                .setParameter("email", email)
                 .uniqueResult();
     }
 }

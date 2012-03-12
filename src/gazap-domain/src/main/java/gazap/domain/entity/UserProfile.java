@@ -17,8 +17,8 @@ public class UserProfile extends IntegerIdentityCUD {
 
     @Column(name = "systemAccount", nullable = false)
     private boolean systemAccount;
-    @Column(name = "contactEmail", nullable = false, length = CONTACT_EMAIL_LENGTH)
-    private String contactEmail;
+    @Column(name = "email", nullable = false, length = CONTACT_EMAIL_LENGTH)
+    private String email;
     @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
     private String password;
     @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
@@ -37,12 +37,12 @@ public class UserProfile extends IntegerIdentityCUD {
         this.systemAccount = systemAccount;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
