@@ -29,6 +29,7 @@ if (typeof(UI) == "undefined") {
     _.extend(UI, Backbone.Events);
     UI.addTrigger('InitModalLoginDialog');
     UI.addTrigger('InitModalRegisterDialog');
+    UI.addTrigger('InitFastSearch');
     UI.addTrigger('LogIn');
     UI.addTrigger('ReloadCaptcha');
     UI.addTrigger('InitCaptcha');

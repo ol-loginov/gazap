@@ -5,6 +5,7 @@ import gazap.common.web.model.SocialProfile;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
+import gazap.domain.entity.UserSummary;
 import gazap.site.model.ServiceErrorException;
 import gazap.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,11 @@ public class UserServiceImpl implements UserService {
         user.setEmail(HashUtil.isNull(email, ""));
         user.setDisplayName("");
         profileDao.create(user);
-        return null;
+
+        UserSummary userSummary = new UserSummary(user);
+        profileDao.create(userSummary);
+
+        return user;
     }
 
     @Override

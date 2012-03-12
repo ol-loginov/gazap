@@ -1,11 +1,14 @@
 package gazap.site.model.viewer;
 
+import gazap.domain.entity.UserSummary;
+
 public class UserDetails {
     private int id;
     private String alias;
     private String name;
     private String gravatar;
     private String route;
+    private UserSummary summary;
 
     public int getId() {
         return id;
@@ -45,5 +48,13 @@ public class UserDetails {
 
     public void setRoute(String route) {
         this.route = route;
+    }
+
+    public UserSummary getSummary() {
+        return summary;
+    }
+
+    public void setSummary(UserSummary summary) {
+        this.summary = summary;
     }
 }

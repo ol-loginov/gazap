@@ -6,6 +6,7 @@
 @import "bootstrap/type.less";
 @import "bootstrap/alerts.less";
 @import "bootstrap/forms.less";
+@import "bootstrap/buttons.less";
 @import "bootstrap/tooltip.less";
 @import "bootstrap/popovers.less";
 
@@ -20,6 +21,18 @@
     float: right;
 }
 
-@import "layout-single.less";
+a,
+a:visited {
+    text-decoration: underline;
+    color: #555;
+    cursor:pointer;
+    &:hover,
+    &:focus {
+        color: #000;
+    }
+}
+
+@import "_mixin.less";
 @import "icons.less";
 @import "menu.less";
+@import "layout-single.less";

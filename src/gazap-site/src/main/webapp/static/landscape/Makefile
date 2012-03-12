@@ -2,7 +2,7 @@ LESS_COMPRESSOR ?= `which lessc`
 LESS_COMPRESSOR = ~/bin/lessc
 WATCHR ?= `which watchr`
 
-SOURCE = ./less/_root.less
+SOURCE = ./less/layout.less
 OUTPUT = ./dist
 
 #

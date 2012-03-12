@@ -2,6 +2,7 @@ package gazap.domain.dao;
 
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
+import gazap.domain.entity.UserSummary;
 
 public interface UserProfileDao extends Dao {
     UserSocialLink findSocialConnection(String provider, String providerUser, String email);
@@ -11,4 +12,6 @@ public interface UserProfileDao extends Dao {
     UserProfile findUserByEmail(String contactEmail);
 
     UserProfile findUserByAlias(String alias);
+
+    UserSummary loadSummary(UserProfile profile);
 }

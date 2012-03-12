@@ -3,6 +3,7 @@ package gazap.domain.dao.impl;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
+import gazap.domain.entity.UserSummary;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -60,6 +61,13 @@ public class UserProfileDaoImpl extends DaoImpl implements UserProfileDao {
         }
         return (UserProfile) getSession().createQuery("from UserProfile  where alias=:alias")
                 .setParameter("alias", alias)
+                .uniqueResult();
+    }
+
+    @Override
+    public UserSummary loadSummary(UserProfile user) {
+        return (UserSummary) getSession().createQuery("from UserSummary where id.user=:user")
+                .setEntity("user", user)
                 .uniqueResult();
     }
 }
