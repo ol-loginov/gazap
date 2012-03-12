@@ -2,11 +2,8 @@
     var captchaKey = "";
 
     function recaptchaShowDefault() {
-        var container = $('#recaptcha-container');
-        container = container.empty();
-        Recaptcha.create(captchaKey, container[0], {
-            theme:"white",
-            callback:Recaptcha.focus_response_field});
+        var container = $('#recaptcha-container').empty();
+        Recaptcha.create(captchaKey, container[0], {theme:"white"});
     }
 
     function recaptchaEnable(callback) {
@@ -29,7 +26,6 @@
         recaptchaEnable(function () {
             recaptchaShowDefault();
             Recaptcha.reload();
-            $('#recaptcha_response_field').attr('tabindex', tabindex);
         });
     });
 })();

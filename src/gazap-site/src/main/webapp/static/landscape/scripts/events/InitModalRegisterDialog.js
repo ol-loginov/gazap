@@ -20,6 +20,7 @@ UI.bindInitModalRegisterDialog(function (selector) {
                 if (ans.success) {
                     loginPerformer(ans.loginUrl);
                 } else {
+                    UI.triggerReloadCaptcha();
                     formHelper.setError(ans.message, ans.errorList);
                 }
             } else {

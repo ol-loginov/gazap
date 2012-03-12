@@ -173,6 +173,11 @@
             <groupId>xalan</groupId>
             <artifactId>xalan</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.tanesha.recaptcha4j</groupId>
+            <artifactId>recaptcha4j</artifactId>
+            <version>0.0.7</version>
+        </dependency>
 
         <!-- domain -->
         <dependency>

@@ -1,6 +1,7 @@
 package gazap.site.web.controllers.access;
 
 import gazap.domain.entity.UserProfile;
+import gazap.site.validation.ReCaptcha;
 import gazap.site.validation.UserEmail;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.NONE)
+@ReCaptcha
 public class RegisterForm {
     @UserEmail
     @Size(min = 1, max = UserProfile.CONTACT_EMAIL_LENGTH)
@@ -17,6 +19,10 @@ public class RegisterForm {
     @NotNull
     @Size(min = 1)
     private String password;
+    @Size(min = 1)
+    private String recaptcha_challenge_field;
+    @Size(min = 1)
+    private String recaptcha_response_field;
 
     @XmlElement(required = false)
     public String getUsername() {
@@ -34,5 +40,21 @@ public class RegisterForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRecaptcha_challenge_field(String recaptcha_challenge_field) {
+        this.recaptcha_challenge_field = recaptcha_challenge_field;
+    }
+
+    public void setRecaptcha_response_field(String recaptcha_response_field) {
+        this.recaptcha_response_field = recaptcha_response_field;
+    }
+
+    public String getRecaptcha_challenge_field() {
+        return recaptcha_challenge_field;
+    }
+
+    public String getRecaptcha_response_field() {
+        return recaptcha_response_field;
     }
 }
