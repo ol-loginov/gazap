@@ -9,4 +9,6 @@ public interface UserProfileDao extends Dao {
     UserProfile getUser(int id);
 
     UserProfile findUserByEmail(String contactEmail);
+
+    UserProfile findUserByAlias(String alias);
 }

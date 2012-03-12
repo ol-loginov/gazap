@@ -1,53 +1,28 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.ContentModule;
+import gazap.site.model.viewer.UserDetails;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "visitor")
 public class VisitorModule extends ContentModule {
-    private int id;
     private boolean debug;
-    private boolean logged;
-    private String name;
-    private String gravatar;
-    private String welcomePrompt;
+    private UserDetails user;
 
     @XmlElement
-    public int getId() {
-        return id;
+    public UserDetails getUser() {
+        return user;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUser(UserDetails user) {
+        this.user = user;
     }
 
     @XmlElement
     public boolean isLogged() {
-        return logged;
-    }
-
-    public void setLogged(boolean logged) {
-        this.logged = logged;
-    }
-
-    @XmlElement
-    public String getGravatar() {
-        return gravatar;
-    }
-
-    public void setGravatar(String gravatar) {
-        this.gravatar = gravatar;
-    }
-
-    @XmlElement
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return user != null;
     }
 
     @XmlElement(required = false, defaultValue = "false")
@@ -57,14 +32,5 @@ public class VisitorModule extends ContentModule {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
-    }
-
-    @XmlElement
-    public String getWelcomePrompt() {
-        return welcomePrompt;
-    }
-
-    public void setWelcomePrompt(String welcomePrompt) {
-        this.welcomePrompt = welcomePrompt;
     }
 }

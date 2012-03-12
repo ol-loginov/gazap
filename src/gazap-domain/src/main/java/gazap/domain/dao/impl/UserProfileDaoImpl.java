@@ -52,4 +52,14 @@ public class UserProfileDaoImpl extends DaoImpl implements UserProfileDao {
                 .setParameter("email", email)
                 .uniqueResult();
     }
+
+    @Override
+    public UserProfile findUserByAlias(String alias) {
+        if (!StringUtils.hasText(alias)) {
+            return null;
+        }
+        return (UserProfile) getSession().createQuery("from UserProfile  where alias=:alias")
+                .setParameter("alias", alias)
+                .uniqueResult();
+    }
 }

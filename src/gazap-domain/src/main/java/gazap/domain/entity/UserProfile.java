@@ -14,9 +14,12 @@ public class UserProfile extends IntegerIdentityCUD {
     public static final int CONTACT_EMAIL_LENGTH = 128;
     public static final int PASSWORD_LENGTH = 64;
     public static final int DISPLAY_NAME_LENGTH = 64;
+    public static final int ALIAS_LENGTH = 32;
 
     @Column(name = "systemAccount", nullable = false)
     private boolean systemAccount;
+    @Column(name = "alias", length = ALIAS_LENGTH)
+    private String alias;
     @Column(name = "email", nullable = false, length = CONTACT_EMAIL_LENGTH)
     private String email;
     @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
@@ -67,5 +70,13 @@ public class UserProfile extends IntegerIdentityCUD {
 
     protected void setRoles(Set<UserAcl> roles) {
         this.roles = roles;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }

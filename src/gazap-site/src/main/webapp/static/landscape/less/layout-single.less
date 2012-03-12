@@ -58,13 +58,12 @@ a:visited {
         }
     }
     &.logged-true {
+        box-shadow: 0 0 2px #DDD;
+        border-radius: 3px;
         >.account-name {
-            a {
+            >.username {
                 padding: 4px;
                 font-size: 12px;
-                text-decoration:none;
-                box-shadow: 0 0 2px #DDD;
-                border-radius: 3px;
                 > img {
                     position: relative;
                     top: 4px;
@@ -72,6 +71,9 @@ a:visited {
                 > span {
                     padding-left: 4px;
                 }
+            }
+            >a.username {
+                text-decoration:none;
                 &:hover,
                 &:focus {
                     background: #F9F9F9;
@@ -79,7 +81,54 @@ a:visited {
             }
         }
         >.account-menu {
-            margin-top: 4px;
+            text-align: left;
+            >.opener {
+                a.toggler {
+                    margin: 3px 5px 3px 0;
+                }
+                a.toggler.collapse {
+                    display: none;
+                }
+                >.notification-icons {
+                    float:left;
+                    margin: 3px 0 0 3px;
+                    >li {
+                        float:left;
+                        margin: 0 30px 0 3px;
+                        >.value {
+                            font-weight: bold;
+                            color: #a9a9a9;
+                        }
+                    }
+                }
+            }
+            >.menu-column {
+                display: none;
+                margin: 3px 0 0;
+                float:left;
+                width: 50%;
+                >li{
+                    border-top: solid 1px #f5f5f5;
+                    border-left: solid 1px #f5f5f5;
+                    >a{
+                        padding-left: 3px;
+                        padding-right: 3px;
+                    }
+                }
+            }
+            &.expanded {
+                >.menu-column {
+                    display: block;
+                }
+                >.opener {
+                    a.toggler.collapse {
+                        display: block;
+                    }
+                    a.toggler.expand {
+                        display: none;
+                    }
+                }
+            }
         }
     }
 }
