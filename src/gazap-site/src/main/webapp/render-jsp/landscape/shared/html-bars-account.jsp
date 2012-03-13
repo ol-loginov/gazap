@@ -25,11 +25,9 @@
       </div>
       <div class="account-menu">
         <div class="opener">
-          <a class="toggler expand pull-right" href="#" title="<lt:t key="accountBar.opener.expand"/>">
-            <i class="glyphicon-resize-full"></i>
-          </a>
-          <a class="toggler collapse pull-right" href="#" title="<lt:t key="accountBar.opener.collapse"/>">
-            <i class="glyphicon-resize-small"></i>
+          <a class="toggler pull-right" href="#">
+            <i class="glyphicon-resize-small collapse"></i>
+            <i class="glyphicon-resize-full expand"></i>
           </a>
           <ul class="notification-icons unstyled">
             <li>

@@ -11,6 +11,15 @@ body {
         top: 0;
         left: 4px;
     }
+    #navPane {
+        position: absolute;
+        top: 4px;
+        left: 300px;
+        .btn-toolbar{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
     #mainColumn {
         position: absolute;
         left: 265px;
@@ -25,23 +34,6 @@ body {
         }
     }
     #fastSearch {
-        >.form-search {
-            padding: 5px 0 5px 30px;
-            .search-query {
-                width: 400px;
-            }
-        }
-        .progress-element {
-            display: none;
-        }
-        .submit-in-progress {
-            .progress-element {
-                display: inline-block;
-            }
-            .static-element {
-                display: none;
-            }
-        }
     }
 }
 
@@ -64,6 +56,20 @@ body {
     top: 0 !important;
     .fancybox-close {
         display: none !important;
+    }
+}
+
+form {
+    .progress-element {
+        display: none;
+    }
+    &.submit-in-progress {
+        .progress-element {
+            display: inline-block;
+        }
+        .static-element {
+            display: none;
+        }
     }
 }
 
@@ -125,7 +131,7 @@ body {
                 a.toggler {
                     margin: 3px 5px 3px 0;
                 }
-                a.toggler.collapse {
+                a.toggler .collapse {
                     display: none;
                 }
                 >.notification-icons {
@@ -160,10 +166,10 @@ body {
                     display: block;
                 }
                 >.opener {
-                    a.toggler.collapse {
+                    a.toggler .collapse {
                         display: block;
                     }
-                    a.toggler.expand {
+                    a.toggler .expand {
                         display: none;
                     }
                 }
