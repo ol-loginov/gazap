@@ -9,4 +9,5 @@ import javax.persistence.Table;
 @Table(name = "GameProfile")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 public class GameProfile extends IntegerIdentityCUD {
+    public static final int NAME_LENGTH = 64;
 }
