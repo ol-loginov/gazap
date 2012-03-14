@@ -45,7 +45,7 @@
             </div>
             <div class="alert alert-error hidden"/>
         </form>
-        <script type="text/javascript">UI.triggerInitModalLoginDialog('#loginForm')</script>
+        <script type="text/javascript">BUS.account.modal_login_dialog.init('#loginForm')</script>
     </div>
     <%--
   <div class="by-social">

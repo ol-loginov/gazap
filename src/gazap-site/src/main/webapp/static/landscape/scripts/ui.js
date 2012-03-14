@@ -1,21 +1,5 @@
 if (typeof(UI) == "undefined") {
     UI = {
-        addTrigger:function (eventName) {
-            var self = this;
-            self['trigger' + eventName] = function (parameters) {
-                self.trigger(eventName, parameters);
-            };
-            self['bind' + eventName] = function (fn) {
-                self.bind(eventName, fn);
-            };
-            self['once' + eventName] = function (fn) {
-                var onceHandler = function () {
-                    fn.apply(self, arguments);
-                    self.unbind(eventName, onceHandler);
-                }
-                self.bind(eventName, onceHandler);
-            }
-        },
         isJsonResponse:function (xhr) {
             return /json\b/i.test(xhr.getResponseHeader("content-type"));
         },
@@ -26,13 +10,6 @@ if (typeof(UI) == "undefined") {
             $.fancybox.cancel();
         }
     };
-    _.extend(UI, Backbone.Events);
-    UI.addTrigger('InitModalLoginDialog');
-    UI.addTrigger('InitModalRegisterDialog');
-    UI.addTrigger('InitFastSearch');
-    UI.addTrigger('LogIn');
-    UI.addTrigger('ReloadCaptcha');
-    UI.addTrigger('InitCaptcha');
 }
 
 function FormHelper(form) {

@@ -1,5 +1,5 @@
-UI.bindInitModalRegisterDialog(function (selector) {
-    UI.triggerReloadCaptcha();
+BUS.account.modal_register_dialog.init(function (selector) {
+    BUS.captcha.reload();
 
     var formHelper = new FormHelper($(selector));
     var loginPerformer = function (loginUrl) {
@@ -10,7 +10,7 @@ UI.bindInitModalRegisterDialog(function (selector) {
         };
         $.post(loginUrl, loginArgs).success(function () {
             UI.closeModal();
-            UI.triggerLogIn();
+            BUS.account.after_login();
         });
     };
     formHelper.ajaxForm({
@@ -20,7 +20,7 @@ UI.bindInitModalRegisterDialog(function (selector) {
                 if (ans.success) {
                     loginPerformer(ans.loginUrl);
                 } else {
-                    UI.triggerReloadCaptcha();
+                    BUS.captcha.reload();
                     formHelper.setError(ans.message, ans.errorList);
                 }
             } else {
@@ -28,5 +28,23 @@ UI.bindInitModalRegisterDialog(function (selector) {
             }
         }
     });
-})
-;
+});
+
+BUS.account.modal_login_dialog.init(function (selector) {
+    var formHelper = new FormHelper($(selector));
+    formHelper.ajaxForm({
+        success:function (ans, status, xhr) {
+            formHelper.setSubmitting(false);
+            if (UI.isJsonResponse(xhr)) {
+                if (ans.success) {
+                    UI.closeModal();
+                    BUS.account.after_login();
+                } else {
+                    formHelper.setError(ans.message);
+                }
+            } else {
+                formHelper.form.replaceWith(ans);
+            }
+        }
+    });
+});

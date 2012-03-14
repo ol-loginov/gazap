@@ -23,11 +23,11 @@
     <script type="text/javascript" src="${libRoot}/bootstrap/bootstrap-popover.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/visitor.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/ui.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/InitModalLoginDialog.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/InitModalRegisterDialog.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/InitFastSearch.js"></script>
+    <script type="text/javascript" src="${scriptsRoot}/bus.js"></script>
+    <script type="text/javascript" src="${scriptsRoot}/events/Account.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/ReCaptcha.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/UserProfile.Games.js"></script>
+    <script type="text/javascript" src="${scriptsRoot}/events/UserProfile.js"></script>
+    <script type="text/javascript" src="${scriptsRoot}/events/Game.Modals.js"></script>
 
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>
     <script type="text/javascript" src="${libRoot}/less/less-1.3.0.min.js"></script>

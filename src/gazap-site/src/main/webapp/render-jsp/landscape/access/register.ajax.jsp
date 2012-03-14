@@ -52,8 +52,8 @@
             <div class="alert alert-error hidden"/>
         </form>
         <script type="text/javascript">
-            UI.triggerInitCaptcha('<lt:t key="recaptcha.public"/>');
-            UI.triggerInitModalRegisterDialog('#registerForm')
+            BUS.captcha.init('<lt:t key="recaptcha.public"/>');
+            BUS.account.modal_register_dialog.init('#registerForm')
         </script>
     </div>
 </div>

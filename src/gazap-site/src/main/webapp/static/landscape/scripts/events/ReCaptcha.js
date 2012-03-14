@@ -18,11 +18,11 @@
         }
     }
 
-    UI.bindInitCaptcha(function (key) {
+    BUS.captcha.init(function (key) {
         captchaKey = key;
     });
 
-    UI.bindReloadCaptcha(function (tabindex) {
+    BUS.captcha.reload(function (tabindex) {
         recaptchaEnable(function () {
             recaptchaShowDefault();
             Recaptcha.reload();

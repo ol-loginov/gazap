@@ -38,7 +38,7 @@
                 <button id="createGame" class="btn btn-mini" data-ax-href="${cp}/game/create.ajax">создать</button>
             </span>
         </h3>
-        <div id="accountGameForm"></div>
+        <div id="accountGameForm" class="section-header-form hidden"></div>
         <script type="text/javascript">UserProfile.Games.init()</script>
 
         <p class="empty">
