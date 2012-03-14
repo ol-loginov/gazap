@@ -45,7 +45,7 @@ FormHelper.prototype = {
     form:null,
     popoverTargets:null,
 
-    dataAxAction:function () {
+    ajaxAction:function () {
         return this.form.attr('data-ax-action');
     },
     clearError:function () {
@@ -84,7 +84,7 @@ FormHelper.prototype = {
     ajaxForm:function (opts) {
         var self = this;
         self.form.ajaxForm(_.extend({
-            url:self.dataAxAction(),
+            url:self.ajaxAction(),
             beforeSubmit:function () {
                 self.clearError();
                 self.setSubmitting(true);
@@ -100,6 +100,31 @@ FormHelper.prototype = {
     },
     value:function (inputName) {
         return $('*[name=' + inputName + ']', this.form).val();
+    }
+};
+
+function ButtonHelper(selector) {
+    this.button = $(selector);
+}
+
+ButtonHelper.prototype = {
+    button:null,
+    enable:function (enabled) {
+        if (enabled) {
+            this.button.removeAttr('disabled').removeClass('disabled');
+        } else {
+            this.button.attr('disabled', 'disabled').addClass('disabled');
+        }
+    },
+    visible:function (visibility) {
+        if (visibility) {
+            this.button.removeClass('hidden');
+        } else {
+            this.button.addClass('hidden');
+        }
+    },
+    ajaxHref:function () {
+        return this.button.attr('data-ax-href');
     }
 };
 

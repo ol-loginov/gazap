@@ -35,9 +35,11 @@
         <h3>
             <lt:t key="UserProfilePage.accountGames.h"/>
             <span class="actions">
-                <button id="createGame" class="btn btn-mini">создать</button>
+                <button id="createGame" class="btn btn-mini" data-ax-href="${cp}/game/create.ajax">создать</button>
             </span>
         </h3>
+        <div id="accountGameForm"></div>
+        <script type="text/javascript">UserProfile.Games.init()</script>
 
         <p class="empty">
             <lt:t key="UserProfilePage.accountGames.empty"/>
@@ -51,6 +53,7 @@
                 <button id="createMap" class="btn btn-mini">создать</button>
             </span>
         </h3>
+        <div id="accountMapForm"></div>
 
         <p class="empty">
             <lt:t key="UserProfilePage.accountMaps.empty"/>
