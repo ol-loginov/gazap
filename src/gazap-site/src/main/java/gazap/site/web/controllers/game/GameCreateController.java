@@ -3,8 +3,10 @@ package gazap.site.web.controllers.game;
 import com.iserv2.commons.mvc.views.Content;
 import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswer;
+import gazap.site.services.GameService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.game.GameCreatePage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,9 @@ import java.util.Locale;
 
 @Controller
 public class GameCreateController extends BaseController {
+    @Autowired
+    protected GameService gameService;
+
     @RequestMapping(value = "/game/create.ajax", method = RequestMethod.GET)
     @ViewName(response = GameCreatePage.class, name = "game/create.ajax")
     public GameCreatePage formAjax() {
@@ -31,6 +36,9 @@ public class GameCreateController extends BaseController {
         } else {
             answer.setSuccess(true);
         }
+
+        gameService.createGame(securityHelper.getCurrentUser(), form);
+
         return contentFactory(locale).json(answer);
     }
 

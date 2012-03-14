@@ -7,8 +7,8 @@
 <form id="modalGameCreateForm" action="${cp}/game/create" data-ax-action="${au}/game/create.ajax" method="post">
     <div class="control-group">
         <div class="controls">
-            <input type="text" name="name"
-                   placeholder="<lt:t key="ModalGameCreate.form.name.placeholder"/>"/>
+            <input type="text" name="title"
+                   placeholder="<lt:t key="ModalGameCreate.form.title.placeholder"/>"/>
         </div>
     </div>
     <div class="control-group submit-group">
