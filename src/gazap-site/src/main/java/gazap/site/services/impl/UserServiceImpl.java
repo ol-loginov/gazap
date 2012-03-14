@@ -15,6 +15,7 @@ import org.springframework.social.connect.ConnectionKey;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,6 +58,16 @@ public class UserServiceImpl implements UserService {
 
         profileDao.create(socialLink);
         return socialLink;
+    }
+
+    @Override
+    public UserProfile findUserByAliasOrId(String aliasOrId) {
+        if (!StringUtils.hasText(aliasOrId)) {
+            return null;
+        }
+        return Character.isDigit(aliasOrId.charAt(0))
+                ? profileDao.getUser(Integer.parseInt(aliasOrId))
+                : profileDao.findUserByAlias(aliasOrId);
     }
 }
 

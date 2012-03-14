@@ -9,96 +9,96 @@
 <%--@elvariable id="content" type="gazap.site.web.views.GazapPage"--%>
 <c:set scope="page" var="m" value="${content.moduleVisitor}"/>
 <section id="accountBar" class="logged-${m.logged}">
-  <c:choose>
-    <c:when test="${m.logged}">
-      <div class="account-name">
-                <span class="username">
+    <c:choose>
+        <c:when test="${m.logged}">
+            <div class="account-name">
+                <a class="username" href="${cp}${m.user.route}">
                     <img src="http://www.gravatar.com/avatar/${m.user.gravatar}?s=16" alt=""/><span><c:choose>
-                  <c:when test="${fn:length(m.user.name) gt 0}">
-                    <c:out value="${m.user.name}"/>
-                  </c:when>
-                  <c:otherwise>
-                    <fmt:message key="tb.menu.welcome.anonymous.name"/>
-                  </c:otherwise>
+                    <c:when test="${fn:length(m.user.name) gt 0}">
+                        <c:out value="${m.user.name}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <fmt:message key="tb.menu.welcome.anonymous.name"/>
+                    </c:otherwise>
                 </c:choose></span>
-                </span>
-      </div>
-      <div class="account-menu">
-        <div class="opener">
-          <a class="toggler pull-right" href="#">
-            <i class="glyphicon-resize-small collapse"></i>
-            <i class="glyphicon-resize-full expand"></i>
-          </a>
-          <ul class="notification-icons unstyled">
-            <li>
-              <span class="value">15</span>
-              <span class="label">друзей</span>
-            </li>
-            <li>
-              <span class="value">0</span>
-              <span class="label">писем</span>
-            </li>
-          </ul>
-          <div class="clear"></div>
-        </div>
-        <ul class="unstyled menu-column">
-          <li>
-            <a href="${cp}/profile">
-              <i class="glyphicon-home"></i>
-              <lt:t key="accountBar.accountMenu.profile"/>
-            </a>
-          </li>
-          <li>
-            <a href="${cp}/auth/logout">
-              <i class="glyphicon-plane"></i>
-              <lt:t key="accountBar.accountMenu.logout"/>
-            </a>
-          </li>
-        </ul>
-        <ul class="unstyled menu-column">
-          <c:if test="${m.user.summary.gamesCreated gt 0}">
-            <li>
-              <a href="${cp}${m.user.route}/games">
-                <i class="glyphicon-info-sign"></i>
-                <lt:t key="accountBar.accountMenu.games"/>
-              </a>
-            </li>
-          </c:if>
-          <c:if test="${m.user.summary.mapsCreated gt 0}">
-            <li>
-              <a href="${cp}${m.user.route}/maps">
-                <i class="glyphicon-flag"></i>
-                <lt:t key="accountBar.accountMenu.maps"/>
-              </a>
-            </li>
-          </c:if>
-          <c:if test="${m.user.summary.playersCreated gt 0}">
-            <li>
-              <a href="${cp}${m.user.route}/avatars">
-                <i class="glyphicon-info-sign"></i>
-                <lt:t key="accountBar.accountMenu.avatars"/>
-              </a>
-            </li>
-          </c:if>
-        </ul>
-        <div class="clear"></div>
-      </div>
-      <script type="text/javascript">
-        $('#accountBar .account-menu .opener .toggler').click(function () {
-          $('#accountBar .account-menu').toggleClass('expanded');
-          return false;
-        });
-      </script>
-    </c:when>
-    <c:otherwise>
-      <h3>
-        <lt:t key="accountBar.anonymous.welcome"/>
-      </h3>
+                </a>
+            </div>
+            <div class="account-menu">
+                <div class="opener">
+                    <a class="toggler pull-right" href="#">
+                        <i class="glyphicon-resize-small collapse"></i>
+                        <i class="glyphicon-resize-full expand"></i>
+                    </a>
+                    <ul class="notification-icons unstyled">
+                        <li>
+                            <span class="value">15</span>
+                            <span class="label">друзей</span>
+                        </li>
+                        <li>
+                            <span class="value">0</span>
+                            <span class="label">писем</span>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <ul class="unstyled menu-column">
+                    <li>
+                        <a href="${cp}/settings">
+                            <i class="glyphicon-cog"></i>
+                            <lt:t key="accountBar.accountMenu.settings"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${cp}/auth/logout">
+                            <i class="glyphicon-plane"></i>
+                            <lt:t key="accountBar.accountMenu.logout"/>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="unstyled menu-column">
+                    <c:if test="${m.user.summary.gamesCreated gt 0}">
+                        <li>
+                            <a href="${cp}${m.user.route}/games">
+                                <i class="glyphicon-info-sign"></i>
+                                <lt:t key="accountBar.accountMenu.games"/>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:if test="${m.user.summary.mapsCreated gt 0}">
+                        <li>
+                            <a href="${cp}${m.user.route}/maps">
+                                <i class="glyphicon-flag"></i>
+                                <lt:t key="accountBar.accountMenu.maps"/>
+                            </a>
+                        </li>
+                    </c:if>
+                    <c:if test="${m.user.summary.playersCreated gt 0}">
+                        <li>
+                            <a href="${cp}${m.user.route}/avatars">
+                                <i class="glyphicon-info-sign"></i>
+                                <lt:t key="accountBar.accountMenu.avatars"/>
+                            </a>
+                        </li>
+                    </c:if>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <script type="text/javascript">
+                $('#accountBar .account-menu .opener .toggler').click(function () {
+                    $('#accountBar .account-menu').toggleClass('expanded');
+                    return false;
+                });
+            </script>
+        </c:when>
+        <c:otherwise>
+            <h3>
+                <lt:t key="accountBar.anonymous.welcome"/>
+            </h3>
 
-      <p>
+            <p>
 
-        <lt:t key="accountBar.anonymous.welcome.p" arg1="${au}"/>
-      </p>
-    </c:otherwise>
-  </c:choose>
+                <lt:t key="accountBar.anonymous.welcome.p" arg1="${au}"/>
+            </p>
+        </c:otherwise>
+    </c:choose>
 </section>

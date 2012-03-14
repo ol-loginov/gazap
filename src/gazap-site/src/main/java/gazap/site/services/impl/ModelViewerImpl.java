@@ -23,7 +23,7 @@ public class ModelViewerImpl implements ModelViewer {
         userDetails.setAlias(profile.getAlias());
         userDetails.setName(profile.getDisplayName());
         userDetails.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
-        userDetails.setRoute("/account/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
+        userDetails.setRoute("/user/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
         userDetails.setSummary(userProfileDao.loadSummary(profile));
         return userDetails;
     }

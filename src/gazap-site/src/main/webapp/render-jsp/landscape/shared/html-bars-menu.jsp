@@ -5,14 +5,17 @@
 <%@ taglib prefix="lt" uri="http://gazap/jstl/local-tags" %>
 <%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <section id="navBar">
-  <div class="btn-toolbar">
-    <div class="btn-group search-form-invoker">
-      <button class="btn btn-info"><i class="glyphicon-search glyphicon-white"></i></button>
+    <div class="btn-toolbar">
+        <div class="btn-group search-form-invoker">
+            <button class="btn btn-warning"><i class="glyphicon-search glyphicon-white"></i></button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-success">Игры</button>
+            <button class="btn btn-success">Аватары</button>
+            <button class="btn btn-success">Треки</button>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-info">Помощь</button>
+        </div>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-success">Игры</button>
-      <button class="btn btn-success">Аватары</button>
-      <button class="btn btn-success">Треки</button>
-    </div>
-  </div>
 </section>

@@ -1,6 +1,6 @@
 body {
-     font-family: Arial,sans-serif;
-     background: #fafafa;
+     font-family: @baseFontFamily;
+     background: @bodyBackground;
 }
 
 body {
@@ -166,6 +166,9 @@ form {
                     display: block;
                 }
                 >.opener {
+                    a.toggler {
+                        margin-top: 4px;
+                    }
                     a.toggler .collapse {
                         display: block;
                     }

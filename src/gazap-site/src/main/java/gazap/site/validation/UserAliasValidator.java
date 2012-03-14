@@ -35,6 +35,6 @@ public class UserAliasValidator implements ConstraintValidator<UserAlias, String
         } catch (UnsupportedEncodingException e) {
             return false;
         }
-        return inUrl.equals(value) && !DENIED.matcher(value).find();
+        return inUrl.equals(value) && !DENIED.matcher(value).find() && !Character.isDigit(value.charAt(0));
     }
 }
