@@ -43,7 +43,7 @@
                     </div>
                     <div class="alert alert-error hidden"/>
                 </form>
-                <script type="text/javascript">UI.triggerInitModalRegisterDialog('#registerForm')</script>
+                <script type="text/javascript">UI.trigger_register_init_modal_form('#registerForm')</script>
             </div>
         </div>
     </xsl:template>

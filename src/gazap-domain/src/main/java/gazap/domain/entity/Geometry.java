@@ -8,7 +8,11 @@ import javax.persistence.*;
 @Table(name = "Geometry")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "class")
 public abstract class Geometry extends IntegerIdentityCUD {
+    public static final String CLASS_GEOID = "geoid";
+    public static final String CLASS_PLAIN = "plain";
+
     @Version
     @Column(name = "version")
     private int version;

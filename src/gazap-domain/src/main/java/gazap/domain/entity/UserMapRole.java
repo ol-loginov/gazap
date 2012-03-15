@@ -1,5 +1,6 @@
 package gazap.domain.entity;
 
+import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
 import org.springframework.util.Assert;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "UserMapRole")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class UserMapRole {
+public class UserMapRole implements DomainEntity {
     @EmbeddedId
     private PK id;
 
