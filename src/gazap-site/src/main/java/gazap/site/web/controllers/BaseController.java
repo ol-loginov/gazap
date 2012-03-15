@@ -25,7 +25,7 @@ public abstract class BaseController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    protected BaseControllerContentMixin contentFactory(Locale locale) {
+    protected ResponseBuilder responseBuilder(Locale locale) {
         return new BaseControllerContentMixin(format, locale);
     }
 }

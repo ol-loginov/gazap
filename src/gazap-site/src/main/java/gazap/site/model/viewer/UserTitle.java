@@ -2,7 +2,7 @@ package gazap.site.model.viewer;
 
 import gazap.domain.entity.UserSummary;
 
-public class UserDetails {
+public class UserTitle {
     private int id;
     private String alias;
     private String name;

@@ -1,6 +1,6 @@
 package gazap.site.web.controllers.access;
 
-import com.iserv2.commons.mvc.views.ForwardContent;
+import com.iserv2.commons.mvc.views.Content;
 import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswerType;
 import gazap.site.services.UserAccess;
@@ -39,10 +39,10 @@ public class LoginController extends BaseController {
     }
 
     @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.POST)
-    public ForwardContent proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
+    public Content proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
         authenticationRequest
                 .withAnswer(request, ApiAnswerType.JSON)
                 .withResponse(request, AuthenticationResponse.STATUS);
-        return contentFactory(locale).forward(FORM_LOGIN_FILTER);
+        return responseBuilder(locale).forward(FORM_LOGIN_FILTER);
     }
 }

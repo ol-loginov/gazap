@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class BaseControllerContentMixin {
+public class BaseControllerContentMixin implements ResponseBuilder {
     private final FormatService formatService;
     private final Locale locale;
 
@@ -27,6 +27,7 @@ public class BaseControllerContentMixin {
         this.locale = locale;
     }
 
+    @Override
     public ModelAndViewContent json(Object val) {
         ModelAndViewContent content = new ModelAndViewContent();
         content.setViewName("jsonView");
@@ -34,20 +35,23 @@ public class BaseControllerContentMixin {
         return content;
     }
 
+    @Override
     public RedirectContent redirect(String url) {
         return new RedirectContent(url, false);
     }
 
+    @Override
     public ForwardContent forward(String url) {
         return new ForwardContent(url);
     }
 
-    public <T extends ApiAnswer> T validationErrors(T apiAnswer, Errors errors) {
+    @Override
+    public BaseControllerContentMixin validationErrors(ApiAnswer apiAnswer, Errors errors) {
         apiAnswer.setSuccess(false);
         apiAnswer.setCode(ServiceError.VALIDATION_FAILED.code());
         apiAnswer.setMessage(formatService.getMessage(locale, apiAnswer.getCode()));
         apiAnswer.setErrorList(storeErrors(errors.getAllErrors()));
-        return apiAnswer;
+        return this;
     }
 
     private ApiFieldMessage[] storeErrors(List<ObjectError> errors) {

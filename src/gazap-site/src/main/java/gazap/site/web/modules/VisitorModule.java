@@ -1,7 +1,7 @@
 package gazap.site.web.modules;
 
 import com.iserv2.commons.mvc.views.ContentModule;
-import gazap.site.model.viewer.UserDetails;
+import gazap.site.model.viewer.UserTitle;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,14 +9,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "visitor")
 public class VisitorModule extends ContentModule {
     private boolean debug;
-    private UserDetails user;
+    private UserTitle user;
 
     @XmlElement
-    public UserDetails getUser() {
+    public UserTitle getUser() {
         return user;
     }
 
-    public void setUser(UserDetails user) {
+    public void setUser(UserTitle user) {
         this.user = user;
     }
 

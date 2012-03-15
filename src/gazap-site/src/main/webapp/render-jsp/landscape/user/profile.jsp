@@ -1,3 +1,4 @@
+<%--@elvariable id="cp" type="java.lang.String"--%>
 <%--@elvariable id="content" type="gazap.site.web.views.user.UserProfilePage"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -41,9 +42,26 @@
         <div id="accountGameForm" class="section-header-form hidden"></div>
         <script type="text/javascript">UserProfile.Games.init()</script>
 
-        <p class="empty">
-            <lt:t key="UserProfilePage.accountGames.empty"/>
-        </p>
+        <c:choose>
+            <c:when test="${fn:length(content.games) gt 0}">
+                <ul class="list unstyled">
+                    <c:forEach items="${content.games}" var="e">
+                        <li>
+                            <div class="game-title">
+                                <h4>
+                                    <c:out value="${e.title}"/>
+                                </h4>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <p class="empty">
+                    <lt:t key="UserProfilePage.accountGames.empty"/>
+                </p>
+            </c:otherwise>
+        </c:choose>
     </section>
 
     <section id="accountMaps">

@@ -21,7 +21,7 @@ public class VisitorModuleProvider extends GazapModuleBuilder<VisitorModule> {
     protected boolean complete(HttpServletRequest request, HttpServletResponse response, Content content, VisitorModule module) {
         UserProfile user = getLoggedUser();
         module.setDebug(debug);
-        module.setUser(user != null ? modelViewer.userDetails(user) : null);
+        module.setUser(user != null ? modelViewer.userTitle(user) : null);
         return true;
     }
 }
