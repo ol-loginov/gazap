@@ -5,9 +5,9 @@ import gazap.domain.entity.base.IntegerIdentityCUD;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "GameProfile")
+@Table(name = "Map")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class GameProfile extends IntegerIdentityCUD {
+public class Map extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 
@@ -15,9 +15,9 @@ public class GameProfile extends IntegerIdentityCUD {
     private String title;
     @Column(name = "alias", length = ALIAS_LENGTH, unique = true, nullable = true)
     private String alias;
-    @ManyToOne
-    @JoinColumn(name = "creator", nullable = false)
-    private UserProfile creator;
+    @OneToOne
+    @JoinColumn(name = "geometry", nullable = true)
+    private Geometry geometry;
 
     public String getTitle() {
         return title;
@@ -35,11 +35,11 @@ public class GameProfile extends IntegerIdentityCUD {
         this.alias = alias;
     }
 
-    public UserProfile getCreator() {
-        return creator;
+    public Geometry getGeometry() {
+        return geometry;
     }
 
-    public void setCreator(UserProfile creator) {
-        this.creator = creator;
+    public void setGeometry(Geometry geometry) {
+        this.geometry = geometry;
     }
 }

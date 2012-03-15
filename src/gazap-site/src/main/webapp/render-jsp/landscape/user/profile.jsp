@@ -32,15 +32,52 @@
     </h1>
     <hr class="clear"/>
 
+    <section id="accountMaps">
+        <h3>
+            <lt:t key="UserProfilePage.accountMaps.h"/>
+            <span class="actions">
+                <a id="createMap" class=" btn-mini" href="${cp}/map/create">создать карту</a>
+            </span>
+        </h3>
+
+        <c:choose>
+            <c:when test="${fn:length(content.maps) gt 0}">
+                <ul class="list">
+                    <c:forEach items="${content.maps}" var="e">
+                        <li>
+                            <div class="map-title">
+                                <h4>
+                                    <a href="${cp}${e.route}">
+                                        <span class="breakword"><c:out value="${e.title}"/></span>
+                                    </a>
+                                </h4>
+                                <span class="map-flags">
+                                        <c:forEach items="${content.mapRoles}" var="gr">
+                                            <c:if test="${gr.map eq e.id}">
+                                                <span class="map-role ${gr.role}">
+                                                    <i class="maproleicon"></i>
+                                                    <lt:t key="UserMapRoles.${gr.role}.flag"/>
+                                                </span>
+                                            </c:if>
+                                        </c:forEach>
+                                </span>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <p class="empty">
+                    <lt:t key="UserProfilePage.accountMaps.empty"/>
+                </p>
+            </c:otherwise>
+        </c:choose>
+    </section>
+
     <section id="accountGames">
         <h3>
             <lt:t key="UserProfilePage.accountGames.h"/>
-            <span class="actions">
-                <button id="createGame" class="btn btn-mini" data-ax-href="${cp}/game/create.ajax">создать</button>
-            </span>
         </h3>
-        <div id="accountGameForm" class="section-header-form hidden"></div>
-        <script type="text/javascript">UserProfile.Games.init()</script>
 
         <c:choose>
             <c:when test="${fn:length(content.games) gt 0}">
@@ -74,20 +111,6 @@
                 </p>
             </c:otherwise>
         </c:choose>
-    </section>
-
-    <section id="accountMaps">
-        <h3>
-            <lt:t key="UserProfilePage.accountMaps.h"/>
-            <span class="actions">
-                <button id="createMap" class="btn btn-mini">создать</button>
-            </span>
-        </h3>
-        <div id="accountMapForm"></div>
-
-        <p class="empty">
-            <lt:t key="UserProfilePage.accountMaps.empty"/>
-        </p>
     </section>
 
     <section id="accountAvatars">

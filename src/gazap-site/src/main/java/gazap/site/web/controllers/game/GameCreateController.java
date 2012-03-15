@@ -2,7 +2,7 @@ package gazap.site.web.controllers.game;
 
 import com.iserv2.commons.mvc.views.Content;
 import com.iserv2.commons.mvc.views.ViewName;
-import gazap.domain.entity.GameProfile;
+import gazap.domain.entity.Game;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.viewer.GameTitle;
 import gazap.site.services.GameService;
@@ -38,7 +38,7 @@ public class GameCreateController extends BaseController {
         if (formBinding.hasErrors()) {
             responseBuilder.validationErrors(answer, formBinding);
         } else {
-            GameProfile game = gameService.createGame(securityHelper.getCurrentUser(), form);
+            Game game = gameService.createGame(securityHelper.getCurrentUser(), form);
             answer.setGame(viewer.gameTitle(game));
             answer.setSuccess(true);
         }

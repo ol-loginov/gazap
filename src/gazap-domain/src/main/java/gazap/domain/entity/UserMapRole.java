@@ -1,6 +1,5 @@
 package gazap.domain.entity;
 
-import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
 import org.springframework.util.Assert;
 
@@ -8,17 +7,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "UserGameRole")
+@Table(name = "UserMapRole")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class UserGameRole implements DomainEntity {
+public class UserMapRole {
     @EmbeddedId
     private PK id;
 
-    protected UserGameRole() {
+    protected UserMapRole() {
     }
 
-    public UserGameRole(UserProfile profile, Game game, UserGameRoles role) {
-        setId(new PK(profile, game, role));
+    public UserMapRole(UserProfile profile, Map map, UserMapRoles role) {
+        setId(new PK(profile, map, role));
     }
 
     public PK getId() {
@@ -33,11 +32,11 @@ public class UserGameRole implements DomainEntity {
         return getId().getUser();
     }
 
-    public Game getGame() {
-        return getId().getGame();
+    public Map getMap() {
+        return getId().getMap();
     }
 
-    public UserGameRoles getRole() {
+    public UserMapRoles getRole() {
         return getId().getRole();
     }
 
@@ -47,21 +46,21 @@ public class UserGameRole implements DomainEntity {
         @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
         @ManyToOne(optional = false)
-        @JoinColumn(name = "game", nullable = false, updatable = false)
-        private Game game;
-        @Column(name = "userGameRole", nullable = false, updatable = false)
+        @JoinColumn(name = "map", nullable = false, updatable = false)
+        private Map map;
+        @Column(name = "userMapRole", nullable = false, updatable = false)
         @Enumerated(EnumType.STRING)
-        private UserGameRoles role;
+        private UserMapRoles role;
 
         public PK() {
         }
 
-        public PK(UserProfile user, Game game, UserGameRoles role) {
+        public PK(UserProfile user, Map map, UserMapRoles role) {
             Assert.notNull(user);
-            Assert.notNull(game);
+            Assert.notNull(map);
             Assert.notNull(role);
             this.user = user;
-            this.game = game;
+            this.map = map;
             this.role = role;
         }
 
@@ -73,19 +72,19 @@ public class UserGameRole implements DomainEntity {
             this.user = user;
         }
 
-        public Game getGame() {
-            return game;
+        public Map getMap() {
+            return map;
         }
 
-        public void setGame(Game game) {
-            this.game = game;
+        public void setMap(Map map) {
+            this.map = map;
         }
 
-        public UserGameRoles getRole() {
+        public UserMapRoles getRole() {
             return role;
         }
 
-        public void setRole(UserGameRoles role) {
+        public void setRole(UserMapRoles role) {
             this.role = role;
         }
 
@@ -98,7 +97,7 @@ public class UserGameRole implements DomainEntity {
 
             final PK other = (PK) instance;
             return user != null && user.isSame(other.user)
-                    && game != null && game.isSame(other.game)
+                    && map != null && map.isSame(other.map)
                     && role != null && role.equals(other.role);
         }
 
@@ -106,7 +105,7 @@ public class UserGameRole implements DomainEntity {
         public int hashCode() {
             return new DomainHashCodeBuilder()
                     .append(user)
-                    .append(game)
+                    .append(map)
                     .append(role)
                     .toHashCode();
         }

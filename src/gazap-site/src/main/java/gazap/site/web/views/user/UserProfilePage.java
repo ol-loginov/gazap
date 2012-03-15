@@ -1,8 +1,6 @@
 package gazap.site.web.views.user;
 
-import gazap.site.model.viewer.GameRole;
-import gazap.site.model.viewer.GameTitle;
-import gazap.site.model.viewer.UserTitle;
+import gazap.site.model.viewer.*;
 import gazap.site.web.views.GazapPage;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,6 +16,9 @@ public class UserProfilePage extends GazapPage {
     private UserTitle user;
     private List<GameTitle> games = new ArrayList<GameTitle>();
     private List<GameRole> gameRoles = new ArrayList<GameRole>();
+    private List<MapTitle> maps = new ArrayList<MapTitle>();
+    private List<MapRole> mapRoles = new ArrayList<MapRole>();
+
 
     @XmlElement
     public UserTitle getUser() {
@@ -42,5 +43,21 @@ public class UserProfilePage extends GazapPage {
 
     public void setGameRoles(List<GameRole> gameRoles) {
         this.gameRoles = gameRoles;
+    }
+
+    public List<MapTitle> getMaps() {
+        return maps;
+    }
+
+    public void setMaps(List<MapTitle> maps) {
+        this.maps = maps;
+    }
+
+    public List<MapRole> getMapRoles() {
+        return mapRoles;
+    }
+
+    public void setMapRoles(List<MapRole> mapRoles) {
+        this.mapRoles = mapRoles;
     }
 }

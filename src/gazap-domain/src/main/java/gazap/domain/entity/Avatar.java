@@ -8,21 +8,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "PlayerProfile")
+@Table(name = "Avatar")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class PlayerProfile extends IntegerIdentityCUD {
+public class Avatar extends IntegerIdentityCUD {
     @ManyToOne
     @JoinColumn(name = "game", nullable = true, updatable = false)
-    private GameProfile game;
+    private Game game;
     @ManyToOne
     @JoinColumn(name = "owner", nullable = true, updatable = false)
     private UserProfile owner;
 
-    public GameProfile getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public void setGame(GameProfile game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 
