@@ -40,7 +40,7 @@ BUS.account.modal_login_dialog.init(function (selector) {
                     UI.closeModal();
                     BUS.account.after_login();
                 } else {
-                    formHelper.setError(ans.message);
+                    formHelper.setError(ans.message, ans.errorList);
                 }
             } else {
                 formHelper.form.replaceWith(ans);

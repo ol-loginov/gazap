@@ -33,8 +33,10 @@ public class ModelViewerImpl implements ModelViewer {
     @Override
     public GameTitle gameTitle(GameProfile game) {
         GameTitle title = new GameTitle();
+        title.setId(game.getId());
         title.setTitle(game.getTitle());
         title.setAlias(game.getAlias());
+        title.setRoute("/game/" + (game.getAlias() == null ? Integer.toString(game.getId()) : game.getAlias()));
         return title;
     }
 }

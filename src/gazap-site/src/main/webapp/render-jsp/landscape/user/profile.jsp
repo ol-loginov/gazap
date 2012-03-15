@@ -44,13 +44,25 @@
 
         <c:choose>
             <c:when test="${fn:length(content.games) gt 0}">
-                <ul class="list unstyled">
+                <ul class="list">
                     <c:forEach items="${content.games}" var="e">
                         <li>
                             <div class="game-title">
                                 <h4>
-                                    <c:out value="${e.title}"/>
+                                    <a href="${cp}${e.route}">
+                                        <span class="breakword"><c:out value="${e.title}"/></span>
+                                    </a>
                                 </h4>
+                                <span class="game-flags">
+                                        <c:forEach items="${content.gameRoles}" var="gr">
+                                            <c:if test="${gr.game eq e.id}">
+                                                <span class="game-role ${gr.role}">
+                                                    <i class="gameroleicon"></i>
+                                                    <lt:t key="UserGameRoles.${gr.role}.flag"/>
+                                                </span>
+                                            </c:if>
+                                        </c:forEach>
+                                </span>
                             </div>
                         </li>
                     </c:forEach>

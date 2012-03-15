@@ -8,4 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface GameService {
     @Transactional
     GameProfile createGame(UserProfile creator, GameCreateForm form);
+
+    GameProfile findGameByAliasOrId(String aliasOrId);
 }

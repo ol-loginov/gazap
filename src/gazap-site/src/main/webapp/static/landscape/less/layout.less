@@ -2,6 +2,7 @@
 
 @sectionHeaderBackground: #eee;
 @sectionHeaderColor: #333;
+@sectionHeaderFormBackground: #D9EDF7;
 
 @import "bootstrap/mixins.less";
 @import "bootstrap/reset.less";
@@ -36,8 +37,16 @@ a:visited {
     }
 }
 
+input,
+button,
+select,
+textarea {
+  background-color: darken(@inputBackground,2%);
+}
+
 @import "mixins.less";
 @import "icons.less";
 @import "menu.less";
 @import "layout-single.less";
-@import "maincolumn.profile-page.less";
+@import "profile-page.less";
+@import "game-title.less";

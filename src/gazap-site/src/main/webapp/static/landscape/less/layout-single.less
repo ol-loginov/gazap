@@ -319,10 +319,16 @@ a.auth-provider-invoke.x26
 #mainColumn {
     section{
         > .section-header-form {
-            background: @sectionHeaderBackground;
-            padding: 10px 0 0;
+            color:#3A87AD;
+            padding: 0 4px 4px;
             form {
+                .border-radius(0 0 4px 4px);
+                background: @sectionHeaderFormBackground;
                 margin:0;
+                >h1 {
+                    font-size: 20px;
+                    padding: 0 10px;
+                }
                 .control-group {
                     text-align: center;
                     .controls input {
@@ -332,13 +338,32 @@ a.auth-provider-invoke.x26
                 }
                 .submit-group {
                     text-align: right;
-                    padding: 0 10px 9px;
+                    padding: 0 4px 4px;
                     margin-bottom: 0;
                 }
                 .alert {
                     margin-bottom: 0;
                 }
             }
+        }
+    }
+}
+
+.breakword {
+    word-wrap: break-word;
+}
+
+ul.list{
+    padding: 0;
+    margin: 0;
+    list-style:none;
+    > li {
+        text-indent: none;
+        margin: 0;
+        padding: 4px 0;
+        border-bottom: dashed 1px #ddd;
+        &:last-child {
+            border-bottom-color: transparent;
         }
     }
 }

@@ -8,7 +8,7 @@ BUS.game.create_dialog.init_modal(function (selector) {
                     BUS.game.create_dialog.close_modal(selector);
                     BUS.account.game_added();
                 } else {
-                    formHelper.setError(ans.message);
+                    formHelper.setError(ans.message, ans.errorList);
                 }
             } else {
                 formHelper.form.replaceWith(ans);
