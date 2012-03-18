@@ -1,7 +1,7 @@
 <%--@elvariable id="cp" type="java.lang.String"--%>
 <%--@elvariable id="libRoot" type="java.lang.String"--%>
 <%--@elvariable id="scriptsRoot" type="java.lang.String"--%>
-<%--@elvariable id="content" type="gazap.site.web.views.GazapPage"--%>
+<%--@elvariable id="eViewMeta" type="gazap.site.web.extensions.ViewMetaExtension"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -32,10 +32,10 @@
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>
     <script type="text/javascript" src="${libRoot}/less/less-1.3.0.min.js"></script>
     <!--
-  <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.css"/>
+    <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.css"/>
   -->
 
-    <c:set scope="page" var="viewMeta" value="${content.moduleViewMeta}"/>
+    <c:set scope="page" var="viewMeta" value="${eViewMeta}"/>
     <c:if test="${fn:length(viewMeta.titleKey) gt 0}">
         <title>
             <fmt:message key="${viewMeta.titleKey}"/>

@@ -1,7 +1,5 @@
 package gazap.site.web.controllers.errors;
 
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.ServiceError;
 import gazap.site.web.controllers.BaseController;
@@ -11,6 +9,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -23,8 +22,7 @@ public class AuthErrorsController extends BaseController {
     private final AuthenticationRequest authenticationRequest = new AuthenticationRequest();
 
     @RequestMapping(ROUTE + ".html")
-    @ViewName(response = AuthError.class, name = "errors/auth")
-    public AuthError errorHtml(HttpServletRequest request) {
+    public ModelAndView errorHtml(Locale locale, HttpServletRequest request) {
         AuthError response = new AuthError();
 
         AuthenticationException error = authenticationRequest.retrieveError(request);
@@ -32,11 +30,12 @@ public class AuthErrorsController extends BaseController {
             response.setErrorCode(ServiceError.AUTH_BAD_CREDENTIALS.code());
             response.getSuggestions().addAll(Arrays.asList("repeat", "restore", "register"));
         }
-        return response;
+
+        return responseBuilder(locale).view("errors/auth", response);
     }
 
     @RequestMapping(ROUTE + ".json")
-    public Content errorJson(Locale locale, HttpServletRequest request) {
+    public ModelAndView errorJson(Locale locale, HttpServletRequest request) {
         ApiAnswer status = new ApiAnswer();
         status.setSuccess(false);
 

@@ -31,9 +31,6 @@
     <security:http auto-config="true">
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 
-        <security:intercept-url pattern="/my" access="IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED"/>
-        <security:intercept-url pattern="/my/*" access="IS_AUTHENTICATED_FULLY,IS_AUTHENTICATED_REMEMBERED"/>
-
         <security:form-login login-page="/auth" default-target-url="/"
                              authentication-success-handler-ref="authenticationHandler"
                              authentication-failure-handler-ref="authenticationHandler"/>

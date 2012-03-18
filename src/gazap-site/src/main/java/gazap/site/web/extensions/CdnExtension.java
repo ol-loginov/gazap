@@ -1,22 +1,9 @@
-package gazap.site.web.modules;
+package gazap.site.web.extensions;
 
-import com.iserv2.commons.mvc.views.ContentModule;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "cdn")
-@XmlAccessorType(XmlAccessType.NONE)
-public class CdnModule extends ContentModule {
-    @XmlElement
+public class CdnExtension {
     private String server;
-    @XmlElement
     private String contextPath;
-    @XmlElement
     private int year;
-    @XmlElement
     private String locale;
 
     public String getServer() {

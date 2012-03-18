@@ -6,8 +6,8 @@
 <%@ page pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%--@elvariable id="au" type="java.lang.String"--%>
 <%--@elvariable id="cp" type="java.lang.String"--%>
-<%--@elvariable id="content" type="gazap.site.web.views.GazapPage"--%>
-<c:set scope="page" var="m" value="${content.moduleVisitor}"/>
+<%--@elvariable id="eVisitor" type="gazap.site.web.extensions.VisitorExtension"--%>
+<c:set scope="page" var="m" value="${eVisitor}"/>
 <section id="accountBar" class="logged-${m.logged}">
     <c:choose>
         <c:when test="${m.logged}">

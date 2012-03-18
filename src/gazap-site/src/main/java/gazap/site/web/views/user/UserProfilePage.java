@@ -1,26 +1,17 @@
 package gazap.site.web.views.user;
 
 import gazap.site.model.viewer.*;
-import gazap.site.web.views.GazapPage;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "UserProfilePage")
-@XmlAccessorType(XmlAccessType.NONE)
-public class UserProfilePage extends GazapPage {
+public class UserProfilePage {
     private UserTitle user;
     private List<GameTitle> games = new ArrayList<GameTitle>();
     private List<GameRole> gameRoles = new ArrayList<GameRole>();
     private List<MapTitle> maps = new ArrayList<MapTitle>();
     private List<MapRole> mapRoles = new ArrayList<MapRole>();
 
-
-    @XmlElement
     public UserTitle getUser() {
         return user;
     }

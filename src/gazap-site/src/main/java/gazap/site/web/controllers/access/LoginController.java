@@ -1,7 +1,5 @@
 package gazap.site.web.controllers.access;
 
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswerType;
 import gazap.site.services.UserAccess;
 import gazap.site.web.controllers.BaseController;
@@ -12,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +30,14 @@ public class LoginController extends BaseController {
     private AuthenticationRequest authenticationRequest = new AuthenticationRequest();
 
     @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.GET)
-    @ViewName(name = "access/login.ajax", response = LoginMethods.class)
-    public LoginMethods getLoginPage() {
+    public ModelAndView getLoginPage(Locale locale) {
         LoginMethods dialog = new LoginMethods();
         dialog.getAuthProviders().addAll(userAccess.getAvailableSocialProviders());
-        return dialog;
+        return responseBuilder(locale).view("access/login.ajax", dialog);
     }
 
     @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.POST)
-    public Content proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
+    public ModelAndView proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
         authenticationRequest
                 .withAnswer(request, ApiAnswerType.JSON)
                 .withResponse(request, AuthenticationResponse.STATUS);

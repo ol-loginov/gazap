@@ -1,15 +1,17 @@
 package gazap.site.web.controllers;
 
-import com.iserv2.commons.mvc.views.Content;
 import gazap.site.model.ApiAnswer;
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
 public interface ResponseBuilder {
     ResponseBuilder validationErrors(ApiAnswer answer, Errors errors);
 
-    Content json(Object answer);
+    ModelAndView json(Object answer);
 
-    Content redirect(String url);
+    ModelAndView redirect(String url);
 
-    Content forward(String url);
+    ModelAndView forward(String url);
+
+    ModelAndView view(String viewName, Object content);
 }

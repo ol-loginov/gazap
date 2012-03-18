@@ -1,7 +1,5 @@
 package gazap.site.web.controllers.access;
 
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.site.model.ApiAnswer;
 import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -22,15 +21,14 @@ public class RegisterController extends BaseController {
     protected UserService userService;
 
     @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.GET)
-    @ViewName(name = "access/register.ajax", response = Register.class)
-    public Register showFormAjax() {
+    public ModelAndView showFormAjax(Locale locale) {
         Register response = new Register();
         response.setForm(new RegisterForm());
-        return response;
+        return responseBuilder(locale).view("access/register.ajax", response);
     }
 
     @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.POST)
-    public Content submitForm(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
+    public ModelAndView submitForm(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
         ResponseBuilder responseBuilder = responseBuilder(locale);
         ApiAnswerWithLoginUrl response = new ApiAnswerWithLoginUrl();
         if (formBinding.hasErrors()) {

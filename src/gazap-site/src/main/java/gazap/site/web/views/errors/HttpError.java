@@ -1,21 +1,15 @@
 package gazap.site.web.views.errors;
 
-import gazap.site.web.views.GazapPage;
-
-import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "ErrorPage")
-@XmlAccessorType(XmlAccessType.NONE)
-public class HttpError extends GazapPage {
+public class HttpError {
     private String bugEmail;
     private String bugSubject;
     private String bugBody;
     private String http;
     private List<String> suggestions = new ArrayList<String>();
 
-    @XmlElement(required = false)
     public String getBugEmail() {
         return bugEmail;
     }
@@ -24,7 +18,6 @@ public class HttpError extends GazapPage {
         this.bugEmail = bugEmail;
     }
 
-    @XmlElement(required = false)
     public String getBugSubject() {
         return bugSubject;
     }
@@ -33,7 +26,6 @@ public class HttpError extends GazapPage {
         this.bugSubject = bugSubject;
     }
 
-    @XmlElement(required = false)
     public String getBugBody() {
         return bugBody;
     }
@@ -42,7 +34,6 @@ public class HttpError extends GazapPage {
         this.bugBody = bugBody;
     }
 
-    @XmlElement
     public String getHttp() {
         return http;
     }
@@ -51,8 +42,6 @@ public class HttpError extends GazapPage {
         this.http = http;
     }
 
-    @XmlElementWrapper(name = "suggestions")
-    @XmlElement(name = "key")
     public List<String> getSuggestions() {
         return suggestions;
     }

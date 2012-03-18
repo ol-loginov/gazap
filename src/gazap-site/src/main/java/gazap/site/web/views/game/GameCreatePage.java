@@ -1,9 +1,8 @@
 package gazap.site.web.views.game;
 
 import gazap.site.web.controllers.game.GameCreateForm;
-import gazap.site.web.views.GazapPage;
 
-public class GameCreatePage extends GazapPage {
+public class GameCreatePage {
     private GameCreateForm form;
 
     public GameCreateForm getForm() {

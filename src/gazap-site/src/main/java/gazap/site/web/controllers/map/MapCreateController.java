@@ -1,7 +1,5 @@
 package gazap.site.web.controllers.map;
 
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.domain.entity.Map;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.viewer.MapTitle;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -24,15 +23,14 @@ public class MapCreateController extends BaseController {
     protected MapService mapService;
 
     @RequestMapping(value = "/map/create", method = RequestMethod.GET)
-    @ViewName(response = MapCreatePage.class, name = "map/create")
-    public MapCreatePage getForm() {
+    public ModelAndView getForm(Locale locale) {
         MapCreatePage page = new MapCreatePage();
         page.setForm(new MapCreateForm());
-        return page;
+        return responseBuilder(locale).view("map/create", page);
     }
 
     @RequestMapping(value = "/map/create.ajax", method = RequestMethod.POST)
-    public Content create(Locale locale, @Valid MapCreateForm form, BindingResult binding) {
+    public ModelAndView create(Locale locale, @Valid MapCreateForm form, BindingResult binding) {
         ResponseBuilder response = responseBuilder(locale);
         MapCreateFormResult answer = new MapCreateFormResult();
         if (binding.hasErrors()) {

@@ -1,6 +1,5 @@
 package gazap.site.web.controllers.user;
 
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.domain.dao.GameDao;
 import gazap.domain.dao.MapDao;
 import gazap.domain.entity.*;
@@ -15,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Locale;
 
 @Controller
 public class UserProfileController extends BaseController {
@@ -26,8 +28,7 @@ public class UserProfileController extends BaseController {
     protected MapDao mapDao;
 
     @RequestMapping("/user/{accountId}")
-    @ViewName(response = UserProfilePage.class, name = "user/profile")
-    public UserProfilePage showProfilePage(@PathVariable String accountId) throws UserProfileNotFound {
+    public ModelAndView showProfilePage(Locale locale, @PathVariable String accountId) throws UserProfileNotFound {
         UserProfile account = userService.findUserByAliasOrId(accountId);
         if (account == null) {
             throw new UserProfileNotFound();
@@ -54,6 +55,6 @@ public class UserProfileController extends BaseController {
             page.getMaps().add(viewer.mapTitle(map));
         }
 
-        return page;
+        return responseBuilder(locale).view("user/profile", page);
     }
 }

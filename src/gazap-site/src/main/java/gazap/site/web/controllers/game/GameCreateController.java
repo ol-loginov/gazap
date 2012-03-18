@@ -1,7 +1,5 @@
 package gazap.site.web.controllers.game;
 
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ViewName;
 import gazap.domain.entity.Game;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.viewer.GameTitle;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -24,15 +23,14 @@ public class GameCreateController extends BaseController {
     protected GameService gameService;
 
     @RequestMapping(value = "/game/create.ajax", method = RequestMethod.GET)
-    @ViewName(response = GameCreatePage.class, name = "game/create.ajax")
-    public GameCreatePage formAjax() {
+    public ModelAndView formAjax(Locale locale) {
         GameCreatePage page = new GameCreatePage();
         page.setForm(new GameCreateForm());
-        return page;
+        return responseBuilder(locale).view("game/create.ajax", page);
     }
 
     @RequestMapping(value = "/game/create.ajax", method = RequestMethod.POST)
-    public Content submitAjax(Locale locale, @Valid GameCreateForm form, BindingResult formBinding) {
+    public ModelAndView submitAjax(Locale locale, @Valid GameCreateForm form, BindingResult formBinding) {
         ResponseBuilder responseBuilder = responseBuilder(locale);
         CreateFormApiAnswer answer = new CreateFormApiAnswer();
         if (formBinding.hasErrors()) {

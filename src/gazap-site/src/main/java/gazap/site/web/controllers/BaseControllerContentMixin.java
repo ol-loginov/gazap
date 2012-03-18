@@ -1,10 +1,6 @@
 package gazap.site.web.controllers;
 
 import com.iserv2.commons.lang.collections.Collections;
-import com.iserv2.commons.mvc.views.Content;
-import com.iserv2.commons.mvc.views.ContentModule;
-import com.iserv2.commons.mvc.views.ForwardContent;
-import com.iserv2.commons.mvc.views.RedirectContent;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.ApiFieldMessage;
 import gazap.site.model.ServiceError;
@@ -13,6 +9,7 @@ import org.springframework.context.MessageSourceResolvable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,21 +25,25 @@ public class BaseControllerContentMixin implements ResponseBuilder {
     }
 
     @Override
-    public ModelAndViewContent json(Object val) {
-        ModelAndViewContent content = new ModelAndViewContent();
-        content.setViewName("jsonView");
-        content.addObject("content", val);
-        return content;
+    public ModelAndView json(Object val) {
+        return view("jsonView", val);
     }
 
     @Override
-    public RedirectContent redirect(String url) {
-        return new RedirectContent(url, false);
+    public ModelAndView redirect(String url) {
+        return new ModelAndView(UrlBasedViewResolver.REDIRECT_URL_PREFIX + url);
     }
 
     @Override
-    public ForwardContent forward(String url) {
-        return new ForwardContent(url);
+    public ModelAndView forward(String url) {
+        return new ModelAndView(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
+    }
+
+    @Override
+    public ModelAndView view(String viewName, final Object content) {
+        return new ModelAndView(viewName) {{
+            addObject("content", content);
+        }};
     }
 
     @Override
@@ -76,17 +77,5 @@ public class BaseControllerContentMixin implements ResponseBuilder {
         }
         String code = Collections.firstOrNull(message.getCodes());
         return formatService.getMessage(locale, code == null ? "message.unknown" : code, message.getArguments());
-    }
-
-    private static class ModelAndViewContent extends ModelAndView implements Content {
-        @Override
-        public List<ContentModule> getModules() {
-            return null;
-        }
-
-        @Override
-        public <T extends ContentModule> T getModule(Class<T> moduleClass) {
-            return null;
-        }
     }
 }
