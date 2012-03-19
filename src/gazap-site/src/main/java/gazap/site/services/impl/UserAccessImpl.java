@@ -44,7 +44,8 @@ public class UserAccessImpl implements UserAccess {
         return (PrincipalImpl) p;
     }
 
-    private UserProfile getCurrentProfile() {
+    @Override
+    public UserProfile getCurrentProfile() {
         PrincipalImpl principal = getCurrentPrincipal();
         if (principal != null) {
             return userProfileDao.getUser(principal.getUserId());

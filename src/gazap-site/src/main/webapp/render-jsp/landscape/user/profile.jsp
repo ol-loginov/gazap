@@ -1,5 +1,6 @@
 <%--@elvariable id="cp" type="java.lang.String"--%>
 <%--@elvariable id="content" type="gazap.site.web.views.user.UserProfilePage"--%>
+<%--@elvariable id="eVisitor" type="gazap.site.web.extensions.VisitorExtension"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="lf" uri="http://gazap/jstl/local" %>
@@ -33,7 +34,7 @@
         <h3>
             <lt:t key="UserProfilePage.accountMaps.h"/>
             <span class="actions">
-                <lt:secured-action action="map.create">
+                <lt:secured-action visitorNeeded="${content.user.id}" action="map.create">
                     <a id="createMap" class=" btn-mini" href="${cp}/map/create">создать карту</a>
                 </lt:secured-action>
             </span>
@@ -44,20 +45,10 @@
                 <ul class="list">
                     <c:forEach items="${content.maps}" var="e">
                         <li>
-                            <div class="map-title has-flags">
-                                <ul class="container-flags unstyled">
-                                    <c:forEach items="${content.mapRoles}" var="gr">
-                                        <c:if test="${gr.map eq e.id}">
-                                            <li class="flag maproleflag ${gr.role}"></li>
-                                        </c:if>
-                                    </c:forEach>
-                                </ul>
-                                <h4>
-                                    <a href="${cp}${e.route}">
-                                        <span class="breakword"><c:out value="${e.title}"/></span>
-                                    </a>
-                                </h4>
-                            </div>
+                            <c:import url="../shared/partial-map-title.jsp">
+                                <c:param name="map" value="${e}"/>
+                                <c:param name="visitorRoles" value="${content.visitorMapRoles[e.id]}"/>
+                            </c:import>
                         </li>
                     </c:forEach>
                 </ul>

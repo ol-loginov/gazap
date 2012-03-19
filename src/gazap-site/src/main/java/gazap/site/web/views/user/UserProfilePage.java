@@ -1,16 +1,22 @@
 package gazap.site.web.views.user;
 
-import gazap.site.model.viewer.*;
+import gazap.domain.entity.UserMapRoles;
+import gazap.site.model.viewer.GameRole;
+import gazap.site.model.viewer.GameTitle;
+import gazap.site.model.viewer.MapTitle;
+import gazap.site.model.viewer.UserTitle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class UserProfilePage {
     private UserTitle user;
     private List<GameTitle> games = new ArrayList<GameTitle>();
     private List<GameRole> gameRoles = new ArrayList<GameRole>();
     private List<MapTitle> maps = new ArrayList<MapTitle>();
-    private List<MapRole> mapRoles = new ArrayList<MapRole>();
+    private Map<Integer, List<UserMapRoles>> visitorMapRoles = new TreeMap<Integer, List<UserMapRoles>>();
 
     public UserTitle getUser() {
         return user;
@@ -44,11 +50,8 @@ public class UserProfilePage {
         this.maps = maps;
     }
 
-    public List<MapRole> getMapRoles() {
-        return mapRoles;
+    public Map<Integer, List<UserMapRoles>> getVisitorMapRoles() {
+        return visitorMapRoles;
     }
 
-    public void setMapRoles(List<MapRole> mapRoles) {
-        this.mapRoles = mapRoles;
-    }
 }

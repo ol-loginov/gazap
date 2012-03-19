@@ -25,4 +25,8 @@ public class VisitorExtension {
     public void setDebug(boolean debug) {
         this.debug = debug;
     }
+
+    public int getUserId() {
+        return user != null ? user.getId() : 0;
+    }
 }

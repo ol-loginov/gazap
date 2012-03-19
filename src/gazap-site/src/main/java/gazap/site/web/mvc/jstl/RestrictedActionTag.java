@@ -1,5 +1,6 @@
 package gazap.site.web.mvc.jstl;
 
+import gazap.domain.entity.UserProfile;
 import gazap.site.services.UserAccess;
 import gazap.site.services.UserActionGuard;
 import org.springframework.util.MethodInvoker;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RestrictedActionTag extends ConditionalTagSupport {
+    private Integer visitorNeeded;
     private String action;
     private Object against;
     private UserAccess accessService;
@@ -32,6 +34,10 @@ public class RestrictedActionTag extends ConditionalTagSupport {
         this.against = against;
     }
 
+    public void setVisitorNeeded(Integer visitorNeeded) {
+        this.visitorNeeded = visitorNeeded;
+    }
+
     private UserAccess getAccessService() {
         if (accessService == null) {
             accessService = WebApplicationContextUtils.getWebApplicationContext(pageContext.getServletContext()).getBean(UserAccess.class);
@@ -45,11 +51,20 @@ public class RestrictedActionTag extends ConditionalTagSupport {
         action = null;
         against = null;
         accessService = null;
+        visitorNeeded = null;
     }
 
     @Override
     protected boolean condition() throws JspTagException {
-        return getActionMatcher(action).invoke(getAccessService(), against);
+        return checkVisitor() && getActionMatcher(action).invoke(getAccessService(), against);
+    }
+
+    private boolean checkVisitor() {
+        if (visitorNeeded == null) {
+            return true;
+        }
+        UserProfile visitor = getAccessService().getCurrentProfile();
+        return visitor != null && visitorNeeded.equals(visitor.getId());
     }
 
     private ConditionMatcher getActionMatcher(String action) {
