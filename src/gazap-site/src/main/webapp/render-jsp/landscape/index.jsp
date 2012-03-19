@@ -6,13 +6,13 @@
 <c:import url="shared/html-head.jsp"/>
 <body>
 <div id="leftPane">
-  <c:import url="shared/html-bars-brand.jsp"/>
-  <c:import url="shared/html-bars-account.jsp"/>
-</div>
-<div id="navPane">
-  <c:import url="shared/html-bars-menu.jsp"/>
+    <c:import url="shared/html-bars-brand.jsp"/>
+    <c:import url="shared/html-bars-account.jsp"/>
 </div>
 <div id="mainColumn">
+    <div id="navPane">
+        <c:import url="shared/html-bars-menu.jsp"/>
+    </div>
 </div>
 </body>
 </html>

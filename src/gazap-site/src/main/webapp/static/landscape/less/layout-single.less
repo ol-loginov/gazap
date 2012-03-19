@@ -6,25 +6,22 @@ body {
 body {
     position: relative;
     min-width: 780px;
-    #leftColumn {
+    #leftPane {
         position: absolute;
         top: 0;
-        left: 4px;
+        left: 5px;
+        width: 250px;
     }
     #navPane {
-        position: absolute;
-        top: 4px;
-        left: 300px;
+        padding:  4px;
         .btn-toolbar{
             margin-top: 0;
             margin-bottom: 0;
         }
     }
     #mainColumn {
-        position: absolute;
-        left: 265px;
-        right: 0;
-        top: 0;
+        margin-left: 270px;
+        padding-top: 0;
         >.error-disclaimer{
             >h1{
                 position: relative;
@@ -71,23 +68,37 @@ form {
             display: none;
         }
     }
+    label.mandatory:before {
+        content: "*";
+        color: @errorText;
+        padding-right: 5px;
+        font-weight: bold;
+    }
 }
 
 #brandBar {
-    position: relative;
-    width: 250px;
-    margin-left: 5px;
-    text-align: center;
+    width: 100%;
+    text-align: left;
     a.brand-logo {
         display: inline-block;
         .brand-face();
     }
+    &.brand-menu{
+        .btn-toolbar {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .btn-group {
+            top: 3px;
+            left: 15px;
+            margin:0;
+            padding:0;
+        }
+    }
 }
 
 #accountBar {
-    position: relative;
-    width: 250px;
-    margin-left: 5px;
+    width: 100%;
     text-align: center;
     >h3 {
         font-size: 12px;
@@ -347,6 +358,19 @@ a.auth-provider-invoke.x26
             }
         }
     }
+
+    >.form-container{
+        >h1 {
+            padding: 10px;
+        }
+    }
+
+    form.width-medium {
+        width: 500px;
+        input {
+            width: 330px;
+        }
+    }
 }
 
 .breakword {
@@ -366,4 +390,8 @@ ul.list{
             border-bottom-color: transparent;
         }
     }
+}
+
+.non-modal .modal-closer{
+    display: none;
 }

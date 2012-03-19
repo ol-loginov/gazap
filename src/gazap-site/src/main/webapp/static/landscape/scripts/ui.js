@@ -41,7 +41,7 @@ FormHelper.prototype = {
             errorPlace.text(text)
         }
         if (errorList) {
-            var ul = $('<ul/>').appendTo(errorPlace);
+            var ulSource = [];
             $.each(errorList, function () {
                 var input = $('input[name=' + this.field + ']', self.form);
                 if (input.exists()) {
@@ -49,9 +49,15 @@ FormHelper.prototype = {
                     input.attr('data-content', this.message).popover({template:self.getFieldPopoverTemplate()});
                     input.closest('.control-group').addClass('error');
                 } else {
-                    ul.append($('<li/>').text(this.message));
+                    ulSource.push(this.message);
                 }
             });
+            if (ulSource.length > 0) {
+                var ul = $('<ul/>').appendTo(errorPlace);
+                $.each(ulSource, function () {
+                    ul.append($('<li/>').text(this));
+                });
+            }
         }
         return this;
     },

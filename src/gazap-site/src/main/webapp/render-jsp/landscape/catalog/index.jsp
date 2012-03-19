@@ -6,13 +6,10 @@
 <c:import url="../shared/html-head.jsp"/>
 <body>
 <div id="leftPane">
-  <c:import url="../shared/html-bars-brand.jsp"/>
-  <c:import url="../shared/html-bars-account.jsp"/>
+    <c:import url="../shared/html-bars-brand.jsp"/>
+    <c:import url="../shared/html-bars-account.jsp"/>
 </div>
 <div id="mainColumn">
-  <div class="columns-4">
-
-  </div>
 </div>
 </body>
 </html>

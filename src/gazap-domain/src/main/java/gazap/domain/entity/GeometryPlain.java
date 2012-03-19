@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "GeometryPlain")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-@DiscriminatorValue(Geometry.CLASS_PLAIN)
+@DiscriminatorValue(Geometry.Plain.CLASS)
 public class GeometryPlain extends Geometry {
     @Column(name = "west")
     private float west;

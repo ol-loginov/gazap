@@ -67,7 +67,11 @@ if (typeof(BUS) == "undefined") {
         .define('init')
         .define('reload');
 
-    BUS.bus("game").bus("create_dialog")
-        .define("init_modal")
-        .define("close_modal");
+    BUS.bus("game").bus("modal_create_dialog")
+        .define("init")
+        .define("close");
+
+    BUS.bus("map").bus("modal_create_dialog")
+        .define("init")
+        .define("close");
 }

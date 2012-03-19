@@ -16,16 +16,24 @@ public class MapServiceImpl implements MapService {
     public Map createMap(UserProfile creator, MapCreateForm form) {
         Map map = new Map();
         map.setTitle(form.getTitle());
-        mapDao.create(map);
-
-        mapDao.create(new UserMapRole(creator, map, UserMapRoles.CREATOR));
 
         Geometry geometry;
-        if (Geometry.CLASS_GEOID.equals(form.getGeometryClass())) {
-
-        } else if (Geometry.CLASS_PLAIN.equals(form.getGeometryClass())) {
+        if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
+            GeometryGeoid geoid = new GeometryGeoid();
+            geoid.setRadiusX(form.getGeometryGeoidRadiusX());
+            geoid.setRadiusY(form.getGeometryGeoidRadiusY());
+            geoid.setRadiusZ(form.getGeometryGeoidRadiusZ());
+            geometry = geoid;
+        } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
+            geometry = new GeometryPlain();
+        } else {
+            throw new IllegalArgumentException("geometry " + form.getGeometryClass() + " is not supported");
         }
 
-        return null;
+        mapDao.create(geometry);
+        mapDao.create(map);
+        mapDao.create(new UserMapRole(creator, map, UserMapRoles.CREATOR));
+
+        return map;
     }
 }

@@ -18,5 +18,5 @@
     </div>
     <div class="alert alert-message alert-progress hidden"><lt:t key="ModalGameCreate.form.submitting"/></div>
     <div class="alert alert-error hidden"/>
-    <script type="text/javascript">BUS.game.create_dialog.init_modal('#modalGameCreateForm')</script>
+    <script type="text/javascript">BUS.game.modal_create_dialog.init('#modalGameCreateForm')</script>
 </form>

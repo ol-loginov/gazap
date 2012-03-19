@@ -1,7 +1,7 @@
 <%--@elvariable id="cp" type="java.lang.String"--%>
 <%--@elvariable id="content" type="gazap.site.web.views.user.UserProfilePage"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="lf" uri="http://gazap/jstl/local" %>
 <%@ taglib prefix="lt" uri="http://gazap/jstl/local-tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
@@ -9,13 +9,10 @@
 <c:import url="../shared/html.jsp"/>
 <html>
 <c:import url="../shared/html-head.jsp"/>
-<body>
+<body class="brand-with-menu">
 <div id="leftPane">
     <c:import url="../shared/html-bars-brand.jsp"/>
     <c:import url="../shared/html-bars-account.jsp"/>
-</div>
-<div id="navPane">
-    <c:import url="../shared/html-bars-menu.jsp"/>
 </div>
 <div id="mainColumn" class="profile-page">
     <h1 class="accountName">

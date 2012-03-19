@@ -1,5 +1,6 @@
 package gazap.site.web.controllers.map;
 
+import gazap.domain.entity.Geometry;
 import gazap.domain.entity.Map;
 import gazap.site.model.ApiAnswer;
 import gazap.site.model.viewer.MapTitle;
@@ -31,6 +32,12 @@ public class MapCreateController extends BaseController {
 
     @RequestMapping(value = "/map/create.ajax", method = RequestMethod.POST)
     public ModelAndView create(Locale locale, @Valid MapCreateForm form, BindingResult binding) {
+        if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
+            validate(form, binding, Geometry.Geoid.class);
+        } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
+            validate(form, binding, Geometry.Plain.class);
+        }
+
         ResponseBuilder response = responseBuilder(locale);
         MapCreateFormResult answer = new MapCreateFormResult();
         if (binding.hasErrors()) {

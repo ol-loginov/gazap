@@ -10,8 +10,13 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "class")
 public abstract class Geometry extends IntegerIdentityCUD {
-    public static final String CLASS_GEOID = "geoid";
-    public static final String CLASS_PLAIN = "plain";
+    public static interface Geoid {
+        String CLASS = "geoid";
+    }
+
+    public static interface Plain {
+        String CLASS = "plain";
+    }
 
     @Version
     @Column(name = "version")

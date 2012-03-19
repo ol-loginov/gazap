@@ -1,16 +1,31 @@
 package gazap.site.web.controllers.map;
 
+import gazap.domain.entity.Geometry;
+import gazap.domain.entity.Map;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class MapCreateForm {
+    @NotNull
+    @Size(min = 1, max = Map.TITLE_LENGTH)
     private String title;
+    @Size(min = 1, max = Map.ALIAS_LENGTH)
+    private String alias;
+    @NotNull
+    @Pattern(regexp = Geometry.Geoid.CLASS + "|" + Geometry.Plain.CLASS)
     private String geometryClass;
 
-    private Float geometryPlainEast;
-    private Float geometryPlainWest;
-    private Float geometryPlainNorth;
-    private Float geometryPlainSouth;
-
+    @NotNull(groups = Geometry.Geoid.class)
+    @Min(value = 0, groups = Geometry.Geoid.class)
     private Float geometryGeoidRadiusZ;
+    @NotNull(groups = Geometry.Geoid.class)
+    @Min(value = 0, groups = Geometry.Geoid.class)
     private Float geometryGeoidRadiusX;
+    @NotNull(groups = Geometry.Geoid.class)
+    @Min(value = 0, groups = Geometry.Geoid.class)
     private Float geometryGeoidRadiusY;
 
     public String getTitle() {
@@ -27,38 +42,6 @@ public class MapCreateForm {
 
     public void setGeometryClass(String geometryClass) {
         this.geometryClass = geometryClass;
-    }
-
-    public Float getGeometryPlainEast() {
-        return geometryPlainEast;
-    }
-
-    public void setGeometryPlainEast(Float geometryPlainEast) {
-        this.geometryPlainEast = geometryPlainEast;
-    }
-
-    public Float getGeometryPlainWest() {
-        return geometryPlainWest;
-    }
-
-    public void setGeometryPlainWest(Float geometryPlainWest) {
-        this.geometryPlainWest = geometryPlainWest;
-    }
-
-    public Float getGeometryPlainNorth() {
-        return geometryPlainNorth;
-    }
-
-    public void setGeometryPlainNorth(Float geometryPlainNorth) {
-        this.geometryPlainNorth = geometryPlainNorth;
-    }
-
-    public Float getGeometryPlainSouth() {
-        return geometryPlainSouth;
-    }
-
-    public void setGeometryPlainSouth(Float geometryPlainSouth) {
-        this.geometryPlainSouth = geometryPlainSouth;
     }
 
     public Float getGeometryGeoidRadiusZ() {
@@ -83,5 +66,13 @@ public class MapCreateForm {
 
     public void setGeometryGeoidRadiusY(Float geometryGeoidRadiusY) {
         this.geometryGeoidRadiusY = geometryGeoidRadiusY;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 }
