@@ -25,7 +25,6 @@ body {
         >.error-disclaimer{
             >h1{
                 position: relative;
-                left: -80px;
                 .brand-face();
             }
         }
@@ -68,11 +67,16 @@ form {
             display: none;
         }
     }
-    label.mandatory:before {
-        content: "*";
-        color: @errorText;
-        padding-right: 5px;
-        font-weight: bold;
+    .control-group.mandatory {
+        >.control-label:before {
+            content: "*";
+            color: @errorText;
+            padding-right: 5px;
+            font-weight: bold;
+        }
+    }
+    .control-group.sub-group{
+        margin-left: 100px;
     }
 }
 
@@ -81,6 +85,8 @@ form {
     text-align: left;
     a.brand-logo {
         display: inline-block;
+        width:170px;
+        text-align: right;
         .brand-face();
     }
     &.brand-menu{
@@ -370,6 +376,17 @@ a.auth-provider-invoke.x26
         input {
             width: 330px;
         }
+        .control-group.sub-group {
+            input {
+                width: 200px;
+            }
+        }
+    }
+
+    form.non-modal {
+        .form-actions {
+            margin-bottom: 0;
+        }
     }
 }
 
@@ -394,4 +411,49 @@ ul.list{
 
 .non-modal .modal-closer{
     display: none;
+}
+
+.popover {
+    &.no-header {
+        .popover-title {
+            display: none;
+        }
+    }
+    &.error-popover {
+        .popover-inner {
+            background-color: @errorBackground;
+            border: solid 1px @errorBorder;
+        }
+        .popover-content {
+            background-color: @errorBackground;
+            color: @errorText;
+        }
+    }
+}
+
+div {
+    > ul.container-flags{
+        float:right;
+        display: inline-block;
+        overflow: hidden;
+        >.flag{
+            float:right;
+            margin: 0 1px;
+            padding: 0;
+            width: 18px;
+            height: 20px;
+        }
+        >.flag.maproleflag {
+            background: transparent url(../img/sprites/maproleflags.png) no-repeat left top;
+        }
+        >.flag.maproleflag.CREATOR {
+            background-position: -18px 0;
+        }
+    }
+}
+
+.map-title {
+    > h4 {
+        line-height: 20px;
+    }
 }

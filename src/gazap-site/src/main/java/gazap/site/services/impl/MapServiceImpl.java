@@ -14,15 +14,12 @@ public class MapServiceImpl implements MapService {
 
     @Override
     public Map createMap(UserProfile creator, MapCreateForm form) {
-        Map map = new Map();
-        map.setTitle(form.getTitle());
-
         Geometry geometry;
         if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
             GeometryGeoid geoid = new GeometryGeoid();
-            geoid.setRadiusX(form.getGeometryGeoidRadiusX());
-            geoid.setRadiusY(form.getGeometryGeoidRadiusY());
-            geoid.setRadiusZ(form.getGeometryGeoidRadiusZ());
+            geoid.setRadiusX(form.getGeoidRadiusX());
+            geoid.setRadiusY(form.getGeoidRadiusY());
+            geoid.setRadiusZ(form.getGeoidRadiusZ());
             geometry = geoid;
         } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
             geometry = new GeometryPlain();
@@ -31,6 +28,11 @@ public class MapServiceImpl implements MapService {
         }
 
         mapDao.create(geometry);
+
+        Map map = new Map();
+        map.setTitle(form.getTitle());
+        map.setGeometry(geometry);
+
         mapDao.create(map);
         mapDao.create(new UserMapRole(creator, map, UserMapRoles.CREATOR));
 

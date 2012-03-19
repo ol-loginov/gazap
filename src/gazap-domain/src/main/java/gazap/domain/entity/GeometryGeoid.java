@@ -17,6 +17,10 @@ public class GeometryGeoid extends Geometry {
     @Column(name = "radiusY")
     private float radiusY;
 
+    public GeometryGeoid() {
+        super(Geoid.CLASS);
+    }
+
     public float getRadiusZ() {
         return radiusZ;
     }

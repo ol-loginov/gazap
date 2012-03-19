@@ -19,14 +19,14 @@ public class MapCreateForm {
     private String geometryClass;
 
     @NotNull(groups = Geometry.Geoid.class)
-    @Min(value = 0, groups = Geometry.Geoid.class)
-    private Float geometryGeoidRadiusZ;
+    @Min(value = 1, groups = Geometry.Geoid.class)
+    private Float geoidRadiusZ;
     @NotNull(groups = Geometry.Geoid.class)
-    @Min(value = 0, groups = Geometry.Geoid.class)
-    private Float geometryGeoidRadiusX;
+    @Min(value = 1, groups = Geometry.Geoid.class)
+    private Float geoidRadiusX;
     @NotNull(groups = Geometry.Geoid.class)
-    @Min(value = 0, groups = Geometry.Geoid.class)
-    private Float geometryGeoidRadiusY;
+    @Min(value = 1, groups = Geometry.Geoid.class)
+    private Float geoidRadiusY;
 
     public String getTitle() {
         return title;
@@ -34,6 +34,14 @@ public class MapCreateForm {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public String getGeometryClass() {
@@ -44,35 +52,27 @@ public class MapCreateForm {
         this.geometryClass = geometryClass;
     }
 
-    public Float getGeometryGeoidRadiusZ() {
-        return geometryGeoidRadiusZ;
+    public Float getGeoidRadiusZ() {
+        return geoidRadiusZ;
     }
 
-    public void setGeometryGeoidRadiusZ(Float geometryGeoidRadiusZ) {
-        this.geometryGeoidRadiusZ = geometryGeoidRadiusZ;
+    public void setGeoidRadiusZ(Float geoidRadiusZ) {
+        this.geoidRadiusZ = geoidRadiusZ;
     }
 
-    public Float getGeometryGeoidRadiusX() {
-        return geometryGeoidRadiusX;
+    public Float getGeoidRadiusX() {
+        return geoidRadiusX;
     }
 
-    public void setGeometryGeoidRadiusX(Float geometryGeoidRadiusX) {
-        this.geometryGeoidRadiusX = geometryGeoidRadiusX;
+    public void setGeoidRadiusX(Float geoidRadiusX) {
+        this.geoidRadiusX = geoidRadiusX;
     }
 
-    public Float getGeometryGeoidRadiusY() {
-        return geometryGeoidRadiusY;
+    public Float getGeoidRadiusY() {
+        return geoidRadiusY;
     }
 
-    public void setGeometryGeoidRadiusY(Float geometryGeoidRadiusY) {
-        this.geometryGeoidRadiusY = geometryGeoidRadiusY;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setGeoidRadiusY(Float geoidRadiusY) {
+        this.geoidRadiusY = geoidRadiusY;
     }
 }

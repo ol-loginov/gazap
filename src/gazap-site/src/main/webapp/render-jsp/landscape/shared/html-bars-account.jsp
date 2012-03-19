@@ -13,7 +13,8 @@
         <c:when test="${m.logged}">
             <div class="account-name">
                 <a class="username" href="${cp}${m.user.route}">
-                    <img src="http://www.gravatar.com/avatar/${m.user.gravatar}?s=16" alt=""/><span><c:choose>
+                    <img src="http://www.gravatar.com/avatar/${m.user.gravatar}?s=16" alt="" width="16"
+                         height="16"/><span><c:choose>
                     <c:when test="${fn:length(m.user.name) gt 0}">
                         <c:out value="${m.user.name}"/>
                     </c:when>

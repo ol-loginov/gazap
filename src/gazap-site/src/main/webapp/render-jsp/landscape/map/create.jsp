@@ -22,8 +22,8 @@
 
         <form id="createMapForm" method="post" action="${cp}/map/create" data-ax-action="${cp}/map/create.ajax"
               class="non-modal width-medium form-horizontal">
-            <div class="control-group">
-                <label class="control-label mandatory" for="mapTitle"><lt:t key="MapCreateForm.title.label"/></label>
+            <div class="control-group mandatory">
+                <label class="control-label" for="mapTitle"><lt:t key="MapCreateForm.title.label"/></label>
 
                 <div class="controls">
                     <input id="mapTitle" type="text" name="title" size="64"/>
@@ -36,8 +36,8 @@
                     <input id="mapAlias" type="text" name="alias" size="64"/>
                 </div>
             </div>
-            <div class="control-group">
-                <label class="control-label"><lt:t key="MapCreateForm.geometryClass.label"/></label>
+            <div class="control-group mandatory">
+                <label class="control-label" for="geometryClass"><lt:t key="MapCreateForm.geometryClass.label"/></label>
 
                 <div class="controls">
                     <label class="radio" style="float:left;padding: 0;margin-left: 50px;cursor: pointer;">
@@ -58,6 +58,30 @@
                         <img src="${themeRoot}/img/sprites/geometry-geoid-preview.png"
                              style="display: block;width:100px;height:100px;margin-top:10px;"/>
                     </label>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusZ"><lt:t
+                        key="MapCreateForm.geoidRadiusZ.label"/></label>
+
+                <div class="controls">
+                    <input id="geoidRadiusZ" type="text" name="geoidRadiusZ"/>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusX"><lt:t
+                        key="MapCreateForm.geoidRadiusX.label"/></label>
+
+                <div class="controls">
+                    <input id="geoidRadiusX" type="text" name="geoidRadiusX"/>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusY"><lt:t
+                        key="MapCreateForm.geoidRadiusY.label"/></label>
+
+                <div class="controls">
+                    <input id="geoidRadiusY" type="text" name="geoidRadiusY"/>
                 </div>
             </div>
             <div class="control-group submit-group form-actions">

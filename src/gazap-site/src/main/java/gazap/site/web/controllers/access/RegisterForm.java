@@ -7,11 +7,7 @@ import gazap.site.validation.UserEmailRegistered;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 
-@XmlAccessorType(XmlAccessType.NONE)
 @ReCaptcha
 public class RegisterForm {
     @UserEmail
@@ -24,7 +20,6 @@ public class RegisterForm {
     private String recaptcha_challenge_field;
     private String recaptcha_response_field;
 
-    @XmlElement(required = false)
     public String getUsername() {
         return username;
     }
@@ -33,7 +28,6 @@ public class RegisterForm {
         this.username = username;
     }
 
-    @XmlElement(required = false)
     public String getPassword() {
         return password;
     }

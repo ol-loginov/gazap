@@ -19,6 +19,10 @@ public class GeometryPlain extends Geometry {
     @Column(name = "south")
     private float south;
 
+    public GeometryPlain() {
+        super(Plain.CLASS);
+    }
+
     public float getWest() {
         return west;
     }

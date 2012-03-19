@@ -29,7 +29,7 @@ FormHelper.prototype = {
         $('.alert-error', this.form).empty().hide();
         $('.control-group', this.form).removeClass('error');
         $(this.popoverTargets).each(function () {
-            $(this).popover('hide');
+            $(this).popover('disable');
         });
         this.popoverTargets = [];
         return this;
@@ -44,9 +44,12 @@ FormHelper.prototype = {
             var ulSource = [];
             $.each(errorList, function () {
                 var input = $('input[name=' + this.field + ']', self.form);
+                if (input.attr('type') === "radio") {
+                    input = $('label[for=' + this.field + ']', self.form);
+                }
                 if (input.exists()) {
                     self.popoverTargets.push(input);
-                    input.attr('data-content', this.message).popover({template:self.getFieldPopoverTemplate()});
+                    input.attr('data-content', this.message).popover({template:self.getFieldPopoverTemplate()}).popover('enable');
                     input.closest('.control-group').addClass('error');
                 } else {
                     ulSource.push(this.message);
@@ -79,7 +82,7 @@ FormHelper.prototype = {
         }, opts));
     },
     getFieldPopoverTemplate:function () {
-        return '<div class="popover field-popover"><div class="popover-inner"><h2 class="popover-title"></h2><div class="popover-content"><div></div></div></div></div>';
+        return '<div class="popover field-popover no-header error-popover"><div class="popover-inner"><h2 class="popover-title"></h2><div class="popover-content"><div></div></div></div></div>';
     },
     value:function (inputName) {
         return $('*[name=' + inputName + ']', this.form).val();

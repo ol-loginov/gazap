@@ -31,4 +31,20 @@
             <rtexprvalue>yes</rtexprvalue>
         </attribute>
     </tag>
+    <tag>
+        <name>secured-action</name>
+        <tag-class>gazap.site.web.mvc.jstl.RestrictedActionTag</tag-class>
+        <tei-class>gazap.site.web.mvc.jstl.RestrictedActionTei</tei-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>action</name>
+            <required>true</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>no</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+    </tag>
 </taglib>

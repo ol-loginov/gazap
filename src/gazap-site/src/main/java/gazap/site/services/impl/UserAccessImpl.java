@@ -4,8 +4,10 @@ import gazap.common.web.model.SocialProfileProvider;
 import gazap.common.web.model.SocialProfileProviders;
 import gazap.common.web.security.PrincipalImpl;
 import gazap.domain.dao.UserProfileDao;
+import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.site.services.UserAccess;
+import gazap.site.services.UserActionGuard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -42,6 +44,14 @@ public class UserAccessImpl implements UserAccess {
         return (PrincipalImpl) p;
     }
 
+    private UserProfile getCurrentProfile() {
+        PrincipalImpl principal = getCurrentPrincipal();
+        if (principal != null) {
+            return userProfileDao.getUser(principal.getUserId());
+        }
+        return null;
+    }
+
     @Override
     public Collection<SocialProfileProvider> getAvailableSocialProviders() {
         return Collections.unmodifiableCollection(SocialProfileProviders.SOCIAL_PROFILE_PROVIDERS.values());
@@ -54,5 +64,10 @@ public class UserAccessImpl implements UserAccess {
             providerName = link.getProvider();
         }
         return SocialProfileProviders.SOCIAL_PROFILE_PROVIDERS.get(providerName);
+    }
+
+    @Override
+    public UserActionGuard can() {
+        return new UserActionGuardImpl(getCurrentProfile());
     }
 }

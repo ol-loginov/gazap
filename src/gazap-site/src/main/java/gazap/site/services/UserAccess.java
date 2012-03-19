@@ -11,4 +11,6 @@ public interface UserAccess {
     Collection<SocialProfileProvider> getAvailableSocialProviders();
 
     SocialProfileProvider createSocialProvider(UserSocialLink link);
+
+    UserActionGuard can();
 }
