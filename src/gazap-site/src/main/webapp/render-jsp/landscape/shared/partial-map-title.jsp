@@ -4,15 +4,17 @@
 <%@ taglib prefix="lf" uri="http://gazap/jstl/local" %>
 <%@ taglib prefix="lt" uri="http://gazap/jstl/local-tags" %>
 <%@ page language="java" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
-<c:set var="map" scope="page" value="${param.map}"/>
+<%--@elvariable id="map" type="gazap.site.model.viewer.MapTitle"--%>
+<lt:import-param name="map" var="map"/>
+<lt:import-param name="mapRoles" var="mapRoles"/>
 <div class="map-title has-flags">
-    <ul class="container-flags unstyled">
-        <c:if test="${not param.visitorRoles eq null}">
-            <c:forEach items="${param.visitorRoles}" var="gr">
-                <li class="flag maproleflag ${gr.role}"></li>
+    <c:if test="${fn:length(param.mapRoles) gt 0}">
+        <ul class="container-flags unstyled">
+            <c:forEach items="${param.mapRoles}" var="gr">
+                <li class="flag maproleflag ${gr}"></li>
             </c:forEach>
-        </c:if>
-    </ul>
+        </ul>
+    </c:if>
     <h4>
         <a href="${cp}${map.route}">
             <span class="breakword"><c:out value="${map.title}"/></span>

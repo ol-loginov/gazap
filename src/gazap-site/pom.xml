@@ -68,6 +68,12 @@
         </dependency>
 
         <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>

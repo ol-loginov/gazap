@@ -37,18 +37,68 @@
         <tei-class>gazap.site.web.mvc.jstl.RestrictedActionTei</tei-class>
         <body-content>JSP</body-content>
         <attribute>
+            <name>visitorNeeded</name>
+            <required>no</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>action</name>
             <required>true</required>
             <rtexprvalue>no</rtexprvalue>
         </attribute>
         <attribute>
-            <name>target</name>
+            <name>against</name>
+            <required>no</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>import-param</name>
+        <tag-class>gazap.site.web.mvc.jstl.ImportParamTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>yes</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>value</name>
             <required>no</required>
             <rtexprvalue>yes</rtexprvalue>
         </attribute>
         <attribute>
-            <name>visitorNeeded</name>
+            <name>var</name>
             <required>no</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>param-put</name>
+        <tag-class>gazap.site.web.mvc.jstl.ParamPut</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>yes</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>param-get</name>
+        <tag-class>gazap.site.web.mvc.jstl.ParamGet</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>name</name>
+            <required>yes</required>
+            <rtexprvalue>yes</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>var</name>
+            <required>true</required>
             <rtexprvalue>yes</rtexprvalue>
         </attribute>
     </tag>

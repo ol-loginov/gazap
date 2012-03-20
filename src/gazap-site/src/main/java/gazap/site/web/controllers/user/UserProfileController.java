@@ -5,8 +5,6 @@ import gazap.domain.dao.MapDao;
 import gazap.domain.entity.*;
 import gazap.site.exceptions.UserProfileNotFound;
 import gazap.site.model.SimpleRegistry;
-import gazap.site.model.viewer.GameRole;
-import gazap.site.model.viewer.MapRole;
 import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.user.UserProfilePage;
@@ -40,7 +38,7 @@ public class UserProfileController extends BaseController {
         SimpleRegistry<Integer, Game> gameRegistry = new SimpleRegistry<Integer, Game>();
         for (UserGameRole role : gameDao.listGameRoleByUser(account)) {
             gameRegistry.add(role.getGame().getId(), role.getGame());
-            page.getGameRoles().add(new GameRole(account.getId(), role.getGame().getId(), role.getRole()));
+            page.getGameRolesList(role.getGame().getId()).add(role.getRole());
         }
         for (Game game : gameRegistry.values()) {
             page.getGames().add(viewer.gameTitle(game));
@@ -49,7 +47,7 @@ public class UserProfileController extends BaseController {
         SimpleRegistry<Integer, Map> mapRegistry = new SimpleRegistry<Integer, Map>();
         for (UserMapRole role : mapDao.listMapRoleByUser(account)) {
             mapRegistry.add(role.getMap().getId(), role.getMap());
-            page.getMapRoles().add(new MapRole(account.getId(), role.getMap().getId(), role.getRole()));
+            page.getMapRolesList(role.getMap().getId()).add(role.getRole());
         }
         for (Map map : mapRegistry.values()) {
             page.getMaps().add(viewer.mapTitle(map));

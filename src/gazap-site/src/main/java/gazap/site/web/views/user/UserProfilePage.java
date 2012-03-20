@@ -1,22 +1,19 @@
 package gazap.site.web.views.user;
 
+import gazap.domain.entity.UserGameRoles;
 import gazap.domain.entity.UserMapRoles;
-import gazap.site.model.viewer.GameRole;
 import gazap.site.model.viewer.GameTitle;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.model.viewer.UserTitle;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class UserProfilePage {
     private UserTitle user;
     private List<GameTitle> games = new ArrayList<GameTitle>();
-    private List<GameRole> gameRoles = new ArrayList<GameRole>();
+    private Map<Integer, Set<UserGameRoles>> gameRoles = new TreeMap<Integer, Set<UserGameRoles>>();
     private List<MapTitle> maps = new ArrayList<MapTitle>();
-    private Map<Integer, List<UserMapRoles>> visitorMapRoles = new TreeMap<Integer, List<UserMapRoles>>();
+    private Map<Integer, Set<UserMapRoles>> mapRoles = new TreeMap<Integer, Set<UserMapRoles>>();
 
     public UserTitle getUser() {
         return user;
@@ -34,12 +31,16 @@ public class UserProfilePage {
         this.games = games;
     }
 
-    public List<GameRole> getGameRoles() {
+    public Map<Integer, Set<UserGameRoles>> getGameRoles() {
         return gameRoles;
     }
 
-    public void setGameRoles(List<GameRole> gameRoles) {
-        this.gameRoles = gameRoles;
+    public Set<UserGameRoles> getGameRolesList(int game) {
+        Set<UserGameRoles> list = gameRoles.get(game);
+        if (list == null) {
+            gameRoles.put(game, list = new TreeSet<UserGameRoles>());
+        }
+        return list;
     }
 
     public List<MapTitle> getMaps() {
@@ -50,8 +51,16 @@ public class UserProfilePage {
         this.maps = maps;
     }
 
-    public Map<Integer, List<UserMapRoles>> getVisitorMapRoles() {
-        return visitorMapRoles;
+    public Map<Integer, Set<UserMapRoles>> getMapRoles() {
+        return mapRoles;
+    }
+
+    public Set<UserMapRoles> getMapRolesList(int map) {
+        Set<UserMapRoles> list = mapRoles.get(map);
+        if (list == null) {
+            mapRoles.put(map, list = new TreeSet<UserMapRoles>());
+        }
+        return list;
     }
 
 }

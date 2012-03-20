@@ -35,8 +35,9 @@
     <bean id="messageCodesResolver" class="com.iserv2.commons.mvc_base.support.MessageCodesResolver"/>
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
-    <bean class="gazap.site.web.mvc.support.DeviceBasedViewResolver" p:order="2"
-          p:cache="${engine.cache}" p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/render-jsp/"
+    <bean class="gazap.site.web.mvc.support.DeviceBasedInternalResourceViewResolver" p:order="2"
+          p:cache="${engine.cache}" p:viewClass="org.springframework.web.servlet.view.JstlView"
+          p:prefix="/render-wrime/"
           p:suffix=".jsp" p:defaultLayout="landscape/"/>
 
     <bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>

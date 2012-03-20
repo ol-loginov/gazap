@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="lf" uri="http://gazap/jstl/local" %>
 <%@ taglib prefix="lt" uri="http://gazap/jstl/local-tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <c:import url="../shared/html.jsp"/>
@@ -43,11 +44,11 @@
         <c:choose>
             <c:when test="${fn:length(content.maps) gt 0}">
                 <ul class="list">
-                    <c:forEach items="${content.maps}" var="e">
+                    <c:forEach items="${content.maps}" var="map">
                         <li>
                             <c:import url="../shared/partial-map-title.jsp">
-                                <c:param name="map" value="${e}"/>
-                                <c:param name="visitorRoles" value="${content.visitorMapRoles[e.id]}"/>
+                                <lt:import-param name="map" value="${map}"/>
+                                <lt:import-param name="mapRoles" value="${content.mapRoles[map.id]}"/>
                             </c:import>
                         </li>
                     </c:forEach>
