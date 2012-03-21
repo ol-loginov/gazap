@@ -1,7 +1,6 @@
 package gazap.site.web.mvc.wrime;
 
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.Resource;
 
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -12,21 +11,11 @@ import java.util.Map;
 public class WrimeEngine {
     private final Map<String, Class<? extends WrimeWriter>> urlToClassMappings = new HashMap<String, Class<? extends WrimeWriter>>();
 
-    private ResourceLoader resourceLoader = new DefaultResourceLoader();
-    private WrimeCompiler wrimeCompiler = new WrimeCompiler();
-
-    public ResourceLoader getResourceLoader() {
-        return resourceLoader;
-    }
-
-    public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
-    public WrimeWriter newWriter(String url, Writer writer) {
+    public WrimeWriter newWriter(Resource resource, Writer writer) throws Exception {
+        String url = resource.getURL().toString();
         Class<? extends WrimeWriter> writerClass = urlToClassMappings.get(url);
         if (writerClass == null) {
-            writerClass = compile(url);
+            writerClass = compile(resource);
             urlToClassMappings.put(url, writerClass);
         }
 
@@ -48,7 +37,9 @@ public class WrimeEngine {
         }
     }
 
-    private Class<WrimeWriter> compile(String url) {
-        return wrimeCompiler.compile(resourceLoader, url);
+    private Class<WrimeWriter> compile(Resource resource) throws Exception {
+        WrimeScanner wrimeScanner = new WrimeScanner();
+        wrimeScanner.parse(resource, new WrimeDumper());
+        return null;
     }
 }

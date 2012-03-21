@@ -13,7 +13,9 @@ public abstract class WrimeWriter {
 
     public void render(Map<String, Object> model) {
         clear();
-        assignFields(model);
+        if (model != null) {
+            assignFields(model);
+        }
         renderContent();
     }
 

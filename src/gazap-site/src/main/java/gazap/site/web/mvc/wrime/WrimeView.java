@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class WrimeView extends AbstractTemplateView {
     private WrimeEngine wrimeEngine;
+    private ResourceLoader resourceLoader;
 
     public WrimeEngine getWrimeEngine() {
         return wrimeEngine;
