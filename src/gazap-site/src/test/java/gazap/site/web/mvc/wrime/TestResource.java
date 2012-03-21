@@ -9,6 +9,14 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 public class TestResource {
+    public static String getResourceBasePath() {
+        try {
+            return new ClassPathResource("/wrime", TestResource.class.getClassLoader()).getURL().toString();
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
     public static Resource load(String url) {
         return new ClassPathResource("/wrime/" + url, TestResource.class.getClassLoader());
     }

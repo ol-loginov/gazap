@@ -2,6 +2,7 @@ package gazap.site.web.mvc.wrime;
 
 import org.springframework.core.io.Resource;
 
+import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -37,9 +38,13 @@ public class WrimeEngine {
         }
     }
 
-    private Class<WrimeWriter> compile(Resource resource) throws Exception {
-        WrimeScanner wrimeScanner = new WrimeScanner();
-        wrimeScanner.parse(resource, new WrimeDumper());
+    private Class<WrimeWriter> compile(Resource resource) throws IOException {
+        parse(resource, null);
         return null;
+    }
+
+    public void parse(Resource resource, WrimeScanner.Receiver receiver) throws IOException {
+        WrimeScanner wrimeScanner = new WrimeScanner();
+        wrimeScanner.parse(resource, receiver);
     }
 }
