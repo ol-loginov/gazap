@@ -1,7 +1,8 @@
 package gazap.site.web.mvc.wrime;
 
-import org.springframework.core.io.Resource;
+import javassist.ClassPool;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
@@ -12,12 +13,39 @@ import java.util.Map;
 public class WrimeEngine {
     private final Map<String, Class<? extends WrimeWriter>> urlToClassMappings = new HashMap<String, Class<? extends WrimeWriter>>();
 
-    public WrimeWriter newWriter(Resource resource, Writer writer) throws Exception {
-        String url = resource.getURL().toString();
-        Class<? extends WrimeWriter> writerClass = urlToClassMappings.get(url);
+    private ClassPool rootPool;
+    private String rootPath;
+
+    public ClassPool getRootPool() {
+        if (rootPool == null) {
+            rootPool = new ClassPool(true);
+        }
+        return rootPool;
+    }
+
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    public WrimeEngine() throws WrimeException {
+        File tmpFolder;
+        try {
+            tmpFolder = File.createTempFile("wrime", "");
+        } catch (IOException e) {
+            throw new WrimeException("Fail to create temporary folder", e);
+        }
+        tmpFolder.delete();
+        tmpFolder.mkdir();
+        tmpFolder.deleteOnExit();
+        this.rootPath = tmpFolder.getAbsolutePath();
+    }
+
+    public WrimeWriter newWriter(ScriptResource resource, Writer writer) throws Exception {
+        String path = resource.getPath();
+        Class<? extends WrimeWriter> writerClass = urlToClassMappings.get(path);
         if (writerClass == null) {
-            writerClass = compile(resource);
-            urlToClassMappings.put(url, writerClass);
+            writerClass = compile(parse(resource));
+            urlToClassMappings.put(path, writerClass);
         }
 
         Constructor<? extends WrimeWriter> writerConstructor;
@@ -38,13 +66,17 @@ public class WrimeEngine {
         }
     }
 
-    private Class<WrimeWriter> compile(Resource resource) throws IOException {
-        parse(resource, null);
-        return null;
+    protected void scan(ScriptResource resource, WrimeScanner.Receiver receiver) throws WrimeException {
+        new WrimeScanner().parse(resource, receiver);
     }
 
-    public void parse(Resource resource, WrimeScanner.Receiver receiver) throws IOException {
-        WrimeScanner wrimeScanner = new WrimeScanner();
-        wrimeScanner.parse(resource, receiver);
+    protected WrimeCompiler parse(ScriptResource resource) throws WrimeException {
+        WrimeCompiler compiler = new WrimeCompiler(this);
+        scan(resource, compiler);
+        return compiler;
+    }
+
+    private Class<WrimeWriter> compile(WrimeCompiler parse) {
+        return null;
     }
 }

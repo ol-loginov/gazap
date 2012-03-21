@@ -1,5 +1,6 @@
 package gazap.site.web.mvc.wrime;
 
+import gazap.site.web.mvc.wrime.spring.UnknownScriptSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.ui.ModelMap;
@@ -37,9 +38,10 @@ public class WrimeView extends AbstractTemplateView {
         map.put("request", request);
         map.put("response", response);
 
+        PrintWriter writer = new PrintWriter(response.getOutputStream());
         Resource resource = resourceLoader.getResource(getUrl());
         wrimeEngine
-                .newWriter(resource, new PrintWriter(response.getOutputStream()))
+                .newWriter(new UnknownScriptSource(resource), writer)
                 .render(map);
     }
 }

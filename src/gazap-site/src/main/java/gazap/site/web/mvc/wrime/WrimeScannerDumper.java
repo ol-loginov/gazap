@@ -1,41 +1,18 @@
 package gazap.site.web.mvc.wrime;
 
-import org.springframework.core.io.Resource;
-
 import java.io.IOException;
 import java.io.Writer;
 
 public class WrimeScannerDumper implements WrimeScanner.Receiver {
     private final Writer writer;
-    private final String resourceBasePath;
-
-    public WrimeScannerDumper(Writer writer, String resourceBasePath) {
-        this.writer = writer;
-        this.resourceBasePath = resourceBasePath;
-    }
 
     public WrimeScannerDumper(Writer writer) {
-        this(writer, null);
-    }
-
-    private String baselineResourcePath(String resourcePath) {
-        if (resourceBasePath != null && resourcePath.startsWith(resourceBasePath)) {
-            return resourcePath.substring(resourceBasePath.length());
-        }
-        return resourcePath;
-    }
-
-    private String getResourcePath(Resource resource) {
-        try {
-            return baselineResourcePath(resource.getURL().toString());
-        } catch (IOException e) {
-            return "<resource is not locatable>";
-        }
+        this.writer = writer;
     }
 
     @Override
-    public void startResource(Resource resource) {
-        appendQuietly("[enter resource " + getResourcePath(resource) + "]");
+    public void startResource(ScriptResource resource) {
+        appendQuietly("[enter resource " + resource.getPath() + "]");
     }
 
     private void appendQuietly(String text) {

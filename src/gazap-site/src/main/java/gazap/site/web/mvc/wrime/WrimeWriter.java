@@ -7,23 +7,34 @@ import java.util.Map;
 public abstract class WrimeWriter {
     private final Writer writer;
 
+    private Map<String, Object> model;
+
     protected WrimeWriter(Writer writer) {
         this.writer = writer;
     }
 
-    public void render(Map<String, Object> model) {
-        clear();
+    public void render(Map<String, Object> model) throws WrimeException {
         if (model != null) {
             assignFields(model);
         }
-        renderContent();
+        try {
+            renderContent();
+        } catch (Exception e) {
+            throw new WrimeException("render error", e);
+        } finally {
+            clear();
+        }
     }
 
-    protected abstract void renderContent();
+    protected abstract void renderContent() throws Exception;
 
-    protected abstract void clear();
+    protected void clear() {
+        this.model = null;
+    }
 
-    protected abstract void assignFields(Map<String, Object> model);
+    protected void assignFields(Map<String, Object> model) {
+        this.model = model;
+    }
 
     protected void write(String text) throws IOException {
         if (text == null || text.length() == 0) {
