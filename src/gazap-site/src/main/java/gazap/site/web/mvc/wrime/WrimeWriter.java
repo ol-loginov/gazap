@@ -42,4 +42,11 @@ public abstract class WrimeWriter {
         }
         writer.write(text);
     }
+
+    protected void write(Object value) throws IOException {
+        if (value == null) {
+            return;
+        }
+        writer.write(value.toString());
+    }
 }

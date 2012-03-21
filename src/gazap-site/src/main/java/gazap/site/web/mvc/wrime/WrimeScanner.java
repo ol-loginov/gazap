@@ -1,6 +1,8 @@
 package gazap.site.web.mvc.wrime;
 
 import java.io.*;
+import java.util.EnumSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WrimeScanner {
@@ -9,25 +11,34 @@ public class WrimeScanner {
 
         void finishResource() throws WrimeException;
 
-        void text(String text);
+        void text(String text) throws WrimeException;
 
-        void exprStart();
+        void exprStart() throws WrimeException;
 
-        void exprFinish();
+        void exprFinish() throws WrimeException;
 
-        void exprListOpen();
+        void exprListOpen() throws WrimeException;
 
-        void exprListClose();
+        void exprListClose() throws WrimeException;
 
-        void exprName(String name);
+        void exprName(String name) throws WrimeException;
 
-        void exprLiteral(String literal);
+        void exprLiteral(String literal) throws WrimeException;
 
-        void exprComma();
+        void exprComma() throws WrimeException;
 
-        void exprColon();
+        void exprColon() throws WrimeException;
 
-        void exprDot();
+        void exprDot() throws WrimeException;
+    }
+
+    private static final Pattern EAT_SPACE = Pattern.compile("^\\s*(.*)\\s*$");
+
+    private EnumSet<WrimeEngine.Scanner> options = EnumSet.noneOf(WrimeEngine.Scanner.class);
+
+    public void configure(EnumSet<WrimeEngine.Scanner> options) {
+        this.options.clear();
+        this.options.addAll(options);
     }
 
     public void parse(ScriptResource resource, Receiver receiver) throws WrimeException {
@@ -36,7 +47,7 @@ public class WrimeScanner {
         InputStream in = null;
         try {
             in = resource.getInputStream();
-            parse(receiver, new InputStreamReader(in, "utf-8"));
+            parse(receiver, new InputStreamReader(in, "utf-8"), resource.getPath());
         } catch (UnsupportedEncodingException e) {
             throw new WrimeException("UTF-8 is N/A", e);
         } finally {
@@ -50,48 +61,70 @@ public class WrimeScanner {
         }
     }
 
-    public void parse(Receiver receiver, Reader reader) throws WrimeException {
+    public void parse(Receiver receiver, Reader reader, String path) throws WrimeException {
         ScannerWrapper scanner = new ScannerWrapper(reader);
         Token token = new Token();
         while (scanner.next(token)) {
-            switch (token.type) {
-                case EOF:
-                    receiver.finishResource();
+            try {
+                accept(receiver, token);
+                if (token.type == TokenType.EOF) {
                     return;
-                case TEXT:
-                    receiver.text(token.value);
-                    break;
-                case EXPR_START:
-                    receiver.exprStart();
-                    break;
-                case EXPR_END:
-                    receiver.exprFinish();
-                    break;
-                case EXPR_LIST_OPEN:
-                    receiver.exprListOpen();
-                    break;
-                case EXPR_LIST_CLOSE:
-                    receiver.exprListClose();
-                    break;
-                case EXPR_NAME:
-                    receiver.exprName(token.value);
-                    break;
-                case EXPR_LITERAL:
-                    receiver.exprLiteral(token.value);
-                    break;
-                case EXPR_COMMA:
-                    receiver.exprComma();
-                    break;
-                case EXPR_DOT:
-                    receiver.exprDot();
-                    break;
-                case EXPR_COLON:
-                    receiver.exprColon();
-                    break;
-                default:
-                    throw new IllegalStateException("this situation is not supported");
+                }
+            } catch (WrimeException e) {
+                throw new WrimeException(e.getMessage(), e, path, token.line + 1, token.column + 1);
             }
         }
+    }
+
+    private void accept(Receiver receiver, Token token) throws WrimeException {
+        switch (token.type) {
+            case EOF:
+                receiver.finishResource();
+                return;
+            case TEXT:
+                receiver.text(eatSpace(token.value));
+                break;
+            case EXPR_START:
+                receiver.exprStart();
+                break;
+            case EXPR_END:
+                receiver.exprFinish();
+                break;
+            case EXPR_LIST_OPEN:
+                receiver.exprListOpen();
+                break;
+            case EXPR_LIST_CLOSE:
+                receiver.exprListClose();
+                break;
+            case EXPR_NAME:
+                receiver.exprName(token.value);
+                break;
+            case EXPR_LITERAL:
+                receiver.exprLiteral(token.value);
+                break;
+            case EXPR_COMMA:
+                receiver.exprComma();
+                break;
+            case EXPR_DOT:
+                receiver.exprDot();
+                break;
+            case EXPR_COLON:
+                receiver.exprColon();
+                break;
+            default:
+                throw new IllegalStateException("this situation is not supported");
+        }
+    }
+
+    private String eatSpace(String value) {
+        if (!options.contains(WrimeEngine.Scanner.EAT_SPACE)) {
+            return value;
+        }
+        Matcher matcher = EAT_SPACE.matcher(value);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return value;
     }
 
     private static class ScannerWrapper {
@@ -116,6 +149,8 @@ public class WrimeScanner {
         }
 
         private Expectation consume(Token token) throws WrimeException {
+            token.line = scanner.line();
+            token.column = scanner.column();
             token.value = scanner.waitDelimiter(expectation.pattern());
             if (token.value == null) {
                 token.type = TokenType.EOF;
@@ -212,23 +247,18 @@ public class WrimeScanner {
         private TokenType type;
         private String value;
 
+        private int line;
+        private int column;
+
         public Token() {
             clear();
-        }
-
-        public Token(TokenType type, String value) {
-            this.type = type;
-            this.value = value;
-        }
-
-        public void copyTo(Token token) {
-            token.value = value;
-            token.type = type;
         }
 
         public void clear() {
             type = TokenType.INCOMPLETE;
             value = "";
+            line = 0;
+            column = 0;
         }
     }
 }

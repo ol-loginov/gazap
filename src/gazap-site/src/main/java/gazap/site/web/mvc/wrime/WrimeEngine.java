@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ public class WrimeEngine {
 
     private ClassPool rootPool;
     private String rootPath;
+
+    private EnumSet<Scanner> scannerOptions = EnumSet.noneOf(Scanner.class);
 
     public ClassPool getRootPool() {
         if (rootPool == null) {
@@ -67,7 +70,9 @@ public class WrimeEngine {
     }
 
     protected void scan(ScriptResource resource, WrimeScanner.Receiver receiver) throws WrimeException {
-        new WrimeScanner().parse(resource, receiver);
+        WrimeScanner scanner = new WrimeScanner();
+        scanner.configure(scannerOptions);
+        scanner.parse(resource, receiver);
     }
 
     protected WrimeCompiler parse(ScriptResource resource) throws WrimeException {
@@ -78,5 +83,18 @@ public class WrimeEngine {
 
     private Class<WrimeWriter> compile(WrimeCompiler parse) {
         return null;
+    }
+
+    public void configure(Scanner option, boolean enable) {
+        if (enable) {
+            scannerOptions.add(option);
+        } else {
+            scannerOptions.remove(option);
+        }
+    }
+
+
+    public enum Scanner {
+        EAT_SPACE
     }
 }

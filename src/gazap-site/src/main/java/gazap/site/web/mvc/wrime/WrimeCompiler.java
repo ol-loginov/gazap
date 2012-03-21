@@ -18,6 +18,8 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
     private final Body assignFieldsBody;
     private final Body renderContentBody;
 
+    private ExpressionBuilder expression;
+
     private boolean classDone;
     private String className;
 
@@ -32,12 +34,16 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
 
     private static String toIdentifier(String name) throws WrimeException {
         StringBuilder builder = new StringBuilder();
-        builder.append("W_");
+        builder.append("W$");
         for (char ch : name.toCharArray()) {
             if (Character.isJavaIdentifierPart(ch)) {
                 builder.append(ch);
+            } else if ('/' == ch || '\'' == ch) {
+                builder.append("$");
+            } else if ('.' == ch) {
+                builder.append("_");
             } else {
-                builder.append("$").append((int) ch);
+                builder.append((int) ch);
             }
         }
         return builder.toString();
@@ -72,66 +78,121 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
         return body.toString();
     }
 
+    private void ensureNotReady() throws WrimeException {
+        if (classDone) {
+            throw new WrimeException("Class is ready", null);
+        }
+    }
+
+    private void ensureInsideExpression(boolean shouldHaveExpression) throws WrimeException {
+        if (expression != null ^ shouldHaveExpression) {
+            throw new WrimeException("Unexpected expression statement", null);
+        }
+    }
+
+    private void completeExpression() throws WrimeException {
+        if (expression.complete()) {
+            throw new WrimeException("Unexpected expression end", null);
+        }
+    }
+
+    private void insideExpression() {
+        expression = new ExpressionBuilder(new ExpressionContextKeeperImpl());
+    }
+
     private void addImport(Class clazz) {
-        importNames.add(clazz.getName());
+        addImport(clazz.getName());
+    }
+
+    private void addImport(String clazz) {
+        importNames.add(clazz);
     }
 
     @Override
     public void startResource(ScriptResource resource) throws WrimeException {
+        ensureNotReady();
         addImport(java.io.Writer.class);
-        addImport(java.lang.String.class);
-        addImport(java.lang.Object.class);
-        addImport(java.lang.Exception.class);
-        addImport(java.util.Map.class);
+        addImport("java.lang.*");
+        addImport("java.util.*");
         className = toIdentifier(resource.getPath());
     }
 
     @Override
     public void finishResource() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(false);
         classDone = true;
     }
 
     @Override
-    public void text(String text) {
+    public void text(String text) throws WrimeException {
+        ensureNotReady();
         if (text != null && text.length() > 0) {
             renderContentBody.l(String.format("write(\"%s\");", StringEscapeUtils.escapeJava(text)));
         }
     }
 
     @Override
-    public void exprStart() {
+    public void exprStart() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(false);
+        insideExpression();
     }
 
     @Override
-    public void exprFinish() {
+    public void exprFinish() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        completeExpression();
     }
 
     @Override
-    public void exprListOpen() {
+    public void exprListOpen() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.beginList();
     }
 
     @Override
-    public void exprListClose() {
+    public void exprListClose() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.closeList();
     }
 
     @Override
-    public void exprName(String name) {
+    public void exprName(String name) throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression = expression.pushToken(name);
     }
 
     @Override
-    public void exprLiteral(String literal) {
+    public void exprLiteral(String literal) throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.pushLiteral(literal);
     }
 
     @Override
-    public void exprComma() {
+    public void exprComma() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.nextListItem();
     }
 
     @Override
-    public void exprColon() {
+    public void exprColon() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.pushColon();
     }
 
     @Override
-    public void exprDot() {
+    public void exprDot() throws WrimeException {
+        ensureNotReady();
+        ensureInsideExpression(true);
+        expression.pushDot();
     }
 
     private static class Body {
@@ -184,5 +245,8 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
         public Body leave() {
             return new Body(body, prefix.substring(SCOPE_IDENT.length()));
         }
+    }
+
+    private class ExpressionContextKeeperImpl implements ExpressionContextKeeper {
     }
 }

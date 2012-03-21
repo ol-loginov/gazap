@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class ScriptScanner {
     private final static int BUFFER_SIZE = 1024;
+    private final static Pattern EOL_PATTERN = Pattern.compile("\r\n|\r|\n");
 
     private final Reader reader;
     private boolean readClosed;
@@ -18,6 +19,9 @@ public class ScriptScanner {
 
     private Matcher matcher;
     private boolean lookingAt;
+
+    private int column;
+    private int line;
 
     public ScriptScanner(Reader reader) {
         this.readMore = false;
@@ -30,6 +34,25 @@ public class ScriptScanner {
     }
 
     public String waitDelimiter(Pattern pattern) throws WrimeException {
+        String value = waitDelimiter0(pattern);
+        if (value != null) {
+            calculatePosition(value);
+        }
+        return value;
+    }
+
+    private void calculatePosition(String value) {
+        Matcher matcher = EOL_PATTERN.matcher(value);
+        int end = 0;
+        while (matcher.find()) {
+            line++;
+            column = 0;
+            end = matcher.end();
+        }
+        column += value.length() - end;
+    }
+
+    public String waitDelimiter0(Pattern pattern) throws WrimeException {
         lookingAt = false;
 
         if (readClosed) {
@@ -137,5 +160,13 @@ public class ScriptScanner {
 
     public void skip(Pattern pattern) throws WrimeException {
         waitDelimiter(pattern);
+    }
+
+    public int line() {
+        return line;
+    }
+
+    public int column() {
+        return column;
     }
 }
