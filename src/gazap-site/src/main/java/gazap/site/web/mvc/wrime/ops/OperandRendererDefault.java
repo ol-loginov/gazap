@@ -26,9 +26,13 @@ public abstract class OperandRendererDefault implements OperandRenderer {
     private void render0(Invoker operand, Writer writer) throws WrimeException, IOException {
         render(operand.getInvocable(), writer);
         writer.append(".").append(operand.getMethod().getName()).append("(");
+        boolean firstParameter = true;
         for (Operand parameter : operand.getParameters()) {
+            if (!firstParameter) {
+                writer.append(",");
+            }
+            firstParameter = false;
             render(parameter, writer);
-            writer.append(",");
         }
         writer.append(")");
     }

@@ -1,0 +1,3 @@
+${param gazap.site.web.mvc.wrime.model.Bean2 bean}
+${bean.call(bean.integer)}
+${bean.call(bean.string)}

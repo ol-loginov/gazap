@@ -44,5 +44,17 @@ public class WrimeCompilerTest {
         WrimeCompiler compiler = parse(TestResource.load("010.txt"));
         TestResource.verify("010.code", compiler.getClassCode());
     }
+
+    @Test
+    public void callNativeOverload() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("011.txt"));
+        TestResource.verify("011.code", compiler.getClassCode());
+    }
+
+    @Test(expected = WrimeException.class)
+    public void argumentCountCheck() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("012.txt"));
+        TestResource.verify("012.code", compiler.getClassCode());
+    }
 }
 

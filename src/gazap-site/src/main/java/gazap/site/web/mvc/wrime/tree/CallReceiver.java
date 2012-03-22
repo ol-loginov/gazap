@@ -31,7 +31,7 @@ public class CallReceiver extends PathReceiver {
     public void pushDelimiter(PathContext context, ExpressionContextKeeper scope, String delimiter) throws WrimeException {
         if (",".equals(delimiter)) {
             if (parent != null) {
-                returnToParent(context);
+                returnToParent(context, false);
                 return;
             }
         } else if (".".equals(delimiter)) {
@@ -45,33 +45,36 @@ public class CallReceiver extends PathReceiver {
     }
 
     @Override
-    public void beginList(PathContext context, ExpressionContextKeeper scope) throws WrimeException {
+    public void beginList(PathContext path, ExpressionContextKeeper scope) throws WrimeException {
         if (operand instanceof Invoker) {
-            context.push(new CallReceiver(this));
+            path.push(new CallReceiver(this));
         } else {
             error("expected function point only");
         }
     }
 
     @Override
-    public void closeList(PathContext context, ExpressionContextKeeper scope) throws WrimeException {
+    public void closeList(PathContext path, ExpressionContextKeeper scope) throws WrimeException {
         if (parent != null) {
-            returnToParent(context);
+            returnToParent(path, true);
         } else {
             error("unexpected list closure");
         }
     }
 
-    private void returnToParent(PathContext context) throws WrimeException {
+    private void returnToParent(PathContext path, boolean last) throws WrimeException {
+        path.remove(this);
         if (operand != null) {
-            parent.addOperand(operand);
+            parent.addOperand(path, operand, last);
         }
-        context.remove(this);
     }
 
-    private void addOperand(Operand argument) throws WrimeException {
+    private void addOperand(PathContext path, Operand argument, boolean last) throws WrimeException {
         if (operand instanceof Invoker) {
             ((Invoker) operand).getParameters().add(argument);
+            if (!last) {
+                path.push(new CallReceiver(this));
+            }
         } else {
             error("previous operand is not invocable");
         }
