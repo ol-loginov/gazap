@@ -1,2 +1,1 @@
-${param:String hello}
-${hello}
+${param String hello}

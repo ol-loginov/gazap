@@ -1,0 +1,16 @@
+package gazap.site.web.mvc.wrime.tags;
+
+import gazap.site.web.mvc.wrime.tree.PathContext;
+import gazap.site.web.mvc.wrime.tree.PathReceiver;
+
+public class ParamFactory implements TagFactory {
+    @Override
+    public boolean supports(String name) {
+        return "param".equals(name);
+    }
+
+    @Override
+    public PathReceiver createReceiver(PathContext context, String name) {
+        return new ParamReceiver();
+    }
+}

@@ -25,11 +25,7 @@ public class WrimeScanner {
 
         void exprLiteral(String literal) throws WrimeException;
 
-        void exprComma() throws WrimeException;
-
-        void exprColon() throws WrimeException;
-
-        void exprDot() throws WrimeException;
+        void exprDelimiter(String value) throws WrimeException;
     }
 
     private static final Pattern EAT_SPACE = Pattern.compile("^\\s*(.*)\\s*$");
@@ -102,14 +98,8 @@ public class WrimeScanner {
             case EXPR_LITERAL:
                 receiver.exprLiteral(token.value);
                 break;
-            case EXPR_COMMA:
-                receiver.exprComma();
-                break;
-            case EXPR_DOT:
-                receiver.exprDot();
-                break;
-            case EXPR_COLON:
-                receiver.exprColon();
+            case EXPR_DELIMITER:
+                receiver.exprDelimiter(token.value);
                 break;
             default:
                 throw new IllegalStateException("this situation is not supported");
@@ -192,11 +182,13 @@ public class WrimeScanner {
                     } else if (")".equals(token.value)) {
                         token.type = TokenType.EXPR_LIST_CLOSE;
                     } else if (",".equals(token.value)) {
-                        token.type = TokenType.EXPR_COMMA;
+                        token.type = TokenType.EXPR_DELIMITER;
                     } else if (".".equals(token.value)) {
-                        token.type = TokenType.EXPR_DOT;
+                        token.type = TokenType.EXPR_DELIMITER;
+                    } else if ("*".equals(token.value)) {
+                        token.type = TokenType.EXPR_DELIMITER;
                     } else if (":".equals(token.value)) {
-                        token.type = TokenType.EXPR_COLON;
+                        token.type = TokenType.EXPR_DELIMITER;
                     } else if (" ".equals(token.value)) {
                         token.type = TokenType.INCOMPLETE;
                     } else {
@@ -212,7 +204,7 @@ public class WrimeScanner {
 
     private static enum Expectation {
         TOKEN_MARK("(?<!\\$)\\$\\{"),
-        EXPR_DELIMITER(" |,|:|\\(|\\)|'|\\\"|\\.|}"),
+        EXPR_DELIMITER("\\*| |,|:|\\(|\\)|'|\\\"|\\.|}"),
         EXPR_QUOTE("(?<=\\')"),
         EXPR_DQUOTE("(?<=\\\")");
 
@@ -238,9 +230,7 @@ public class WrimeScanner {
         EXPR_LIST_OPEN,
         EXPR_LIST_CLOSE,
         EXPR_LITERAL,
-        EXPR_COMMA,
-        EXPR_COLON,
-        EXPR_DOT
+        EXPR_DELIMITER
     }
 
     private static class Token {

@@ -1,12 +1,12 @@
 package gazap.site.web.mvc.wrime;
 
-import javassist.ClassPool;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,33 +14,34 @@ import java.util.Map;
 public class WrimeEngine {
     private final Map<String, Class<? extends WrimeWriter>> urlToClassMappings = new HashMap<String, Class<? extends WrimeWriter>>();
 
-    private ClassPool rootPool;
     private String rootPath;
+    private ClassLoader rootLoader;
 
     private EnumSet<Scanner> scannerOptions = EnumSet.noneOf(Scanner.class);
-
-    public ClassPool getRootPool() {
-        if (rootPool == null) {
-            rootPool = new ClassPool(true);
-        }
-        return rootPool;
-    }
 
     public String getRootPath() {
         return rootPath;
     }
 
     public WrimeEngine() throws WrimeException {
-        File tmpFolder;
         try {
-            tmpFolder = File.createTempFile("wrime", "");
+            createRootLoader();
         } catch (IOException e) {
-            throw new WrimeException("Fail to create temporary folder", e);
+            throw new WrimeException("fail to initialize workplace", e);
         }
-        tmpFolder.delete();
-        tmpFolder.mkdir();
+    }
+
+    private void createRootLoader() throws IOException, WrimeException {
+        File tmpFolder = File.createTempFile("wrime", "");
+        if (!tmpFolder.delete()) {
+            throw new WrimeException("fail to delete just created temporary file", null);
+        }
+        if (!tmpFolder.mkdir()) {
+            throw new WrimeException("fail to create directory from just created temporary file", null);
+        }
         tmpFolder.deleteOnExit();
         this.rootPath = tmpFolder.getAbsolutePath();
+        this.rootLoader = new URLClassLoader(new URL[]{tmpFolder.toURI().toURL()}, getClass().getClassLoader());
     }
 
     public WrimeWriter newWriter(ScriptResource resource, Writer writer) throws Exception {
@@ -77,7 +78,7 @@ public class WrimeEngine {
 
     protected WrimeCompiler parse(ScriptResource resource) throws WrimeException {
         WrimeCompiler compiler = new WrimeCompiler(this);
-        scan(resource, compiler);
+        scan(resource, compiler.createReceiver());
         return compiler;
     }
 
@@ -91,6 +92,10 @@ public class WrimeEngine {
         } else {
             scannerOptions.remove(option);
         }
+    }
+
+    public ClassLoader getRootLoader() {
+        return rootLoader;
     }
 
 

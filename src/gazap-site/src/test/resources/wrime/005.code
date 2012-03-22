@@ -6,12 +6,15 @@ public class W$wrime$005_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   public W$wrime$005_txt(Writer writer) {
     super(writer);
   }
+
   protected void clear() {
     super.clear();
   }
+
   protected void assignFields(Map<String, Object> model) {
     super.assignFields(model);
   }
+
   protected void renderContent() throws Exception {
     write("OGA!");
   }

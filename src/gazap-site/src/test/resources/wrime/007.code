@@ -2,10 +2,10 @@ import java.io.Writer;
 import java.lang.*;
 import java.util.*;
 
-public class W$wrime$006_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
+public class W$wrime$007_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   private String hello;
 
-  public W$wrime$006_txt(Writer writer) {
+  public W$wrime$007_txt(Writer writer) {
     super(writer);
   }
 
@@ -20,5 +20,6 @@ public class W$wrime$006_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   }
 
   protected void renderContent() throws Exception {
+    write(hello);
   }
 }

@@ -29,6 +29,6 @@ public class WrimeException extends Exception {
         if (path == null) {
             return "";
         }
-        return String.format(" (%s, line %d, column %d)", path, line, column);
+        return String.format(" (%s:%d, column %d)", path, line, column);
     }
 }

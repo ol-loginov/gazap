@@ -1,35 +1,58 @@
 package gazap.site.web.mvc.wrime;
 
+import gazap.site.web.mvc.wrime.ops.Operand;
+import gazap.site.web.mvc.wrime.ops.OperandRendererDefault;
 import org.apache.commons.lang.StringEscapeUtils;
 
+import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.StringWriter;
+import java.util.*;
 import java.util.regex.Pattern;
 
-public class WrimeCompiler implements WrimeScanner.Receiver {
+public class WrimeCompiler {
     private static final String EOL = System.getProperty("line.separator");
     private static final String SCOPE_IDENT = "  ";
 
     private final WrimeEngine engine;
 
-    private final Body clearBody;
-    private final Body assignFieldsBody;
     private final Body renderContentBody;
 
-    private ExpressionBuilder expression;
+    private ExpressionTreeBuilder expressionTreeBuilder;
+    private ExpressionContextImpl expressionContext;
 
     private boolean classDone;
     private String className;
 
     private List<String> importNames = new ArrayList<String>();
+    private Map<String, TypeDef> parameterNames = new HashMap<String, TypeDef>();
 
     public WrimeCompiler(WrimeEngine engine) {
         this.engine = engine;
-        clearBody = new Body();
-        assignFieldsBody = new Body();
         renderContentBody = new Body();
+        expressionContext = new ExpressionContextImpl(this, engine.getRootLoader());
+    }
+
+    private void error(String name) throws WrimeException {
+        error(name, null);
+    }
+
+    private void error(String name, Throwable cause) throws WrimeException {
+        throw new WrimeException("Compiler exception: " + name, cause);
+    }
+
+    private static boolean isIdentifier(String name) {
+        boolean firstPassed = false;
+        boolean valid = true;
+        for (char ch : name.toCharArray()) {
+            if (!firstPassed) {
+                valid = Character.isJavaIdentifierStart(ch);
+                firstPassed = true;
+            } else {
+                valid &= Character.isJavaIdentifierPart(ch);
+            }
+        }
+        return firstPassed && valid;
     }
 
     private static String toIdentifier(String name) throws WrimeException {
@@ -54,20 +77,23 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
         for (String name : importNames) {
             body.a(String.format("import %s;", name)).nl();
         }
+
         body.nl().l(String.format("public class %s extends %s {", className, WrimeWriter.class.getName()))
                 .scope()
 
+                .a(new ModelParameterListDeclarator())
+
                 .l(String.format("public %s(Writer writer) {", className))
                 .scope().l("super(writer);").leave()
-                .l("}")
+                .l("}").nl()
 
                 .l(String.format("protected void clear() {"))
-                .scope().a(clearBody).l("super.clear();").leave()
-                .l("}")
+                .scope().a(new ModelParameterListCleaner()).l("super.clear();").leave()
+                .l("}").nl()
 
                 .l(String.format("protected void assignFields(Map<String, Object> model) {"))
-                .scope().l("super.assignFields(model);").a(assignFieldsBody).leave()
-                .l("}")
+                .scope().l("super.assignFields(model);").a(new ModelParameterListInitializer()).leave()
+                .l("}").nl()
 
                 .l(String.format("protected void renderContent() throws Exception {"))
                 .scope().a(renderContentBody).leave()
@@ -80,119 +106,53 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
 
     private void ensureNotReady() throws WrimeException {
         if (classDone) {
-            throw new WrimeException("Class is ready", null);
+            error("class is ready");
         }
     }
 
     private void ensureInsideExpression(boolean shouldHaveExpression) throws WrimeException {
-        if (expression != null ^ shouldHaveExpression) {
-            throw new WrimeException("Unexpected expression statement", null);
+        if (expressionTreeBuilder != null ^ shouldHaveExpression) {
+            error("unexpected expression statement");
         }
     }
 
     private void completeExpression() throws WrimeException {
-        if (expression.complete()) {
-            throw new WrimeException("Unexpected expression end", null);
-        }
+        expressionTreeBuilder.getContext().markComplete(expressionContext);
+        expressionTreeBuilder = null;
     }
 
     private void insideExpression() {
-        expression = new ExpressionBuilder(new ExpressionContextKeeperImpl());
+        expressionTreeBuilder = new ExpressionTreeBuilder(new DirectCallRenderer());
     }
 
-    private void addImport(Class clazz) {
-        addImport(clazz.getName());
-    }
-
-    private void addImport(String clazz) {
+    public void addImport(String clazz) {
         importNames.add(clazz);
     }
 
-    @Override
-    public void startResource(ScriptResource resource) throws WrimeException {
-        ensureNotReady();
-        addImport(java.io.Writer.class);
-        addImport("java.lang.*");
-        addImport("java.util.*");
-        className = toIdentifier(resource.getPath());
+    public Collection<String> getImports() {
+        return importNames;
     }
 
-    @Override
-    public void finishResource() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(false);
-        classDone = true;
+    public WrimeScanner.Receiver createReceiver() {
+        return new ScannerReceiver();
     }
 
-    @Override
-    public void text(String text) throws WrimeException {
-        ensureNotReady();
-        if (text != null && text.length() > 0) {
-            renderContentBody.l(String.format("write(\"%s\");", StringEscapeUtils.escapeJava(text)));
+    public void addModelParameter(String parameterName, String parameterTypeDef, Class parameterClass) throws WrimeException {
+        if (!isIdentifier(parameterName)) {
+            error("not a Java identifier " + parameterName);
         }
+        if (parameterNames.containsKey(parameterName)) {
+            error("duplicate for model parameter " + parameterName);
+        }
+        TypeDef def = new TypeDef();
+        def.setClazz(parameterClass);
+        def.setAlias(parameterTypeDef);
+        parameterNames.put(parameterName, def);
+        expressionContext.addVar(parameterName, parameterClass);
     }
 
-    @Override
-    public void exprStart() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(false);
-        insideExpression();
-    }
-
-    @Override
-    public void exprFinish() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        completeExpression();
-    }
-
-    @Override
-    public void exprListOpen() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.beginList();
-    }
-
-    @Override
-    public void exprListClose() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.closeList();
-    }
-
-    @Override
-    public void exprName(String name) throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression = expression.pushToken(name);
-    }
-
-    @Override
-    public void exprLiteral(String literal) throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.pushLiteral(literal);
-    }
-
-    @Override
-    public void exprComma() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.nextListItem();
-    }
-
-    @Override
-    public void exprColon() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.pushColon();
-    }
-
-    @Override
-    public void exprDot() throws WrimeException {
-        ensureNotReady();
-        ensureInsideExpression(true);
-        expression.pushDot();
+    public TypeDef getModelParameter(String name) {
+        return parameterNames.get(name);
     }
 
     private static class Body {
@@ -245,8 +205,182 @@ public class WrimeCompiler implements WrimeScanner.Receiver {
         public Body leave() {
             return new Body(body, prefix.substring(SCOPE_IDENT.length()));
         }
+
+        public Body a(BodyCallback callback) {
+            callback.in(this);
+            return this;
+        }
     }
 
-    private class ExpressionContextKeeperImpl implements ExpressionContextKeeper {
+    private interface BodyCallback {
+        void in(Body body);
+    }
+
+    private class ModelParameterListDeclarator implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (parameterNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
+                body.a(String.format("private %s %s;", var.getValue().getAlias(), var.getKey())).nl();
+            }
+            body.nl();
+        }
+    }
+
+    private class ModelParameterListCleaner implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (parameterNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
+                body.a(String.format("this.%s=%s;", var.getKey(), Defaults.getDefaultValueString(var.getValue().getClazz())))
+                        .nl();
+            }
+        }
+    }
+
+    private class ModelParameterListInitializer implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (parameterNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
+                body.a(String.format("this.%s=(%s)model.get(\"%s\");", var.getKey(), var.getValue().getAlias(), StringEscapeUtils.escapeJava(var.getKey())))
+                        .nl();
+            }
+        }
+    }
+
+    public static class Defaults {
+        // These gets initialized to their default values
+        private static boolean DEFAULT_BOOLEAN;
+        private static byte DEFAULT_BYTE;
+        private static short DEFAULT_SHORT;
+        private static int DEFAULT_INT;
+        private static long DEFAULT_LONG;
+        private static float DEFAULT_FLOAT;
+        private static double DEFAULT_DOUBLE;
+
+        public static Object getDefaultValueString(Class clazz) {
+            if (clazz.equals(boolean.class)) {
+                return DEFAULT_BOOLEAN;
+            } else if (clazz.equals(byte.class)) {
+                return DEFAULT_BYTE;
+            } else if (clazz.equals(short.class)) {
+                return DEFAULT_SHORT;
+            } else if (clazz.equals(int.class)) {
+                return DEFAULT_INT;
+            } else if (clazz.equals(long.class)) {
+                return DEFAULT_LONG;
+            } else if (clazz.equals(float.class)) {
+                return DEFAULT_FLOAT;
+            } else if (clazz.equals(double.class)) {
+                return DEFAULT_DOUBLE;
+            } else {
+                return "null";
+            }
+        }
+    }
+
+    private class ScannerReceiver implements WrimeScanner.Receiver {
+        @Override
+        public void startResource(ScriptResource resource) throws WrimeException {
+            ensureNotReady();
+            expressionContext.addImport(java.io.Writer.class);
+            expressionContext.addImport("java.lang.*");
+            expressionContext.addImport("java.util.*");
+            className = toIdentifier(resource.getPath());
+        }
+
+        @Override
+        public void finishResource() throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(false);
+            classDone = true;
+        }
+
+        @Override
+        public void text(String text) throws WrimeException {
+            ensureNotReady();
+            if (text != null && text.length() > 0) {
+                renderContentBody.l(String.format("write(\"%s\");", StringEscapeUtils.escapeJava(text)));
+            }
+        }
+
+        @Override
+        public void exprStart() throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(false);
+            insideExpression();
+        }
+
+        @Override
+        public void exprFinish() throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            completeExpression();
+        }
+
+        @Override
+        public void exprListOpen() throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            expressionTreeBuilder.receiver().beginList(expressionTreeBuilder.getContext(), expressionContext);
+        }
+
+        @Override
+        public void exprListClose() throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            expressionTreeBuilder.receiver().closeList(expressionTreeBuilder.getContext(), expressionContext);
+        }
+
+        @Override
+        public void exprName(String name) throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            expressionTreeBuilder.receiver().pushToken(expressionTreeBuilder.getContext(), expressionContext, name);
+        }
+
+        @Override
+        public void exprLiteral(String literal) throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            expressionTreeBuilder.receiver().pushLiteral(expressionTreeBuilder.getContext(), expressionContext, literal);
+        }
+
+        @Override
+        public void exprDelimiter(String value) throws WrimeException {
+            ensureNotReady();
+            ensureInsideExpression(true);
+            expressionTreeBuilder.receiver().pushDelimiter(expressionTreeBuilder.getContext(), expressionContext, value);
+        }
+    }
+
+    private class DirectCallRenderer extends OperandRendererDefault {
+        @Override
+        public void render(Operand operand) throws WrimeException {
+            if (operand == null) {
+                return;
+            }
+
+            StringWriter writer = new StringWriter();
+            try {
+                super.render(operand, writer);
+            } catch (IOException e) {
+                error("writer error", e);
+            }
+            if (isWritable(operand.getResult())) {
+                renderContentBody.a("write(").a(writer.toString()).a(");").nl();
+            }
+        }
+
+        private boolean isWritable(TypeDef def) {
+            return def != null && def.getClazz() != null && !def.getClazz().equals(Void.TYPE);
+        }
     }
 }

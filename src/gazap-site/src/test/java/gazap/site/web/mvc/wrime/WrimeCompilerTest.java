@@ -16,9 +16,33 @@ public class WrimeCompilerTest {
     }
 
     @Test
-    public void oneVar() throws WrimeException {
+    public void defineOneModelParameter() throws WrimeException {
         WrimeCompiler compiler = parse(TestResource.load("006.txt"));
         TestResource.verify("006.code", compiler.getClassCode());
+    }
+
+    @Test
+    public void oneModelParameter() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("007.txt"));
+        TestResource.verify("007.code", compiler.getClassCode());
+    }
+
+    @Test
+    public void simpleWithCall() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("008.txt"));
+        TestResource.verify("008.code", compiler.getClassCode());
+    }
+
+    @Test
+    public void nestedProp() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("009.txt"));
+        TestResource.verify("009.code", compiler.getClassCode());
+    }
+
+    @Test
+    public void call2Arg() throws WrimeException {
+        WrimeCompiler compiler = parse(TestResource.load("010.txt"));
+        TestResource.verify("010.code", compiler.getClassCode());
     }
 }
 

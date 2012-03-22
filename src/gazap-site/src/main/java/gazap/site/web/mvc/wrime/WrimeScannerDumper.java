@@ -64,17 +64,7 @@ public class WrimeScannerDumper implements WrimeScanner.Receiver {
     }
 
     @Override
-    public void exprComma() {
-        appendQuietly("[,]");
-    }
-
-    @Override
-    public void exprDot() {
-        appendQuietly("[.]");
-    }
-
-    @Override
-    public void exprColon() {
-        appendQuietly("[:]");
+    public void exprDelimiter(String value) {
+        appendQuietly("[" + value + "]");
     }
 }
