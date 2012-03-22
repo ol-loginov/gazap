@@ -75,7 +75,7 @@ public class WrimeCompiler {
     public String getClassCode() {
         Body body = new Body();
         for (String name : importNames) {
-            body.a(String.format("import %s;", name)).nl();
+            body.l(String.format("import %s;", name));
         }
 
         body.nl().l(String.format("public class %s extends %s {", className, WrimeWriter.class.getName()))
@@ -181,10 +181,7 @@ public class WrimeCompiler {
             Scanner scanner = new Scanner(new StringReader(other.toString()));
             scanner.useDelimiter(Pattern.compile(Pattern.quote(EOL)));
             while (scanner.hasNext()) {
-                a(scanner.next());
-            }
-            if (other.body.length() > 0) {
-                nl();
+                l(scanner.next());
             }
             return this;
         }
@@ -329,35 +326,35 @@ public class WrimeCompiler {
         public void exprListOpen() throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().beginList(expressionTreeBuilder.getContext(), expressionContext);
+            expressionTreeBuilder.receiver().beginList(expressionContext);
         }
 
         @Override
         public void exprListClose() throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().closeList(expressionTreeBuilder.getContext(), expressionContext);
+            expressionTreeBuilder.receiver().closeList(expressionContext);
         }
 
         @Override
         public void exprName(String name) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushToken(expressionTreeBuilder.getContext(), expressionContext, name);
+            expressionTreeBuilder.receiver().pushToken(expressionContext, name);
         }
 
         @Override
         public void exprLiteral(String literal) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushLiteral(expressionTreeBuilder.getContext(), expressionContext, literal);
+            expressionTreeBuilder.receiver().pushLiteral(expressionContext, literal);
         }
 
         @Override
         public void exprDelimiter(String value) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushDelimiter(expressionTreeBuilder.getContext(), expressionContext, value);
+            expressionTreeBuilder.receiver().pushDelimiter(expressionContext, value);
         }
     }
 
@@ -375,7 +372,9 @@ public class WrimeCompiler {
                 error("writer error", e);
             }
             if (isWritable(operand.getResult())) {
-                renderContentBody.a("write(").a(writer.toString()).a(");").nl();
+                renderContentBody.l(String.format("write(%s);", writer.toString()));
+            } else {
+                renderContentBody.l(String.format("%s;", writer.toString()));
             }
         }
 

@@ -22,23 +22,23 @@ public class RootReceiver extends PathReceiver {
     }
 
     @Override
-    public void pushToken(PathContext context, ExpressionContextKeeper scope, String name) throws WrimeException {
+    public void pushToken(ExpressionContextKeeper scope, String name) throws WrimeException {
         PathReceiver receiver = null;
         for (TagFactory factory : tagFactories) {
             if (factory.supports(name)) {
-                receiver = factory.createReceiver(context, name);
+                receiver = factory.createReceiver(name);
                 break;
             }
         }
         if (receiver == null) {
             receiver = new CallReceiver();
-            receiver.pushToken(context, scope, name);
+            receiver.pushToken(scope, name);
         }
-        context.push(receiver);
+        path.push(receiver);
     }
 
     @Override
-    public void complete(PathContext context, ExpressionContextKeeper scope) throws WrimeException {
+    public void complete(ExpressionContextKeeper scope) throws WrimeException {
         //super-puper
     }
 }

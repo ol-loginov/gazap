@@ -1,6 +1,5 @@
 package gazap.site.web.mvc.wrime.tags;
 
-import gazap.site.web.mvc.wrime.tree.PathContext;
 import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
 public class ImportFactory implements TagFactory {
@@ -10,7 +9,7 @@ public class ImportFactory implements TagFactory {
     }
 
     @Override
-    public PathReceiver createReceiver(PathContext context, String name) {
+    public PathReceiver createReceiver(String name) {
         return new ImportReceiver();
     }
 }

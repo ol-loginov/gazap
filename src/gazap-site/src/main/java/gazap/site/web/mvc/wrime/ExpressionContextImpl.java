@@ -5,10 +5,12 @@ import gazap.site.web.mvc.wrime.ops.Invoker;
 import gazap.site.web.mvc.wrime.ops.Operand;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,7 +73,9 @@ public class ExpressionContextImpl extends ExpressionContext implements Expressi
 
     public Class tryClass(String paramType) {
         try {
-            return getClassLoader().loadClass(paramType);
+            return ClassUtils.forName(paramType, getClassLoader());
+        } catch (LinkageError e) {
+            return null;
         } catch (ClassNotFoundException e) {
             return null;
         }
@@ -97,7 +101,7 @@ public class ExpressionContextImpl extends ExpressionContext implements Expressi
     }
 
     @Override
-    public Operand findInvoker(TypeDef typeDef, String name) {
+    public Operand findAnyInvokerOrGetter(TypeDef typeDef, String name) {
         PropertyDescriptor propDescriptor;
         try {
             propDescriptor = BeanUtils.getPropertyDescriptor(typeDef.getClazz(), name);
@@ -113,12 +117,81 @@ public class ExpressionContextImpl extends ExpressionContext implements Expressi
 
         Method method;
         try {
-            method = BeanUtils.findMethodWithMinimalParameters(typeDef.getClazz(), name);
+            method = BeanUtils.findDeclaredMethodWithMinimalParameters(typeDef.getClazz(), name);
         } catch (IllegalArgumentException ie) {
             return createInvoker(name, null);
         }
 
         return method != null ? createInvoker(name, method) : null;
+    }
+
+
+    @Override
+    public Invoker findInvoker(TypeDef invocable, String methodName, TypeDef... argumentTypes) {
+        Class[] argumentClasses = new Class[argumentTypes.length];
+        for (int i = 0; i < argumentTypes.length; ++i) {
+            argumentClasses[i] = argumentTypes[i].getClazz();
+        }
+        return findInvoker(invocable.getClazz(), methodName, argumentClasses);
+    }
+
+    public Invoker findInvoker(Class invocable, String methodName, Class... argumentClasses) {
+        Method method = BeanUtils.findDeclaredMethod(invocable, methodName, argumentClasses);
+        if (method != null) {
+            return createInvoker(methodName, method);
+        }
+
+        for (Method m : invocable.getDeclaredMethods()) {
+            if (!methodName.equals(m.getName())) {
+                continue;
+            }
+            if (isCallableWithTypes(m, argumentClasses)) {
+                return createInvoker(methodName, m);
+            }
+        }
+
+        if (invocable.getSuperclass() != null && !invocable.equals(Object.class)) {
+            return findInvoker(invocable.getSuperclass(), methodName, argumentClasses);
+        }
+        return null;
+    }
+
+    public void t(int a, Object... aa) {
+    }
+
+    private boolean isCallableWithTypes(Method m, Class[] arguments) {
+        Class<?>[] parameters = m.getParameterTypes();
+
+        // test input length first
+        if (!m.isVarArgs()) {
+            if (arguments.length != parameters.length)
+                return false;
+        } else {
+            if (arguments.length < parameters.length - 1)
+                return false;
+        }
+
+        int substituteLength = m.isVarArgs() ? parameters.length - 1 : parameters.length;
+        // now check parameters before potential vararg
+        for (int idx = 0; idx < substituteLength; ++idx) {
+            if (!parameters[idx].isAssignableFrom(arguments[idx])) {
+                return false;
+            }
+        }
+
+        // first N parameters passes the check.
+        // now check vararg sequence
+        if (m.isVarArgs()) {
+            Class varType = parameters[parameters.length - 1].getComponentType();
+            for (Class varArg : Arrays.copyOfRange(arguments, parameters.length - 1, arguments.length)) {
+                if (!varType.isAssignableFrom(varArg)) {
+                    return false;
+                }
+            }
+        }
+
+        // is this really bad
+        return true;
     }
 
     private Getter createGetter(String name, PropertyDescriptor descriptor) {

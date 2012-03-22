@@ -2,7 +2,6 @@ package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
-import gazap.site.web.mvc.wrime.tree.PathContext;
 import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
 public class ParamReceiver extends PathReceiver {
@@ -22,14 +21,14 @@ public class ParamReceiver extends PathReceiver {
     }
 
     @Override
-    public void complete(PathContext context, ExpressionContextKeeper scope) throws WrimeException {
+    public void complete(ExpressionContextKeeper scope) throws WrimeException {
         switch (status) {
             case EXPECT_NAME:
                 error("incomplete parameter definition");
                 break;
             case EXPECT_OPTION:
                 scope.addModelParameter(paramType, paramName, scope.findClass(paramType));
-                context.markComplete(scope);
+                path.markComplete(scope);
                 break;
             default:
                 error("incomplete statement");
@@ -37,7 +36,7 @@ public class ParamReceiver extends PathReceiver {
     }
 
     @Override
-    public void pushDelimiter(PathContext context, ExpressionContextKeeper scope, String delimiter) throws WrimeException {
+    public void pushDelimiter(ExpressionContextKeeper scope, String delimiter) throws WrimeException {
         if (!".".equals(delimiter) || status != Status.EXPECT_NAME) {
             errorUnexpected(delimiter);
         }
@@ -45,7 +44,7 @@ public class ParamReceiver extends PathReceiver {
     }
 
     @Override
-    public void pushToken(PathContext context, ExpressionContextKeeper scope, String name) throws WrimeException {
+    public void pushToken(ExpressionContextKeeper scope, String name) throws WrimeException {
         switch (status) {
             case EXPECT_NAME:
                 // situation if we received "." before
@@ -58,7 +57,7 @@ public class ParamReceiver extends PathReceiver {
                     if (paramType.length() == 0) {
                         paramType = name;
                     }
-                    // otherwise we check for existense this type. and set parameter name
+                    // otherwise we check for existence this type. and set parameter name
                     else {
                         if (scope.findClass(paramType) == null) {
                             error("invalid class name " + paramType);

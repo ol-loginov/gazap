@@ -1,7 +1,5 @@
 package gazap.site.web.mvc.wrime.tags;
 
-import gazap.site.web.mvc.wrime.tree.PathContext;
-
 public class LoopFactory implements TagFactory {
     @Override
     public boolean supports(String name) {
@@ -9,7 +7,7 @@ public class LoopFactory implements TagFactory {
     }
 
     @Override
-    public LoopReceiver createReceiver(PathContext context, String name) {
+    public LoopReceiver createReceiver(String name) {
         return new LoopReceiver();
     }
 }

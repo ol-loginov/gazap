@@ -9,19 +9,29 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 public class TestResource {
-    public static String getResourceBasePath() {
+    private final Class testClass;
+
+    public TestResource(Class testClass) {
+        this.testClass = testClass;
+    }
+
+    public String relative(String path) {
+        return testClass.getSimpleName() + "/" + path;
+    }
+
+    public String getResourceBasePath() {
         try {
-            return new ClassPathResource("/wrime", TestResource.class.getClassLoader()).getURL().toString();
+            return new ClassPathResource(relative("."), testClass).getURL().toString();
         } catch (IOException e) {
             return "";
         }
     }
 
-    public static ScriptResource load(String url) {
-        return new ClassPathScriptSource(new ClassPathResource("/wrime/" + url, TestResource.class.getClassLoader()), getResourceBasePath());
+    public ScriptResource load(String url) {
+        return new ClassPathScriptSource(new ClassPathResource(relative(url), testClass), getResourceBasePath());
     }
 
-    public static void verify(String expectedResourceName, String content) {
+    public void verify(String expectedResourceName, String content) {
         StringWriter writer = new StringWriter();
         try {
             IOUtils.copy(load(expectedResourceName).getInputStream(), writer, "UTF-8");

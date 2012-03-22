@@ -2,23 +2,20 @@ import java.io.Writer;
 import java.lang.*;
 import java.util.*;
 
-public class W$wrime$006_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
-  private String hello;
-
-  public W$wrime$006_txt(Writer writer) {
+public class W$SimpleCompilerTest$005_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
+  public W$SimpleCompilerTest$005_txt(Writer writer) {
     super(writer);
   }
 
   protected void clear() {
-    this.hello=null;
     super.clear();
   }
 
   protected void assignFields(Map<String, Object> model) {
     super.assignFields(model);
-    this.hello=(String)model.get("hello");
   }
 
   protected void renderContent() throws Exception {
+    write("OGA!");
   }
 }

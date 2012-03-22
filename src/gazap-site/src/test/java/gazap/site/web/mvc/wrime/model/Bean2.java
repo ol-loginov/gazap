@@ -2,13 +2,13 @@ package gazap.site.web.mvc.wrime.model;
 
 public class Bean2 {
     private int integer;
-    private int string;
+    private String string;
 
     public int getInteger() {
         return integer;
     }
 
-    public int getString() {
+    public String getString() {
         return string;
     }
 
@@ -17,5 +17,11 @@ public class Bean2 {
 
     public Bean2 call(String value) {
         return this;
+    }
+
+    public void varg(int calls, int... object) {
+    }
+
+    public void varg(int calls, Object... object) {
     }
 }

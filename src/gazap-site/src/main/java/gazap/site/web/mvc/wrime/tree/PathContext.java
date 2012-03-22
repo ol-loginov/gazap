@@ -12,19 +12,20 @@ public class PathContext {
     private Stack<OperandRenderer> rendererStack = new Stack<OperandRenderer>();
 
     public PathContext(OperandRenderer renderer) {
-        receiverStack.push(new RootReceiver());
-        rendererStack.push(renderer);
+        push(new RootReceiver());
+        push(renderer);
     }
 
     public void push(PathReceiver receiver) {
+        receiver.setPath(this);
         receiverStack.push(receiver);
     }
 
     public void remove(PathReceiver receiver) {
         while (receiverStack.peek() != receiver) {
-            receiverStack.pop();
+            receiverStack.pop().setPath(null);
         }
-        receiverStack.pop();
+        receiverStack.pop().setPath(null);
     }
 
     public PathReceiver current() {
@@ -46,7 +47,9 @@ public class PathContext {
 
     public void markComplete(ExpressionContextKeeper scope) throws WrimeException {
         while (!receiverStack.empty()) {
-            receiverStack.pop().complete(this, scope);
+            PathReceiver receiver = receiverStack.pop();
+            receiver.complete(scope);
+            receiver.setPath(null);
         }
     }
 

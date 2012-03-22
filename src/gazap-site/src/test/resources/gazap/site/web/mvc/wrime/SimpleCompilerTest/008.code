@@ -2,10 +2,10 @@ import java.io.Writer;
 import java.lang.*;
 import java.util.*;
 
-public class W$wrime$008_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
+public class W$SimpleCompilerTest$008_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   private String hello;
 
-  public W$wrime$008_txt(Writer writer) {
+  public W$SimpleCompilerTest$008_txt(Writer writer) {
     super(writer);
   }
 

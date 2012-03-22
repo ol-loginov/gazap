@@ -3,10 +3,10 @@ import java.lang.*;
 import java.util.*;
 import gazap.site.web.mvc.wrime.model.*;
 
-public class W$wrime$009_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
+public class W$SimpleCompilerTest$009_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   private Bean1 bean;
 
-  public W$wrime$009_txt(Writer writer) {
+  public W$SimpleCompilerTest$009_txt(Writer writer) {
     super(writer);
   }
 

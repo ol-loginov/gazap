@@ -11,6 +11,10 @@ public class TypeDef {
         this.clazz = clazz;
     }
 
+    public boolean isVoid() {
+        return Void.TYPE.equals(clazz) || void.class.equals(clazz);
+    }
+
     public Class getClazz() {
         return clazz;
     }
