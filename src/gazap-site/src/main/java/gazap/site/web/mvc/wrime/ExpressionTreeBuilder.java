@@ -1,14 +1,13 @@
 package gazap.site.web.mvc.wrime;
 
-import gazap.site.web.mvc.wrime.ops.OperandRenderer;
 import gazap.site.web.mvc.wrime.tags.PathContext;
 import gazap.site.web.mvc.wrime.tags.PathReceiver;
 
 public class ExpressionTreeBuilder {
     private PathContext context;
 
-    public ExpressionTreeBuilder(OperandRenderer renderer) {
-        this.context = new PathContext(renderer);
+    public ExpressionTreeBuilder(PathContext context) {
+        this.context = context;
     }
 
     public boolean isComplete() {

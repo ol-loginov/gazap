@@ -11,8 +11,8 @@ public class PathContext {
     private Stack<PathReceiver> receiverStack = new Stack<PathReceiver>();
     private Stack<OperandRenderer> rendererStack = new Stack<OperandRenderer>();
 
-    public PathContext(OperandRenderer renderer) {
-        push(new RootReceiver());
+    public PathContext(OperandRenderer renderer, PathReceiver root) {
+        push(root);
         push(renderer);
     }
 

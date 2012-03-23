@@ -1,19 +1,21 @@
 package gazap.site.web.mvc.wrime;
 
+import gazap.site.web.mvc.wrime.tags.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class WrimeEngine {
     private final Map<String, Class<? extends WrimeWriter>> urlToClassMappings = new HashMap<String, Class<? extends WrimeWriter>>();
     private final Map<String, Object> nameToFunctorMappings = new HashMap<String, Object>();
+    private final List<TagFactory> tagFactories;
 
     private String rootPath;
     private ClassLoader rootLoader;
@@ -26,16 +28,28 @@ public class WrimeEngine {
     }
 
     public WrimeEngine() throws WrimeException {
-        try {
-            createRootLoader();
-        } catch (IOException e) {
-            throw new WrimeException("fail to initialize workplace", e);
-        }
+        createWorkingFolder();
+
         setOption(Compiler.FUNCTOR_PREFIX, "functor:");
+
+        tagFactories = new ArrayList<TagFactory>() {{
+            add(new ParamFactory());
+            add(new IncludeFactory());
+            add(new ImportFactory());
+            add(new ForFactory());
+            add(new ForContinueFactory());
+            add(new ForBreakFactory());
+        }};
     }
 
-    private void createRootLoader() throws IOException, WrimeException {
-        File tmpFolder = File.createTempFile("wrime", "");
+    private void createWorkingFolder() throws WrimeException {
+        File tmpFolder;
+        try {
+            tmpFolder = File.createTempFile("wrime", "");
+        } catch (IOException e) {
+            throw new WrimeException("fail to create working folder", e);
+        }
+
         if (!tmpFolder.delete()) {
             throw new WrimeException("fail to delete just created temporary file", null);
         }
@@ -43,8 +57,16 @@ public class WrimeEngine {
             throw new WrimeException("fail to create directory from just created temporary file", null);
         }
         tmpFolder.deleteOnExit();
+
+        URL tmpFolderUrl;
+        try {
+            tmpFolderUrl = tmpFolder.toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new WrimeException("fail to create working folder URL", e);
+        }
+
         this.rootPath = tmpFolder.getAbsolutePath();
-        this.rootLoader = new URLClassLoader(new URL[]{tmpFolder.toURI().toURL()}, getClass().getClassLoader());
+        this.rootLoader = new URLClassLoader(new URL[]{tmpFolderUrl}, getClass().getClassLoader());
     }
 
     public WrimeWriter newWriter(ScriptResource resource, Writer writer) throws Exception {
@@ -110,6 +132,10 @@ public class WrimeEngine {
 
     public ClassLoader getRootLoader() {
         return rootLoader;
+    }
+
+    public Collection<TagFactory> getTags() {
+        return tagFactories;
     }
 
     public Iterable<Map.Entry<String, Object>> getFunctors() {

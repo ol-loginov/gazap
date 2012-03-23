@@ -9,14 +9,8 @@ import java.util.List;
 public class RootReceiver extends PathReceiver {
     private List<TagFactory> tagFactories;
 
-    public RootReceiver() {
-        tagFactories = new ArrayList<TagFactory>() {{
-            add(new ForFactory());
-            add(new ForBreakFactory());
-            add(new ForContinueFactory());
-            add(new ParamFactory());
-            add(new ImportFactory());
-        }};
+    public RootReceiver(List<TagFactory> factories) {
+        tagFactories = new ArrayList<TagFactory>(factories);
     }
 
     @Override
@@ -36,6 +30,6 @@ public class RootReceiver extends PathReceiver {
 
     @Override
     public void complete(ExpressionContextKeeper scope) throws WrimeException {
-        //super-puper
+        //super-duper
     }
 }

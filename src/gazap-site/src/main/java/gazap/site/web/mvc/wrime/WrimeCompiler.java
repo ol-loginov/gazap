@@ -3,6 +3,9 @@ package gazap.site.web.mvc.wrime;
 import gazap.site.web.mvc.wrime.ops.Functor;
 import gazap.site.web.mvc.wrime.ops.Operand;
 import gazap.site.web.mvc.wrime.ops.OperandRendererDefault;
+import gazap.site.web.mvc.wrime.tags.PathContext;
+import gazap.site.web.mvc.wrime.tags.RootReceiver;
+import gazap.site.web.mvc.wrime.tags.TagFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -30,6 +33,8 @@ public class WrimeCompiler {
     private String functorPrefix;
     private Map<String, FunctorName> functorNames = new HashMap<String, FunctorName>();
 
+    private List<TagFactory> tagFactories = new ArrayList<TagFactory>();
+
     public WrimeCompiler(WrimeEngine engine) throws WrimeException {
         renderContentBody = new Body();
         expressionContext = new ExpressionContextImpl(this, engine.getRootLoader());
@@ -40,6 +45,8 @@ public class WrimeCompiler {
             name.field = toFieldIdentifier(functor.getKey());
             functorNames.put(functor.getKey(), name);
         }
+
+        tagFactories.addAll(engine.getTags());
     }
 
     public void configure(Map<WrimeEngine.Compiler, String> options) {
@@ -139,8 +146,10 @@ public class WrimeCompiler {
         expressionTreeBuilder = null;
     }
 
-    private void insideExpression() {
-        expressionTreeBuilder = new ExpressionTreeBuilder(new DirectCallRenderer());
+    private void startExpression() {
+        RootReceiver rootReceiver = new RootReceiver(tagFactories);
+        PathContext pathContext = new PathContext(new DirectCallRenderer(), rootReceiver);
+        expressionTreeBuilder = new ExpressionTreeBuilder(pathContext);
     }
 
     public void addImport(String clazz) {
@@ -383,7 +392,7 @@ public class WrimeCompiler {
         public void exprStart() throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(false);
-            insideExpression();
+            startExpression();
         }
 
         @Override
