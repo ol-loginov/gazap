@@ -1,20 +1,20 @@
 package gazap.site.web.mvc.wrime.ops;
 
-import gazap.site.web.mvc.wrime.TypeDef;
+import gazap.site.web.mvc.wrime.TypeName;
 
 public abstract class Operand {
-    private TypeDef result;
+    private TypeName result;
     private boolean statement = true;
 
     public boolean isStatement() {
         return statement;
     }
 
-    public TypeDef getResult() {
+    public TypeName getResult() {
         return result;
     }
 
-    public void setResult(TypeDef result) {
+    public void setResult(TypeName result) {
         this.result = result;
     }
 }

@@ -1,5 +1,7 @@
 package gazap.site.web.mvc.wrime;
 
+import java.util.Collection;
+
 public interface ExpressionContextKeeper {
     ExpressionContext current();
 
@@ -9,9 +11,11 @@ public interface ExpressionContextKeeper {
 
     void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass, String options) throws WrimeException;
 
+    Collection<ParameterName> getModelParameters();
+
     ExpressionContext openScope();
 
     ExpressionContext closeScope();
 
-    TypeDef findFunctor(String name);
+    TypeName findFunctorType(String name);
 }

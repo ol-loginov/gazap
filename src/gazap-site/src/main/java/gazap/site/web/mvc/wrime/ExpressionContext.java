@@ -9,7 +9,7 @@ public class ExpressionContext {
     private final ClassLoader classLoader;
     private final ExpressionContext parentContext;
 
-    private Map<String, TypeDef> localVariables = new HashMap<String, TypeDef>();
+    private Map<String, TypeName> localVariables = new HashMap<String, TypeName>();
     private Set<String> attributes = new HashSet<String>();
 
     public ExpressionContext(ClassLoader classLoader) {
@@ -34,19 +34,19 @@ public class ExpressionContext {
         attributes.add(attribute);
     }
 
-    public void addVar(String name, TypeDef classDef) throws WrimeException {
+    public void addVar(String name, TypeName classDef) throws WrimeException {
         if (hasVar(name)) {
             throw new WrimeException("Variable named " + name + " is already in scope", null);
         }
         localVariables.put(name, classDef);
     }
 
-    public TypeDef getVar(String name) {
-        TypeDef classDef = localVariables.get(name);
+    public TypeName getVarType(String name) {
+        TypeName classDef = localVariables.get(name);
         if (classDef != null) {
             return classDef;
         }
-        return parentContext != null ? parentContext.getVar(name) : null;
+        return parentContext != null ? parentContext.getVarType(name) : null;
     }
 
     public boolean hasVar(String name) {

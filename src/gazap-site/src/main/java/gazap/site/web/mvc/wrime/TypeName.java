@@ -2,14 +2,14 @@ package gazap.site.web.mvc.wrime;
 
 import java.lang.reflect.Type;
 
-public class TypeDef {
+public class TypeName {
     private Type type;
     private String alias;
 
-    public TypeDef() {
+    public TypeName() {
     }
 
-    public TypeDef(Type type) {
+    public TypeName(Type type) {
         this.type = type;
     }
 

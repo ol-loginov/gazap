@@ -12,8 +12,8 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 public class TypeUtil {
-    private static TypeDef createReturnTypeDef(Method method) {
-        TypeDef def = new TypeDef();
+    private static TypeName createReturnTypeDef(Method method) {
+        TypeName def = new TypeName();
         def.setType(method.getGenericReturnType());
         return def;
     }
@@ -72,7 +72,7 @@ public class TypeUtil {
     }
 
 
-    public static Invoker findInvoker(TypeDef invocable, String methodName, TypeDef... argumentTypes) {
+    public static Invoker findInvoker(TypeName invocable, String methodName, TypeName... argumentTypes) {
         Type[] argumentClasses = new Type[argumentTypes.length];
         for (int i = 0; i < argumentTypes.length; ++i) {
             argumentClasses[i] = argumentTypes[i].getType();
@@ -96,7 +96,7 @@ public class TypeUtil {
         return null;
     }
 
-    public static Operand findAnyInvokerOrGetter(TypeDef typeDef, String name) {
+    public static Operand findAnyInvokerOrGetter(TypeName typeDef, String name) {
         PropertyDescriptor propDescriptor = null;
         try {
             if (typeDef.getType() instanceof Class) {

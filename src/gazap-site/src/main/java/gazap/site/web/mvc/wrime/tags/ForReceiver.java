@@ -16,7 +16,7 @@ public class ForReceiver extends PathReceiver {
     private Status status = Status.NO_DECISION;
 
     private String varName = "";
-    private TypeDef varType;
+    private TypeName varType;
 
     private Operand iterator;
 
@@ -54,7 +54,7 @@ public class ForReceiver extends PathReceiver {
 
                 ExpressionContext context = scope.openScope();
                 context.addAttribute(ForFactory.LOOP_SCOPE);
-                context.addVar(varName, new TypeDef(iteratorType.getType()));
+                context.addVar(varName, new TypeName(iteratorType.getType()));
 
                 break;
             case NO_DECISION:

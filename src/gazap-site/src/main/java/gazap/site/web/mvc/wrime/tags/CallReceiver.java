@@ -1,7 +1,7 @@
 package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
-import gazap.site.web.mvc.wrime.TypeDef;
+import gazap.site.web.mvc.wrime.TypeName;
 import gazap.site.web.mvc.wrime.TypeUtil;
 import gazap.site.web.mvc.wrime.WrimeException;
 import gazap.site.web.mvc.wrime.ops.*;
@@ -81,7 +81,7 @@ public class CallReceiver extends PathReceiver {
         }
 
         Invoker invoker = (Invoker) operand;
-        TypeDef[] parameterTypes = new TypeDef[invoker.getParameters().size()];
+        TypeName[] parameterTypes = new TypeName[invoker.getParameters().size()];
         for (int i = 0; i < parameterTypes.length; ++i) {
             parameterTypes[i] = invoker.getParameters().get(i).getResult();
         }
@@ -133,15 +133,15 @@ public class CallReceiver extends PathReceiver {
     @Override
     public void pushToken(ExpressionContextKeeper scope, String name) throws WrimeException {
         if (operand == null) {
-            if (scope.current().getVar(name) != null) {
+            if (scope.current().getVarType(name) != null) {
                 Variable getter = new Variable();
                 getter.setVar(name);
-                getter.setResult(scope.current().getVar(name));
+                getter.setResult(scope.current().getVarType(name));
                 operand = getter;
-            } else if (scope.findFunctor(name) != null) {
+            } else if (scope.findFunctorType(name) != null) {
                 Functor functor = new Functor();
                 functor.setName(name);
-                functor.setResult(scope.findFunctor(name));
+                functor.setResult(scope.findFunctorType(name));
                 operand = functor;
             } else {
                 if (path.depth() > 2) {

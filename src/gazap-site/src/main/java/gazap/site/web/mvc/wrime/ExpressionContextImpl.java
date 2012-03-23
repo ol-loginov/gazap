@@ -3,6 +3,7 @@ package gazap.site.web.mvc.wrime;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -96,18 +97,30 @@ public class ExpressionContextImpl extends ExpressionContext implements Expressi
     }
 
     @Override
-    public void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass) throws WrimeException {
-        compiler.addModelParameter(parameterName, parameterTypeDef, parameterClass);
+    public void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass, String option) throws WrimeException {
+        compiler.addModelParameter(parameterName, parameterTypeDef, parameterClass, option);
     }
 
     @Override
-    public TypeDef getVar(String name) {
-        TypeDef def = super.getVar(name);
-        return def != null ? def : compiler.getModelParameter(name);
+    public Collection<ParameterName> getModelParameters() {
+        return compiler.getModelParameters();
     }
 
     @Override
-    public TypeDef findFunctor(String name) {
-        return compiler.findFunctor(name);
+    public TypeName getVarType(String name) {
+        TypeName def = super.getVarType(name);
+        if (def == null) {
+            return def;
+        }
+        ParameterName parameter = compiler.getModelParameter(name);
+        if (parameter != null) {
+            return parameter.getType();
+        }
+        return null;
+    }
+
+    @Override
+    public TypeName findFunctorType(String name) {
+        return compiler.findFunctorType(name);
     }
 }

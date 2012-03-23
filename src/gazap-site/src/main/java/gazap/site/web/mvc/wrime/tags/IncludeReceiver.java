@@ -1,6 +1,8 @@
 package gazap.site.web.mvc.wrime.tags;
 
+import gazap.site.web.mvc.wrime.EscapeUtils;
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
+import gazap.site.web.mvc.wrime.ParameterName;
 import gazap.site.web.mvc.wrime.WrimeException;
 import gazap.site.web.mvc.wrime.ops.Chain;
 import gazap.site.web.mvc.wrime.ops.Operand;
@@ -19,7 +21,7 @@ public class IncludeReceiver extends PathReceiver {
 
     static class ModelParameter {
         String name;
-        Operand value;
+        Operand getter;
     }
 
     private Status status = Status.WAIT_START;
@@ -36,10 +38,22 @@ public class IncludeReceiver extends PathReceiver {
     public void beginList(ExpressionContextKeeper scope) throws WrimeException {
         switch (status) {
             case WAIT_START:
+                storeTransientParameters(scope);
                 path.push(new CallReceiver(createPathCloser()));
                 break;
             default:
                 errorUnexpected("(");
+        }
+    }
+
+    private void storeTransientParameters(ExpressionContextKeeper scope) {
+        for (ParameterName parameter : scope.getModelParameters()) {
+            if (parameter.getOption().contains("transient")) {
+                ModelParameter model = new ModelParameter();
+                model.name = parameter.getName();
+                model.getter = new Raw("this." + parameter.getName());
+                templateModel.add(model);
+            }
         }
     }
 
@@ -69,6 +83,11 @@ public class IncludeReceiver extends PathReceiver {
                 if (templateModel.size() > 0) {
                     model = String.format("$includeAt_%d_%d", path.getLine(), path.getColumn());
                     chain.getOperands().add(new Raw(String.format("ModelMap %s = new ModelMap();\n", model)));
+                    for (ModelParameter parameter : templateModel) {
+                        chain.getOperands().add(new Raw(String.format("%s.put(\"%s\", ", model, EscapeUtils.escapeJavaString(parameter.name))));
+                        chain.getOperands().add(parameter.getter);
+                        chain.getOperands().add(new Raw(");\n"));
+                    }
                 } else {
                     model = "null";
                 }

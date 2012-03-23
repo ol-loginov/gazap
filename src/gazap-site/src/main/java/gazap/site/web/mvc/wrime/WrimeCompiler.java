@@ -28,7 +28,7 @@ public class WrimeCompiler {
     private String className;
 
     private List<String> importNames = new ArrayList<String>();
-    private Map<String, TypeDef> parameterNames = new HashMap<String, TypeDef>();
+    private Map<String, ParameterName> parameterNames = new HashMap<String, ParameterName>();
 
     private String functorPrefix;
     private Map<String, FunctorName> functorNames = new HashMap<String, FunctorName>();
@@ -39,11 +39,8 @@ public class WrimeCompiler {
         renderContentBody = new Body();
         expressionContext = new ExpressionContextImpl(this, engine.getRootLoader());
 
-        for (Map.Entry<String, Object> functor : engine.getFunctors()) {
-            FunctorName name = new FunctorName();
-            name.type = functor.getValue().getClass();
-            name.field = toFieldIdentifier(functor.getKey());
-            functorNames.put(functor.getKey(), name);
+        for (Map.Entry<String, Object> kv : engine.getFunctors()) {
+            functorNames.put(kv.getKey(), new FunctorName(kv.getKey(), kv.getValue().getClass(), toFieldIdentifier(kv.getKey())));
         }
 
         tagFactories.addAll(engine.getTags());
@@ -107,6 +104,7 @@ public class WrimeCompiler {
 
                 .a(new ModelParameterListDeclarator())
                 .a(new ModelFunctorListDeclarator())
+                .a(new DeclarationDelimiter())
 
                 .l(String.format("public %s(Writer writer) {", className))
                 .scope().l("super(writer);").leave()
@@ -163,21 +161,25 @@ public class WrimeCompiler {
         return new ScannerReceiver();
     }
 
-    public void addModelParameter(String parameterName, String parameterTypeDef, Class parameterClass) throws WrimeException {
+    public Collection<ParameterName> getModelParameters() {
+        return parameterNames.values();
+    }
+
+    public void addModelParameter(String parameterName, String parameterTypeDef, Class parameterClass, String option) throws WrimeException {
         if (!isIdentifier(parameterName)) {
             error("not a Java identifier " + parameterName);
         }
         if (parameterNames.containsKey(parameterName)) {
             error("duplicate for model parameter " + parameterName);
         }
-        TypeDef def = new TypeDef();
+        TypeName def = new TypeName();
         def.setType(parameterClass);
         def.setAlias(parameterTypeDef);
-        parameterNames.put(parameterName, def);
         expressionContext.addVar(parameterName, def);
+        parameterNames.put(parameterName, new ParameterName(parameterName, def, option));
     }
 
-    public TypeDef getModelParameter(String name) {
+    public ParameterName getModelParameter(String name) {
         return parameterNames.get(name);
     }
 
@@ -189,9 +191,9 @@ public class WrimeCompiler {
         renderContentBody = renderContentBody.leave();
     }
 
-    public TypeDef findFunctor(String name) {
+    public TypeName findFunctorType(String name) {
         FunctorName functor = functorNames.get(name);
-        return functor != null ? new TypeDef(functor.type) : null;
+        return functor != null ? new TypeName(functor.getType()) : null;
     }
 
     private static class Body {
@@ -252,28 +254,33 @@ public class WrimeCompiler {
         void in(Body body);
     }
 
+    private class DeclarationDelimiter implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (getModelParameters().size() > 0 || functorNames.size() > 0) {
+                body.nl();
+            }
+        }
+    }
+
     private class ModelParameterListDeclarator implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (parameterNames.size() == 0) {
-                return;
+            for (ParameterName parameter : getModelParameters()) {
+                body.l(String.format("private %s %s;",
+                        parameter.getType().getAlias(),
+                        parameter.getName()));
             }
-            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
-                body.a(String.format("private %s %s;", var.getValue().getAlias(), var.getKey())).nl();
-            }
-            body.nl();
         }
     }
 
     private class ModelParameterListCleaner implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (parameterNames.size() == 0) {
-                return;
-            }
-            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
-                body.a(String.format("this.%s=%s;", var.getKey(), Defaults.getDefaultValueString(var.getValue().getType())))
-                        .nl();
+            for (ParameterName parameter : getModelParameters()) {
+                body.l(String.format("this.%s=%s;",
+                        parameter.getName(),
+                        Defaults.getDefaultValueString(parameter.getType().getType())));
             }
         }
     }
@@ -281,11 +288,11 @@ public class WrimeCompiler {
     private class ModelParameterListInitializer implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (parameterNames.size() == 0) {
-                return;
-            }
-            for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
-                body.l(String.format("this.%s=(%s)model.get(\"%s\");", var.getKey(), var.getValue().getAlias(), EscapeUtils.escapeJavaString(var.getKey())));
+            for (ParameterName parameter : getModelParameters()) {
+                body.l(String.format("this.%s=(%s)model.get(\"%s\");",
+                        parameter.getName(),
+                        parameter.getType().getAlias(),
+                        EscapeUtils.escapeJavaString(parameter.getName())));
             }
         }
     }
@@ -293,26 +300,19 @@ public class WrimeCompiler {
     private class ModelFunctorListDeclarator implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (functorNames.size() == 0) {
-                return;
+            for (FunctorName functor : functorNames.values()) {
+                body.l(String.format("private %s %s;",
+                        TypeWrap.create(functor.getType()).getJavaSourceName(),
+                        functor.getField()));
             }
-            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
-                FunctorName functor = var.getValue();
-                body.a(String.format("private %s %s;", TypeWrap.create(functor.type).getJavaSourceName(), functor.field)).nl();
-            }
-            body.nl();
         }
     }
 
     private class ModelFunctorListCleaner implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (functorNames.size() == 0) {
-                return;
-            }
-            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
-                FunctorName functor = var.getValue();
-                body.l(String.format("this.%s=null;", functor.field));
+            for (FunctorName functor : functorNames.values()) {
+                body.l(String.format("this.%s=null;", functor.getField()));
             }
         }
     }
@@ -320,13 +320,9 @@ public class WrimeCompiler {
     private class ModelFunctorListInitializer implements BodyCallback {
         @Override
         public void in(Body body) {
-            if (functorNames.size() == 0) {
-                return;
-            }
-            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
-                FunctorName functor = var.getValue();
-                String functorKey = functorPrefix + var.getKey();
-                body.l(String.format("this.%s=(%s)model.get(\"%s\");", functor.field, TypeWrap.create(functor.type).getJavaSourceName(), functorKey));
+            for (FunctorName functor : functorNames.values()) {
+                String functorKey = functorPrefix + functor.getName();
+                body.l(String.format("this.%s=(%s)model.get(\"%s\");", functor.getField(), TypeWrap.create(functor.getType()).getJavaSourceName(), functorKey));
             }
         }
     }
@@ -473,16 +469,11 @@ public class WrimeCompiler {
         @Override
         public void render(Functor operand, Writer writer) throws IOException {
             FunctorName functor = functorNames.get(operand.getName());
-            writer.append(String.format("this.%s", functor.field));
+            writer.append(String.format("this.%s", functor.getField()));
         }
 
-        private boolean isWritable(TypeDef def) {
+        private boolean isWritable(TypeName def) {
             return def != null && def.getType() != null && !def.getType().equals(Void.TYPE);
         }
-    }
-
-    private class FunctorName {
-        private Class type;
-        private String field;
     }
 }
