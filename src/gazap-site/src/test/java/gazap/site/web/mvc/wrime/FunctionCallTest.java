@@ -54,6 +54,6 @@ public class FunctionCallTest {
 
     @Test
     public void callOnVoidResult() throws WrimeException {
-        checkError("014", "Expression analyser reports an error: no invocable at the point (FunctionCallTest/014.txt:2, column 50)");
+        checkError("014", "Expression analyser reports an error: no invocable at the point (FunctionCallTest/014.txt:2, column 33)");
     }
 }

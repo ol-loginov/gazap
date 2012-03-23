@@ -24,4 +24,7 @@ public class Bean2 {
 
     public void varg(int calls, Object... object) {
     }
+
+    public void void_method(String value) {
+    }
 }
