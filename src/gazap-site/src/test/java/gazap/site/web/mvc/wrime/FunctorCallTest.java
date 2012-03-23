@@ -41,6 +41,6 @@ public class FunctorCallTest {
 
     @Test
     public void callUnknownFunctor() throws WrimeException {
-        checkError("001", "Expression analyser reports an error: unknown variable or function provider 'no_module' (FunctorCallTest/001.txt:1, column 3)");
+        checkError("001", "Expression analyser reports an error: unknown tag, variable or functor 'no_module' (FunctorCallTest/001.txt:1, column 3)");
     }
 }

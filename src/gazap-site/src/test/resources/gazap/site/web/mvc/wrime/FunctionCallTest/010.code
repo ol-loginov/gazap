@@ -5,18 +5,22 @@ import java.util.*;
 public class W$FunctionCallTest$010_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   private gazap.site.web.mvc.wrime.model.Bean0 bean;
 
+  private gazap.site.web.mvc.wrime.functor.I18Nizer $i18n;
+
   public W$FunctionCallTest$010_txt(Writer writer) {
     super(writer);
   }
 
   protected void clear() {
     this.bean=null;
+    this.$i18n=null;
     super.clear();
   }
 
   protected void assignFields(Map<String, Object> model) {
     super.assignFields(model);
     this.bean=(gazap.site.web.mvc.wrime.model.Bean0)model.get("bean");
+    this.$i18n=(gazap.site.web.mvc.wrime.functor.I18Nizer)model.get("functor:i18n");
   }
 
   protected void renderContent() throws Exception {
