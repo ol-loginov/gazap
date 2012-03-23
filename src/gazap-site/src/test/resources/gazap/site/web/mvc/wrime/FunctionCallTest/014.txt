@@ -1,2 +1,0 @@
-${param gazap.site.web.mvc.wrime.model.Bean2 bean}
-A${bean.void_method(bean.string).no_method}G

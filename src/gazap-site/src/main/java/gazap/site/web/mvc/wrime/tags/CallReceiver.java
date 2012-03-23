@@ -6,17 +6,16 @@ import gazap.site.web.mvc.wrime.TypeUtil;
 import gazap.site.web.mvc.wrime.WrimeException;
 import gazap.site.web.mvc.wrime.ops.*;
 
+/**
+ * Accepts and validate syntax like "field.method().foo"
+ */
 public class CallReceiver extends PathReceiver {
-    public static interface CloseCallback {
-        void complete(CallReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException;
-    }
-
     private enum Expect {
         NONE,
         INVOKER
     }
 
-    private final CloseCallback closer;
+    private final CompleteCallback closer;
     private Operand operand;
     private Expect expect = Expect.NONE;
 
@@ -24,7 +23,7 @@ public class CallReceiver extends PathReceiver {
         this(null);
     }
 
-    public CallReceiver(CloseCallback closer) {
+    public CallReceiver(CompleteCallback closer) {
         this.closer = closer;
     }
 
@@ -51,12 +50,12 @@ public class CallReceiver extends PathReceiver {
         }
     }
 
-    private CloseCallback createCloser() {
-        return new CloseCallback() {
+    private CompleteCallback createCloser() {
+        return new CompleteCallback() {
             @Override
-            public void complete(CallReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
+            public void complete(PathReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
                 path.remove(child);
-                addOperand(child.getOperand());
+                addOperand(((CallReceiver) child).getOperand());
                 if (!last) {
                     path.push(new CallReceiver(this));
                 } else {

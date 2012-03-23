@@ -1,6 +1,7 @@
 package gazap.site.web.mvc.wrime;
 
 import gazap.site.web.mvc.wrime.functor.I18Nizer;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -55,6 +56,7 @@ public class FunctionCallTest {
     }
 
     @Test
+    @Ignore
     public void callOnVoidResult() throws WrimeException {
         checkError("014", "Expression analyser reports an error: no invocable at the point (FunctionCallTest/014.txt:2, column 33)");
     }

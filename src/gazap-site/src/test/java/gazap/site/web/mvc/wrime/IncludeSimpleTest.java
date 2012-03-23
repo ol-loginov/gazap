@@ -25,4 +25,9 @@ public class IncludeSimpleTest {
     public void emptyWithTransient() throws WrimeException {
         check("001");
     }
+
+    @Test
+    public void emptyWithLocals() throws WrimeException {
+        check("002");
+    }
 }

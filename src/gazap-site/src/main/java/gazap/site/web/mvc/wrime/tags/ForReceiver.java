@@ -27,7 +27,7 @@ public class ForReceiver extends PathReceiver {
                 status = Status.WAIT_VAR;
                 break;
             default:
-                errorUnexpected("(");
+                errorUnexpected(WrimeScanner.OPEN_LIST_SYMBOL);
         }
     }
 
@@ -66,7 +66,7 @@ public class ForReceiver extends PathReceiver {
 
                 break;
             default:
-                error("${loop(...)} is incomplete");
+                error("${for(...)} is incomplete");
         }
     }
 
@@ -96,15 +96,15 @@ public class ForReceiver extends PathReceiver {
         }
     }
 
-    private CallReceiver.CloseCallback createCloser() {
-        return new CallReceiver.CloseCallback() {
+    private CompleteCallback createCloser() {
+        return new CompleteCallback() {
             @Override
-            public void complete(CallReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
+            public void complete(PathReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
                 path.remove(child);
                 if (!last) {
                     error("only one expression allowed for iterator");
                 }
-                iterator = child.getOperand();
+                iterator = ((CallReceiver) child).getOperand();
                 status = Status.COMPLETE;
             }
         };

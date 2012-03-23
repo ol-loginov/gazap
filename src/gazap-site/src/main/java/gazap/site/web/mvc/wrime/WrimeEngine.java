@@ -96,7 +96,7 @@ public class WrimeEngine {
     }
 
     protected void scan(ScriptResource resource, WrimeScanner.Receiver receiver) throws WrimeException {
-        WrimeScanner scanner = new WrimeScanner();
+        WrimeScanner scanner = new WrimeScannerImpl();
         scanner.configure(scannerOptions);
         scanner.parse(resource, receiver);
     }

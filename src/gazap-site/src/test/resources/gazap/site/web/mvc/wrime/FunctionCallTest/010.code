@@ -4,7 +4,6 @@ import java.util.*;
 
 public class W$FunctionCallTest$010_txt extends gazap.site.web.mvc.wrime.WrimeWriter {
   private gazap.site.web.mvc.wrime.model.Bean0 bean;
-
   private gazap.site.web.mvc.wrime.functor.I18Nizer $i18n;
 
   public W$FunctionCallTest$010_txt(Writer writer) {

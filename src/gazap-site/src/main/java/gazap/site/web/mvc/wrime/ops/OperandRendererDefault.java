@@ -4,6 +4,7 @@ import gazap.site.web.mvc.wrime.EscapeUtils;
 import gazap.site.web.mvc.wrime.WrimeException;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 public abstract class OperandRendererDefault implements OperandRenderer, FunctorRenderer {
@@ -63,17 +64,18 @@ public abstract class OperandRendererDefault implements OperandRenderer, Functor
     }
 
     private void render0(Invoker operand, Writer writer) throws WrimeException, IOException {
-        render(operand.getInvocable(), writer);
-        writer.append(".").append(operand.getMethod().getName()).append("(");
+        StringWriter parameterWriter = new StringWriter();
         boolean firstParameter = true;
         for (Operand parameter : operand.getParameters()) {
             if (!firstParameter) {
-                writer.append(",");
+                parameterWriter.append(",");
             }
             firstParameter = false;
-            render(parameter, writer);
+            render(parameter, parameterWriter);
         }
-        writer.append(")");
+
+        render(operand.getInvocable(), writer);
+        writer.append(String.format(".%s(%s)", operand.getMethod().getName(), parameterWriter.toString()));
     }
 
     private void render0(Variable operand, Writer writer) throws IOException {

@@ -1,9 +1,6 @@
 package gazap.site.web.mvc.wrime.tags;
 
-import gazap.site.web.mvc.wrime.EscapeUtils;
-import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
-import gazap.site.web.mvc.wrime.ParameterName;
-import gazap.site.web.mvc.wrime.WrimeException;
+import gazap.site.web.mvc.wrime.*;
 import gazap.site.web.mvc.wrime.ops.Chain;
 import gazap.site.web.mvc.wrime.ops.Operand;
 import gazap.site.web.mvc.wrime.ops.Raw;
@@ -19,7 +16,7 @@ public class IncludeReceiver extends PathReceiver {
         COMPLETE
     }
 
-    static class ModelParameter {
+    static class TemplateParameter {
         String name;
         Operand getter;
     }
@@ -27,11 +24,10 @@ public class IncludeReceiver extends PathReceiver {
     private Status status = Status.WAIT_START;
 
     private Operand templatePath;
-    private List<ModelParameter> templateModel = new ArrayList<ModelParameter>();
+    private List<TemplateParameter> templateModel = new ArrayList<TemplateParameter>();
 
-    @Override
-    public void error(String message) throws WrimeException {
-        super.error("incomplete ${include ...} expression, " + message);
+    public void errorIncomplete(String message) throws WrimeException {
+        super.error("incomplete ${include(...)} expression, " + message);
     }
 
     @Override
@@ -39,17 +35,17 @@ public class IncludeReceiver extends PathReceiver {
         switch (status) {
             case WAIT_START:
                 storeTransientParameters(scope);
-                path.push(new CallReceiver(createPathCloser()));
+                waitForPath();
                 break;
             default:
-                errorUnexpected("(");
+                errorUnexpected(WrimeScanner.OPEN_LIST_SYMBOL);
         }
     }
 
     private void storeTransientParameters(ExpressionContextKeeper scope) {
         for (ParameterName parameter : scope.getModelParameters()) {
             if (parameter.getOption().contains("transient")) {
-                ModelParameter model = new ModelParameter();
+                TemplateParameter model = new TemplateParameter();
                 model.name = parameter.getName();
                 model.getter = new Raw("this." + parameter.getName());
                 templateModel.add(model);
@@ -57,20 +53,51 @@ public class IncludeReceiver extends PathReceiver {
         }
     }
 
-    private CallReceiver.CloseCallback createPathCloser() {
-        return new CallReceiver.CloseCallback() {
+    private void waitForPath() {
+        path.push(new CallReceiver(createPathCloser()));
+    }
+
+    private CompleteCallback createPathCloser() {
+        return new CompleteCallback() {
             @Override
-            public void complete(CallReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
+            public void complete(PathReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
                 path.remove(child);
                 status = last ? Status.COMPLETE : Status.WAIT_PARAMETER;
-                templatePath = child.getOperand();
+                templatePath = ((CallReceiver) child).getOperand();
+                if (!last) {
+                    waitForParameter();
+                }
+            }
+        };
+    }
+
+    private void waitForParameter() {
+        path.push(new AssignReceiver().setCompleteCallback(createParameterCloser()));
+    }
+
+    private CompleteCallback createParameterCloser() {
+        return new CompleteCallback() {
+            @Override
+            public void complete(PathReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
+                path.remove(child);
+                status = last ? Status.COMPLETE : Status.WAIT_PARAMETER;
+
+                TemplateParameter parameter = new TemplateParameter();
+                parameter.name = ((AssignReceiver) child).getAlias();
+                parameter.getter = ((AssignReceiver) child).getSource();
+                templateModel.add(parameter);
+
+                if (!last) {
+                    waitForParameter();
+                } else {
+                }
             }
         };
     }
 
     @Override
     public String getHumanName() {
-        return "Template includer";
+        return "Template invoker";
     }
 
     @Override
@@ -83,7 +110,7 @@ public class IncludeReceiver extends PathReceiver {
                 if (templateModel.size() > 0) {
                     model = String.format("$includeAt_%d_%d", path.getLine(), path.getColumn());
                     chain.getOperands().add(new Raw(String.format("ModelMap %s = new ModelMap();\n", model)));
-                    for (ModelParameter parameter : templateModel) {
+                    for (TemplateParameter parameter : templateModel) {
                         chain.getOperands().add(new Raw(String.format("%s.put(\"%s\", ", model, EscapeUtils.escapeJavaString(parameter.name))));
                         chain.getOperands().add(parameter.getter);
                         chain.getOperands().add(new Raw(");\n"));
@@ -98,7 +125,7 @@ public class IncludeReceiver extends PathReceiver {
                 path.render(chain);
                 break;
             default:
-                error("waiting for more parameters");
+                errorIncomplete("waiting for more parameters");
         }
     }
 }

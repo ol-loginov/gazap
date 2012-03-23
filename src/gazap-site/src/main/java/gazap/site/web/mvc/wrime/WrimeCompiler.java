@@ -219,7 +219,11 @@ public class WrimeCompiler {
         }
 
         public Body a(Body other) {
-            Scanner scanner = new Scanner(new StringReader(other.toString()));
+            return everyLine(other.toString());
+        }
+
+        public Body everyLine(String bunchOfLines) {
+            Scanner scanner = new Scanner(new StringReader(bunchOfLines));
             scanner.useDelimiter(Pattern.compile(Pattern.quote(EOL)));
             while (scanner.hasNext()) {
                 l(scanner.next());
@@ -460,9 +464,9 @@ public class WrimeCompiler {
                 closer = ";";
             }
             if (isWritable(operand.getResult())) {
-                renderContentBody.l(String.format("write(%s)%s", writer.toString(), closer));
+                renderContentBody.everyLine(String.format("write(%s)%s", writer.toString(), closer));
             } else {
-                renderContentBody.l(String.format("%s%s", writer.toString(), closer));
+                renderContentBody.everyLine(String.format("%s%s", writer.toString(), closer));
             }
         }
 
