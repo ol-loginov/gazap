@@ -17,7 +17,12 @@ public class IncludeSimpleTest {
     }
 
     @Test
-    public void emptyBoth() throws WrimeException {
+    public void empty() throws WrimeException {
         check("000");
+    }
+
+    @Test
+    public void emptyWithTransient() throws WrimeException {
+        check("001");
     }
 }

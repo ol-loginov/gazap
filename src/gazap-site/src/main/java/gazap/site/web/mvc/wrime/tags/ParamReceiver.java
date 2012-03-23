@@ -11,6 +11,7 @@ public class ParamReceiver extends PathReceiver {
 
     private String paramType = "";
     private String paramName = "";
+    private String paramOption = "";
 
     private Status status = Status.EXPECT_NAME;
 
@@ -26,7 +27,7 @@ public class ParamReceiver extends PathReceiver {
                 error("incomplete parameter definition");
                 break;
             case EXPECT_OPTION:
-                scope.addModelParameter(paramType, paramName, scope.findClass(paramType));
+                scope.addModelParameter(paramType, paramName, scope.findClass(paramType), paramOption);
                 path.markComplete(scope);
                 break;
             default:
@@ -68,8 +69,10 @@ public class ParamReceiver extends PathReceiver {
                 }
                 break;
             case EXPECT_OPTION:
-                // we don't expect any expressions for now
-                error("options for tag are not supported for now");
+                if (paramOption.length() > 0) {
+                    paramOption += " ";
+                }
+                paramOption += name;
                 break;
             default:
                 error("invalid syntax");

@@ -10,6 +10,9 @@ public abstract class PathReceiver {
         this.path = path;
     }
 
+    public void setup() {
+    }
+
     public void errorUnexpected(String token) throws WrimeException {
         throw new WrimeException(getClass().getSimpleName() + " reports about unexpected token '" + token + "'", null);
     }

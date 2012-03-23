@@ -27,6 +27,8 @@ public class WrimeScanner {
         void exprLiteral(String literal) throws WrimeException;
 
         void exprDelimiter(String value) throws WrimeException;
+
+        void setLocation(String path, int line, int column);
     }
 
     private static final Pattern EAT_SPACE = Pattern.compile("^\\s*(.*)\\s*$");
@@ -63,6 +65,7 @@ public class WrimeScanner {
         Token token = new Token();
         while (scanner.next(token)) {
             try {
+                receiver.setLocation(path, token.line, token.column);
                 accept(receiver, token);
                 if (token.type == TokenType.EOF) {
                     return;

@@ -10,17 +10,21 @@ public class WrimeScannerDumper implements WrimeScanner.Receiver {
         this.writer = writer;
     }
 
-    @Override
-    public void startResource(ScriptResource resource) {
-        appendQuietly("[enter resource " + resource.getPath() + "]");
-    }
-
     private void appendQuietly(String text) {
         try {
             writer.append(text);
         } catch (IOException e) {
             // sorry for that
         }
+    }
+
+    @Override
+    public void setLocation(String path, int line, int column) {
+    }
+
+    @Override
+    public void startResource(ScriptResource resource) {
+        appendQuietly("[enter resource " + resource.getPath() + "]");
     }
 
     @Override

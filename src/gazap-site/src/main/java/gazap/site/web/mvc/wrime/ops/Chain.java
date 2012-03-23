@@ -12,9 +12,6 @@ public class Chain extends Operand {
 
     @Override
     public boolean isStatement() {
-        if (operands.size() == 0) {
-            return false;
-        }
-        return operands.get(operands.size() - 1).isStatement();
+        return operands.size() > 0 && operands.get(operands.size() - 1).isStatement();
     }
 }

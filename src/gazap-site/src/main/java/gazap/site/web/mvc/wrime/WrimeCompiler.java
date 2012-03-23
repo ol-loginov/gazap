@@ -21,7 +21,7 @@ public class WrimeCompiler {
 
     private Body renderContentBody;
 
-    private ExpressionTreeBuilder expressionTreeBuilder;
+    private PathContext expressionPath;
     private ExpressionContextImpl expressionContext;
 
     private boolean classDone;
@@ -136,20 +136,19 @@ public class WrimeCompiler {
     }
 
     private void ensureInsideExpression(boolean shouldHaveExpression) throws WrimeException {
-        if (expressionTreeBuilder != null ^ shouldHaveExpression) {
+        if (expressionPath != null ^ shouldHaveExpression) {
             error("unexpected expression statement");
         }
     }
 
     private void completeExpression() throws WrimeException {
-        expressionTreeBuilder.getContext().markComplete(expressionContext);
-        expressionTreeBuilder = null;
+        expressionPath.markComplete(expressionContext);
+        expressionPath = null;
     }
 
     private void startExpression() {
         RootReceiver rootReceiver = new RootReceiver(tagFactories);
-        PathContext pathContext = new PathContext(new DirectCallRenderer(), rootReceiver);
-        expressionTreeBuilder = new ExpressionTreeBuilder(pathContext);
+        expressionPath = new PathContext(new DirectCallRenderer(), rootReceiver);
     }
 
     public void addImport(String clazz) {
@@ -365,6 +364,14 @@ public class WrimeCompiler {
 
     private class ScannerReceiver implements WrimeScanner.Receiver {
         @Override
+        public void setLocation(String path, int line, int column) {
+            if (expressionPath == null) {
+                return;
+            }
+            expressionPath.setPosition(path, line, column);
+        }
+
+        @Override
         public void startResource(ScriptResource resource) throws WrimeException {
             ensureNotReady();
             expressionContext.addImport(java.io.Writer.class);
@@ -406,35 +413,35 @@ public class WrimeCompiler {
         public void exprListOpen() throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().beginList(expressionContext);
+            expressionPath.current().beginList(expressionContext);
         }
 
         @Override
         public void exprListClose() throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().closeList(expressionContext);
+            expressionPath.current().closeList(expressionContext);
         }
 
         @Override
         public void exprName(String name) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushToken(expressionContext, name);
+            expressionPath.current().pushToken(expressionContext, name);
         }
 
         @Override
         public void exprLiteral(String literal) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushLiteral(expressionContext, literal);
+            expressionPath.current().pushLiteral(expressionContext, literal);
         }
 
         @Override
         public void exprDelimiter(String value) throws WrimeException {
             ensureNotReady();
             ensureInsideExpression(true);
-            expressionTreeBuilder.receiver().pushDelimiter(expressionContext, value);
+            expressionPath.current().pushDelimiter(expressionContext, value);
         }
     }
 

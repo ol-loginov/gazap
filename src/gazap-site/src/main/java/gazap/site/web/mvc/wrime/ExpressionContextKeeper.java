@@ -7,7 +7,7 @@ public interface ExpressionContextKeeper {
 
     void addImport(String className);
 
-    void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass) throws WrimeException;
+    void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass, String options) throws WrimeException;
 
     ExpressionContext openScope();
 

@@ -11,9 +11,31 @@ public class PathContext {
     private Stack<PathReceiver> receiverStack = new Stack<PathReceiver>();
     private Stack<OperandRenderer> rendererStack = new Stack<OperandRenderer>();
 
+    private String file;
+    private int line;
+    private int column;
+
     public PathContext(OperandRenderer renderer, PathReceiver root) {
         push(root);
         push(renderer);
+    }
+
+    public void setPosition(String file, int line, int column) {
+        this.file = file;
+        this.line = line;
+        this.column = column;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public int depth() {
@@ -23,6 +45,7 @@ public class PathContext {
     public void push(PathReceiver receiver) {
         receiver.setPath(this);
         receiverStack.push(receiver);
+        receiver.setup();
     }
 
     public void remove(PathReceiver receiver) {
