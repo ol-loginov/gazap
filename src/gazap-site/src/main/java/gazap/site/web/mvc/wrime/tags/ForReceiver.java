@@ -4,8 +4,6 @@ import gazap.site.web.mvc.wrime.*;
 import gazap.site.web.mvc.wrime.ops.Chain;
 import gazap.site.web.mvc.wrime.ops.Operand;
 import gazap.site.web.mvc.wrime.ops.Raw;
-import gazap.site.web.mvc.wrime.tree.CallReceiver;
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
 public class ForReceiver extends PathReceiver {
     private enum Status {

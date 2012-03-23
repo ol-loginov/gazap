@@ -2,9 +2,8 @@ package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
-public class IncludeReceiver extends PathReceiver {
+public class ImportReceiver extends PathReceiver {
     private String imports = "";
 
     @Override

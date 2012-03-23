@@ -2,7 +2,6 @@ package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
 public class ParamReceiver extends PathReceiver {
     public static enum Status {

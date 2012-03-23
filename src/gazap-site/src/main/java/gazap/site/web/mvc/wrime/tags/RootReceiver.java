@@ -1,8 +1,7 @@
-package gazap.site.web.mvc.wrime.tree;
+package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
-import gazap.site.web.mvc.wrime.tags.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public class RootReceiver extends PathReceiver {
             add(new ForBreakFactory());
             add(new ForContinueFactory());
             add(new ParamFactory());
-            add(new IncludeFactory());
+            add(new ImportFactory());
         }};
     }
 

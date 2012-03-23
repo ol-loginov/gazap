@@ -1,8 +1,8 @@
 package gazap.site.web.mvc.wrime;
 
 import gazap.site.web.mvc.wrime.ops.OperandRenderer;
-import gazap.site.web.mvc.wrime.tree.PathContext;
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
+import gazap.site.web.mvc.wrime.tags.PathContext;
+import gazap.site.web.mvc.wrime.tags.PathReceiver;
 
 public class ExpressionTreeBuilder {
     private PathContext context;

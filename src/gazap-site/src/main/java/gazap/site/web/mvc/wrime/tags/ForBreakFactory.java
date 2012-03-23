@@ -3,7 +3,6 @@ package gazap.site.web.mvc.wrime.tags;
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
 import gazap.site.web.mvc.wrime.ops.Raw;
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
 
 public class ForBreakFactory implements TagFactory {
     @Override

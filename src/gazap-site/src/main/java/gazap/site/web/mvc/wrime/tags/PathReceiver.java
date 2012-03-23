@@ -1,4 +1,4 @@
-package gazap.site.web.mvc.wrime.tree;
+package gazap.site.web.mvc.wrime.tags;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
