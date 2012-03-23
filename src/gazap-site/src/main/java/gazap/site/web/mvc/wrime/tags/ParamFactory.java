@@ -1,7 +1,5 @@
 package gazap.site.web.mvc.wrime.tags;
 
-import gazap.site.web.mvc.wrime.tree.PathReceiver;
-
 public class ParamFactory implements TagFactory {
     @Override
     public boolean supports(String name) {
@@ -9,7 +7,7 @@ public class ParamFactory implements TagFactory {
     }
 
     @Override
-    public PathReceiver createReceiver(String name) {
+    public ParamReceiver createReceiver(String name) {
         return new ParamReceiver();
     }
 }

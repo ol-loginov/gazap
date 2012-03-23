@@ -1,13 +1,16 @@
 package gazap.site.web.mvc.wrime;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ExpressionContext {
     private final ClassLoader classLoader;
     private final ExpressionContext parentContext;
 
     private Map<String, TypeDef> localVariables = new HashMap<String, TypeDef>();
+    private Set<String> attributes = new HashSet<String>();
 
     public ExpressionContext(ClassLoader classLoader) {
         this.classLoader = classLoader;
@@ -23,20 +26,30 @@ public class ExpressionContext {
         return this.classLoader;
     }
 
-    public void addVar(String name, Class classDef) throws WrimeException {
-        if (localVariables.containsKey(name)) {
-            throw new WrimeException("Variable named " + name + "  is already in scope", null);
+    public boolean hasAttribute(String attribute) {
+        return attributes.contains(attribute);
+    }
+
+    public void addAttribute(String attribute) {
+        attributes.add(attribute);
+    }
+
+    public void addVar(String name, TypeDef classDef) throws WrimeException {
+        if (hasVar(name)) {
+            throw new WrimeException("Variable named " + name + " is already in scope", null);
         }
-        TypeDef def = new TypeDef();
-        def.setClazz(classDef);
-        localVariables.put(name, def);
+        localVariables.put(name, classDef);
     }
 
     public TypeDef getVar(String name) {
         TypeDef classDef = localVariables.get(name);
-        if (classDef == null && parentContext != null) {
-            return parentContext.getVar(name);
+        if (classDef != null) {
+            return classDef;
         }
-        return null;
+        return parentContext != null ? parentContext.getVar(name) : null;
+    }
+
+    public boolean hasVar(String name) {
+        return localVariables.get(name) != null || (parentContext != null && parentContext.hasVar(name));
     }
 }

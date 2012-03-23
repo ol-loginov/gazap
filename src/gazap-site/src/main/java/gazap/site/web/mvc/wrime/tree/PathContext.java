@@ -16,6 +16,10 @@ public class PathContext {
         push(renderer);
     }
 
+    public int depth() {
+        return receiverStack.size();
+    }
+
     public void push(PathReceiver receiver) {
         receiver.setPath(this);
         receiverStack.push(receiver);

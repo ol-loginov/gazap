@@ -11,9 +11,9 @@ public class SimpleCompilerTest {
     }
 
     private WrimeCompiler parse(ScriptResource resource) throws WrimeException {
-        WrimeEngine engine = new WrimeEngine();
-        engine.configure(WrimeEngine.Scanner.EAT_SPACE, true);
-        return engine.parse(resource);
+        return new WrimeEngine()
+                .setOption(WrimeEngine.Scanner.EAT_SPACE, true)
+                .parse(resource);
     }
 
     @Test

@@ -4,4 +4,6 @@ import gazap.site.web.mvc.wrime.WrimeException;
 
 public interface OperandRenderer {
     void render(Operand operand) throws WrimeException;
+
+    void setCustomRenderer(FunctorRenderer renderer);
 }

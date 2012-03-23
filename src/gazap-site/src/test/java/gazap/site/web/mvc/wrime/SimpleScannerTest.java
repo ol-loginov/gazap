@@ -37,4 +37,10 @@ public class SimpleScannerTest {
         String result = parse(resources.load("004.txt"));
         resources.verify("004.txt.scanner", result);
     }
+
+    @Test
+    public void e005() throws Exception {
+        String result = parse(resources.load("005.txt"));
+        resources.verify("005.txt.scanner", result);
+    }
 }

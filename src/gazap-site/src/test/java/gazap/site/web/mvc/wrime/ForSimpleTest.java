@@ -1,13 +1,12 @@
 package gazap.site.web.mvc.wrime;
 
-import gazap.site.web.mvc.wrime.functor.I18Nizer;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class FunctionCallTest {
-    private TestResource resources = new TestResource(FunctionCallTest.class);
+public class ForSimpleTest {
+    private TestResource resources = new TestResource(ForSimpleTest.class);
 
     private void check(String resource) throws WrimeException {
         WrimeCompiler compiler = parse(resources.load(resource + ".txt"));
@@ -29,33 +28,17 @@ public class FunctionCallTest {
 
     private WrimeCompiler parse(ScriptResource resource) throws WrimeException {
         return new WrimeEngine()
-                .addFunctor("i18n", new I18Nizer())
                 .setOption(WrimeEngine.Scanner.EAT_SPACE, true)
                 .parse(resource);
     }
 
     @Test
-    public void vararg() throws WrimeException {
-        check("013");
+    public void emptyLoop() throws WrimeException {
+        check("001");
     }
 
     @Test
-    public void argumentCountCheck() throws WrimeException {
-        checkError("012", "Expression analyser reports an error: cannot find suitable method with name 'call' (FunctionCallTest/012.txt:2, column 37)");
-    }
-
-    @Test
-    public void call2Arg() throws WrimeException {
-        check("010");
-    }
-
-    @Test
-    public void callNativeOverload() throws WrimeException {
-        check("011");
-    }
-
-    @Test
-    public void callOnVoidResult() throws WrimeException {
-        checkError("014", "Expression analyser reports an error: no invocable at the point (FunctionCallTest/014.txt:2, column 33)");
+    public void autoCast() throws WrimeException {
+        check("002");
     }
 }

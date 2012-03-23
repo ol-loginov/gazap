@@ -1,26 +1,28 @@
 package gazap.site.web.mvc.wrime;
 
+import java.lang.reflect.Type;
+
 public class TypeDef {
-    private Class clazz;
+    private Type type;
     private String alias;
 
     public TypeDef() {
     }
 
-    public TypeDef(Class clazz) {
-        this.clazz = clazz;
+    public TypeDef(Type type) {
+        this.type = type;
     }
 
     public boolean isVoid() {
-        return Void.TYPE.equals(clazz) || void.class.equals(clazz);
+        return Void.TYPE.equals(type) || void.class.equals(type);
     }
 
-    public Class getClazz() {
-        return clazz;
+    public Type getType() {
+        return type;
     }
 
-    public void setClazz(Class clazz) {
-        this.clazz = clazz;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public String getAlias() {

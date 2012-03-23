@@ -1,6 +1,6 @@
 package gazap.site.web.mvc.wrime.model;
 
-public class Bean2 {
+public class Bean2 implements Face1 {
     private int integer;
     private String string;
 

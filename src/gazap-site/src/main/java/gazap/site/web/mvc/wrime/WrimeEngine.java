@@ -7,17 +7,19 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class WrimeEngine {
     private final Map<String, Class<? extends WrimeWriter>> urlToClassMappings = new HashMap<String, Class<? extends WrimeWriter>>();
+    private final Map<String, Object> nameToFunctorMappings = new HashMap<String, Object>();
 
     private String rootPath;
     private ClassLoader rootLoader;
 
-    private EnumSet<Scanner> scannerOptions = EnumSet.noneOf(Scanner.class);
+    private Map<Scanner, String> scannerOptions = new TreeMap<Scanner, String>();
+    private Map<Compiler, String> compilerOptions = new TreeMap<Compiler, String>();
 
     public String getRootPath() {
         return rootPath;
@@ -29,6 +31,7 @@ public class WrimeEngine {
         } catch (IOException e) {
             throw new WrimeException("fail to initialize workplace", e);
         }
+        setOption(Compiler.FUNCTOR_PREFIX, "functor:");
     }
 
     private void createRootLoader() throws IOException, WrimeException {
@@ -78,6 +81,7 @@ public class WrimeEngine {
 
     protected WrimeCompiler parse(ScriptResource resource) throws WrimeException {
         WrimeCompiler compiler = new WrimeCompiler(this);
+        compiler.configure(compilerOptions);
         scan(resource, compiler.createReceiver());
         return compiler;
     }
@@ -86,11 +90,21 @@ public class WrimeEngine {
         return null;
     }
 
-    public void configure(Scanner option, boolean enable) {
-        if (enable) {
-            scannerOptions.add(option);
+    public WrimeEngine setOption(Scanner option, boolean enable) {
+        setOptionInMap(scannerOptions, option, enable ? "" : null);
+        return this;
+    }
+
+    public WrimeEngine setOption(Compiler option, String value) {
+        setOptionInMap(compilerOptions, option, value);
+        return this;
+    }
+
+    private <T> void setOptionInMap(Map<T, String> optionMap, T option, String value) {
+        if (value == null) {
+            optionMap.remove(option);
         } else {
-            scannerOptions.remove(option);
+            optionMap.put(option, value);
         }
     }
 
@@ -98,8 +112,20 @@ public class WrimeEngine {
         return rootLoader;
     }
 
+    public Iterable<Map.Entry<String, Object>> getFunctors() {
+        return nameToFunctorMappings.entrySet();
+    }
+
+    public WrimeEngine addFunctor(String name, Object functor) {
+        nameToFunctorMappings.put(name, functor);
+        return this;
+    }
 
     public enum Scanner {
         EAT_SPACE
+    }
+
+    public enum Compiler {
+        FUNCTOR_PREFIX
     }
 }

@@ -1,7 +1,8 @@
 package gazap.site.web.mvc.wrime;
 
 import java.io.*;
-import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,11 +31,11 @@ public class WrimeScanner {
 
     private static final Pattern EAT_SPACE = Pattern.compile("^\\s*(.*)\\s*$");
 
-    private EnumSet<WrimeEngine.Scanner> options = EnumSet.noneOf(WrimeEngine.Scanner.class);
+    private Map<WrimeEngine.Scanner, String> options = new HashMap<WrimeEngine.Scanner, String>();
 
-    public void configure(EnumSet<WrimeEngine.Scanner> options) {
+    public void configure(Map<WrimeEngine.Scanner, String> options) {
         this.options.clear();
-        this.options.addAll(options);
+        this.options.putAll(options);
     }
 
     public void parse(ScriptResource resource, Receiver receiver) throws WrimeException {
@@ -107,7 +108,7 @@ public class WrimeScanner {
     }
 
     private String eatSpace(String value) {
-        if (!options.contains(WrimeEngine.Scanner.EAT_SPACE)) {
+        if (!options.containsKey(WrimeEngine.Scanner.EAT_SPACE)) {
             return value;
         }
         Matcher matcher = EAT_SPACE.matcher(value);
@@ -156,8 +157,15 @@ public class WrimeScanner {
                         token.type = TokenType.TEXT;
                         return Expectation.TOKEN_MARK;
                     }
-                case EXPR_QUOTE:
-                case EXPR_DQUOTE:
+                case EXPR_QUOTE_BOUND:
+                    token.type = TokenType.EXPR_LITERAL;
+                    if (scanner.lookingAt()) {
+                        token.value = "";
+                    } else {
+                        scanner.skip(expectation.pattern());
+                    }
+                    return Expectation.EXPR_DELIMITER;
+                case EXPR_DQUOTE_BOUND:
                     token.type = TokenType.EXPR_LITERAL;
                     if (scanner.lookingAt()) {
                         token.value = "";
@@ -168,10 +176,10 @@ public class WrimeScanner {
                 case EXPR_DELIMITER:
                     if ("'".equals(token.value)) {
                         token.type = TokenType.INCOMPLETE;
-                        return Expectation.EXPR_QUOTE;
+                        return Expectation.EXPR_QUOTE_BOUND;
                     } else if ("\"".equals(token.value)) {
                         token.type = TokenType.INCOMPLETE;
-                        return Expectation.EXPR_DQUOTE;
+                        return Expectation.EXPR_DQUOTE_BOUND;
                     } else if ("}".equals(token.value)) {
                         token.type = TokenType.EXPR_END;
                         return Expectation.TOKEN_MARK;
@@ -205,8 +213,8 @@ public class WrimeScanner {
     private static enum Expectation {
         TOKEN_MARK("(?<!\\$)\\$\\{"),
         EXPR_DELIMITER("\\*| |,|:|\\(|\\)|'|\\\"|\\.|}"),
-        EXPR_QUOTE("(?<=\\')"),
-        EXPR_DQUOTE("(?<=\\\")");
+        EXPR_QUOTE_BOUND("\\\'"),
+        EXPR_DQUOTE_BOUND("\\\"");
 
         private final Pattern pattern;
 
@@ -236,6 +244,7 @@ public class WrimeScanner {
     private static class Token {
         private TokenType type;
         private String value;
+        private String lastValue;
 
         private int line;
         private int column;
@@ -247,6 +256,7 @@ public class WrimeScanner {
         public void clear() {
             type = TokenType.INCOMPLETE;
             value = "";
+            lastValue = "";
             line = 0;
             column = 0;
         }

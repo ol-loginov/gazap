@@ -1,12 +1,14 @@
 package gazap.site.web.mvc.wrime;
 
+import gazap.site.web.mvc.wrime.ops.Functor;
 import gazap.site.web.mvc.wrime.ops.Operand;
 import gazap.site.web.mvc.wrime.ops.OperandRendererDefault;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -14,9 +16,7 @@ public class WrimeCompiler {
     private static final String EOL = System.getProperty("line.separator");
     private static final String SCOPE_IDENT = "  ";
 
-    private final WrimeEngine engine;
-
-    private final Body renderContentBody;
+    private Body renderContentBody;
 
     private ExpressionTreeBuilder expressionTreeBuilder;
     private ExpressionContextImpl expressionContext;
@@ -27,10 +27,23 @@ public class WrimeCompiler {
     private List<String> importNames = new ArrayList<String>();
     private Map<String, TypeDef> parameterNames = new HashMap<String, TypeDef>();
 
-    public WrimeCompiler(WrimeEngine engine) {
-        this.engine = engine;
+    private String functorPrefix;
+    private Map<String, FunctorName> functorNames = new HashMap<String, FunctorName>();
+
+    public WrimeCompiler(WrimeEngine engine) throws WrimeException {
         renderContentBody = new Body();
         expressionContext = new ExpressionContextImpl(this, engine.getRootLoader());
+
+        for (Map.Entry<String, Object> functor : engine.getFunctors()) {
+            FunctorName name = new FunctorName();
+            name.type = functor.getValue().getClass();
+            name.field = toFieldIdentifier(functor.getKey());
+            functorNames.put(functor.getKey(), name);
+        }
+    }
+
+    public void configure(Map<WrimeEngine.Compiler, String> options) {
+        functorPrefix = options.get(WrimeEngine.Compiler.FUNCTOR_PREFIX);
     }
 
     private void error(String name) throws WrimeException {
@@ -55,9 +68,9 @@ public class WrimeCompiler {
         return firstPassed && valid;
     }
 
-    private static String toIdentifier(String name) throws WrimeException {
+    private static String toFieldIdentifier(String name) throws WrimeException {
         StringBuilder builder = new StringBuilder();
-        builder.append("W$");
+        builder.append("$");
         for (char ch : name.toCharArray()) {
             if (Character.isJavaIdentifierPart(ch)) {
                 builder.append(ch);
@@ -72,6 +85,10 @@ public class WrimeCompiler {
         return builder.toString();
     }
 
+    private static String toClassIdentifier(String name) throws WrimeException {
+        return "W" + toFieldIdentifier(name);
+    }
+
     public String getClassCode() {
         Body body = new Body();
         for (String name : importNames) {
@@ -82,17 +99,18 @@ public class WrimeCompiler {
                 .scope()
 
                 .a(new ModelParameterListDeclarator())
+                .a(new ModelFunctorListDeclarator())
 
                 .l(String.format("public %s(Writer writer) {", className))
                 .scope().l("super(writer);").leave()
                 .l("}").nl()
 
                 .l(String.format("protected void clear() {"))
-                .scope().a(new ModelParameterListCleaner()).l("super.clear();").leave()
+                .scope().a(new ModelParameterListCleaner()).a(new ModelFunctorListCleaner()).l("super.clear();").leave()
                 .l("}").nl()
 
                 .l(String.format("protected void assignFields(Map<String, Object> model) {"))
-                .scope().l("super.assignFields(model);").a(new ModelParameterListInitializer()).leave()
+                .scope().l("super.assignFields(model);").a(new ModelParameterListInitializer()).a(new ModelFunctorListInitializer()).leave()
                 .l("}").nl()
 
                 .l(String.format("protected void renderContent() throws Exception {"))
@@ -145,14 +163,27 @@ public class WrimeCompiler {
             error("duplicate for model parameter " + parameterName);
         }
         TypeDef def = new TypeDef();
-        def.setClazz(parameterClass);
+        def.setType(parameterClass);
         def.setAlias(parameterTypeDef);
         parameterNames.put(parameterName, def);
-        expressionContext.addVar(parameterName, parameterClass);
+        expressionContext.addVar(parameterName, def);
     }
 
     public TypeDef getModelParameter(String name) {
         return parameterNames.get(name);
+    }
+
+    public void scopeAdded() {
+        renderContentBody = renderContentBody.scope();
+    }
+
+    public void scopeRemoved() {
+        renderContentBody = renderContentBody.leave();
+    }
+
+    public TypeDef findFunctor(String name) {
+        FunctorName functor = functorNames.get(name);
+        return functor != null ? new TypeDef(functor.type) : null;
     }
 
     private static class Body {
@@ -233,7 +264,7 @@ public class WrimeCompiler {
                 return;
             }
             for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
-                body.a(String.format("this.%s=%s;", var.getKey(), Defaults.getDefaultValueString(var.getValue().getClazz())))
+                body.a(String.format("this.%s=%s;", var.getKey(), Defaults.getDefaultValueString(var.getValue().getType())))
                         .nl();
             }
         }
@@ -246,8 +277,48 @@ public class WrimeCompiler {
                 return;
             }
             for (Map.Entry<String, TypeDef> var : parameterNames.entrySet()) {
-                body.a(String.format("this.%s=(%s)model.get(\"%s\");", var.getKey(), var.getValue().getAlias(), StringEscapeUtils.escapeJava(var.getKey())))
-                        .nl();
+                body.l(String.format("this.%s=(%s)model.get(\"%s\");", var.getKey(), var.getValue().getAlias(), EscapeUtils.escapeJavaString(var.getKey())));
+            }
+        }
+    }
+
+    private class ModelFunctorListDeclarator implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (functorNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
+                FunctorName functor = var.getValue();
+                body.a(String.format("private %s %s;", TypeWrap.create(functor.type).getJavaSourceName(), functor.field)).nl();
+            }
+            body.nl();
+        }
+    }
+
+    private class ModelFunctorListCleaner implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (functorNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
+                FunctorName functor = var.getValue();
+                body.l(String.format("this.%s=null;", functor.field));
+            }
+        }
+    }
+
+    private class ModelFunctorListInitializer implements BodyCallback {
+        @Override
+        public void in(Body body) {
+            if (functorNames.size() == 0) {
+                return;
+            }
+            for (Map.Entry<String, FunctorName> var : functorNames.entrySet()) {
+                FunctorName functor = var.getValue();
+                String functorKey = functorPrefix + var.getKey();
+                body.l(String.format("this.%s=(%s)model.get(\"%s\");", functor.field, TypeWrap.create(functor.type).getJavaSourceName(), functorKey));
             }
         }
     }
@@ -262,20 +333,20 @@ public class WrimeCompiler {
         private static float DEFAULT_FLOAT;
         private static double DEFAULT_DOUBLE;
 
-        public static Object getDefaultValueString(Class clazz) {
-            if (clazz.equals(boolean.class)) {
+        public static Object getDefaultValueString(Type type) {
+            if (type.equals(boolean.class)) {
                 return DEFAULT_BOOLEAN;
-            } else if (clazz.equals(byte.class)) {
+            } else if (type.equals(byte.class)) {
                 return DEFAULT_BYTE;
-            } else if (clazz.equals(short.class)) {
+            } else if (type.equals(short.class)) {
                 return DEFAULT_SHORT;
-            } else if (clazz.equals(int.class)) {
+            } else if (type.equals(int.class)) {
                 return DEFAULT_INT;
-            } else if (clazz.equals(long.class)) {
+            } else if (type.equals(long.class)) {
                 return DEFAULT_LONG;
-            } else if (clazz.equals(float.class)) {
+            } else if (type.equals(float.class)) {
                 return DEFAULT_FLOAT;
-            } else if (clazz.equals(double.class)) {
+            } else if (type.equals(double.class)) {
                 return DEFAULT_DOUBLE;
             } else {
                 return "null";
@@ -290,7 +361,7 @@ public class WrimeCompiler {
             expressionContext.addImport(java.io.Writer.class);
             expressionContext.addImport("java.lang.*");
             expressionContext.addImport("java.util.*");
-            className = toIdentifier(resource.getPath());
+            className = toClassIdentifier(resource.getPath());
         }
 
         @Override
@@ -304,7 +375,7 @@ public class WrimeCompiler {
         public void text(String text) throws WrimeException {
             ensureNotReady();
             if (text != null && text.length() > 0) {
-                renderContentBody.l(String.format("write(\"%s\");", StringEscapeUtils.escapeJava(text)));
+                renderContentBody.l(String.format("write(\"%s\");", EscapeUtils.escapeJavaString(text)));
             }
         }
 
@@ -371,15 +442,31 @@ public class WrimeCompiler {
             } catch (IOException e) {
                 error("writer error", e);
             }
+
+            String closer = "";
+            if (operand.isStatement()) {
+                closer = ";";
+            }
             if (isWritable(operand.getResult())) {
-                renderContentBody.l(String.format("write(%s);", writer.toString()));
+                renderContentBody.l(String.format("write(%s)%s", writer.toString(), closer));
             } else {
-                renderContentBody.l(String.format("%s;", writer.toString()));
+                renderContentBody.l(String.format("%s%s", writer.toString(), closer));
             }
         }
 
-        private boolean isWritable(TypeDef def) {
-            return def != null && def.getClazz() != null && !def.getClazz().equals(Void.TYPE);
+        @Override
+        public void render(Functor operand, Writer writer) throws IOException {
+            FunctorName functor = functorNames.get(operand.getName());
+            writer.append(String.format("this.%s", functor.field));
         }
+
+        private boolean isWritable(TypeDef def) {
+            return def != null && def.getType() != null && !def.getType().equals(Void.TYPE);
+        }
+    }
+
+    private class FunctorName {
+        private Class type;
+        private String field;
     }
 }

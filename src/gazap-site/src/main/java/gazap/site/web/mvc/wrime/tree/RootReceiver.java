@@ -2,10 +2,7 @@ package gazap.site.web.mvc.wrime.tree;
 
 import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
-import gazap.site.web.mvc.wrime.tags.ImportFactory;
-import gazap.site.web.mvc.wrime.tags.LoopFactory;
-import gazap.site.web.mvc.wrime.tags.ParamFactory;
-import gazap.site.web.mvc.wrime.tags.TagFactory;
+import gazap.site.web.mvc.wrime.tags.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +12,9 @@ public class RootReceiver extends PathReceiver {
 
     public RootReceiver() {
         tagFactories = new ArrayList<TagFactory>() {{
-            add(new LoopFactory());
+            add(new ForFactory());
+            add(new ForBreakFactory());
+            add(new ForContinueFactory());
             add(new ParamFactory());
             add(new ImportFactory());
         }};
@@ -23,18 +22,17 @@ public class RootReceiver extends PathReceiver {
 
     @Override
     public void pushToken(ExpressionContextKeeper scope, String name) throws WrimeException {
-        PathReceiver receiver = null;
         for (TagFactory factory : tagFactories) {
             if (factory.supports(name)) {
-                receiver = factory.createReceiver(name);
-                break;
+                PathReceiver receiver = factory.createReceiver(name);
+                path.push(receiver);
+                return;
             }
         }
-        if (receiver == null) {
-            receiver = new CallReceiver();
-            receiver.pushToken(scope, name);
-        }
+
+        CallReceiver receiver = new CallReceiver();
         path.push(receiver);
+        receiver.pushToken(scope, name);
     }
 
     @Override

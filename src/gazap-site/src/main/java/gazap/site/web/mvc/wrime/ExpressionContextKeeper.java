@@ -1,8 +1,5 @@
 package gazap.site.web.mvc.wrime;
 
-import gazap.site.web.mvc.wrime.ops.Invoker;
-import gazap.site.web.mvc.wrime.ops.Operand;
-
 public interface ExpressionContextKeeper {
     ExpressionContext current();
 
@@ -12,7 +9,9 @@ public interface ExpressionContextKeeper {
 
     void addModelParameter(String parameterTypeDef, String parameterName, Class parameterClass) throws WrimeException;
 
-    Operand findAnyInvokerOrGetter(TypeDef invocable, String method);
+    ExpressionContext openScope();
 
-    Invoker findInvoker(TypeDef invocable, String method, TypeDef... argumentTypes);
+    ExpressionContext closeScope();
+
+    TypeDef findFunctor(String name);
 }
