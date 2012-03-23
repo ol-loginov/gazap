@@ -16,7 +16,7 @@ public class RootReceiver extends PathReceiver {
             add(new ForBreakFactory());
             add(new ForContinueFactory());
             add(new ParamFactory());
-            add(new ImportFactory());
+            add(new IncludeFactory());
         }};
     }
 
