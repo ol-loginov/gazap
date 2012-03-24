@@ -4,6 +4,7 @@ import gazap.site.web.mvc.wrime.ExpressionContextKeeper;
 import gazap.site.web.mvc.wrime.WrimeException;
 import gazap.site.web.mvc.wrime.WrimeScanner;
 import gazap.site.web.mvc.wrime.ops.Operand;
+import gazap.site.web.mvc.wrime.ops.Variable;
 
 /**
  * Accepts and validate syntax like "var_name : field.method().foo"
@@ -11,7 +12,7 @@ import gazap.site.web.mvc.wrime.ops.Operand;
 public class AssignReceiver extends PathReceiver {
     enum Status {
         WAIT_VAR,
-        WAIT_COLON,
+        WAIT_SPLITTER,
         WAIT_CALL,
         COMPLETE
     }
@@ -46,7 +47,7 @@ public class AssignReceiver extends PathReceiver {
     public void pushToken(ExpressionContextKeeper scope, String name) throws WrimeException {
         switch (status) {
             case WAIT_VAR:
-                status = Status.WAIT_COLON;
+                status = Status.WAIT_SPLITTER;
                 alias = name;
                 validateAlias();
                 break;
@@ -65,12 +66,13 @@ public class AssignReceiver extends PathReceiver {
     @Override
     public void pushDelimiter(ExpressionContextKeeper scope, String delimiter) throws WrimeException {
         switch (status) {
-            case WAIT_COLON:
-                if (":".equals(delimiter)) {
+            case WAIT_SPLITTER:
+                if (WrimeScanner.EQUAL_SYMBOL.equals(delimiter)) {
                     status = Status.WAIT_CALL;
                     path.push(new CallReceiver(createCloser()));
                 } else if (WrimeScanner.SPLIT_LIST_SYMBOL.equals(delimiter)) {
-                    markComplete(scope);
+                    setSourceFromAlias(scope);
+                    markComplete(scope, false);
                 } else {
                     errorUnexpected(delimiter);
                 }
@@ -80,25 +82,39 @@ public class AssignReceiver extends PathReceiver {
         }
     }
 
+    private void setSourceFromAlias(ExpressionContextKeeper scope) throws WrimeException {
+        if (scope.current().getVarType(alias) == null) {
+            error(String.format("'%s' is definitely not a value", alias));
+        }
+
+        Variable getter = new Variable();
+        getter.setVar(alias);
+        getter.setResult(scope.current().getVarType(alias));
+        this.source = getter;
+    }
+
     private CompleteCallback createCloser() {
         return new CompleteCallback() {
             @Override
             public void complete(PathReceiver child, ExpressionContextKeeper scope, boolean last) throws WrimeException {
                 path.remove(child);
-                if (!last) {
-                    error("only one expression allowed here");
-                }
-
-                source = ((CallReceiver) child).getOperand();
-                markComplete(scope);
+                setSource(((CallReceiver) child).getOperand());
+                markComplete(scope, last);
             }
         };
     }
 
-    private void markComplete(ExpressionContextKeeper scope) throws WrimeException {
+    private void setSource(Operand operand) throws WrimeException {
+        if (operand == null) {
+            error("got no expression here");
+        }
+        source = operand;
+    }
+
+    private void markComplete(ExpressionContextKeeper scope, boolean last) throws WrimeException {
         status = Status.COMPLETE;
         if (completeCallback != null) {
-            completeCallback.complete(AssignReceiver.this, scope, true);
+            completeCallback.complete(this, scope, last);
         }
     }
 }

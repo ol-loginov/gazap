@@ -6,6 +6,7 @@ public interface WrimeScanner {
     String OPEN_LIST_SYMBOL = "(";
     String CLOSE_LIST_SYMBOL = ")";
     String SPLIT_LIST_SYMBOL = ",";
+    String EQUAL_SYMBOL = "=";
 
     void configure(Map<WrimeEngine.Scanner, String> options);
 

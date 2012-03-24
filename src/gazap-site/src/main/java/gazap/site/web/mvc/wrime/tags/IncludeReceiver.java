@@ -119,7 +119,7 @@ public class IncludeReceiver extends PathReceiver {
                     model = "null";
                 }
 
-                chain.getOperands().add(new Raw(String.format("this.getEngine().include(this,")));
+                chain.getOperands().add(new Raw(String.format("this.include(")));
                 chain.getOperands().add(templatePath);
                 chain.getOperands().add(new Raw(String.format(", %s);", model)));
                 path.render(chain);

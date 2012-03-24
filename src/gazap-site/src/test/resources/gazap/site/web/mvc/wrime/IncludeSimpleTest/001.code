@@ -25,6 +25,6 @@ public class W$IncludeSimpleTest$001_txt extends gazap.site.web.mvc.wrime.WrimeW
   protected void renderContent() throws Exception {
     ModelMap $includeAt_2_28 = new ModelMap();
     $includeAt_2_28.put("a", this.a);
-    this.getEngine().include(this,"000-include.txt", $includeAt_2_28);
+    this.include("000-include.txt", $includeAt_2_28);
   }
 }

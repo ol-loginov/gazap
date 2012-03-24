@@ -16,6 +16,6 @@ public class W$IncludeSimpleTest$000_txt extends gazap.site.web.mvc.wrime.WrimeW
   }
 
   protected void renderContent() throws Exception {
-    this.getEngine().include(this,"000-include.txt", null);
+    this.include("000-include.txt", null);
   }
 }
