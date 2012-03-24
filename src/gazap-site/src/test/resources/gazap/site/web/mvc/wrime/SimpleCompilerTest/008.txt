@@ -1,2 +1,0 @@
-${param String hello}
-${hello.length()}

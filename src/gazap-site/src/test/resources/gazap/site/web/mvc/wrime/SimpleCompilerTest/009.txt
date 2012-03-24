@@ -1,3 +1,0 @@
-${import gazap.site.web.mvc.wrime.model.*}
-${param Bean1 bean}
-${bean.bean.hello}
