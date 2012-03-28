@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
+${param gazap.site.web.extensions.CdnExtension eCdn transient}
+${servlet.setContentType("text/html")}
+<html>
+${include("shared/html-head.html")}
+<body>
+<div id="leftPane">
+    ${include("shared/html-bars-brand.wrime")}
+    ${include("shared/html-bars-account.wrime")}
+</div>
+<div id="mainColumn">
+    <div id="navPane">
+        ${include("shared/html-bars-menu.wrime")}
+    </div>
+</div>
+</body>
+</html>

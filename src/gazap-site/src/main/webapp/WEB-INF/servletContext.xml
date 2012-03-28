@@ -35,10 +35,10 @@
     <bean id="messageCodesResolver" class="com.iserv2.commons.mvc_base.support.MessageCodesResolver"/>
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
-    <bean class="gazap.site.web.mvc.support.DeviceBasedInternalResourceViewResolver" p:order="2"
-          p:cache="${engine.cache}" p:viewClass="org.springframework.web.servlet.view.JstlView"
+    <bean class="gazap.site.web.mvc.support.DeviceBasedUrlBasedViewResolver" p:order="2"
+          p:cache="${engine.cache}" p:viewClass="wrime.spring.webmvc.WrimeView"
           p:prefix="/render-wrime/"
-          p:suffix=".jsp" p:defaultLayout="landscape/"/>
+          p:suffix=".html" p:defaultLayout="landscape/"/>
 
     <bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>
 
@@ -49,4 +49,5 @@
         </property>
     </bean>
 
+    <bean id="wrimeViewEngine" class="wrime.spring.webmvc.WrimeEngineFactoryAdapter"/>
 </beans>
