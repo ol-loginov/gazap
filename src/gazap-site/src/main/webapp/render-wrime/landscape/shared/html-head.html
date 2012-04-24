@@ -1,9 +1,9 @@
 ${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set cp=eCdn.contextPath}
-${set themeRoot=str:concat(cp,'/static/landscape')}
-${set libRoot=str:concat(themeRoot,'/lib')}
-${set scriptsRoot=str:concat(themeRoot,'/scripts')}
+${set themeRoot=s:concat(cp,'/static/landscape')}
+${set libRoot=s:concat(themeRoot,'/lib')}
+${set scriptsRoot=s:concat(themeRoot,'/scripts')}
 <head>
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     <script type="text/javascript">
@@ -33,9 +33,9 @@ ${set scriptsRoot=str:concat(themeRoot,'/scripts')}
     <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.css"/>
   -->
 
-    ${if(str:ne(eViewMeta.titleKey))}
+    ${if(o:nn(eViewMeta) and s:ne(eViewMeta.titleKey))}
     <title>${l18n:t(eViewMeta.titleKey)}</title>
-    ${elif(str:ne(eViewMeta.title))}
+    ${elif(o:nn(eViewMeta) and s:ne(eViewMeta.title))}
     <title>${eViewMeta.titleKey}</title>
     ${if}
 </head>
