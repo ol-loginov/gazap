@@ -1,9 +1,6 @@
 ${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
-${set cp=eCdn.contextPath}
-${set themeRoot=s:concat(cp,'/static/landscape')}
-${set libRoot=s:concat(themeRoot,'/lib')}
-${set scriptsRoot=s:concat(themeRoot,'/scripts')}
+${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
 <head>
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     <script type="text/javascript">

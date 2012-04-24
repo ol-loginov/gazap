@@ -1,10 +1,7 @@
-${param gazap.site.web.extensions.VisitorExtension m}
+${param gazap.site.web.extensions.VisitorExtension eVisitor}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
-${set au=eCdn.server}
-${set cp=eCdn.contextPath}
-<%--@elvariable id="au" type="java.lang.String"--%>
-<%--@elvariable id="cp" type="java.lang.String"--%>
-<%--@elvariable id="eVisitor" type="gazap.site.web.extensions.VisitorExtension"--%>
+${set au=eCdn.server, cp=eCdn.contextPath}
+${set m=eVisitor}
 
 <section id="accountBar" class="logged-${m.logged}">
     ${if(m.logged)}
