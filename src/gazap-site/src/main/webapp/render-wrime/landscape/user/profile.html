@@ -4,11 +4,11 @@ ${param gazap.site.web.extensions.CdnExtension eCdn}
 ${param gazap.site.web.extensions.VisitorExtension eVisitor}
 ${set sc=eCdn.contextPath}
 <html>
-${include("../shared/html-head.jsp")}
+${include("../shared/html-head.html")}
 <body class="brand-with-menu">
 <div id="leftPane">
-    ${include("shared/html-bars-brand.html")}
-    ${include("shared/html-bars-account.html")}
+    ${include("../shared/html-bars-brand.html")}
+    ${include("../shared/html-bars-account.html")}
 </div>
 <div id="mainColumn" class="profile-page">
     <h1 class="accountName">
@@ -34,7 +34,7 @@ ${include("../shared/html-head.jsp")}
         <ul class="list">
             ${for(map : content.maps)}
             <li>
-                ${include('../shared/partial-map-title.html',map,mapRoles=content.mapRoles.get(map.id))}
+                ${include('_map-title.html',map,mapRoles=content.mapRoles.get(map.id))}
             </li>
             ${for}
         </ul>
@@ -61,13 +61,11 @@ ${include("../shared/html-head.jsp")}
                         </a>
                     </h4>
                     <span class="game-flags">
-                    ${for(gr : content.gameRoles.values)}
-                        ${if(gr.game eq e.id)}
-                            <span class="game-role ${gr.role}">
-                                <i class="gameroleicon"></i>
-                                ${l18n:t(s:concat('UserGameRoles.', gr.role, '.flag')}
-                            </span>
-                        ${if}
+                    ${for(gr : content.gameRoles.get(e.id))}
+                        <span class="game-role ${gr}">
+                            <i class="gameroleicon"></i>
+                            ${l18n:t(s:concat('UserGameRoles.', gr, '.flag'))}
+                        </span>
                     ${for}
                     </span>
                 </div>

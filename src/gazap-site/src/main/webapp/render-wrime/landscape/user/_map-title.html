@@ -1,0 +1,19 @@
+${param gazap.site.model.viewer.MapTitle map}
+${param Set<gazap.domain.entity.UserMapRoles> mapRoles}
+${param gazap.site.web.extensions.CdnExtension eCdn}
+${set sc=eCdn.contextPath}
+<div class="map-title has-flags">
+    ${if(not o:empty(mapRoles))}
+    <ul class="container-flags unstyled">
+        ${for(gr : mapRoles)}
+        <li class="flag maproleflag ${gr}"></li>
+        ${for}
+    </ul>
+    ${if}
+    <h4>
+        <a href="${sc}${map.route}">
+            <span class="breakword">${map.title}</span>
+        </a>
+    </h4>
+</div>
+

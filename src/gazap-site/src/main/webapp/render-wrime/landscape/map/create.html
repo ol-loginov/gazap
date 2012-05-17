@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+${param gazap.site.web.extensions.CdnExtension eCdn}
+${set sc=eCdn.contextPath, themeRoot=s:concat(sc,'/static/landscape')}
+<html>
+${include("../shared/html-head.html")}
+<body class="brand-with-menu">
+<div id="leftPane">
+    ${include("../shared/html-bars-brand.html")}
+    ${include("../shared/html-bars-account.html")}
+</div>
+<div id="mainColumn">
+    <div class="form-container">
+        <h1>${l18n:t('MapCreatePage.h')}</h1>
+
+        <form id="createMapForm" method="post" action="${sc}/map/create" data-ax-action="${sc}/map/create.ajax"
+              class="non-modal width-medium form-horizontal">
+            <div class="control-group mandatory">
+                <label class="control-label" for="mapTitle">${l18n:t('MapCreateForm.title.label')}</label>
+
+                <div class="controls">
+                    <input id="mapTitle" type="text" name="title" size="64"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="mapAlias">${l18n:t('MapCreateForm.alias.label')}</label>
+
+                <div class="controls">
+                    <input id="mapAlias" type="text" name="alias" size="64"/>
+                </div>
+            </div>
+            <div class="control-group mandatory">
+                <label class="control-label" for="geometryClass">${l18n:t('MapCreateForm.geometryClass.label')}</label>
+
+                <div class="controls">
+                    <label class="radio" style="float:left;padding: 0;margin-left: 50px;cursor: pointer;">
+                        <div>
+                            <input id="geometryClassPlain" type="radio" value="plain" name="geometryClass"/>
+                            <span style="padding-left: 10px;">${l18n:t('MapCreateForm.geometryClass.plain.label')}</span>
+                        </div>
+                        <img src="${themeRoot}/img/sprites/geometry-plain-preview.png"
+                             style="display: block;width:100px;height:100px;margin-top:10px;"/>
+                    </label>
+                    <label class="radio" style="float:left;padding: 0;margin-left: 50px;cursor: pointer;">
+                        <div>
+                            <input id="geometryClassGeoid" type="radio" value="geoid" name="geometryClass"/>
+                            <span style="padding-left: 10px;">${l18n:t('MapCreateForm.geometryClass.geoid.label')}</span>
+                        </div>
+                        <img src="${themeRoot}/img/sprites/geometry-geoid-preview.png"
+                             style="display: block;width:100px;height:100px;margin-top:10px;"/>
+                    </label>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusZ">${l18n:t('MapCreateForm.geoidRadiusZ.label')}</label>
+
+                <div class="controls">
+                    <input id="geoidRadiusZ" type="text" name="geoidRadiusZ"/>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusX">${l18n:t('MapCreateForm.geoidRadiusX.label')}</label>
+
+                <div class="controls">
+                    <input id="geoidRadiusX" type="text" name="geoidRadiusX"/>
+                </div>
+            </div>
+            <div class="control-group sub-group mandatory hidden" data-visible-for-input="geometryClassGeoid">
+                <label class="control-label" for="geoidRadiusY">${l18n:t('MapCreateForm.geoidRadiusY.label')}</label>
+
+                <div class="controls">
+                    <input id="geoidRadiusY" type="text" name="geoidRadiusY"/>
+                </div>
+            </div>
+            <div class="control-group submit-group form-actions">
+                <button class="btn" type="submit">${l18n:t('MapCreateForm.submit')}</button>
+                <a class="submit-option modal-closer">${l18n:t('MapCreateForm.cancel')}</a>
+            </div>
+            <div class="alert alert-message alert-progress hidden">${l18n:t('MapCreateForm.submitting')}</div>
+            <div class="alert alert-error hidden"/>
+        </form>
+        <script type="text/javascript">BUS.map.modal_create_dialog.init('#createMapForm')</script>
+    </div>
+</div>
+</body>
+</html>
