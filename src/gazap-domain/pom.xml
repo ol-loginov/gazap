@@ -32,6 +32,9 @@
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
