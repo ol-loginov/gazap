@@ -7,7 +7,7 @@
 <section id="navBar">
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button class="btn btn-success">Игры</button>
+            <button class="btn btn-success">Миры</button>
             <button class="btn btn-success">Аватары</button>
             <button class="btn btn-success">Треки</button>
         </div>

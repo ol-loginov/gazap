@@ -1,7 +1,7 @@
 package gazap.site.web.controllers.user;
 
-import gazap.domain.dao.GameDao;
 import gazap.domain.dao.MapDao;
+import gazap.domain.dao.WorldDao;
 import gazap.domain.entity.*;
 import gazap.site.exceptions.UserProfileNotFound;
 import gazap.site.model.SimpleRegistry;
@@ -21,7 +21,7 @@ public class UserProfileController extends BaseController {
     @Autowired
     protected UserService userService;
     @Autowired
-    protected GameDao gameDao;
+    protected WorldDao worldDao;
     @Autowired
     protected MapDao mapDao;
 
@@ -35,13 +35,13 @@ public class UserProfileController extends BaseController {
         UserProfilePage page = new UserProfilePage();
         page.setUser(viewer.userTitle(account));
 
-        SimpleRegistry<Integer, Game> gameRegistry = new SimpleRegistry<Integer, Game>();
-        for (UserGameRole role : gameDao.listGameRoleByUser(account)) {
-            gameRegistry.add(role.getGame().getId(), role.getGame());
-            page.getGameRolesList(role.getGame().getId()).add(role.getRole());
+        SimpleRegistry<Integer, World> worldRegistry = new SimpleRegistry<Integer, World>();
+        for (UserWorldRole role : worldDao.listWorldRoleByUser(account)) {
+            worldRegistry.add(role.getWorld().getId(), role.getWorld());
+            page.getWorldRolesList(role.getWorld().getId()).add(role.getRole());
         }
-        for (Game game : gameRegistry.values()) {
-            page.getGames().add(viewer.gameTitle(game));
+        for (World world : worldRegistry.values()) {
+            page.getWorlds().add(viewer.worldTitle(world));
         }
 
         SimpleRegistry<Integer, Map> mapRegistry = new SimpleRegistry<Integer, Map>();

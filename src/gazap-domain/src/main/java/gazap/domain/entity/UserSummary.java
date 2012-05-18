@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class UserSummary implements DomainEntity {
     @EmbeddedId
     private PK id;
-    @Column(name = "gamesCreated")
-    private int gamesCreated;
+    @Column(name = "worldsCreated")
+    private int worldsCreated;
     @Column(name = "playersCreated")
     private int playersCreated;
     @Column(name = "mapsCreated")
@@ -35,12 +35,12 @@ public class UserSummary implements DomainEntity {
         this.id = id;
     }
 
-    public int getGamesCreated() {
-        return gamesCreated;
+    public int getWorldsCreated() {
+        return worldsCreated;
     }
 
-    public void setGamesCreated(int gamesCreated) {
-        this.gamesCreated = gamesCreated;
+    public void setWorldsCreated(int worldsCreated) {
+        this.worldsCreated = worldsCreated;
     }
 
     public int getPlayersCreated() {

@@ -57,11 +57,11 @@
                     </li>
                 </ul>
                 <ul class="unstyled menu-column">
-                    <c:if test="${m.user.summary.gamesCreated gt 0}">
+                    <c:if test="${m.user.summary.worldsCreated gt 0}">
                         <li>
-                            <a href="${cp}${m.user.route}/games">
+                            <a href="${cp}${m.user.route}/worlds">
                                 <i class="glyphicon-info-sign"></i>
-                                <lt:t key="accountBar.accountMenu.games"/>
+                                <lt:t key="accountBar.accountMenu.worlds"/>
                             </a>
                         </li>
                     </c:if>

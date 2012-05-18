@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Game")
+@Table(name = "World")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class Game extends IntegerIdentityCUD {
+public class World extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 

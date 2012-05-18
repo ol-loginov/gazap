@@ -62,28 +62,28 @@
         </c:choose>
     </section>
 
-    <section id="accountGames">
+    <section id="accountWorlds">
         <h3>
-            <lt:t key="UserProfilePage.accountGames.h"/>
+            <lt:t key="UserProfilePage.accountWorlds.h"/>
         </h3>
 
         <c:choose>
-            <c:when test="${fn:length(content.games) gt 0}">
+            <c:when test="${fn:length(content.worlds) gt 0}">
                 <ul class="list">
-                    <c:forEach items="${content.games}" var="e">
+                    <c:forEach items="${content.worlds}" var="e">
                         <li>
-                            <div class="game-title">
+                            <div class="world-title">
                                 <h4>
                                     <a href="${cp}${e.route}">
                                         <span class="breakword"><c:out value="${e.title}"/></span>
                                     </a>
                                 </h4>
-                                <span class="game-flags">
-                                        <c:forEach items="${content.gameRoles}" var="gr">
-                                            <c:if test="${gr.game eq e.id}">
-                                                <span class="game-role ${gr.role}">
-                                                    <i class="gameroleicon"></i>
-                                                    <lt:t key="UserGameRoles.${gr.role}.flag"/>
+                                <span class="world-flags">
+                                        <c:forEach items="${content.worldRoles}" var="gr">
+                                            <c:if test="${gr.world eq e.id}">
+                                                <span class="world-role ${gr.role}">
+                                                    <i class="worldroleicon"></i>
+                                                    <lt:t key="UserWorldRoles.${gr.role}.flag"/>
                                                 </span>
                                             </c:if>
                                         </c:forEach>
@@ -95,7 +95,7 @@
             </c:when>
             <c:otherwise>
                 <p class="empty">
-                    <lt:t key="UserProfilePage.accountGames.empty"/>
+                    <lt:t key="UserProfilePage.accountWorlds.empty"/>
                 </p>
             </c:otherwise>
         </c:choose>

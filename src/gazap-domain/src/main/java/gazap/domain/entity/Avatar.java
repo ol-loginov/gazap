@@ -12,18 +12,18 @@ import javax.persistence.Table;
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
 public class Avatar extends IntegerIdentityCUD {
     @ManyToOne
-    @JoinColumn(name = "game", nullable = true, updatable = false)
-    private Game game;
+    @JoinColumn(name = "world", nullable = true, updatable = false)
+    private World world;
     @ManyToOne
     @JoinColumn(name = "owner", nullable = true, updatable = false)
     private UserProfile owner;
 
-    public Game getGame() {
-        return game;
+    public World getWorld() {
+        return world;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setWorld(World world) {
+        this.world = world;
     }
 
     public UserProfile getOwner() {

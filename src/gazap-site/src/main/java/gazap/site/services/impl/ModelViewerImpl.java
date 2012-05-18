@@ -2,10 +2,10 @@ package gazap.site.services.impl;
 
 import gazap.common.util.GravatarHelper;
 import gazap.domain.dao.UserProfileDao;
-import gazap.domain.entity.Game;
+import gazap.domain.entity.World;
 import gazap.domain.entity.Map;
 import gazap.domain.entity.UserProfile;
-import gazap.site.model.viewer.GameTitle;
+import gazap.site.model.viewer.WorldTitle;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.model.viewer.UserTitle;
 import gazap.site.services.FormatService;
@@ -33,12 +33,12 @@ public class ModelViewerImpl implements ModelViewer {
     }
 
     @Override
-    public GameTitle gameTitle(Game game) {
-        GameTitle title = new GameTitle();
-        title.setId(game.getId());
-        title.setTitle(game.getTitle());
-        title.setAlias(game.getAlias());
-        title.setRoute("/game/" + (game.getAlias() == null ? Integer.toString(game.getId()) : game.getAlias()));
+    public WorldTitle worldTitle(World world) {
+        WorldTitle title = new WorldTitle();
+        title.setId(world.getId());
+        title.setTitle(world.getTitle());
+        title.setAlias(world.getAlias());
+        title.setRoute("/world/" + (world.getAlias() == null ? Integer.toString(world.getId()) : world.getAlias()));
         return title;
     }
 

@@ -1,7 +1,7 @@
 package gazap.domain.dao.impl;
 
 import gazap.domain.dao.MapDao;
-import gazap.domain.entity.Game;
+import gazap.domain.entity.World;
 import gazap.domain.entity.Map;
 import gazap.domain.entity.UserMapRole;
 import gazap.domain.entity.UserProfile;
@@ -14,7 +14,7 @@ import java.util.List;
 public class MapDaoImpl extends DaoImpl implements MapDao {
     @Override
     public Map getMap(int id) {
-        return (Map) getSession().get(Game.class, id);
+        return (Map) getSession().get(World.class, id);
     }
 
     @Override

@@ -6,7 +6,7 @@ ${set sc=eCdn.contextPath}
     ${if(not o:empty(mapRoles))}
     <ul class="container-flags unstyled">
         ${for(gr : mapRoles)}
-        <li class="flag maproleflag ${gr}"></li>
+        <li class="flag maprole-${gr}"></li>
         ${for}
     </ul>
     ${if}

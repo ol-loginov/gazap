@@ -2,7 +2,6 @@ ${param gazap.site.web.extensions.VisitorExtension eVisitor}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set au=eCdn.server, cp=eCdn.contextPath}
 ${set m=eVisitor}
-
 <section id="accountBar" class="logged-${m.logged}">
     ${if(m.logged)}
     <div class="account-name">
@@ -19,8 +18,8 @@ ${set m=eVisitor}
     <div class="account-menu">
         <div class="opener">
             <a class="toggler pull-right" href="#">
-                <i class="glyphicon-resize-small collapse"></i>
-                <i class="glyphicon-resize-full expand"></i>
+                <i class="glyphicon-resize-small glyphicon-white collapse"></i>
+                <i class="glyphicon-resize-full glyphicon-white expand"></i>
             </a>
             <ul class="notification-icons unstyled">
                 <li>
@@ -41,38 +40,14 @@ ${set m=eVisitor}
                     ${l18n:t('accountBar.accountMenu.settings')}
                 </a>
             </li>
+        </ul>
+        <ul class="unstyled menu-column">
             <li>
                 <a href="${cp}/auth/logout">
                     <i class="glyphicon-plane"></i>
                     ${l18n:t('accountBar.accountMenu.logout')}
                 </a>
             </li>
-        </ul>
-        <ul class="unstyled menu-column">
-            ${if(m.user.summary.gamesCreated gt 0)}
-            <li>
-                <a href="${cp}${m.user.route}/games">
-                    <i class="glyphicon-info-sign"></i>
-                    ${l18n:t('accountBar.accountMenu.games')}
-                </a>
-            </li>
-            ${if}
-            ${if(m.user.summary.mapsCreated gt 0)}
-            <li>
-                <a href="${cp}${m.user.route}/maps">
-                    <i class="glyphicon-flag"></i>
-                    ${l18n:t('accountBar.accountMenu.maps')}
-                </a>
-            </li>
-            ${if}
-            ${if(m.user.summary.playersCreated gt 0)}
-            <li>
-                <a href="${cp}${m.user.route}/avatars">
-                    <i class="glyphicon-info-sign"></i>
-                    ${l18n:t('accountBar.accountMenu.avatars')}
-                </a>
-            </li>
-            ${if}
         </ul>
         <div class="clear"></div>
     </div>
@@ -87,8 +62,8 @@ ${set m=eVisitor}
         ${l18n:t('accountBar.anonymous.welcome')}
     </h3>
 
-    <p>
+    <span>
         ${l18n:t('accountBar.anonymous.welcome.p', au)}
-    </p>
+    </span>
     ${if}
 </section>

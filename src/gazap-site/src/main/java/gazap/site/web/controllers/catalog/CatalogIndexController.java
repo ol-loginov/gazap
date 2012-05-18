@@ -18,7 +18,7 @@ public class CatalogIndexController extends BaseController {
         Listing page = new Listing();
         page.setWelcome(true);
         page.getSuggestions().addAll(new ArrayList<Anchor>() {{
-            add(new Anchor("/catalog/games", format.getMessage(locale, "catalog.suggestions.section")));
+            add(new Anchor("/catalog/worlds", format.getMessage(locale, "catalog.suggestions.section")));
         }});
         return responseBuilder(locale).view("catalog/index", page);
     }
@@ -27,10 +27,10 @@ public class CatalogIndexController extends BaseController {
     public ModelAndView welcome(final Locale locale, @PathVariable("cat1") final String cat1) {
         Listing page = new Listing();
         page.getBreadcrumbs().addAll(new ArrayList<Anchor>() {{
-            add(new Anchor("/catalog/games", format.getMessage(locale, "catalog.section." + cat1)));
+            add(new Anchor("/catalog/worlds", format.getMessage(locale, "catalog.section." + cat1)));
         }});
         page.getSuggestions().addAll(new ArrayList<Anchor>() {{
-            add(new Anchor("/catalog/games", format.getMessage(locale, "catalog.section." + cat1 + ".suggestions")));
+            add(new Anchor("/catalog/worlds", format.getMessage(locale, "catalog.section." + cat1 + ".suggestions")));
         }});
         return responseBuilder(locale).view("catalog/index", page);
     }

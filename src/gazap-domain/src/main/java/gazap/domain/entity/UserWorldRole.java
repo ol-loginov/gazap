@@ -8,17 +8,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "UserGameRole")
+@Table(name = "UserWorldRole")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class UserGameRole implements DomainEntity {
+public class UserWorldRole implements DomainEntity {
     @EmbeddedId
     private PK id;
 
-    protected UserGameRole() {
+    protected UserWorldRole() {
     }
 
-    public UserGameRole(UserProfile profile, Game game, UserGameRoles role) {
-        setId(new PK(profile, game, role));
+    public UserWorldRole(UserProfile profile, World world, UserWorldRoles role) {
+        setId(new PK(profile, world, role));
     }
 
     public PK getId() {
@@ -33,11 +33,11 @@ public class UserGameRole implements DomainEntity {
         return getId().getUser();
     }
 
-    public Game getGame() {
-        return getId().getGame();
+    public World getWorld() {
+        return getId().getWorld();
     }
 
-    public UserGameRoles getRole() {
+    public UserWorldRoles getRole() {
         return getId().getRole();
     }
 
@@ -47,21 +47,21 @@ public class UserGameRole implements DomainEntity {
         @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
         @ManyToOne(optional = false)
-        @JoinColumn(name = "game", nullable = false, updatable = false)
-        private Game game;
-        @Column(name = "userGameRole", nullable = false, updatable = false)
+        @JoinColumn(name = "world", nullable = false, updatable = false)
+        private World world;
+        @Column(name = "userWorldRole", nullable = false, updatable = false)
         @Enumerated(EnumType.STRING)
-        private UserGameRoles role;
+        private UserWorldRoles role;
 
         public PK() {
         }
 
-        public PK(UserProfile user, Game game, UserGameRoles role) {
+        public PK(UserProfile user, World world, UserWorldRoles role) {
             Assert.notNull(user);
-            Assert.notNull(game);
+            Assert.notNull(world);
             Assert.notNull(role);
             this.user = user;
-            this.game = game;
+            this.world = world;
             this.role = role;
         }
 
@@ -73,19 +73,19 @@ public class UserGameRole implements DomainEntity {
             this.user = user;
         }
 
-        public Game getGame() {
-            return game;
+        public World getWorld() {
+            return world;
         }
 
-        public void setGame(Game game) {
-            this.game = game;
+        public void setWorld(World world) {
+            this.world = world;
         }
 
-        public UserGameRoles getRole() {
+        public UserWorldRoles getRole() {
             return role;
         }
 
-        public void setRole(UserGameRoles role) {
+        public void setRole(UserWorldRoles role) {
             this.role = role;
         }
 
@@ -98,7 +98,7 @@ public class UserGameRole implements DomainEntity {
 
             final PK other = (PK) instance;
             return user != null && user.isSame(other.user)
-                    && game != null && game.isSame(other.game)
+                    && world != null && world.isSame(other.world)
                     && role != null && role.equals(other.role);
         }
 
@@ -106,7 +106,7 @@ public class UserGameRole implements DomainEntity {
         public int hashCode() {
             return new DomainHashCodeBuilder()
                     .append(user)
-                    .append(game)
+                    .append(world)
                     .append(role)
                     .toHashCode();
         }

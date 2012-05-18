@@ -82,10 +82,21 @@ form {
 
 #brandBar {
     width: 100%;
+    margin-top: 5px;
     text-align: left;
+    background: #555;
+    border-radius: 5px 5px 0 0;
+    border-top: solid 1px #999;
+    border-right: solid 1px #999;
+    border-left: solid 1px #999;
+
+    > .btn-toolbar {
+        padding: 0 5px;
+    }
+
     a.brand-logo {
         display: inline-block;
-        width:170px;
+        width:160px;
         text-align: right;
         .brand-face();
     }
@@ -106,27 +117,34 @@ form {
 #accountBar {
     width: 100%;
     text-align: center;
+    background: #666;
+    border-radius: 0 0 5px 5px;
+    border-bottom: solid 1px #999;
+    border-right: solid 1px #999;
+    border-left: solid 1px #999;
+    padding: 4px 0;
+
     >h3 {
         font-size: 12px;
         line-height: 14px;
-        color: #696969;
+        color: #f5f5f5;
     }
-    >p {
+    >span {
         font-size: 12px;
         line-height: 14px;
-        color: #696969;
+        color: #f5f5f5;
         a {
             font-style: italic;
+            font-weight: bold;
+            color: #fff;
         }
     }
+
     &.logged-true {
-        box-shadow: 0 0 2px #DDD;
-        border-radius: 3px;
         >.account-name {
             >.username {
-                padding: 4px;
                 font-size: 13px;
-                line-height: 30px;
+                line-height: 16px;
                 > img {
                     position: relative;
                     top: 0;
@@ -137,17 +155,14 @@ form {
             }
             >a.username {
                 text-decoration:none;
-                &:hover,
-                &:focus {
-                    background: #F9F9F9;
-                }
+                color: #fff;
             }
         }
         >.account-menu {
             text-align: left;
             >.opener {
                 a.toggler {
-                    margin: 3px 5px 3px 0;
+                    margin: 3px 5px 0 0;
                 }
                 a.toggler .collapse {
                     display: none;
@@ -156,26 +171,33 @@ form {
                     float:left;
                     margin: 3px 0 0 3px;
                     >li {
+                        font-size: 90%;
                         float:left;
                         margin: 0 30px 0 3px;
+                        color: #eeeeee;
                         >.value {
                             font-weight: bold;
-                            color: #a9a9a9;
+                            color: #fff;
                         }
                     }
                 }
             }
             >.menu-column {
                 display: none;
-                margin: 3px 0 0;
                 float:left;
                 width: 50%;
+                margin: 2px 0 0;
                 >li{
                     border-top: solid 1px #f5f5f5;
-                    border-left: solid 1px #f5f5f5;
-                    >a{
+                    background: #eee;
+                    text-align: center;
+                    >a {
+                        color: #555;
+                        font-weight: bold;
+                        font-size: 90%;
                         padding-left: 3px;
                         padding-right: 3px;
+                        text-decoration: underline;
                     }
                 }
             }
@@ -443,11 +465,9 @@ div {
             width: 18px;
             height: 20px;
         }
-        >.flag.maproleflag {
-            background: transparent url(../img/sprites/maproleflags.png) no-repeat left top;
-        }
-        >.flag.maproleflag.CREATOR {
-            background-position: -18px 0;
+
+        >.flag.maprole-CREATOR {
+            background: transparent url(../img/sprites/maproleflags.png) no-repeat -18px 0;
         }
     }
 }

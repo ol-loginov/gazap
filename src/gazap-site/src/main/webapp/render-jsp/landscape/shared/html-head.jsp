@@ -27,7 +27,7 @@
     <script type="text/javascript" src="${scriptsRoot}/events/Account.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/ReCaptcha.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/UserProfile.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/Game.Modals.js"></script>
+    <script type="text/javascript" src="${scriptsRoot}/events/World.Modals.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/Map.Forms.js"></script>
 
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>

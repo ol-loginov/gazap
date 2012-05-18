@@ -1,8 +1,8 @@
 package gazap.site.web.views.user;
 
-import gazap.domain.entity.UserGameRoles;
+import gazap.domain.entity.UserWorldRoles;
 import gazap.domain.entity.UserMapRoles;
-import gazap.site.model.viewer.GameTitle;
+import gazap.site.model.viewer.WorldTitle;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.model.viewer.UserTitle;
 
@@ -10,8 +10,8 @@ import java.util.*;
 
 public class UserProfilePage {
     private UserTitle user;
-    private List<GameTitle> games = new ArrayList<GameTitle>();
-    private Map<Integer, Set<UserGameRoles>> gameRoles = new TreeMap<Integer, Set<UserGameRoles>>();
+    private List<WorldTitle> worlds = new ArrayList<WorldTitle>();
+    private Map<Integer, Set<UserWorldRoles>> worldRoles = new TreeMap<Integer, Set<UserWorldRoles>>();
     private List<MapTitle> maps = new ArrayList<MapTitle>();
     private Map<Integer, Set<UserMapRoles>> mapRoles = new TreeMap<Integer, Set<UserMapRoles>>();
 
@@ -23,22 +23,22 @@ public class UserProfilePage {
         this.user = user;
     }
 
-    public List<GameTitle> getGames() {
-        return games;
+    public List<WorldTitle> getWorlds() {
+        return worlds;
     }
 
-    public void setGames(List<GameTitle> games) {
-        this.games = games;
+    public void setWorlds(List<WorldTitle> worlds) {
+        this.worlds = worlds;
     }
 
-    public Map<Integer, Set<UserGameRoles>> getGameRoles() {
-        return gameRoles;
+    public Map<Integer, Set<UserWorldRoles>> getWorldRoles() {
+        return worldRoles;
     }
 
-    public Set<UserGameRoles> getGameRolesList(int game) {
-        Set<UserGameRoles> list = gameRoles.get(game);
+    public Set<UserWorldRoles> getWorldRolesList(int world) {
+        Set<UserWorldRoles> list = worldRoles.get(world);
         if (list == null) {
-            gameRoles.put(game, list = new TreeSet<UserGameRoles>());
+            worldRoles.put(world, list = new TreeSet<UserWorldRoles>());
         }
         return list;
     }

@@ -61,13 +61,13 @@ if (typeof(BUS) == "undefined") {
 
     BUS.bus('account')
         .define("after_login")
-        .define('game_added');
+        .define('world_added');
 
     BUS.bus('captcha')
         .define('init')
         .define('reload');
 
-    BUS.bus("game").bus("modal_create_dialog")
+    BUS.bus("world").bus("modal_create_dialog")
         .define("init")
         .define("close");
 

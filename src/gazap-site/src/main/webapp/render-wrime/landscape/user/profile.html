@@ -45,26 +45,26 @@ ${include("../shared/html-head.html")}
         ${if}
     </section>
 
-    <section id="accountGames">
+    <section id="accountWorlds">
         <h3>
-            ${l18n:t('UserProfilePage.accountGames.h')}
+            ${l18n:t('UserProfilePage.accountWorlds.h')}
         </h3>
 
-        ${if(not o:empty(content.games))}
+        ${if(not o:empty(content.worlds))}
         <ul class="list">
-            ${for(e : content.games)}
+            ${for(e : content.worlds)}
             <li>
-                <div class="game-title">
+                <div class="world-title">
                     <h4>
                         <a href="${sc}${e.route}">
                             <span class="breakword">${e.title}</span>
                         </a>
                     </h4>
-                    <span class="game-flags">
-                    ${for(gr : content.gameRoles.get(e.id))}
-                        <span class="game-role ${gr}">
-                            <i class="gameroleicon"></i>
-                            ${l18n:t(s:concat('UserGameRoles.', gr, '.flag'))}
+                    <span class="world-flags">
+                    ${for(gr : content.worldRoles.get(e.id))}
+                        <span class="world-role ${gr}">
+                            <i class="worldroleicon"></i>
+                            ${l18n:t(s:concat('UserWorldRoles.', gr, '.flag'))}
                         </span>
                     ${for}
                     </span>
@@ -74,7 +74,7 @@ ${include("../shared/html-head.html")}
         </ul>
         ${else}
         <p class="empty">
-            ${l18n:t('UserProfilePage.accountGames.empty')}
+            ${l18n:t('UserProfilePage.accountWorlds.empty')}
         </p>
         ${if}
     </section>

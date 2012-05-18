@@ -1,5 +1,5 @@
 package gazap.domain.entity;
 
-public enum UserGameRoles {
+public enum UserWorldRoles {
     CREATOR
 }

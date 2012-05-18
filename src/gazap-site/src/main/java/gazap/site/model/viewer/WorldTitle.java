@@ -1,6 +1,6 @@
 package gazap.site.model.viewer;
 
-public class GameTitle {
+public class WorldTitle {
     private int id;
     private String title;
     private String alias;
