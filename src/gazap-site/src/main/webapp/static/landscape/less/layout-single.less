@@ -142,9 +142,11 @@ form {
 
     &.logged-true {
         >.account-name {
+            text-align: start;
             >.username {
                 font-size: 13px;
                 line-height: 16px;
+                margin-left: 4px;
                 > img {
                     position: relative;
                     top: 0;
@@ -153,40 +155,34 @@ form {
                     padding-left: 4px;
                 }
             }
+
             >a.username {
                 text-decoration:none;
                 color: #fff;
             }
         }
+
         >.account-menu {
             text-align: left;
+
             >.opener {
-                a.toggler {
-                    margin: 3px 5px 0 0;
-                }
-                a.toggler .collapse {
-                    display: none;
-                }
-                >.notification-icons {
-                    float:left;
-                    margin: 3px 0 0 3px;
-                    >li {
-                        font-size: 90%;
-                        float:left;
-                        margin: 0 30px 0 3px;
-                        color: #eeeeee;
-                        >.value {
-                            font-weight: bold;
-                            color: #fff;
-                        }
-                    }
-                }
+                position: relative;
+                margin-top: -20px;
+                float:right;
             }
+
+            a.toggler {
+                margin: 3px 5px 0 0;
+            }
+            a.toggler .collapse {
+                display: none;
+            }
+
             >.menu-column {
                 display: none;
                 float:left;
                 width: 50%;
-                margin: 2px 0 0;
+                margin: 4px 0 0;
                 >li{
                     border-top: solid 1px #f5f5f5;
                     background: #eee;
@@ -205,16 +201,15 @@ form {
                 >.menu-column {
                     display: block;
                 }
-                >.opener {
-                    a.toggler {
-                        margin-top: 4px;
-                    }
-                    a.toggler .collapse {
-                        display: block;
-                    }
-                    a.toggler .expand {
-                        display: none;
-                    }
+
+                a.toggler {
+                    margin-top: 4px;
+                }
+                a.toggler .collapse {
+                    display: block;
+                }
+                a.toggler .expand {
+                    display: none;
                 }
             }
         }
