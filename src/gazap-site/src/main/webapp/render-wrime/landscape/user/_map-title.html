@@ -2,18 +2,27 @@ ${param gazap.site.model.viewer.MapTitle map}
 ${param Set<gazap.domain.entity.UserMapRoles> mapRoles}
 ${param gazap.site.web.extensions.CdnExtension eCdn}
 ${set sc=eCdn.contextPath}
-<div class="map-title has-flags">
-    ${if(not o:empty(mapRoles))}
-    <ul class="container-flags unstyled">
-        ${for(gr : mapRoles)}
-        <li class="flag maprole-${gr}"></li>
-        ${for}
-    </ul>
-    ${if}
-    <h4>
+<div class="map-title container">
+
+    <h4 class="breakword">
         <a href="${sc}${map.route}">
-            <span class="breakword">${map.title}</span>
+            ${map.title}
         </a>
     </h4>
+
+    <div class="actions">
+        <!--
+        <ul class="unstyled pull-left">
+            <li>
+                <a href="#" class="btn-mini">see more ...</a>
+            </li>
+        </ul>
+        -->
+        <ul class="unstyled pull-right">
+            <li>
+                <a href="${sc}${map.route}" class="btn-mini">редактирование</a>
+            </li>
+        </ul>
+    </div>
 </div>
 

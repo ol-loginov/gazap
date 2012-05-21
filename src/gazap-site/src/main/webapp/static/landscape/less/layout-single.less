@@ -418,7 +418,7 @@ ul.list{
     > li {
         text-indent: none;
         margin: 0;
-        padding: 4px 0;
+        padding: 4px 0 0;
         border-bottom: dashed 1px #ddd;
         &:last-child {
             border-bottom-color: transparent;
@@ -470,5 +470,14 @@ div {
 .map-title {
     > h4 {
         line-height: 20px;
+        padding: 0 10px;
+    }
+
+    > .actions {
+        a {
+             color: #707070;
+            text-shadow: 0 0 1px #aee;
+            font-weight: bold;
+        }
     }
 }
