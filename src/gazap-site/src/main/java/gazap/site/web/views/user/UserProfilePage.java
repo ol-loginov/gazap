@@ -1,10 +1,9 @@
 package gazap.site.web.views.user;
 
 import gazap.domain.entity.UserWorldRoles;
-import gazap.domain.entity.UserMapRoles;
-import gazap.site.model.viewer.WorldTitle;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.model.viewer.UserTitle;
+import gazap.site.model.viewer.WorldTitle;
 
 import java.util.*;
 
@@ -13,7 +12,6 @@ public class UserProfilePage {
     private List<WorldTitle> worlds = new ArrayList<WorldTitle>();
     private Map<Integer, Set<UserWorldRoles>> worldRoles = new TreeMap<Integer, Set<UserWorldRoles>>();
     private List<MapTitle> maps = new ArrayList<MapTitle>();
-    private Map<Integer, Set<UserMapRoles>> mapRoles = new TreeMap<Integer, Set<UserMapRoles>>();
 
     public UserTitle getUser() {
         return user;
@@ -50,17 +48,4 @@ public class UserProfilePage {
     public void setMaps(List<MapTitle> maps) {
         this.maps = maps;
     }
-
-    public Map<Integer, Set<UserMapRoles>> getMapRoles() {
-        return mapRoles;
-    }
-
-    public Set<UserMapRoles> getMapRolesList(int map) {
-        Set<UserMapRoles> list = mapRoles.get(map);
-        if (list == null) {
-            mapRoles.put(map, list = new TreeSet<UserMapRoles>());
-        }
-        return list;
-    }
-
 }

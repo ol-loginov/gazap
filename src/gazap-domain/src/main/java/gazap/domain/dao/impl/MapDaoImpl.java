@@ -14,7 +14,7 @@ import java.util.List;
 public class MapDaoImpl extends DaoImpl implements MapDao {
     @Override
     public Map getMap(int id) {
-        return (Map) getSession().get(World.class, id);
+        return (Map) getSession().get(Map.class, id);
     }
 
     @Override
@@ -27,11 +27,27 @@ public class MapDaoImpl extends DaoImpl implements MapDao {
                 .uniqueResult();
     }
 
+    @Override
+    public List<Map> listMapBelongsToUser(UserProfile user) {
+        return getSession().createQuery("select distinct r.id.map from UserMapRole r where r.id.user=:user")
+                .setEntity("user", user)
+                .list();
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<UserMapRole> listMapRoleByUser(UserProfile user) {
         return getSession().createQuery("from UserMapRole where id.user=:user")
                 .setEntity("user", user)
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<UserMapRole> listMapRoleByUser(UserProfile user, int map) {
+        return getSession().createQuery("from UserMapRole where id.user=:user and id.map.id=:map")
+                .setEntity("user", user)
+                .setParameter("map", map)
                 .list();
     }
 }

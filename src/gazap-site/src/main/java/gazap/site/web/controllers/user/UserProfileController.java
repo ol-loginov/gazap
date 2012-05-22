@@ -2,7 +2,10 @@ package gazap.site.web.controllers.user;
 
 import gazap.domain.dao.MapDao;
 import gazap.domain.dao.WorldDao;
-import gazap.domain.entity.*;
+import gazap.domain.entity.Map;
+import gazap.domain.entity.UserProfile;
+import gazap.domain.entity.UserWorldRole;
+import gazap.domain.entity.World;
 import gazap.site.exceptions.UserProfileNotFound;
 import gazap.site.model.SimpleRegistry;
 import gazap.site.services.UserService;
@@ -44,12 +47,7 @@ public class UserProfileController extends BaseController {
             page.getWorlds().add(viewer.worldTitle(world));
         }
 
-        SimpleRegistry<Integer, Map> mapRegistry = new SimpleRegistry<Integer, Map>();
-        for (UserMapRole role : mapDao.listMapRoleByUser(account)) {
-            mapRegistry.add(role.getMap().getId(), role.getMap());
-            page.getMapRolesList(role.getMap().getId()).add(role.getRole());
-        }
-        for (Map map : mapRegistry.values()) {
+        for (Map map : mapDao.listMapBelongsToUser(account)) {
             page.getMaps().add(viewer.mapTitle(map));
         }
 

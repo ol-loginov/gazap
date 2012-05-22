@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="edit-geometry">
+${include("../shared/html-head.html")}
+<body class="brand-with-menu">
+<div id="leftPane">
+    ${include("../shared/html-bars-brand.html")}
+    ${include("../shared/html-bars-account.html")}
+</div>
+<div id="rightPane" class="pin-right free-content">
+    <section id="godSurfaceTools" class="tabbed-pane">
+        <ul class="unstyled container">
+            <li><a href="#god-tool-surface" data-toggle="tab">Поверхность</a></li>
+            <li><a href="#god-tool-metadata" data-toggle="tab">Метадата</a></li>
+        </ul>
+        <div class="container">
+            <div class="tab-pane" id="god-tool-surface">
+                <div class="tab-pane-section">
+                    <h3>Масштаб</h3>
+
+                    <div class="content">
+
+                    </div>
+                </div>
+                <div class="tab-pane-section">
+                    <h3>Файлы</h3>
+                </div>
+            </div>
+            <div class="tab-pane" id="god-tool-metadata">Tool Metadata</div>
+        </div>
+        <script>$(function () {
+            $('#godSurfaceTools > ul a:first').tab('show');
+        })</script>
+    </section>
+</div>
+<div id="mainColumn" class="profile-page">
+
+</div>
+</body>
+</html>

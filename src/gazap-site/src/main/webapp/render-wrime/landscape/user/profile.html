@@ -34,7 +34,7 @@ ${include("../shared/html-head.html")}
         <ul class="list">
             ${for(map : content.maps)}
             <li>
-                ${include('_map-title.html',map,mapRoles=content.mapRoles.get(map.id))}
+                ${include('_map-title.html',map)}
             </li>
             ${for}
         </ul>

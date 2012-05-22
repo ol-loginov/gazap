@@ -3,6 +3,7 @@ package gazap.site.services.impl;
 import gazap.common.web.model.SocialProfileProvider;
 import gazap.common.web.model.SocialProfileProviders;
 import gazap.common.web.security.PrincipalImpl;
+import gazap.domain.dao.MapDao;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
@@ -21,6 +22,8 @@ import java.util.Collections;
 public class UserAccessImpl implements UserAccess {
     @Autowired
     protected UserProfileDao userProfileDao;
+    @Autowired
+    protected MapDao mapDao;
 
     @Override
     public boolean isAuthorized() {
@@ -69,6 +72,6 @@ public class UserAccessImpl implements UserAccess {
 
     @Override
     public UserActionGuard can() {
-        return new UserActionGuardImpl(getCurrentProfile());
+        return new UserActionGuardImpl(getCurrentProfile(), mapDao);
     }
 }

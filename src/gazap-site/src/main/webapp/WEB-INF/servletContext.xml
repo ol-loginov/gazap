@@ -36,7 +36,7 @@
 
     <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
     <bean class="gazap.site.web.mvc.support.DeviceBasedUrlBasedViewResolver" p:order="2"
-          p:cache="${engine.cache}" p:viewClass="wrime.spring.webmvc.WrimeView"
+          p:cache="${engine.cache}" p:viewClass="gazap.site.web.mvc.wrime.WrimeView2"
           p:prefix="/render-wrime/"
           p:suffix=".html" p:defaultLayout="landscape/"/>
 

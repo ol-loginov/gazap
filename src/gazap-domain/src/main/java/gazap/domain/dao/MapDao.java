@@ -11,5 +11,9 @@ public interface MapDao extends Dao {
 
     Map findMapByAlias(String alias);
 
+    List<Map> listMapBelongsToUser(UserProfile user);
+
     List<UserMapRole> listMapRoleByUser(UserProfile user);
+
+    List<UserMapRole> listMapRoleByUser(UserProfile user, int map);
 }

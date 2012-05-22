@@ -1,27 +1,19 @@
 ${param gazap.site.model.viewer.MapTitle map}
-${param Set<gazap.domain.entity.UserMapRoles> mapRoles}
 ${param gazap.site.web.extensions.CdnExtension eCdn}
 ${set sc=eCdn.contextPath}
 <div class="map-title container">
 
     <h4 class="breakword">
-        <a href="${sc}${map.route}">
-            ${map.title}
-        </a>
+        <a href="${sc}${map.route}">${map.title}</a>
     </h4>
 
     <div class="actions">
-        <!--
-        <ul class="unstyled pull-left">
-            <li>
-                <a href="#" class="btn-mini">see more ...</a>
-            </li>
-        </ul>
-        -->
         <ul class="unstyled pull-right">
+            ${if(can:editMap(map.id))}
             <li>
-                <a href="${sc}${map.route}" class="btn-mini">редактирование</a>
+                <a href="${sc}${map.route}/god" class="btn-mini">редактирование</a>
             </li>
+            ${if}
         </ul>
     </div>
 </div>
