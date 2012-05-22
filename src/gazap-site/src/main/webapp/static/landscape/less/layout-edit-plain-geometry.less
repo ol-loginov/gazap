@@ -9,18 +9,27 @@ html.edit-geometry {
             height: 100%;
         }
     }
-}
 
-#godSurfaceTools {
-    width: 300px;
-    height: 100%;
+    #godSurfaceTools {
+        width: 300px;
+        height: 100%;
 
-    > div {
-        overflow: auto;
+        > div {
+            overflow: auto;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            bottom: 0;
+            width: 299px;
+        }
+    }
+
+    #geometryCanvasOuter {
         position: absolute;
-        top: 25px;
         left: 0;
-        bottom: 0;
-        width: 299px;
+        top: 0;
+        right: 300px;
+        height: 100%;
     }
 }
+

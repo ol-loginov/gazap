@@ -74,4 +74,7 @@ if (typeof(BUS) == "undefined") {
     BUS.bus("map").bus("modal_create_dialog")
         .define("init")
         .define("close");
+
+    BUS.bus('map').bus('plain').bus('editor')
+        .define('ready');
 }
