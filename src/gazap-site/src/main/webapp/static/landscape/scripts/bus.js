@@ -78,3 +78,11 @@ if (typeof(BUS) == "undefined") {
     BUS.bus('map').bus('plain').bus('editor')
         .define('ready');
 }
+
+if (!Function.delegate) {
+    Function.delegate = function (self, func) {
+        return function () {
+            return func.apply(self, arguments);
+        };
+    }
+}
