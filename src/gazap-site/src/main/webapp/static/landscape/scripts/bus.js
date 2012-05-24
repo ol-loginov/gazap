@@ -81,7 +81,7 @@ if (typeof(BUS) == "undefined") {
 
 if (!Function.delegate) {
     Function.delegate = function (self, func) {
-        return function () {
+        return !func ? null : function () {
             return func.apply(self, arguments);
         };
     }
