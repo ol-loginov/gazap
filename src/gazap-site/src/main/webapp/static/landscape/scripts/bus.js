@@ -81,8 +81,11 @@ if (typeof(BUS) == "undefined") {
 
 if (!Function.delegate) {
     Function.delegate = function (self, func) {
-        return !func ? null : function () {
-            return func.apply(self, arguments);
-        };
+        if (func) {
+            return function () {
+                return func.apply(self, arguments);
+            };
+        }
+        throw new Error("delegate has no target function");
     }
 }
