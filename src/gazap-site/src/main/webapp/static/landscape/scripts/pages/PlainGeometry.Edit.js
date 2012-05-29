@@ -25,7 +25,7 @@ EditController.prototype = {
 
     createStage:function () {
         this.uiHelper = new EditControllerUiHelper();
-        this.ui = new Gazap.Map.Ui('#geometryCanvasOuter');
+        this.ui = new Gazap.Ui.Map('#geometryCanvasOuter');
         this.ui.addMouseHandler(this.uiHelper);
     },
 };
