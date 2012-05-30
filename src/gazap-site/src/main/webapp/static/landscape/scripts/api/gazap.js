@@ -28,5 +28,11 @@ var Gazap = (function (gazap) {
         return destination;
     };
 
+    gazap.isFunction = function (val) {
+        return typeof val === "function";
+    };
+
+    gazap.trim = String.prototype.trim;
+
     return  gazap;
 })(Gazap || {});

@@ -1,11 +1,16 @@
 Gazap.Ui = (function (N) {
-    var G = Gazap, H = N.DomHelper;
+    var H = new N.DomHelper();
 
     N.Map = function (container, width, height) {
-        this.width = width;
-        this.height = height;
+        width = Number(width || 0);
+        height = Number(height || 0);
 
-        this.$container = H('div').appendTo(H(container));
+        this.width = isNaN(width) ? 0 : width;
+        this.height = isNaN(height) ? 0 : height;
+
+        this.$container = H.create('div').appendTo(H.byID(container))
+            .style({width:this.width, height:this.height})
+            .addClass('gazap-map-ui-container');
         this.$userLayers = [];
 
         return this;
