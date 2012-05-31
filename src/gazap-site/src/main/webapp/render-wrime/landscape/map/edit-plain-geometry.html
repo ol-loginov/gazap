@@ -2,12 +2,12 @@
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
 <html class="edit-geometry">
-${include("../shared/html-head.html", withKinetic=true)}
+${include("../shared/html-head.html")}
 <body class="brand-with-menu">
 <div id="geometryCanvasOuter"></div>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.map.js"></script>
+<script type="text/javascript" src="${scriptsRoot}/api/gazap.js" ></script>
+<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.js" ></script>
+<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.map.js" ></script>
 <script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Edit.js"></script>
 <div id="leftPane">
     ${include("../shared/html-bars-brand.html")}

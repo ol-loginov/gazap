@@ -1,5 +1,6 @@
-Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
-(function (N) {
+Gazap.extendNamespace('Ui', function (N, G) {
+    var CssNumbers = ["fillOpacity", "fontWeight", "lineHeight", "opacity", "orphans", "widows", "zIndex", "zoom"];
+
     N.DomHelper = function (node) {
         this.node = node;
     };
@@ -11,28 +12,7 @@ Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
         return node;
     }
 
-    var cssNumbers = {
-        "fillOpacity":true,
-        "fontWeight":true,
-        "lineHeight":true,
-        "opacity":true,
-        "orphans":true,
-        "widows":true,
-        "zIndex":true,
-        "zoom":true
-    };
-
-    var rclass = /[\n\t\r]/g,
-        rspace = /\s+/,
-        rreturn = /\r/g,
-        rtype = /^(?:button|input)$/i,
-        rfocusable = /^(?:button|input|object|select|textarea)$/i,
-        rclickable = /^a(?:rea)?$/i,
-        rboolean = /^(?:autofocus|autoplay|async|checked|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped|selected)$/i,
-        getSetAttribute = jQuery.support.getSetAttribute,
-        nodeHook, boolHook, fixSpecified;
-
-    var applyStyleValue = function (target, name, value) {
+    function applyStyleValue(target, name, value) {
         if (value != undefined) {
             var type = typeof value;
 
@@ -46,7 +26,7 @@ Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
             }
 
             // If a number was passed in, add 'px' to the (except for certain CSS properties)
-            if (type === "number" && !cssNumbers[name]) {
+            if (type === "number" && CssNumbers.indexOf(name) == -1) {
                 value += "px";
             }
 
@@ -60,14 +40,13 @@ Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
         }
     }
 
-    var applyStyle = function (target, source) {
+    function applyStyle(target, source) {
         for (var key in source) {
             if (source.hasOwnProperty(key)) {
                 applyStyleValue(target, key, source[key]);
             }
         }
     }
-
 
     N.DomHelper.prototype = {
         node:null,
@@ -96,9 +75,9 @@ Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
         },
 
         addClass:function (value) {
-            var classNames, i, l, setClass, c, cl, elem = this.node;
+            var classNames, setClass, c, cl, elem = getDomNode(this);
             if (value && typeof value === "string") {
-                classNames = value.split(rspace);
+                classNames = value.split(/\s+/);
 
                 if (elem.nodeType === 1) {
                     if (!elem.className && classNames.length === 1) {
@@ -115,7 +94,23 @@ Gazap.Ui = Gazap.extend(Gazap.Ui || {}, {});
                 }
             }
             return this;
+        },
+
+        bind:function (events, listener, useCapture) {
+            if (useCapture == undefined) {
+                useCapture = true;
+            }
+            var node = getDomNode(this);
+            G.each(events.split(/\s+/), function () {
+                var methodName = 'on_' + this;
+                if (G.isFunction(listener)) {
+                    node.addEventListener(this, listener, useCapture);
+                } else if (typeof listener === "object" && listener[methodName] != undefined) {
+                    node.addEventListener(this, G.delegate(listener, listener[methodName]), useCapture);
+                } else {
+                    throw new Error('listener is not identifiable');
+                }
+            });
         }
     };
-    return N;
-})(Gazap.Ui);
+});

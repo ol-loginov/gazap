@@ -1,38 +1,63 @@
-var Gazap = (function (gazap) {
-    gazap.each = $.each;
+var Gazap = (function (T) {
+    T.each = $.each;
+    T.trim = String.prototype.trim;
 
-    gazap.requireNamespace = function (namespace) {
-        var parts = namespace.split('.'), parent = gazap;
-        if (parts.length == 0) {
-            throw new Error("namespace is empty");
-        }
-        if (parts.length > 0 && parts[0] == 'Gazap') {
-            parts = parts.slice(1);
-        }
-
-        for (var i = 0; i < parts.length; ++i) {
-            if (typeof parent[parts[i]] === "undefined") {
-                parent[parts[i]] = {};
-            }
-            parent = parent[parts[i]];
-        }
-        return parent;
-    };
-
-    gazap.extend = function (destination, source) {
+    T.extend = function (destination, source, propertyArray) {
         for (var key in source.prototype) {
             if (source.prototype.hasOwnProperty(key) && destination.prototype[key] === undefined) {
+                if (propertyArray && propertyArray.indexOf(key) == -1) {
+                    continue;
+                }
                 destination.prototype[key] = source.prototype[key];
             }
         }
         return destination;
     };
 
-    gazap.isFunction = function (val) {
+    T.isFunction = function (val) {
         return typeof val === "function";
     };
 
-    gazap.trim = String.prototype.trim;
+    T.extendNamespace = function () {
+        var base, namespaceName, initializationFunction;
+        if (arguments.length == 3) {
+            base = arguments[0];
+            namespaceName = arguments[1];
+            initializationFunction = arguments[2];
+        } else
+        if (arguments.length == 2) {
+            base = T;
+            namespaceName = arguments[0];
+            initializationFunction = arguments[1];
+        } else {
+            throw new Error('not enough parameters');
+        }
 
-    return  gazap;
+        if (!T.isFunction(initializationFunction)) {
+            throw new Error('extender is not a function');
+        }
+
+        if (typeof namespaceName !== "string") {
+            throw new Error('namespace name is not a string');
+        }
+
+        var namespace = base[namespaceName];
+        if (namespace == undefined) {
+            namespace = {};
+        }
+
+        initializationFunction.call(namespace, namespace, base);
+        base[namespaceName] = namespace;
+    };
+
+    T.delegate = function (self, func) {
+        if (func) {
+            return function () {
+                return func.apply(self, arguments);
+            };
+        }
+        throw new Error("delegate has no target function");
+    };
+
+    return  T;
 })(Gazap || {});

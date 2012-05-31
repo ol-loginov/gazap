@@ -1,4 +1,3 @@
-${param Boolean withKinetic}
 ${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
@@ -6,7 +5,7 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     <script type="text/javascript">
         V = {};
-        E = {"SCE":'<fmt:message key="E.SCE"/>'};
+        E = {'SCE':'${l18n:t("E.SCE")}'};
     </script>
     <script type="text/javascript" src="${libRoot}/jquery/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="${libRoot}/jquery/jquery.form-2.94.min.js"></script>
@@ -25,10 +24,6 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
     <script type="text/javascript" src="${scriptsRoot}/events/UserProfile.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/World.Modals.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/Map.Forms.js"></script>
-
-    ${if(withKinetic eq true)}
-    <script type="text/javascript" src="${libRoot}/kinetic/kinetic-v3.9.6.js"></script>
-    ${if}
 
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>
     <script type="text/javascript" src="${libRoot}/less/less-1.3.0.min.js"></script>
