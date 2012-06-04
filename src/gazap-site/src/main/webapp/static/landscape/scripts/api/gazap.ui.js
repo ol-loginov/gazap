@@ -102,6 +102,9 @@ Gazap.extendNamespace('Ui', function (N, G) {
             }
             var node = getDomNode(this);
             G.each(events.split(/\s+/), function () {
+                if (this.length == 0) {
+                    return;
+                }
                 var methodName = 'on_' + this;
                 if (G.isFunction(listener)) {
                     node.addEventListener(this, listener, useCapture);

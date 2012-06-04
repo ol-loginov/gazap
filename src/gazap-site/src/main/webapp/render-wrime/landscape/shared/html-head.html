@@ -5,7 +5,7 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     <script type="text/javascript">
         V = {};
-        E = {'SCE':'${l18n:t("E.SCE")}'};
+        E = {language:'${l18n:locale.language}', 'SCE':'${l18n:t("E.SCE")}'};
     </script>
     <script type="text/javascript" src="${libRoot}/jquery/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="${libRoot}/jquery/jquery.form-2.94.min.js"></script>
