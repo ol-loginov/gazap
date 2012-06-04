@@ -98,7 +98,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         bind:function (events, listener, useCapture) {
             if (useCapture == undefined) {
-                useCapture = true;
+                useCapture = false;
             }
             var node = getDomNode(this);
             G.each(events.split(/\s+/), function () {

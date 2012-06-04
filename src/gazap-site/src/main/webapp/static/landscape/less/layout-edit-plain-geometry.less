@@ -21,14 +21,32 @@ html.edit-geometry {
             left: 0;
             bottom: 0;
             width: 299px;
+
+            ul.labels {
+                li {
+                    padding: 0 5px;
+                    clear: both;
+                }
+                label {
+                    display: block;
+                    float:left;
+                    width: 80px;
+                    line-height: @baseLineHeight;
+                    font-size: @baseFontSize;
+                    margin:0;
+                }
+                span {
+                    line-height: @baseLineHeight;
+                    font-weight: bold;
+                    font-size: @baseFontSize;
+                }
+            }
+        }
+
+        #god-tool-surface-view-controls {
         }
 
         #god-tool-surface-tile-current {
-            .tile-hash {
-                display: block;
-                text-align: right;
-                padding-right: 5px;
-            }
             .tile-thumb {
                 display: block;
                 margin: 5px auto;

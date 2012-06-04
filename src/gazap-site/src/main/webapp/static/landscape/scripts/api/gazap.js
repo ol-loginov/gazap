@@ -80,13 +80,13 @@ var Gazap = (function (T) {
             this.length++;
         },
 
-        trigger:function (_this, event) {
+        trigger:function (_this, name, event) {
             try {
                 this.running = true;
                 var current = this.first;
                 while (current != null) {
                     if (current.callback != null && !current.skip) {
-                        current.callback.call(_this, _this, event);
+                        current.callback.call(_this, _this, name, event);
                     }
                     current = current.next;
                 }
@@ -141,7 +141,7 @@ var Gazap = (function (T) {
             if (chain == undefined) {
                 throw new Error('event listener named "' + name + '" is not defined');
             }
-            chain.trigger.call(chain, _this, value);
+            chain.trigger.call(chain, _this, name, value);
         };
 
         dispatcher.bind = function (names, listener) {
@@ -156,7 +156,11 @@ var Gazap = (function (T) {
 
         dispatcher.unbind = function (names, listener) {
             T.each(names.split(/\s+/g), function (index, name) {
-                dispatcher._events[name].remove(listener);
+                var chain = dispatcher._events[name];
+                if (chain == undefined) {
+                    throw new Error('event listener named "' + name + '" is not defined');
+                }
+                chain.remove(listener);
             });
         };
     };

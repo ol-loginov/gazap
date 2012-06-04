@@ -21,24 +21,58 @@ ${include("../shared/html-head.html")}
         </ul>
         <div class="container">
             <div class="tab-pane" id="god-tool-surface">
-                <div class="tab-pane-section">
+                <div id="god-tool-surface-view-controls" class="tab-pane-section">
                     <h3>Масштаб</h3>
 
                     <div class="content">
-
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Scale</label>
+                                <span class="view-scale"></span>
+                            </li>
+                            <li>
+                                <label>Center</label>
+                                <span>
+                                    <span class="view-center-x"></span><span>;</span><span class="view-center-y"></span>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
+
                 </div>
                 <div id="god-tool-surface-tile-current" class="tab-pane-section hidden">
                     <h3>Выбранный тайл</h3>
-                    <span class="tile-hash"></span>
-                    <img class="tile-thumb" src="/static/img/tan-200-${l18n:locale.language}.png"/>
 
-                    <div class="btn-toolbar">
-                        <div class="btn-group ">
-                            <button id="god-tool-surface-tile-current-clear" class="btn btn-danger">Удалить</button>
-                        </div>
-                        <div class="btn-group ">
-                            <button id="god-tool-surface-tile-current-load" class="btn btn-success">Загрузить</button>
+                    <div class="content">
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Hash</label>
+                                <span class="tile-hash"></span>
+                            </li>
+                            <li>
+                                <label>Point</label>
+                                <span>
+                                    <span class="tile-x"></span><span>;</span><span class="tile-y"></span>
+                                </span>
+                            </li>
+                            <li>
+                                <label>Size</label>
+                                <span>
+                                    <span class="tile-size"></span><span>px</span>
+                                </span>
+                            </li>
+                        </ul>
+
+                        <img class="tile-thumb" src="/static/img/tan-200-${l18n:locale.language}.png"/>
+
+                        <div class="btn-toolbar">
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-clear" class="btn btn-danger">Удалить</button>
+                            </div>
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-load" class="btn btn-success">Загрузить
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

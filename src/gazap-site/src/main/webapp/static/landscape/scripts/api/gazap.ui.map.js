@@ -11,7 +11,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         // init eventually
         this.eventListener = new N.PlainMap.EventListener(this);
-        this.$container.bind('mousemove mouseup mousedown ', this.eventListener);
+        this.$container.bind('mousemove mouseup mousedown mouseenter mouseleave', this.eventListener);
 
         // init tiling
         this.$tileLayer = H.create('div').appendTo(this.$container)
@@ -28,7 +28,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
         this.viewCenter = {x:0, y:0};
         this.setSize({width:isNaN(width) ? 0 : width, height:isNaN(height) ? 0 : height});
 
-        G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch');
+        G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch finger.leave finger.enter');
         return this;
     };
 
@@ -128,6 +128,14 @@ Gazap.extendNamespace('Ui', function (N, G) {
             if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
                 this.map.trigger('finger.touch', this.map, this.fingerPos);
             }
+        },
+
+        on_mouseenter:function () {
+            this.map.trigger('finger.enter', this.map, this.fingerPos);
+        },
+
+        on_mouseleave:function () {
+            this.map.trigger('finger.leave', this.map, this.fingerPos);
         },
 
         on_mousedown:function (e) {
