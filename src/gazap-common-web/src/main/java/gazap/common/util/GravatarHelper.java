@@ -1,6 +1,5 @@
 package gazap.common.util;
 
-import com.iserv2.commons.lang.HashUtil;
 import org.springframework.util.StringUtils;
 
 public class GravatarHelper {

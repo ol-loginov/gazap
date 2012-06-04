@@ -1,8 +1,10 @@
 package gazap.site.web.controllers.map;
 
+import gazap.common.util.HashUtil;
 import gazap.domain.dao.MapDao;
 import gazap.domain.entity.Geometry;
 import gazap.domain.entity.Map;
+import gazap.domain.entity.MapContribution;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.web.controllers.BaseController;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 @Controller
@@ -40,10 +44,18 @@ public class MapEditController extends BaseController {
 
         if (Geometry.Plain.CLASS.equals(mapInstance.getGeometry().getGeometryClass())) {
             MapEditPlainPage page = new MapEditPlainPage();
+            page.setContribution(newContribution(mapInstance).getId());
             return responseBuilder(locale).view("map/edit-plain-geometry", page);
         } else {
             throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.geometryUnknown"));
         }
     }
 
+    private MapContribution newContribution(Map map) {
+        SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+
+        MapContribution contribution = new MapContribution();
+        contribution.setId(df.format(new Date()) + ":" + HashUtil.md5("" + map.getId() + ":" + System.currentTimeMillis()));
+        return contribution;
+    }
 }

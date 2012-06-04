@@ -1,28 +1,14 @@
 C = null;
 
-function EditControllerUiHelper() {
-    return this;
-}
-
-EditControllerUiHelper.prototype = {
-    mouseLeave:function (ev) {
-    },
-    mouseMove:function (ev) {
-    },
-    mouseEnter:function (ev) {
-    }
-};
-
 function EditController() {
-    this.location = {x:0.0, y:0.0};
     this.createStage();
     return this;
 }
 
 EditController.prototype = {
-    ui:null,
-    uiHelper:null,
+    contribution:null,
 
+    ui:null,
     uiTileHelper:null,
 
     $aimTemplate:'<div style="border:solid 2px green;margin-left:-2px;margin-top:-2px;position:absolute;cursor:pointer;" class="surface-map-aim"></div>',
@@ -32,8 +18,6 @@ EditController.prototype = {
     $aimSelector:null,
 
     createStage:function () {
-        var that = this;
-        this.uiHelper = new EditControllerUiHelper();
         this.ui = new Gazap.Ui.PlainMap('geometryCanvasOuter', 100, 100);
         this.uiTileHelper = this.ui.createLayer();
         this.ui.bind('finger.hover', Gazap.delegate(this, this.updateAimPosition));
@@ -45,6 +29,8 @@ EditController.prototype = {
 
         this.updateMapContainer();
         $(window).resize(Gazap.delegate(this, this.updateMapContainer));
+
+        $('#god-tool-surface-tile-current-load').click(Gazap.delegate(this, this.loadTilePicture));
     },
 
     createAim:function () {
@@ -97,6 +83,17 @@ EditController.prototype = {
         $('.view-scale', $info).text(this.ui.viewScale);
         $('.view-center-x', $info).text(this.ui.viewCenter.x);
         $('.view-center-y', $info).text(this.ui.viewCenter.y);
+    },
+
+    loadTilePicture:function () {
+        var $formPlace = $('#god-tool-surface-tile-current .tile-upload-forms');
+        var $form = $('<form method="post" enctype="multipart/form-data"/>').appendTo($formPlace);
+        $('<input type="hidden" name="contribution"/>').val(this.contribution).appendTo($form);
+        $('<input type="file" name="file"/>').appendTo($form)
+            .change(function () {
+            })
+            .focus()
+            .click();
     }
 };
 
