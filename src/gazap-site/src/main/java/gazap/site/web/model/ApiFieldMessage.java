@@ -1,4 +1,4 @@
-package gazap.site.model;
+package gazap.site.web.model;
 
 public class ApiFieldMessage {
     private String field;

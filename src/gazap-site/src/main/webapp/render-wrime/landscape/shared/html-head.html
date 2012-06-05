@@ -2,6 +2,10 @@ ${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
 <head>
+    <meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     <script type="text/javascript">
         V = {};

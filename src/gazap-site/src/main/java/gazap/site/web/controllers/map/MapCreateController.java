@@ -2,7 +2,7 @@ package gazap.site.web.controllers.map;
 
 import gazap.domain.entity.Geometry;
 import gazap.domain.entity.Map;
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.services.MapService;
 import gazap.site.web.controllers.BaseController;

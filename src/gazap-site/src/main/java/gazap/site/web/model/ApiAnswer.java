@@ -1,9 +1,20 @@
-package gazap.site.model;
+package gazap.site.web.model;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+@JsonAutoDetect(JsonMethod.NONE)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ApiAnswer {
-    private boolean success;
+    @JsonProperty
+    private boolean success = false;
+    @JsonProperty
     private String code;
+    @JsonProperty
     private String message;
+    @JsonProperty
     private ApiFieldMessage[] errorList;
 
     public boolean isSuccess() {

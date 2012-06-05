@@ -1,6 +1,6 @@
 package gazap.site.web.mvc;
 
-import gazap.site.model.ApiAnswerType;
+import gazap.site.web.model.ApiAnswerType;
 import gazap.site.web.controllers.access.StatusController;
 import gazap.site.web.controllers.errors.AuthErrorsController;
 import org.springframework.security.core.Authentication;

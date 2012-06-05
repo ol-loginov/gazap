@@ -12,7 +12,12 @@ ${include("../shared/html-head.html")}
 <script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Edit.js"></script>
 <script type="text/javascript">
     BUS.map.plain.editor.ready(function (controller) {
-        controller.contribution = '${content.contribution}';
+        controller.actionBase = '${content.map.route}/god';
+        controller.messages = {
+            'change-tile-load-image':'загрузка картинки начата...',
+            'change-tile-load-image-success':'загружена картинка',
+            'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки'
+        };
     });
 </script>
 
@@ -25,6 +30,7 @@ ${include("../shared/html-head.html")}
         <ul class="unstyled container">
             <li><a href="#god-tool-surface" data-toggle="tab">Поверхность</a></li>
             <li><a href="#god-tool-metadata" data-toggle="tab">Метадата</a></li>
+            <li><a href="#god-tool-contribution-list" data-toggle="tab">Изменения</a></li>
         </ul>
         <div class="container">
             <div class="tab-pane" id="god-tool-surface">
@@ -70,7 +76,15 @@ ${include("../shared/html-head.html")}
                             </li>
                         </ul>
 
-                        <img class="tile-thumb" src="/static/img/tan-200-${l18n:locale.language}.png"/>
+                        <div class="tile-thumb-outer">
+                            <div class="tile-thumb">
+                                <img/>
+                            <span>
+                                Тайл не задан
+                            </span>
+                            </div>
+                        </div>
+
 
                         <div class="btn-toolbar">
                             <div class="btn-group ">
@@ -84,11 +98,13 @@ ${include("../shared/html-head.html")}
                                 </button>
                             </div>
                         </div>
-                        <div class="tile-upload-forms"></div>
+                        <ul class="tile-change-messages unstyled"></ul>
+                        <div class="tile-change-forms"></div>
                     </div>
                 </div>
             </div>
             <div class="tab-pane" id="god-tool-metadata">Tool Metadata</div>
+            <div class="tab-pane" id="god-tool-contribution-list">Tool Metadata</div>
         </div>
         <script>$(function () {
             $('#godSurfaceTools > ul a:first').tab('show');

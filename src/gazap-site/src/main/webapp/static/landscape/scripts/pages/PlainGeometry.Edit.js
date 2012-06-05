@@ -6,7 +6,8 @@ function EditController() {
 }
 
 EditController.prototype = {
-    contribution:null,
+    actionBase:null,
+    messages:null,
 
     ui:null,
     uiTileHelper:null,
@@ -16,6 +17,8 @@ EditController.prototype = {
     $aimTile:null,
     $aimSelectorTemplate:'<div style="border:none;position:absolute;background:transparent url(/static/img/pFFF-50.png);" class="surface-map-selector"></div>',
     $aimSelector:null,
+    $aimSelectorTile:null,
+    $aimSelectorEnabled:true,
 
     createStage:function () {
         this.ui = new Gazap.Ui.PlainMap('geometryCanvasOuter', 100, 100);
@@ -42,7 +45,7 @@ EditController.prototype = {
     },
 
     updateAimPosition:function (sender, event, mapPoint) {
-        var tile = this.ui.describeClientPointTile(mapPoint);
+        var tile = this.ui.describeTileByMapPoint(mapPoint);
         if (this.$aimTile == null || this.$aimTile.hash != tile.hash) {
             this.$aimTile = tile;
             this.$aim.css({left:tile.clientX, top:tile.clientY, width:tile.size, height:tile.size});
@@ -50,13 +53,15 @@ EditController.prototype = {
     },
 
     updateAimSelectorPosition:function (sender, event, mapPoint) {
-        var tile = this.ui.describeClientPointTile(mapPoint);
+        var tile = this.ui.describeTileByMapPoint(mapPoint);
         if (this.$aimSelector == null) {
             this.$aimSelector = $(this.$aimSelectorTemplate)
                 .prependTo($(this.uiTileHelper.getContent()));
         }
-        this.$aimSelector.css({left:tile.clientX, top:tile.clientY, width:tile.size, height:tile.size});
-        this.setTileInfo(tile);
+        if (this.$aimSelectorEnabled) {
+            this.$aimSelector.css({left:tile.clientX, top:tile.clientY, width:tile.size, height:tile.size});
+            this.setTileInfo(tile);
+        }
     },
 
     updateAimSelectorVisibility:function (sender, event) {
@@ -68,16 +73,6 @@ EditController.prototype = {
         this.setViewInfo();
     },
 
-    setTileInfo:function (tile) {
-        var $info = $('#god-tool-surface-tile-current').toggle(true);
-        $info.toggleClass('has-tile-thumb', tile.src != null);
-        $('.tile-hash', $info).text(tile.hash);
-        $('.tile-thumb', $info).attr('src', tile.src == null ? '/static/img/tan-200-' + E.language + '.png' : tile.src);
-        $('.tile-x', $info).text(tile.x);
-        $('.tile-y', $info).text(tile.y);
-        $('.tile-size', $info).text(tile.size);
-    },
-
     setViewInfo:function () {
         var $info = $('#god-tool-surface-view-controls');
         $('.view-scale', $info).text(this.ui.viewScale);
@@ -85,15 +80,55 @@ EditController.prototype = {
         $('.view-center-y', $info).text(this.ui.viewCenter.y);
     },
 
+    setTileInfo:function (tile, deleteProgress) {
+        this.$aimSelectorTile = tile;
+        var $info = $('#god-tool-surface-tile-current').toggle(true);
+        $info.toggleClass('has-tile-thumb', tile.src != null);
+        $('.tile-hash', $info).text(tile.hash);
+        $('.tile-thumb img', $info).attr('src', tile.src);
+        $('.tile-x', $info).text(tile.x);
+        $('.tile-y', $info).text(tile.y);
+        $('.tile-size', $info).text(tile.size);
+        if (deleteProgress == undefined || deleteProgress) {
+            $('#god-tool-surface-tile-current .tile-change-messages').empty();
+        }
+    },
+
+    addTileChangeProgress:function ($el) {
+        $('#god-tool-surface-tile-current .tile-change-messages').prepend($('<li/>').append($el));
+    },
+
     loadTilePicture:function () {
-        var $formPlace = $('#god-tool-surface-tile-current .tile-upload-forms');
-        var $form = $('<form method="post" enctype="multipart/form-data"/>').appendTo($formPlace);
-        $('<input type="hidden" name="contribution"/>').val(this.contribution).appendTo($form);
+        var that = this, $tileControls = $('#god-tool-surface-tile-current');
+        var $form = $('<form method="post" enctype="multipart/form-data" action="' + this.actionBase + '/addTile.ajax"/>').appendTo($('.tile-change-forms', $tileControls));
+        var $progress = $('<span/>');
+
+        var toggleUi = function (enabled) {
+            $('.btn-toolbar', $tileControls).toggle(enabled);
+            that.$aimSelectorEnabled = enabled;
+        };
+
+        var formSubmitSuccess = function () {
+            $form.remove();
+            $progress.text(that.messages['change-tile-load-image-success']);
+            that.setTileInfo(that.ui.describeTileByHash(that.$aimSelectorTile.hash), false);
+            toggleUi(true);
+        };
+        var formSubmitFailure = function () {
+            $form.remove();
+            $progress.text(that.messages['change-tile-load-image-failure']);
+            toggleUi(true);
+        };
+
+        var fileChanged = function () {
+            toggleUi(false);
+            that.addTileChangeProgress($progress);
+            $progress.text(that.messages['change-tile-load-image']);
+            $form.ajaxSubmit({success:formSubmitSuccess, error:formSubmitFailure});
+        };
+
         $('<input type="file" name="file"/>').appendTo($form)
-            .change(function () {
-            })
-            .focus()
-            .click();
+            .change(fileChanged).focus().click();
     }
 };
 

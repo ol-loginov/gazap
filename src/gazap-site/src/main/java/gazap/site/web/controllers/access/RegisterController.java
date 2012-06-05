@@ -1,6 +1,6 @@
 package gazap.site.web.controllers.access;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.controllers.ResponseBuilder;

@@ -191,6 +191,18 @@
             <version>0.0.7</version>
         </dependency>
 
+        <!-- file upload -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
         <!-- domain -->
         <dependency>
             <groupId>mysql</groupId>

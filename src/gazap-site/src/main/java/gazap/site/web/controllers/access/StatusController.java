@@ -1,6 +1,6 @@
 package gazap.site.web.controllers.access;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.controllers.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

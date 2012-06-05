@@ -1,6 +1,6 @@
 package gazap.site.web.mvc;
 
-import gazap.site.model.ApiAnswerType;
+import gazap.site.web.model.ApiAnswerType;
 import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;

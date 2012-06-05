@@ -1,13 +1,15 @@
 package gazap.site.web.views.map;
 
-public class MapEditPlainPage {
-    private String contribution;
+import gazap.site.model.viewer.MapTitle;
 
-    public String getContribution() {
-        return contribution;
+public class MapEditPlainPage {
+    private MapTitle map;
+
+    public MapTitle getMap() {
+        return map;
     }
 
-    public void setContribution(String contribution) {
-        this.contribution = contribution;
+    public void setMap(MapTitle map) {
+        this.map = map;
     }
 }

@@ -80,15 +80,25 @@ Gazap.extendNamespace('Ui', function (N, G) {
             return {x:x2, y:y2};
         },
 
-        describeClientPointTile:function (pt) {
+        describeTileByHash:function (hash) {
+            var parts = hash.split(/:/g);
+            var tileSize = Number(parts[1]), x = Number(parts[2]), y = Number(parts[3]);
+            return this.describeTile(x, y, tileSize, null, null);
+        },
+
+        describeTileByMapPoint:function (pt) {
             var x = Math.floor(pt.x / this.tileSize) * this.viewScale;
             var y = Math.ceil(pt.y / this.tileSize) * this.viewScale;
             var clientX = x * this.tileSize;
             var clientY = -y * this.tileSize;
+            return this.describeTile(x, y, this.tileSize, clientX, clientY);
+        },
+
+        describeTile:function (x, y, tileSize, clientX, clientY) {
             return {
-                size:this.tileSize,
+                size:tileSize,
                 x:x, y:y, clientX:clientX, clientY:clientY, id:"tile " + x + "x" + y,
-                src:null, hash:'T:' + this.tileSize + ':' + x + ':' + y };
+                src:null, hash:'T:' + tileSize + ':' + x + ':' + y };
         }
     };
 

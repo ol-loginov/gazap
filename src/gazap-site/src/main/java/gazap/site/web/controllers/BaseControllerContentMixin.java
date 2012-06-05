@@ -1,8 +1,8 @@
 package gazap.site.web.controllers;
 
 import com.iserv2.commons.lang.collections.Collections;
-import gazap.site.model.ApiAnswer;
-import gazap.site.model.ApiFieldMessage;
+import gazap.site.web.model.ApiAnswer;
+import gazap.site.web.model.ApiFieldMessage;
 import gazap.site.model.ServiceError;
 import gazap.site.services.FormatService;
 import org.springframework.context.MessageSourceResolvable;

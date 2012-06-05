@@ -1,6 +1,6 @@
 package gazap.site.web.controllers.errors;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.ServiceError;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.mvc.AuthenticationRequest;

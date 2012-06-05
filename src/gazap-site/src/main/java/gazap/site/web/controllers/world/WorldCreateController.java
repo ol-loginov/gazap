@@ -1,7 +1,7 @@
 package gazap.site.web.controllers.world;
 
 import gazap.domain.entity.World;
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.viewer.WorldTitle;
 import gazap.site.services.WorldService;
 import gazap.site.web.controllers.BaseController;

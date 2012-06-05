@@ -1,6 +1,6 @@
 package gazap.site.web.controllers;
 
-import gazap.site.model.ApiAnswer;
+import gazap.site.web.model.ApiAnswer;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -1,6 +1,6 @@
 package gazap.site.web.controllers.access;
 
-import gazap.site.model.ApiAnswerType;
+import gazap.site.web.model.ApiAnswerType;
 import gazap.site.services.UserAccess;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.mvc.AuthenticationRequest;
