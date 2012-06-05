@@ -33,7 +33,7 @@ public abstract class PrincipalProvider {
         Set<UserAcl> profileRoles = profile.getRoles();
 
         PrincipalImpl principal = new PrincipalImpl(profile);
-        principal.setEnabled(profileRoles.contains(UserAcl.GOD_MODE) || profileRoles.contains(UserAcl.ACCESS_PANEL));
+        principal.setEnabled(profileRoles.contains(UserAcl.GOD_MODE));
 
         checker.check(principal);
         return principal;
