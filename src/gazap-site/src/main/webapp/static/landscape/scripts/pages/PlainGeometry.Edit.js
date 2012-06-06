@@ -1,11 +1,14 @@
-C = null;
+BUS.bus('map.plain.editor.changes')
+    .define('generate_tile_add_view')
+    .define('generate_tile_remove_view');
 
-function EditController() {
+function EditPlainMapController() {
+    this.customTiling = {};
     this.createStage();
     return this;
 }
 
-EditController.prototype = {
+EditPlainMapController.prototype = {
     actionBase:null,
     messages:null,
 
@@ -20,20 +23,29 @@ EditController.prototype = {
     $aimSelectorTile:null,
     $aimSelectorEnabled:true,
 
+    localChangesFetching:false,
+    localChangesAfter:null,
+
+    customTiling:null,
+
     createStage:function () {
         this.ui = new Gazap.Ui.PlainMap('geometryCanvasOuter', 100, 100);
         this.uiTileHelper = this.ui.createLayer();
         this.ui.bind('finger.hover', Gazap.delegate(this, this.updateAimPosition));
         this.ui.bind('finger.touch', Gazap.delegate(this, this.updateAimSelectorPosition));
         this.ui.bind('finger.leave finger.enter', Gazap.delegate(this, this.updateAimSelectorVisibility));
+        this.ui.bind('tile.request', Gazap.delegate(this, this.requestTile));
 
         this.createAim();
-        this.updateAimPosition(this.ui, "", {x:0, y:0});
 
-        this.updateMapContainer();
         $(window).resize(Gazap.delegate(this, this.updateMapContainer));
-
         $('#god-tool-surface-tile-current-load').click(Gazap.delegate(this, this.loadTilePicture));
+    },
+
+    start:function () {
+        this.updateAimPosition(this.ui, "", {x:0, y:0});
+        this.updateMapContainer();
+        this.loadLocalChangesPage();
     },
 
     createAim:function () {
@@ -139,10 +151,111 @@ EditController.prototype = {
         $('<input type="hidden" name="size"/>').val(tile.size).appendTo($form);
         $('<input type="file" name="file"/>').appendTo($form)
             .change(fileChanged).focus().click();
+    },
+
+    loadLocalChangesPage:function () {
+        if (this.localChangesFetching) {
+            return;
+        }
+        try {
+            this.localChangesFetching = true;
+            var testTime = this.localChangesAfter || 0;
+
+            var that = this;
+            $.get(this.actionBase + "/localChanges.ajax", {after:testTime})
+                .success(function (data, status, xhr) {
+                    if (status === "success" && data.success) {
+                        that.localChangesAfter = testTime;
+                        that.appendLocalChanges(data.list);
+                    }
+                })
+                .error(function () {
+                });
+        } finally {
+            this.localChangesFetching = false;
+        }
+    },
+
+    appendLocalChanges:function (list) {
+        var that = this, container = $('#god-tool-contribution-list ul.contribution-list');
+        $.each(list, function (index) {
+            if (!this) {
+                return;
+            }
+            var target = this.type + ':' + this.action, $li = $('<li/>');
+            switch (target) {
+                case 'TILE:ADD':
+                    BUS.map.plain.editor.changes.generate_tile_add_view({controller:that, container:$li, item:this});
+                    break;
+                case 'TILE:REMOVE':
+                    BUS.map.plain.editor.changes.generate_tile_remove_view({controller:that, container:$li, item:this});
+                    break;
+            }
+            $li.appendTo(container);
+        });
+        this.ui.refreshTiles();
+    },
+
+    generateTileHash:function (scale, size, x, y) {
+        return Gazap.format('T:{0}:{1}:{2}:{3}', scale, size, x, y);
+    },
+
+    requestTile:function (sender, event, arg) {
+        var key = this.generateTileHash(arg.scale, arg.size, arg.x, arg.y);
+        if (this.customTiling[key]) {
+            this.customTiling[key](arg);
+        }
+    }
+};
+
+ChangeTileAddView = function () {
+};
+
+ChangeTileAddView.prototype = {
+    create:function (e) {
+        var item = e.item, container = e.container, controller = e.controller;
+        this.createView(controller, container, item);
+        controller.customTiling[controller.generateTileHash(item.scale, item.size, item.x, item.y)] = function (data) {
+            data.src = controller.actionBase + '/contribution/' + item.id + '/tile';
+        };
+    },
+
+    createView:function (controller, container, item) {
+        var $div = $('<div/>').addClass(('change-' + item.type + '-' + item.action).toLowerCase());
+        $('<span class="id"/>').text('#' + item.id).appendTo($div);
+        $('<strong/>').text(controller.messages['change-tile-add-strong']).appendTo($div);
+        $('<span class="short"/>').text(Gazap.format(controller.messages['change-tile-add'], item.scale, item.size, item.x, item.y)).appendTo($div);
+        container.append($div);
+    }
+};
+
+
+ChangeTileRemoveView = function () {
+};
+
+ChangeTileRemoveView.prototype = {
+    create:function (e) {
+        var item = e.item, container = e.container, controller = e.controller;
+        this.createView(controller, container, item);
+        controller.customTiling[controller.generateTileHash(item.scale, item.size, item.x, item.y)] = function (data) {
+            data.src = null;
+        };
+    },
+
+    createView:function (controller, container, item) {
+        var $div = $('<div/>').addClass(('change-' + item.type + '-' + item.action).toLowerCase());
+        $('<span class="id"/>').text('#' + item.id).appendTo($div);
+        $('<strong/>').text(controller.messages['change-tile-add-strong']).appendTo($div);
+        $('<span class="short"/>').text(Gazap.format(controller.messages['change-tile-add'], item.scale, item.size, item.x, item.y)).appendTo($div);
+        container.append($div);
     }
 };
 
 $(window).load(function () {
-    C = new EditController();
+    var C = new EditPlainMapController();
     BUS.map.plain.editor.ready(C);
+    var changeTileAddView = new ChangeTileAddView();
+    BUS.map.plain.editor.changes.generate_tile_add_view(Gazap.delegate(changeTileAddView, changeTileAddView.create));
+    var changeTileRemoveView = new ChangeTileRemoveView();
+    BUS.map.plain.editor.changes.generate_tile_remove_view(Gazap.delegate(changeTileRemoveView, changeTileRemoveView.create));
 });

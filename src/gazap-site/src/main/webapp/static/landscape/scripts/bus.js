@@ -11,8 +11,14 @@ if (typeof(BUS) == "undefined") {
         _parent:null,
         _name:null,
         bus:function (name) {
-            this._assert_field_is_bus(name);
-            return this[name] ? this[name] : (this[name] = new BusImpl(name, this));
+            var parts = name.split('.');
+            var next = this;
+            for (var i = 0; i < parts.length; ++i) {
+                var part = parts[i];
+                next._assert_field_is_bus(part);
+                next = next[part] || (next[part] = new BusImpl(part, next));
+            }
+            return next;
         },
         _get_bus_root:function () {
             return this._parent == null ? this : this._parent._get_bus_root();
@@ -52,11 +58,11 @@ if (typeof(BUS) == "undefined") {
 
     BUS = new BusImpl("", null);
 
-    BUS.bus('account').bus("modal_login_dialog")
+    BUS.bus('account.modal_login_dialog')
         .define('init')
         .define('close');
 
-    BUS.bus('account').bus("modal_register_dialog")
+    BUS.bus('account.modal_register_dialog')
         .define('init');
 
     BUS.bus('account')
@@ -67,15 +73,15 @@ if (typeof(BUS) == "undefined") {
         .define('init')
         .define('reload');
 
-    BUS.bus("world").bus("modal_create_dialog")
+    BUS.bus("world.modal_create_dialog")
         .define("init")
         .define("close");
 
-    BUS.bus("map").bus("modal_create_dialog")
+    BUS.bus("map.modal_create_dialog")
         .define("init")
         .define("close");
 
-    BUS.bus('map').bus('plain').bus('editor')
+    BUS.bus('map.plain.editor')
         .define('ready');
 }
 

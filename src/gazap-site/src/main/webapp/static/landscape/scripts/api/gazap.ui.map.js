@@ -28,7 +28,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
         this.viewCenter = {x:0, y:0};
         this.setSize({width:isNaN(width) ? 0 : width, height:isNaN(height) ? 0 : height});
 
-        G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch finger.leave finger.enter');
+        G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch finger.leave finger.enter tile.request');
         return this;
     };
 
@@ -87,10 +87,8 @@ Gazap.extendNamespace('Ui', function (N, G) {
         },
 
         describeTileByMapPoint:function (pt) {
-            var x = Math.floor(pt.x / this.tileSize) * this.viewScale * this.tileSize;
-            var y = Math.ceil(pt.y / this.tileSize) * this.viewScale * this.tileSize;
-            var clientX = x;
-            var clientY = -y;
+            var x = Math.floor(pt.x / this.tileSize) * this.viewScale * this.tileSize, clientX = x;
+            var y = Math.ceil(pt.y / this.tileSize) * this.viewScale * this.tileSize, clientY = -y;
             return this.describeTile(x, y, this.viewScale, this.tileSize, clientX, clientY);
         },
 
@@ -100,6 +98,23 @@ Gazap.extendNamespace('Ui', function (N, G) {
                 scale:tileScale,
                 x:x, y:y, clientX:clientX, clientY:clientY, id:"tile " + x + "x" + y,
                 src:null, hash:'T:' + tileScale + ':' + tileSize + ':' + x + ':' + y };
+        },
+
+        refreshTiles:function () {
+            var request = {
+                scale:this.viewScale,
+                size:this.tileSize,
+                x:0,
+                y:0,
+                src:''
+            };
+            this.trigger('tile.request', this, request);
+            if (request.src != null) {
+                H.create('img')
+                    .style({position:'absolute', left:request.x, top:request.y, width:request.size, height:request.size})
+                    .attr('src', request.src)
+                    .appendTo(this.$tileLayer);
+            }
         }
     };
 

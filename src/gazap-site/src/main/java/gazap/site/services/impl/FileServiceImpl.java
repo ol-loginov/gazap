@@ -122,4 +122,10 @@ public class FileServiceImpl implements FileService {
         record.setPath(level1 + "/" + level2);
         record.setName(output.getName());
     }
+
+    @Override
+    public File getImageFile(FileImage file) {
+        File folder = new File(folderFile, file.getPath());
+        return new File(folder, file.getName());
+    }
 }

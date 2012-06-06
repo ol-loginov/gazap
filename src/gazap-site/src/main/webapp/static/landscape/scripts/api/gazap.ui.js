@@ -74,6 +74,14 @@ Gazap.extendNamespace('Ui', function (N, G) {
             return this;
         },
 
+        attr:function (name, value) {
+            try {
+                this.node[name] = value;
+            } catch (e) {
+            }
+            return this;
+        },
+
         addClass:function (value) {
             var classNames, setClass, c, cl, elem = getDomNode(this);
             if (value && typeof value === "string") {

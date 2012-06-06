@@ -16,8 +16,11 @@ ${include("../shared/html-head.html")}
         controller.messages = {
             'change-tile-load-image':'загрузка картинки начата...',
             'change-tile-load-image-success':'загружена картинка',
-            'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки'
+            'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
+            'change-tile-add-strong':'Заменить картинку',
+            'change-tile-add':'в тайле T:{0}:{1}:{2}:{3}'
         };
+        controller.start();
     });
 </script>
 
@@ -104,7 +107,10 @@ ${include("../shared/html-head.html")}
                 </div>
             </div>
             <div class="tab-pane" id="god-tool-metadata">Tool Metadata</div>
-            <div class="tab-pane" id="god-tool-contribution-list">Tool Metadata</div>
+            <div class="tab-pane" id="god-tool-contribution-list">
+                <ul class="unstyled contribution-list">
+                </ul>
+            </div>
         </div>
         <script>$(function () {
             $('#godSurfaceTools > ul a:first').tab('show');

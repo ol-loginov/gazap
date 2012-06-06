@@ -165,5 +165,12 @@ var Gazap = (function (T) {
         };
     };
 
+    T.format = function (string) {
+        var args = arguments;
+        return string.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[Number(number) + 1] != 'undefined' ? args[Number(number) + 1] : match;
+        });
+    };
+
     return  T;
 })(Gazap || {});
