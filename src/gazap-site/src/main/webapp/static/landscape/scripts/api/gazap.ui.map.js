@@ -48,7 +48,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
         viewScale:0,
         viewCenter:null,
 
-        tileSize:200,
+        tileSize:300,
 
         createLayer:function (name) {
             var layer = new N.PlainMap.Layer({name:name});
@@ -82,23 +82,24 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         describeTileByHash:function (hash) {
             var parts = hash.split(/:/g);
-            var tileSize = Number(parts[1]), x = Number(parts[2]), y = Number(parts[3]);
-            return this.describeTile(x, y, tileSize, null, null);
+            var tileScale = Number(parts[1]), tileSize = Number(parts[2]), x = Number(parts[3]), y = Number(parts[4]);
+            return this.describeTile(x, y, tileScale, tileSize, null, null);
         },
 
         describeTileByMapPoint:function (pt) {
-            var x = Math.floor(pt.x / this.tileSize) * this.viewScale;
-            var y = Math.ceil(pt.y / this.tileSize) * this.viewScale;
-            var clientX = x * this.tileSize;
-            var clientY = -y * this.tileSize;
-            return this.describeTile(x, y, this.tileSize, clientX, clientY);
+            var x = Math.floor(pt.x / this.tileSize) * this.viewScale * this.tileSize;
+            var y = Math.ceil(pt.y / this.tileSize) * this.viewScale * this.tileSize;
+            var clientX = x;
+            var clientY = -y;
+            return this.describeTile(x, y, this.viewScale, this.tileSize, clientX, clientY);
         },
 
-        describeTile:function (x, y, tileSize, clientX, clientY) {
+        describeTile:function (x, y, tileScale, tileSize, clientX, clientY) {
             return {
                 size:tileSize,
+                scale:tileScale,
                 x:x, y:y, clientX:clientX, clientY:clientY, id:"tile " + x + "x" + y,
-                src:null, hash:'T:' + tileSize + ':' + x + ':' + y };
+                src:null, hash:'T:' + tileScale + ':' + tileSize + ':' + x + ':' + y };
         }
     };
 

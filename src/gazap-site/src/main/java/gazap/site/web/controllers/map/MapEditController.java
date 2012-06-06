@@ -1,6 +1,5 @@
 package gazap.site.web.controllers.map;
 
-import gazap.domain.dao.ContributionDao;
 import gazap.domain.dao.MapDao;
 import gazap.domain.entity.ContributionTile;
 import gazap.domain.entity.Geometry;
@@ -12,17 +11,17 @@ import gazap.site.model.ServiceError;
 import gazap.site.model.ServiceErrorException;
 import gazap.site.services.ContributionService;
 import gazap.site.web.controllers.BaseController;
+import gazap.site.web.controllers.ResponseBuilder;
 import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.views.map.MapEditPlainPage;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -34,8 +33,6 @@ public class MapEditController extends BaseController {
     private MapDao mapDao;
     @Autowired
     private ContributionService contributionService;
-    @Autowired
-    private ContributionDao contributionDao;
 
     private Map loadMapById(Locale locale, String id) throws ObjectNotFoundException, ObjectIllegalStateException {
         Map mapInstance;
@@ -74,19 +71,30 @@ public class MapEditController extends BaseController {
     public ModelAndView uploadTile(
             Locale locale,
             @PathVariable("map") String map,
-            @RequestParam("file") MultipartFile file
+            MapEditControllerAddTileForm form,
+            BindingResult formBinding
     ) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
         UploadTileApiAnswer answer = new UploadTileApiAnswer();
+        ResponseBuilder response = responseBuilder(locale);
+
+        validate(form, formBinding);
+
+        if (formBinding.hasErrors()) {
+            response.validationErrors(answer, formBinding);
+            return response.json(answer);
+        }
+
         Map mapInstance = loadMapById(locale, map);
 
         FileStreamInfo info = new FileStreamInfo();
-        info.setSize(file.getSize());
-        info.setContentType(file.getContentType());
-        info.setName(file.getOriginalFilename());
+        info.setSize(form.getFile().getSize());
+        info.setContentType(form.getFile().getContentType());
+        info.setName(form.getFile().getOriginalFilename());
 
         try {
-            info.setInputStream(file.getInputStream());
-            answer.setTile(contributionService.addMapTile(mapInstance, info));
+            info.setInputStream(form.getFile().getInputStream());
+            ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), mapInstance, info, form.getScale(), form.getX(), form.getY(), form.getSize());
+            answer.setTile(tile);
         } catch (ServiceErrorException see) {
             answer.setCode(see.getError().code());
         } catch (AccessDeniedException ade) {
@@ -98,7 +106,7 @@ public class MapEditController extends BaseController {
         if (answer.getCode() != null) {
             answer.setMessage(format.getMessage(locale, answer.getCode()));
         }
-        return responseBuilder(locale).json(answer);
+        return response.json(answer);
     }
 
     public static class UploadTileApiAnswer extends ApiAnswer {

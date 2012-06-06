@@ -27,6 +27,13 @@ public abstract class Contribution extends IntegerIdentityC {
     @Column(name = "approveLevel")
     private int approveLevel = 0;
 
+    protected Contribution() {
+    }
+
+    protected Contribution(String contributionClass) {
+        this.contributionClass = contributionClass;
+    }
+
     public int getVersion() {
         return version;
     }

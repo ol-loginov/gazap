@@ -2,6 +2,7 @@ package gazap.site.model;
 
 public enum ServiceError {
     INTERNAL_ERROR("E001"),
+    INVALID_PARAM("E002"),
 
     INVALID_FILE_FORMAT("F001"),
 

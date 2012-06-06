@@ -17,12 +17,16 @@ public class ContributionTile extends Contribution {
     private int scale;
     @Column(name = "size", updatable = false)
     private int size;
-    @Column(name = "action", updatable = false)
+    @Column(name = "action", updatable = false, nullable = false)
     @Enumerated(EnumType.STRING)
     private ContributionTileAction action;
     @ManyToOne
     @JoinColumn(name = "file", updatable = false)
     private FileImage file;
+
+    public ContributionTile() {
+        super(CLASS);
+    }
 
     public int getX() {
         return x;

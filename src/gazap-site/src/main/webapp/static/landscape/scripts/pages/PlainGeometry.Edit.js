@@ -99,7 +99,7 @@ EditController.prototype = {
     },
 
     loadTilePicture:function () {
-        var that = this, $tileControls = $('#god-tool-surface-tile-current');
+        var that = this, $tileControls = $('#god-tool-surface-tile-current'), tile = this.$aimSelectorTile;
         var $form = $('<form method="post" enctype="multipart/form-data" action="' + this.actionBase + '/addTile.ajax"/>').appendTo($('.tile-change-forms', $tileControls));
         var $progress = $('<span/>');
 
@@ -108,12 +108,18 @@ EditController.prototype = {
             that.$aimSelectorEnabled = enabled;
         };
 
-        var formSubmitSuccess = function () {
+        var formSubmitSuccess = function (response, status, xhr, $form) {
+            if (status != 'success' || response.success === false) {
+                formSubmitFailure();
+                return;
+            }
+
             $form.remove();
             $progress.text(that.messages['change-tile-load-image-success']);
-            that.setTileInfo(that.ui.describeTileByHash(that.$aimSelectorTile.hash), false);
+            that.setTileInfo(that.ui.describeTileByHash(tile.hash), false);
             toggleUi(true);
         };
+
         var formSubmitFailure = function () {
             $form.remove();
             $progress.text(that.messages['change-tile-load-image-failure']);
@@ -127,6 +133,10 @@ EditController.prototype = {
             $form.ajaxSubmit({success:formSubmitSuccess, error:formSubmitFailure});
         };
 
+        $('<input type="hidden" name="x"/>').val(tile.x).appendTo($form);
+        $('<input type="hidden" name="y"/>').val(tile.y).appendTo($form);
+        $('<input type="hidden" name="scale"/>').val(tile.scale).appendTo($form);
+        $('<input type="hidden" name="size"/>').val(tile.size).appendTo($form);
         $('<input type="file" name="file"/>').appendTo($form)
             .change(fileChanged).focus().click();
     }
