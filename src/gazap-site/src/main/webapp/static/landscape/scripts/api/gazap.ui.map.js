@@ -1,11 +1,14 @@
 Gazap.extendNamespace('Ui', function (N, G) {
     var H = new N.DomHelper();
 
-    N.PlainMap = function (container, width, height) {
-        width = Number(width || 0);
-        height = Number(height || 0);
+    N.PlainMap = function (opts) {
+        var width = Number(opts.width || 0);
+        var height = Number(opts.height || 0);
 
-        this.$container = H.create('div').appendTo(H.byID(container))
+        this.tileServer = '';
+        this.tileMap = opts.map;
+
+        this.$container = H.create('div').appendTo(H.byID(opts.container))
             .style({position:'relative', overflow:'hidden', background:'red'})
             .addClass('gazap-ui-map-container');
 
@@ -33,6 +36,9 @@ Gazap.extendNamespace('Ui', function (N, G) {
     };
 
     N.PlainMap.prototype = {
+        tileSize:300,
+        tileServer:null,
+
         $container:null,
 
         $tileLayer:null,
@@ -47,8 +53,6 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         viewScale:0,
         viewCenter:null,
-
-        tileSize:300,
 
         createLayer:function (name) {
             var layer = new N.PlainMap.Layer({name:name});
@@ -87,34 +91,70 @@ Gazap.extendNamespace('Ui', function (N, G) {
         },
 
         describeTileByMapPoint:function (pt) {
-            var x = Math.floor(pt.x / this.tileSize) * this.viewScale * this.tileSize, clientX = x;
-            var y = Math.ceil(pt.y / this.tileSize) * this.viewScale * this.tileSize, clientY = -y;
+            var q = this.tileSize * this.viewScale;
+            var x = Math.floor(pt.x / q) * q, clientX = x;
+            var y = Math.ceil(pt.y / q) * q, clientY = -y;
             return this.describeTile(x, y, this.viewScale, this.tileSize, clientX, clientY);
         },
 
         describeTile:function (x, y, tileScale, tileSize, clientX, clientY) {
-            return {
+            var request = {
                 size:tileSize,
                 scale:tileScale,
                 x:x, y:y, clientX:clientX, clientY:clientY, id:"tile " + x + "x" + y,
                 src:null, hash:'T:' + tileScale + ':' + tileSize + ':' + x + ':' + y };
+            this.trigger('tile.request', request);
+            return request;
         },
 
         refreshTiles:function () {
-            var request = {
-                scale:this.viewScale,
-                size:this.tileSize,
-                x:0,
-                y:0,
-                src:''
-            };
-            this.trigger('tile.request', this, request);
-            if (request.src != null) {
-                H.create('img')
-                    .style({position:'absolute', left:request.x, top:request.y, width:request.size, height:request.size})
-                    .attr('src', request.src)
-                    .appendTo(this.$tileLayer);
+            var q = this.tileSize * this.viewScale;
+
+            var viewWidth = this.width * this.viewScale;
+            var viewHeight = this.height * this.viewScale;
+
+            var boundLeft = this.viewCenter.x - viewWidth / 2;
+            boundLeft = Math.floor(boundLeft / q) * q;
+            var boundRight = this.viewCenter.x + viewWidth / 2;
+            boundRight = Math.ceil(boundRight / q) * q - q;
+
+            var boundTop = this.viewCenter.y + viewHeight / 2;
+            boundTop = Math.ceil(boundTop / q) * q;
+            var boundBottom = this.viewCenter.y - viewHeight / 2;
+            boundBottom = Math.floor(boundBottom / q) * q - q;
+
+            for (var x = boundLeft; x <= boundRight; x += q) {
+                for (var y = boundBottom; y <= boundTop; y += q) {
+                    var request = {scale:this.viewScale, size:this.tileSize, x:x, y:y, src:null};
+                    request.clientX = x / this.viewScale;
+                    request.clientY = -y / this.viewScale;
+                    request.src = this.tileServer + Gazap.format('/tiles/m{0}/c{1}s{2}x{3}y{4}', this.tileMap, request.scale, request.size, request.x, request.y);
+                    this.trigger('tile.request', request);
+                    this.refreshTile(request);
+                }
             }
+        },
+
+        refreshTile:function (req) {
+            var id = Gazap.format('gazap-ui-map-tile-{0}d{1}d{2}d{3}', req.scale, req.size, req.x, req.y);
+            var img = H.byID(id);
+            if (img == null) {
+                img = H.create('img')
+                    .attr('id', id)
+                    .attr('alt', '')
+                    .appendTo(this.$tileLayer)
+                    .style({position:'absolute', border:'none', display:'none'});
+            }
+
+            var callback = function () {
+                img
+                    .style({left:req.clientX, top:req.clientY, width:req.size, height:req.size, display:'inherit'})
+                    .attr('src', req.src);
+            };
+
+            img
+                .eventAdd('load', callback)
+                .attr('src', req.src);
         }
     };
 
@@ -152,16 +192,16 @@ Gazap.extendNamespace('Ui', function (N, G) {
             this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
             if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
-                this.map.trigger('finger.touch', this.map, this.fingerPos);
+                this.map.trigger('finger.touch', this.fingerPos);
             }
         },
 
         on_mouseenter:function () {
-            this.map.trigger('finger.enter', this.map, this.fingerPos);
+            this.map.trigger('finger.enter', this.fingerPos);
         },
 
         on_mouseleave:function () {
-            this.map.trigger('finger.leave', this.map, this.fingerPos);
+            this.map.trigger('finger.leave', this.fingerPos);
         },
 
         on_mousedown:function (e) {
@@ -172,7 +212,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         setTouchClientPoint:function (ev) {
             this.fingerPos = this.map.clientToMapPoint({x:ev.x, y:ev.y});
-            this.map.trigger('finger.hover', this.map, this.fingerPos);
+            this.map.trigger('finger.hover', this.fingerPos);
         },
 
         testTouchThreshold:function (a, b) {

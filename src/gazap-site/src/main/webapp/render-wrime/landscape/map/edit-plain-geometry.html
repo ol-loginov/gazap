@@ -12,6 +12,7 @@ ${include("../shared/html-head.html")}
 <script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Edit.js"></script>
 <script type="text/javascript">
     BUS.map.plain.editor.ready(function (controller) {
+        controller.actionMap = '${content.map.id}';
         controller.actionBase = '${content.map.route}/god';
         controller.messages = {
             'change-tile-load-image':'загрузка картинки начата...',
@@ -89,7 +90,7 @@ ${include("../shared/html-head.html")}
                         </div>
 
 
-                        <div class="btn-toolbar">
+                        <div class="btn-toolbar tile-operations hidden">
                             <div class="btn-group ">
                                 <button id="god-tool-surface-tile-current-clear" class="btn btn-danger hidden">
                                     <span>Удалить</span>
@@ -101,7 +102,6 @@ ${include("../shared/html-head.html")}
                                 </button>
                             </div>
                         </div>
-                        <ul class="tile-change-messages unstyled"></ul>
                         <div class="tile-change-forms"></div>
                     </div>
                 </div>

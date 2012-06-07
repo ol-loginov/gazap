@@ -1,10 +1,7 @@
 package gazap.domain.dao.impl;
 
 import gazap.domain.dao.MapDao;
-import gazap.domain.entity.World;
-import gazap.domain.entity.Map;
-import gazap.domain.entity.UserMapRole;
-import gazap.domain.entity.UserProfile;
+import gazap.domain.entity.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -27,6 +24,7 @@ public class MapDaoImpl extends DaoImpl implements MapDao {
                 .uniqueResult();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<Map> listMapBelongsToUser(UserProfile user) {
         return getSession().createQuery("select distinct r.id.map from UserMapRole r where r.id.user=:user")
@@ -49,5 +47,16 @@ public class MapDaoImpl extends DaoImpl implements MapDao {
                 .setEntity("user", user)
                 .setParameter("map", map)
                 .list();
+    }
+
+    @Override
+    public GeometryPlainTile loadGeometryPlainTile(GeometryPlain geometry, int scale, int size, int x, int y) {
+        return (GeometryPlainTile) getSession().createQuery("from GeometryPlainTile t where geometry=:geometry and scale=:scale and size=:size and x=:x and y=:y")
+                .setEntity("geometry", geometry)
+                .setParameter("scale", scale)
+                .setParameter("size", size)
+                .setParameter("x", x)
+                .setParameter("y", y)
+                .uniqueResult();
     }
 }

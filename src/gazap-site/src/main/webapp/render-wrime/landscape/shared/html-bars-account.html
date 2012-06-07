@@ -6,8 +6,9 @@ ${set m=eVisitor}
     ${if(m.logged)}
     <div class="account-name">
         <a class="username" href="${cp}${m.user.route}">
+            <!--
             <img src="http://www.gravatar.com/avatar/${m.user.gravatar}?s=16" alt="" width="16"
-                 height="16"/>
+                 height="16"/>-->
             <span>
             ${if(m.user.name.length gt 0)}${m.user.name}
             ${else}${l18n:t('tb.menu.welcome.anonymous.name')}

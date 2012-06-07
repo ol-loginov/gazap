@@ -1,8 +1,6 @@
 package gazap.domain.dao;
 
-import gazap.domain.entity.Map;
-import gazap.domain.entity.UserMapRole;
-import gazap.domain.entity.UserProfile;
+import gazap.domain.entity.*;
 
 import java.util.List;
 
@@ -16,4 +14,6 @@ public interface MapDao extends Dao {
     List<UserMapRole> listMapRoleByUser(UserProfile user);
 
     List<UserMapRole> listMapRoleByUser(UserProfile user, int map);
+
+    GeometryPlainTile loadGeometryPlainTile(GeometryPlain geometry, int scale, int size, int x, int y);
 }

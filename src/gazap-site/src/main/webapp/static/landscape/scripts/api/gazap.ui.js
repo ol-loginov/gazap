@@ -56,7 +56,8 @@ Gazap.extendNamespace('Ui', function (N, G) {
         },
 
         byID:function (id) {
-            return new N.DomHelper(document.getElementById(id));
+            var node = document.getElementById(id)
+            return node != null ? new N.DomHelper(node) : null;
         },
 
         append:function (node) {
@@ -71,6 +72,11 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         style:function (properties) {
             applyStyle(this.node.style, properties);
+            return this;
+        },
+
+        eventAdd:function (name, value) {
+            this.node.addEventListener(name, value);
             return this;
         },
 

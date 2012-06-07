@@ -12,7 +12,7 @@ public class ContributionDaoImpl extends DaoImpl implements ContributionDao {
     @SuppressWarnings("unchecked")
     @Override
     public List<Contribution> findContributions(Map map, UserProfile author, ContributionDecision actualDecision, Date after) {
-        return getSession().createQuery("from Contribution c where c.map=:map and c.author=:author and c.decision=:decision and c.createdAt>:after order by c.createdAt desc")
+        return getSession().createQuery("from Contribution c where c.map=:map and c.author=:author and c.decision=:decision and c.createdAt>:after order by c.createdAt")
                 .setEntity("map", map)
                 .setEntity("author", author)
                 .setParameter("decision", actualDecision)

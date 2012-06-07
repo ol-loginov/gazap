@@ -16,6 +16,9 @@ import gazap.site.web.controllers.ResponseBuilder;
 import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.views.map.MapEditPlainPage;
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonMethod;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,7 +27,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -81,8 +83,7 @@ public class MapEditController extends BaseController {
     public UrlResource getContributionTile(
             Locale locale,
             @PathVariable("map") String mapId,
-            @PathVariable("contribution") int contributionId,
-            HttpServletResponse response
+            @PathVariable("contribution") int contributionId
     ) throws ObjectIllegalStateException, ObjectNotFoundException {
         Map map = loadMapById(locale, mapId);
         ContributionTile contribution = contributionDao.loadTile(contributionId);
@@ -108,9 +109,11 @@ public class MapEditController extends BaseController {
         return responseBuilder(locale).json(answer);
     }
 
+    @JsonAutoDetect(JsonMethod.NONE)
     public static class GetLocalChangesApiAnswer extends ApiAnswer {
         private List<ContributionV> list;
 
+        @JsonProperty
         public List<ContributionV> getList() {
             return list;
         }
@@ -151,7 +154,7 @@ public class MapEditController extends BaseController {
 
         try {
             ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), mapInstance, info);
-            answer.setTile(tile);
+            answer.setContribution(viewer.mapContribution(tile));
         } catch (ServiceErrorException see) {
             answer.setCode(see.getError().code());
         } catch (AccessDeniedException ade) {
@@ -166,16 +169,18 @@ public class MapEditController extends BaseController {
         return response.json(answer);
     }
 
+    @JsonAutoDetect(JsonMethod.NONE)
     public static class UploadTileApiAnswer extends ApiAnswer {
-        private ContributionTile tile;
+        private ContributionV contribution;
 
-        public ContributionTile getTile() {
-            return tile;
+        @JsonProperty
+        public ContributionV getContribution() {
+            return contribution;
         }
 
-        public void setTile(ContributionTile tile) {
-            this.tile = tile;
-            setSuccess(this.tile != null);
+        public void setContribution(ContributionV contribution) {
+            this.contribution = contribution;
+            setSuccess(this.contribution != null);
         }
     }
 }

@@ -73,6 +73,7 @@ public class ModelViewerImpl implements ModelViewer {
 
     private void mapContributionAttributes(ContributionV destination, Contribution source) {
         destination.setId(source.getId());
+        destination.setCreatedAt(source.getCreatedAt());
         destination.setType(source.getContributionClass());
         destination.setDecision(source.getDecision());
         destination.setAuthor(source.getAuthor().getId());

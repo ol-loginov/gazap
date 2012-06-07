@@ -6,9 +6,12 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonMethod;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.Date;
+
 @JsonAutoDetect(JsonMethod.NONE)
 public class ContributionV {
     private int id;
+    private Date createdAt;
     private String type;
     private int author;
     private String authorName;
@@ -21,6 +24,15 @@ public class ContributionV {
     private ContributionTileAction action;
 
     private String file;
+
+    @JsonProperty
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @JsonProperty
     public String getType() {

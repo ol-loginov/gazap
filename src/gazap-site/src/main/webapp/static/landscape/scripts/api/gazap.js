@@ -14,6 +14,14 @@ var Gazap = (function (T) {
         return destination;
     };
 
+    T.runOnce = function (func) {
+        var name = 'run_once_' + new Date().getTime() + '_' + Math.round(1000000 * Math.random());
+        window[name] = function () {
+            delete window[name];
+            func();
+        };
+    };
+
     T.isFunction = function (val) {
         return typeof val === "function";
     };
@@ -127,26 +135,40 @@ var Gazap = (function (T) {
         }
     };
 
-    T.defineEvents = function (dispatcher, names) {
-        if (!dispatcher._events) {
-            dispatcher._events = {};
+    T.defineEvents = function (host, names) {
+        if (!host._dispatcher) {
+            host._dispatcher = {};
         }
 
-        T.each(names.split(/\s+/g), function (index, name) {
-            dispatcher._events[name] = new T.ListenerChain();
+        var events = [];
+        if (typeof names === "string") {
+            T.each(names.split(/\s+/g), function (index, value) {
+                events.push(value);
+            });
+        }
+        if (typeof names === "object") {
+            T.each(names, function (index, value) {
+                if (typeof value === "string") {
+                    events.push(value);
+                }
+            });
+        }
+
+        T.each(events, function (index, name) {
+            host._dispatcher[name] = new T.ListenerChain();
         });
 
-        dispatcher.trigger = function (name, _this, value) {
-            var chain = dispatcher._events[name];
+        host.trigger = function (name, value) {
+            var chain = host._dispatcher[name];
             if (chain == undefined) {
                 throw new Error('event listener named "' + name + '" is not defined');
             }
-            chain.trigger.call(chain, _this, name, value);
+            chain.trigger.call(chain, host, name, value);
         };
 
-        dispatcher.bind = function (names, listener) {
+        host.bind = function (names, listener) {
             T.each(names.split(/\s+/g), function (index, name) {
-                var chain = dispatcher._events[name];
+                var chain = host._dispatcher[name];
                 if (chain == undefined) {
                     throw new Error('event listener named "' + name + '" is not defined');
                 }
@@ -154,9 +176,9 @@ var Gazap = (function (T) {
             });
         };
 
-        dispatcher.unbind = function (names, listener) {
+        host.unbind = function (names, listener) {
             T.each(names.split(/\s+/g), function (index, name) {
-                var chain = dispatcher._events[name];
+                var chain = host._dispatcher[name];
                 if (chain == undefined) {
                     throw new Error('event listener named "' + name + '" is not defined');
                 }
