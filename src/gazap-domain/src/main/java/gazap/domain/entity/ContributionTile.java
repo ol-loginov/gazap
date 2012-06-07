@@ -20,9 +20,8 @@ public class ContributionTile extends Contribution {
     @Column(name = "action", updatable = false, nullable = false)
     @Enumerated(EnumType.STRING)
     private ContributionTileAction action;
-    @ManyToOne
-    @JoinColumn(name = "file", updatable = false)
-    private FileImage file;
+    @Column(name = "file", updatable = false)
+    private String file;
 
     public ContributionTile() {
         super(CLASS);
@@ -68,11 +67,11 @@ public class ContributionTile extends Contribution {
         this.action = action;
     }
 
-    public FileImage getFile() {
+    public String getFile() {
         return file;
     }
 
-    public void setFile(FileImage file) {
+    public void setFile(String file) {
         this.file = file;
     }
 }

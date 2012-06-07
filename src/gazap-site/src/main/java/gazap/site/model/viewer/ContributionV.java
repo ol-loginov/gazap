@@ -20,6 +20,8 @@ public class ContributionV {
     private int size;
     private ContributionTileAction action;
 
+    private String file;
+
     @JsonProperty
     public String getType() {
         return type;
@@ -108,5 +110,14 @@ public class ContributionV {
 
     public void setAction(ContributionTileAction action) {
         this.action = action;
+    }
+
+    @JsonProperty
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
     }
 }

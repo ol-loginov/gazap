@@ -5,9 +5,9 @@ import gazap.domain.dao.MapDao;
 import gazap.domain.entity.*;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
-import gazap.site.model.FileStreamInfo;
 import gazap.site.model.ServiceError;
 import gazap.site.model.ServiceErrorException;
+import gazap.site.model.TileImage;
 import gazap.site.model.viewer.ContributionV;
 import gazap.site.services.ContributionService;
 import gazap.site.services.FileService;
@@ -17,7 +17,7 @@ import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.views.map.MapEditPlainPage;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,10 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -79,25 +77,17 @@ public class MapEditController extends BaseController {
     }
 
     @RequestMapping(value = "/map/{map}/god/contribution/{contribution}/tile", method = RequestMethod.GET)
-
-    public void getContributionTile(
+    @ResponseBody
+    public UrlResource getContributionTile(
             Locale locale,
             @PathVariable("map") String mapId,
             @PathVariable("contribution") int contributionId,
             HttpServletResponse response
     ) throws ObjectIllegalStateException, ObjectNotFoundException {
+        Map map = loadMapById(locale, mapId);
         ContributionTile contribution = contributionDao.loadTile(contributionId);
-        File file = fileService.getImageFile(contribution.getFile());
-
-        response.setContentType("image/jpg");
-
-        FileInputStream fi = null;
-        try {
-            fi = new FileInputStream(file);
-            IOUtils.copy(fi, response.getOutputStream());
-        } catch (IOException e) {
-            IOUtils.closeQuietly(fi);
-        }
+        URL url = fileService.getTileURL(map, contribution.getFile());
+        return new UrlResource(url);
     }
 
     @RequestMapping(value = "/map/{map}/god/localChanges.ajax", method = RequestMethod.GET)
@@ -150,21 +140,24 @@ public class MapEditController extends BaseController {
 
         Map mapInstance = loadMapById(locale, map);
 
-        FileStreamInfo info = new FileStreamInfo();
-        info.setSize(form.getFile().getSize());
-        info.setContentType(form.getFile().getContentType());
-        info.setName(form.getFile().getOriginalFilename());
+        TileImage info = new TileImage();
+        info.setFileSize(form.getFile().getSize());
+        info.setFileContentType(form.getFile().getContentType());
+        info.setFileInputStream(form.getFile().getInputStream());
+        info.setTileScale(form.getScale());
+        info.setTileSize(form.getSize());
+        info.setTileX(form.getX());
+        info.setTileY(form.getY());
 
         try {
-            info.setInputStream(form.getFile().getInputStream());
-            ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), mapInstance, info, form.getScale(), form.getX(), form.getY(), form.getSize());
+            ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), mapInstance, info);
             answer.setTile(tile);
         } catch (ServiceErrorException see) {
             answer.setCode(see.getError().code());
         } catch (AccessDeniedException ade) {
             answer.setCode(ServiceError.ACCESS_DENIED.code());
         } finally {
-            IOUtils.closeQuietly(info.getInputStream());
+            IOUtils.closeQuietly(info.getFileInputStream());
         }
 
         if (answer.getCode() != null) {

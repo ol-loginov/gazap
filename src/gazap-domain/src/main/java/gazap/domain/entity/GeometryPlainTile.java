@@ -19,9 +19,8 @@ public class GeometryPlainTile extends IntegerIdentity {
     private int scale;
     @Column(name = "size")
     private int size;
-    @ManyToOne
-    @JoinColumn(name = "file", nullable = false)
-    private FileImage file;
+    @Column(name = "file", nullable = false)
+    private String file;
 
     public GeometryPlain getGeometry() {
         return geometry;
@@ -63,11 +62,11 @@ public class GeometryPlainTile extends IntegerIdentity {
         this.size = size;
     }
 
-    public FileImage getFile() {
+    public String getFile() {
         return file;
     }
 
-    public void setFile(FileImage file) {
+    public void setFile(String file) {
         this.file = file;
     }
 }

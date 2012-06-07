@@ -6,8 +6,6 @@
         <mapping class="gazap.domain.entity.Contribution"/>
         <mapping class="gazap.domain.entity.ContributionTile"/>
 
-        <mapping class="gazap.domain.entity.FileImage"/>
-
         <mapping class="gazap.domain.entity.Avatar"/>
         <mapping class="gazap.domain.entity.World"/>
         <mapping class="gazap.domain.entity.Map"/>

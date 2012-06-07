@@ -67,6 +67,7 @@ public class ModelViewerImpl implements ModelViewer {
         result.setSize(c.getSize());
         result.setX(c.getX());
         result.setY(c.getY());
+        result.setFile(c.getFile());
         return result;
     }
 

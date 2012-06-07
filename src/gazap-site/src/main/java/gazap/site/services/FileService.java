@@ -1,17 +1,17 @@
 package gazap.site.services;
 
-import gazap.domain.entity.FileImage;
-import gazap.site.model.FileStreamInfo;
+import gazap.domain.entity.Map;
 import gazap.site.model.ServiceErrorException;
+import gazap.site.model.TileImage;
 
 import javax.imageio.ImageReader;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public interface FileService {
-    FileImage createImage(FileStreamInfo file, ImageValidator readerSelector) throws ServiceErrorException;
+    String storeTile(Map map, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException;
 
-    File getImageFile(FileImage file);
+    URL getTileURL(Map map, String fileName);
 
     public static interface ImageValidator {
         boolean test(String fileFormat, ImageReader reader) throws ServiceErrorException, IOException;
