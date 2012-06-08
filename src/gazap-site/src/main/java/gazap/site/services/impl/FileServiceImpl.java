@@ -75,6 +75,14 @@ public class FileServiceImpl implements FileService {
         return fileName;
     }
 
+    @Override
+    public void deleteTile(Map map, String file) {
+        File target = getTileFile(map, file);
+        if (target.exists()) {
+            target.delete();
+        }
+    }
+
     private String validateTileImage(File file, ImageValidator imageSelector) throws ServiceErrorException {
         FileInputStream is = null;
         try {

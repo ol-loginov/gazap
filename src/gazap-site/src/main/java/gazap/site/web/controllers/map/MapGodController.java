@@ -35,7 +35,9 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-public class MapEditController extends BaseController {
+public class MapGodController extends BaseController {
+    private static final String ACTION_URL = "/map/{map}/god";
+
     @Autowired
     private MapDao mapDao;
     @Autowired
@@ -61,7 +63,7 @@ public class MapEditController extends BaseController {
         return mapInstance;
     }
 
-    @RequestMapping(value = "/map/{map}/god", method = RequestMethod.GET)
+    @RequestMapping(value = ACTION_URL, method = RequestMethod.GET)
     public ModelAndView getEditor(Locale locale, @PathVariable("map") String map) throws ObjectNotFoundException, ObjectIllegalStateException {
         if (!auth.isAuthorized()) {
             throw new AccessDeniedException("you should be authorized to enter god mode");
@@ -78,25 +80,30 @@ public class MapEditController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/map/{map}/god/contribution/{contribution}/tile", method = RequestMethod.GET)
+    @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/tile", method = RequestMethod.GET)
     @ResponseBody
-    public UrlResource getContributionTile(
-            Locale locale,
-            @PathVariable("map") String mapId,
-            @PathVariable("contribution") int contributionId
-    ) throws ObjectIllegalStateException, ObjectNotFoundException {
+    public UrlResource getContributionTile(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
         Map map = loadMapById(locale, mapId);
         ContributionTile contribution = contributionDao.loadTile(contributionId);
         URL url = fileService.getTileURL(map, contribution.getFile());
         return new UrlResource(url);
     }
 
-    @RequestMapping(value = "/map/{map}/god/localChanges.ajax", method = RequestMethod.GET)
-    public ModelAndView getLocalChanges(
-            Locale locale,
-            @PathVariable("map") String map,
-            @RequestParam(value = "after", defaultValue = "0") long after
-    ) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+    @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/reject.ajax", method = RequestMethod.POST)
+    public ModelAndView rejectChanges(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
+        Map map = loadMapById(locale, mapId);
+        UserProfile visitor = auth.getCurrentProfile();
+        ApiAnswer answer = new ApiAnswer();
+        try {
+            contributionService.reject(visitor, map, contributionId);
+            answer.setSuccess(true);
+        } catch (ServiceErrorException e) {
+        }
+        return responseBuilder(locale).json(answer);
+    }
+
+    @RequestMapping(value = ACTION_URL + "/contribution/changes.ajax", method = RequestMethod.GET)
+    public ModelAndView getLocalChanges(Locale locale, @PathVariable("map") String map, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
         Map mapInstance = loadMapById(locale, map);
         UserProfile visitor = auth.getCurrentProfile();
         GetLocalChangesApiAnswer answer = new GetLocalChangesApiAnswer();
@@ -124,13 +131,8 @@ public class MapEditController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/map/{map}/god/addTile.ajax", method = RequestMethod.POST)
-    public ModelAndView uploadTile(
-            Locale locale,
-            @PathVariable("map") String map,
-            MapEditControllerAddTileForm form,
-            BindingResult formBinding
-    ) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+    @RequestMapping(value = ACTION_URL + "/contribution/add_tile.ajax", method = RequestMethod.POST)
+    public ModelAndView uploadTile(Locale locale, @PathVariable("map") String map, MapGodControllerAddTileForm form, BindingResult formBinding) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
         UploadTileApiAnswer answer = new UploadTileApiAnswer();
         ResponseBuilder response = responseBuilder(locale);
 

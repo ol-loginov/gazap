@@ -11,6 +11,8 @@ import java.net.URL;
 public interface FileService {
     String storeTile(Map map, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException;
 
+    void deleteTile(Map map, String file);
+
     URL getTileURL(Map map, String fileName);
 
     public static interface ImageValidator {

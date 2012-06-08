@@ -24,4 +24,9 @@ public class ContributionDaoImpl extends DaoImpl implements ContributionDao {
     public ContributionTile loadTile(int id) {
         return (ContributionTile) getSession().get(ContributionTile.class, id);
     }
+
+    @Override
+    public Contribution load(int id) {
+        return (Contribution) getSession().get(Contribution.class, id);
+    }
 }

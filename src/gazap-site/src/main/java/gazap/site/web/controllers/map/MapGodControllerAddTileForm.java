@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-public class MapEditControllerAddTileForm {
+public class MapGodControllerAddTileForm {
     @NotNull
     private MultipartFile file;
     @NotNull

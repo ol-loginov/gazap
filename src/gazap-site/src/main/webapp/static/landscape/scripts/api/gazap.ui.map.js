@@ -147,9 +147,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
             }
 
             var callback = function () {
-                img
-                    .style({left:req.clientX, top:req.clientY, width:req.size, height:req.size, display:'inherit'})
-                    .attr('src', req.src);
+                img.style({left:req.clientX, top:req.clientY, width:req.size, height:req.size, display:'inherit'});
             };
 
             img

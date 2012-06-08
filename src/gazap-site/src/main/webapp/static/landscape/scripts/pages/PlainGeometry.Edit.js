@@ -1,10 +1,3 @@
-function EditPlainMapController() {
-    this.customTiling = {};
-    this.localChanges = {};
-    Gazap.defineEvents(this, EditPlainMapEvents);
-    return this;
-}
-
 var EditPlainMapEvents = {
     CONTRIBUTION_HIGHLIGHT:'contribution_highlight',
     CONTRIBUTION_REJECT:'contribution_reject',
@@ -15,6 +8,59 @@ var EditPlainMapEvents = {
     CURRENT_TILE_UPLOAD:'current_tile_upload',
     CURRENT_TILE_CLEAR:'current_tile_clear'
 };
+
+function ActionList() {
+    this.root = {id:null, next:null};
+    return this;
+}
+
+ActionList.prototype = {
+    root:null,
+
+    empty:function () {
+        return this.root.next == null;
+    },
+    remove:function (id) {
+        if (this.empty()) {
+            return false;
+        }
+        var current = this.root, previous = current;
+        while (current != null) {
+            if (current.id == id) {
+                previous.next = current.next;
+                return true;
+            }
+            previous = current;
+            current = current.next;
+        }
+    },
+    addAction:function (id, action) {
+        this.getLast().next = {id:id, action:action, next:null};
+    },
+    getLast:function () {
+        var last = this.root;
+        while (last.next != null) {
+            last = last.next;
+        }
+        return last;
+    },
+    execute:function () {
+        var last = this.root;
+        while (last != null) {
+            if (last.action) {
+                last.action.apply(null, arguments);
+            }
+            last = last.next;
+        }
+    }
+};
+
+function EditPlainMapController() {
+    this.customTiling = {};
+    this.localChanges = {};
+    Gazap.defineEvents(this, EditPlainMapEvents);
+    return this;
+}
 
 EditPlainMapController.prototype = {
     actionBase:null,
@@ -135,7 +181,7 @@ EditPlainMapController.prototype = {
             var testTime = this.localChangesAfter || 0;
 
             var that = this;
-            $.get(this.actionBase + "/localChanges.ajax", {after:testTime})
+            $.get(Gazap.format("{0}/contribution/changes.ajax", this.actionBase), {after:testTime})
                 .success(function (data, status, xhr) {
                     if (status === "success" && data.success) {
                         that.localChangesAfter = testTime;
@@ -168,23 +214,30 @@ EditPlainMapController.prototype = {
         this.applyTileCustom(arg);
     },
 
-    setCustomTile:function (scale, size, x, y, getter) {
+    setCustomTile:function (scale, size, x, y, getterId, getter) {
         var key = this.generateTileHash(scale, size, x, y);
-        if (getter == null) {
-            delete this.customTiling[key];
-            return;
-        }
         var custom = this.customTiling[key];
-        if (!custom) {
-            this.customTiling[key] = custom = {};
+        if (getter == null) {
+            if (!custom) {
+                return;
+            }
+            custom.remove(getterId);
+            if (custom.empty()) {
+                delete this.customTiling[key];
+            }
+        } else {
+            if (!custom) {
+                this.customTiling[key] = custom = new ActionList();
+            }
+            custom.addAction(getterId, getter);
         }
-        custom.getter = getter;
     },
 
     applyTileCustom:function (data) {
         var key = this.generateTileHash(data.scale, data.size, data.x, data.y);
         if (this.customTiling[key]) {
-            this.customTiling[key].getter(data);
+            console.log('request tile for key ' + key);
+            this.customTiling[key].execute(data);
         }
     },
 
@@ -203,14 +256,33 @@ ContributionRejectOperator.prototype = {
         }
 
         var item = sender.localChanges[id];
-        $('#god-tool-contribution-list ul.contribution-list li[data-contribution-id=' + item.id + ']').slideUp();
+        var view = $('#god-tool-contribution-list ul.contribution-list li[data-contribution-id=' + item.id + ']');
+        view.addClass('disabled');
 
         switch (item.type) {
             case 'TILE':
-                sender.selectionTile = null;
-                sender.trigger(EditPlainMapEvents.CURRENT_TILE_CHANGED);
-                sender.setCustomTile(item.scale, item.size, item.x, item.y, null);
-                sender.ui.refreshTiles();
+                var $form = $('<form class="hidden" method="post"/>')
+                    .attr("action", Gazap.format("{0}/contribution/{1}/reject.ajax", sender.actionBase, item.id))
+                    .appendTo($('body'));
+
+                var formSubmitFailure = function () {
+                    $form.remove();
+                };
+
+                var formSubmitSuccess = function (response, status, xhr, $form) {
+                    if (status != 'success' || response.success === false) {
+                        formSubmitFailure();
+                        return;
+                    }
+
+                    view.slideUp();
+                    sender.selectionTile = null;
+                    sender.trigger(EditPlainMapEvents.CURRENT_TILE_CHANGED);
+                    sender.setCustomTile(item.scale, item.size, item.x, item.y, id, null);
+                    sender.ui.refreshTiles();
+                };
+
+                $form.ajaxSubmit({success:formSubmitSuccess, error:formSubmitFailure});
                 break;
         }
     }
@@ -245,8 +317,8 @@ ContributionInitViewForAddTile.prototype = {
     create:function (sender, event, e) {
         var item = e.item, container = e.container;
         this.createView(sender, container, item);
-        sender.setCustomTile(item.scale, item.size, item.x, item.y, function (data) {
-            data.src = sender.actionBase + '/contribution/' + item.id + '/tile';
+        sender.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
+            data.src = Gazap.format('{0}/contribution/{1}/tile', sender.actionBase, item.id);
         });
     },
 
@@ -294,7 +366,7 @@ ContributionInitViewForRemoveTile.prototype = {
     create:function (sender, event, e) {
         var item = e.item, container = e.container;
         this.createView(sender, container, item);
-        sender.setCustomTile(item.scale, item.size, item.x, item.y, function (data) {
+        sender.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
             data.src = null;
         });
     },
@@ -338,7 +410,7 @@ SelectedTileUploadOperator.prototype = {
 
         $form
             .attr("enctype", "multipart/form-data")
-            .attr("action", sender.actionBase + "/addTile.ajax");
+            .attr("action", Gazap.format("{0}/contribution/add_tile.ajax", sender.actionBase));
 
         var formSubmitSuccess = function (response, status, xhr, $form) {
             if (status != 'success' || response.success === false) {
