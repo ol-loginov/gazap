@@ -20,10 +20,14 @@
     <security:http pattern="/static/**/*" security="none"/>
 
     <bean id="passwordEncoder" class="gazap.common.web.security.PasswordEncoder"/>
+    <bean id="passwordSalter" class="gazap.common.web.security.PasswordSalter" p:saltBase="0xDEADBEEF"/>
+
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="principalProvider">
-            <security:password-encoder ref="passwordEncoder"/>
+            <security:password-encoder ref="passwordEncoder">
+                <security:salt-source ref="passwordSalter"/>
+            </security:password-encoder>
         </security:authentication-provider>
         <security:authentication-provider ref="oauthAuthenticationProvider"/>
     </security:authentication-manager>

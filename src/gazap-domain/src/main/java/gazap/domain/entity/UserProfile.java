@@ -13,6 +13,7 @@ import java.util.Set;
 public class UserProfile extends IntegerIdentityCUD {
     public static final int CONTACT_EMAIL_LENGTH = 128;
     public static final int PASSWORD_LENGTH = 64;
+    public static final int PASSWORD_SALT_LENGTH = 32;
     public static final int DISPLAY_NAME_LENGTH = 64;
     public static final int ALIAS_LENGTH = 32;
 
@@ -24,6 +25,8 @@ public class UserProfile extends IntegerIdentityCUD {
     private String email;
     @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
     private String password;
+    @Column(name = "passwordSalt", nullable = false, length = PASSWORD_SALT_LENGTH)
+    private String passwordSalt;
     @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
     private String displayName;
     @JoinTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
@@ -78,5 +81,13 @@ public class UserProfile extends IntegerIdentityCUD {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 }
