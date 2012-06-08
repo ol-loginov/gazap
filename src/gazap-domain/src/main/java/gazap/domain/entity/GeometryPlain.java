@@ -11,47 +11,77 @@ import javax.persistence.Table;
 @DiscriminatorValue(Geometry.Plain.CLASS)
 public class GeometryPlain extends Geometry {
     @Column(name = "west")
-    private float west;
+    private int west;
     @Column(name = "north")
-    private float north;
+    private int north;
     @Column(name = "east")
-    private float east;
+    private int east;
     @Column(name = "south")
-    private float south;
+    private int south;
+    @Column(name = "tileSize")
+    private int tileSize;
+    @Column(name = "scaleMin")
+    private int scaleMin;
+    @Column(name = "scaleMax")
+    private int scaleMax;
 
     public GeometryPlain() {
         super(Plain.CLASS);
     }
 
-    public float getWest() {
+    public int getWest() {
         return west;
     }
 
-    public void setWest(float west) {
+    public void setWest(int west) {
         this.west = west;
     }
 
-    public float getNorth() {
+    public int getNorth() {
         return north;
     }
 
-    public void setNorth(float north) {
+    public void setNorth(int north) {
         this.north = north;
     }
 
-    public float getEast() {
+    public int getEast() {
         return east;
     }
 
-    public void setEast(float east) {
+    public void setEast(int east) {
         this.east = east;
     }
 
-    public float getSouth() {
+    public int getSouth() {
         return south;
     }
 
-    public void setSouth(float south) {
+    public void setSouth(int south) {
         this.south = south;
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    public void setTileSize(int tileSize) {
+        this.tileSize = tileSize;
+    }
+
+    public int getScaleMin() {
+        return scaleMin;
+    }
+
+    public void setScaleMin(int scaleMin) {
+        this.scaleMin = scaleMin;
+    }
+
+    public int getScaleMax() {
+        return scaleMax;
+    }
+
+    public void setScaleMax(int scaleMax) {
+        this.scaleMax = scaleMax;
     }
 }

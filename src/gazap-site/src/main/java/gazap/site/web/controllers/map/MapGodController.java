@@ -73,6 +73,7 @@ public class MapGodController extends BaseController {
 
         if (Geometry.Plain.CLASS.equals(mapInstance.getGeometry().getGeometryClass())) {
             MapEditPlainPage page = new MapEditPlainPage();
+            page.setGeometry((GeometryPlain) mapInstance.getGeometry());
             page.setMap(viewer.mapTitle(mapInstance));
             return responseBuilder(locale).view("map/edit-plain-geometry", page);
         } else {

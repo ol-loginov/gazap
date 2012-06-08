@@ -7,6 +7,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         this.tileServer = '';
         this.tileMap = opts.map;
+        this.tileSize = opts.tileSize;
 
         this.$container = H.create('div').appendTo(H.byID(opts.container))
             .style({position:'relative', overflow:'hidden', background:'red'})
@@ -36,7 +37,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
     };
 
     N.PlainMap.prototype = {
-        tileSize:300,
+        tileSize:null,
         tileServer:null,
 
         $container:null,

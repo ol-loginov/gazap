@@ -67,6 +67,8 @@ EditPlainMapController.prototype = {
     actionMap:null,
     messages:null,
 
+    tileSize:null,
+
     ui:null,
     uiTileHelper:null,
 
@@ -87,7 +89,7 @@ EditPlainMapController.prototype = {
 
     createStage:function () {
         var that = this;
-        this.ui = new Gazap.Ui.PlainMap({container:'geometryCanvasOuter', width:100, height:100, map:this.actionMap});
+        this.ui = new Gazap.Ui.PlainMap({container:'geometryCanvasOuter', width:100, height:100, map:this.actionMap, tileSize:this.tileSize});
         this.uiTileHelper = this.ui.createLayer();
         this.ui.bind('finger.hover', Gazap.delegate(this, this.updateAimPosition));
         this.ui.bind('finger.touch', Gazap.delegate(this, this.updateAimSelectorPosition));

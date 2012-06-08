@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MapServiceImpl implements MapService {
+    public static final int TILE_SIZE_DEFAULT = 300;
+
     @Autowired
     protected MapDao mapDao;
 
@@ -22,7 +24,11 @@ public class MapServiceImpl implements MapService {
             geoid.setRadiusZ(form.getGeoidRadiusZ());
             geometry = geoid;
         } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
-            geometry = new GeometryPlain();
+            GeometryPlain plain = new GeometryPlain();
+            plain.setTileSize(TILE_SIZE_DEFAULT);
+            plain.setScaleMax(1);
+            plain.setScaleMin(1);
+            geometry = plain;
         } else {
             throw new IllegalArgumentException("geometry " + form.getGeometryClass() + " is not supported");
         }
