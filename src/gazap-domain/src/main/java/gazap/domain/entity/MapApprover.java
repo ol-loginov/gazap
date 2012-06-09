@@ -8,17 +8,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "UserWorldRole")
+@Table(name = "MapApprover")
 @org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class UserWorldRole implements DomainEntity {
+public class MapApprover implements DomainEntity {
     @EmbeddedId
     private PK id;
 
-    protected UserWorldRole() {
+    protected MapApprover() {
     }
 
-    public UserWorldRole(UserProfile profile, World world, UserWorldRoles role) {
-        setId(new PK(profile, world, role));
+    public MapApprover(Map map, UserProfile profile, int level) {
+        setId(new PK(map, profile, level));
     }
 
     public PK getId() {
@@ -29,40 +29,38 @@ public class UserWorldRole implements DomainEntity {
         this.id = id;
     }
 
+    public int getLevel() {
+        return getId().getLevel();
+    }
+
+    public Map getMap() {
+        return getId().getMap();
+    }
+
     public UserProfile getUser() {
         return getId().getUser();
-    }
-
-    public World getWorld() {
-        return getId().getWorld();
-    }
-
-    public UserWorldRoles getRole() {
-        return getId().getRole();
     }
 
     @Embeddable
     public static class PK implements Serializable {
         @ManyToOne(optional = false)
+        @JoinColumn(name = "map", nullable = false, updatable = false)
+        private Map map;
+        @ManyToOne(optional = false)
         @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "world", nullable = false, updatable = false)
-        private World world;
-        @Column(name = "userWorldRole", nullable = false, updatable = false)
-        @Enumerated(EnumType.STRING)
-        private UserWorldRoles role;
+        @Column(name = "level")
+        private int level;
 
         public PK() {
         }
 
-        public PK(UserProfile user, World world, UserWorldRoles role) {
+        public PK(Map map, UserProfile user, int level) {
             Assert.notNull(user);
-            Assert.notNull(world);
-            Assert.notNull(role);
+            Assert.notNull(map);
             this.user = user;
-            this.world = world;
-            this.role = role;
+            this.map = map;
+            this.level = level;
         }
 
         public UserProfile getUser() {
@@ -73,20 +71,20 @@ public class UserWorldRole implements DomainEntity {
             this.user = user;
         }
 
-        public World getWorld() {
-            return world;
+        public Map getMap() {
+            return map;
         }
 
-        public void setWorld(World world) {
-            this.world = world;
+        public void setMap(Map map) {
+            this.map = map;
         }
 
-        public UserWorldRoles getRole() {
-            return role;
+        public int getLevel() {
+            return level;
         }
 
-        public void setRole(UserWorldRoles role) {
-            this.role = role;
+        public void setLevel(int level) {
+            this.level = level;
         }
 
         @Override
@@ -98,16 +96,16 @@ public class UserWorldRole implements DomainEntity {
 
             final PK other = (PK) instance;
             return getUser() != null && getUser().isSame(other.getUser())
-                    && getWorld() != null && getWorld().isSame(other.getWorld())
-                    && getRole() != null && getRole().equals(other.getRole());
+                    && getMap() != null && getMap().isSame(other.getMap())
+                    && getLevel() == other.getLevel();
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
                     .append(getUser())
-                    .append(getWorld())
-                    .append(getRole())
+                    .append(getMap())
+                    .append(getLevel())
                     .toHashCode();
         }
     }

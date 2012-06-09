@@ -9,6 +9,7 @@ public class UserTitle {
     private String gravatar;
     private String route;
     private UserSummary summary;
+    private boolean me;
 
     public int getId() {
         return id;
@@ -56,5 +57,13 @@ public class UserTitle {
 
     public void setSummary(UserSummary summary) {
         this.summary = summary;
+    }
+
+    public boolean isMe() {
+        return me;
+    }
+
+    public void setMe(boolean me) {
+        this.me = me;
     }
 }

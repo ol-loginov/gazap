@@ -16,4 +16,6 @@ public interface MapDao extends Dao {
     List<UserMapRole> listMapRoleByUser(UserProfile user, int map);
 
     GeometryPlainTile loadGeometryPlainTile(GeometryPlain geometry, int scale, int size, int x, int y);
+
+    int countMapPendingApproves(UserProfile profile, Map map);
 }

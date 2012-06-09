@@ -24,9 +24,9 @@ ${include("../shared/html-head.html")}
         <h3>
             ${l18n:t('UserProfilePage.accountMaps.h')}
             <span class="actions">
-                <lt:secured-action visitorNeeded="${content.user.id}" action="map.create">
+                ${if(content.user.me)}
                     <a id="createMap" class=" btn-mini" href="${sc}/map/create">создать карту</a>
-                </lt:secured-action>
+                ${if}
             </span>
         </h3>
 

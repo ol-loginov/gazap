@@ -18,6 +18,8 @@ public class Map extends IntegerIdentityCUD {
     @OneToOne
     @JoinColumn(name = "geometry", nullable = true)
     private Geometry geometry;
+    @Column(name = "approveLimit")
+    private int approveLimit;
 
     public String getTitle() {
         return title;
@@ -41,5 +43,13 @@ public class Map extends IntegerIdentityCUD {
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
+    }
+
+    public int getApproveLimit() {
+        return approveLimit;
+    }
+
+    public void setApproveLimit(int approveLimit) {
+        this.approveLimit = approveLimit;
     }
 }

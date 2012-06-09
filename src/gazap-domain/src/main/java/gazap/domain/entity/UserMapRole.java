@@ -97,17 +97,17 @@ public class UserMapRole implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return user != null && user.isSame(other.user)
-                    && map != null && map.isSame(other.map)
-                    && role != null && role.equals(other.role);
+            return getUser() != null && getUser().isSame(other.getUser())
+                    && getMap() != null && getMap().isSame(other.getMap())
+                    && getRole() != null && getRole().equals(other.getRole());
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(user)
-                    .append(map)
-                    .append(role)
+                    .append(getUser())
+                    .append(getMap())
+                    .append(getRole())
                     .toHashCode();
         }
     }

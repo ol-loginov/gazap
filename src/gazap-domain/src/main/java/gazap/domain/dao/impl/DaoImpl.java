@@ -66,4 +66,11 @@ public abstract class DaoImpl implements Dao {
     public void saveOrCreate(DomainEntity entity) {
         getSession().saveOrUpdate(entity);
     }
+
+    public static int toNumberInt(Object value) {
+        if (value instanceof Number) {
+            return ((Number) value).intValue();
+        }
+        throw new IllegalArgumentException("value is not a number");
+    }
 }

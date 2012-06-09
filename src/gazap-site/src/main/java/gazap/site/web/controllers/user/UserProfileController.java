@@ -8,6 +8,7 @@ import gazap.domain.entity.UserWorldRole;
 import gazap.domain.entity.World;
 import gazap.site.exceptions.UserProfileNotFound;
 import gazap.site.model.SimpleRegistry;
+import gazap.site.services.ModelViewerSet;
 import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.user.UserProfilePage;
@@ -48,7 +49,7 @@ public class UserProfileController extends BaseController {
         }
 
         for (Map map : mapDao.listMapBelongsToUser(account)) {
-            page.getMaps().add(viewer.mapTitle(map));
+            page.getMaps().add(viewer.mapTitle(map, ModelViewerSet.MAP_APPROVE_LIST));
         }
 
         return responseBuilder(locale).view("user/profile", page);

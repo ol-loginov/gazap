@@ -6,6 +6,8 @@ public class MapTitle {
     private String alias;
     private String route;
 
+    private int approveCount;
+
     public int getId() {
         return id;
     }
@@ -36,5 +38,13 @@ public class MapTitle {
 
     public void setRoute(String route) {
         this.route = route;
+    }
+
+    public int getApproveCount() {
+        return approveCount;
+    }
+
+    public void setApproveCount(int approveCount) {
+        this.approveCount = approveCount;
     }
 }

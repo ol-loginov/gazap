@@ -59,4 +59,13 @@ public class MapDaoImpl extends DaoImpl implements MapDao {
                 .setParameter("y", y)
                 .uniqueResult();
     }
+
+    @Override
+    public int countMapPendingApproves(UserProfile profile, Map map) {
+        return toNumberInt(getSession().createQuery("select count(*) from Contribution c, MapApprover ma where ma.id.map=c.map and ma.id.user=:user and ma.id.level=c.approveLevel and c.map=:map and c.decision=:decision")
+                .setEntity("map", map)
+                .setEntity("user", profile)
+                .setParameter("decision", ContributionDecision.NONE)
+                .uniqueResult());
+    }
 }

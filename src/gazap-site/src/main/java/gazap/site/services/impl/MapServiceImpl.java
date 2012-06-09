@@ -38,9 +38,12 @@ public class MapServiceImpl implements MapService {
         Map map = new Map();
         map.setTitle(form.getTitle());
         map.setGeometry(geometry);
+        map.setApproveLimit(0);
 
         mapDao.create(map);
         mapDao.create(new UserMapRole(creator, map, UserMapRoles.CREATOR));
+        mapDao.create(new UserMapRole(creator, map, UserMapRoles.APPROVER));
+        mapDao.create(new MapApprover(map, creator, map.getApproveLimit()));
 
         return map;
     }

@@ -75,6 +75,14 @@ public class UserSummary implements DomainEntity {
             this.user = user;
         }
 
+        public UserProfile getUser() {
+            return user;
+        }
+
+        protected void setUser(UserProfile user) {
+            this.user = user;
+        }
+
         @Override
         public boolean equals(Object instance) {
             if (instance == null)
@@ -83,13 +91,13 @@ public class UserSummary implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return user != null && user.isSame(other.user);
+            return getUser() != null && getUser().isSame(other.getUser());
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(user)
+                    .append(getUser())
                     .toHashCode();
         }
     }

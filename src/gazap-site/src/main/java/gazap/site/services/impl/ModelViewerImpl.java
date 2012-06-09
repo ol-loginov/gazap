@@ -1,6 +1,7 @@
 package gazap.site.services.impl;
 
 import gazap.common.util.GravatarHelper;
+import gazap.domain.dao.MapDao;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.*;
 import gazap.site.model.viewer.ContributionV;
@@ -9,6 +10,8 @@ import gazap.site.model.viewer.UserTitle;
 import gazap.site.model.viewer.WorldTitle;
 import gazap.site.services.FormatService;
 import gazap.site.services.ModelViewer;
+import gazap.site.services.ModelViewerSet;
+import gazap.site.services.UserAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,10 @@ public class ModelViewerImpl implements ModelViewer {
     protected FormatService formatService;
     @Autowired
     protected UserProfileDao userProfileDao;
+    @Autowired
+    protected MapDao mapDao;
+    @Autowired
+    protected UserAccess auth;
 
     @Override
     public UserTitle userTitle(UserProfile profile) {
@@ -28,6 +35,7 @@ public class ModelViewerImpl implements ModelViewer {
         title.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
         title.setRoute("/user/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
         title.setSummary(userProfileDao.loadSummary(profile));
+        title.setMe(profile.isSame(auth.getCurrentProfile()));
         return title;
     }
 
@@ -42,13 +50,28 @@ public class ModelViewerImpl implements ModelViewer {
     }
 
     @Override
-    public MapTitle mapTitle(Map map) {
+    public MapTitle mapTitle(Map map, ModelViewerSet... viewSet) {
         MapTitle title = new MapTitle();
         title.setId(map.getId());
         title.setTitle(map.getTitle());
         title.setAlias(map.getAlias());
         title.setRoute("/map/" + (map.getAlias() == null ? Integer.toString(map.getId()) : map.getAlias()));
+
+        if (viewSet != null) {
+            for (ModelViewerSet set : viewSet) {
+                mapTitleSet(title, map, set);
+            }
+        }
+
         return title;
+    }
+
+    private void mapTitleSet(MapTitle view, Map map, ModelViewerSet set) {
+        switch (set) {
+            case MAP_APPROVE_LIST:
+                view.setApproveCount(mapDao.countMapPendingApproves(auth.getCurrentProfile(), map));
+                break;
+        }
     }
 
     @Override

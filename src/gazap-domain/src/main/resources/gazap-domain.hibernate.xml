@@ -9,6 +9,7 @@
         <mapping class="gazap.domain.entity.Avatar"/>
         <mapping class="gazap.domain.entity.World"/>
         <mapping class="gazap.domain.entity.Map"/>
+        <mapping class="gazap.domain.entity.MapApprover"/>
         <mapping class="gazap.domain.entity.Geometry"/>
 
         <mapping class="gazap.domain.entity.GeometryGeoid"/>
