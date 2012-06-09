@@ -5,9 +5,9 @@ import gazap.domain.entity.Geometry;
 import gazap.domain.entity.GeometryPlain;
 import gazap.domain.entity.GeometryPlainTile;
 import gazap.domain.entity.Map;
+import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.services.FileService;
-import gazap.site.web.controllers.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
@@ -19,24 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import java.net.URL;
 
 @Controller
-public class MapTileProviderController extends BaseController {
+public class MapTileProviderController extends MapGodControllerBase {
     @Autowired
     private MapDao mapDao;
     @Autowired
     private FileService fileService;
-
-    private Map loadMapById(String id) throws ObjectNotFoundException {
-        Map mapInstance;
-        try {
-            mapInstance = mapDao.getMap(Integer.parseInt(id));
-        } catch (NumberFormatException nfe) {
-            mapInstance = mapDao.findMapByAlias(id);
-        }
-        if (mapInstance == null) {
-            throw new ObjectNotFoundException(Map.class, id);
-        }
-        return mapInstance;
-    }
 
     @RequestMapping(value = "/tiles/p")
     public ModelAndView getTile() {
@@ -54,8 +41,10 @@ public class MapTileProviderController extends BaseController {
     ) {
         Map map;
         try {
-            map = loadMapById(mapId);
+            map = loadMapById(mapId, null);
         } catch (ObjectNotFoundException e) {
+            return null;
+        } catch (ObjectIllegalStateException e) {
             return null;
         }
 

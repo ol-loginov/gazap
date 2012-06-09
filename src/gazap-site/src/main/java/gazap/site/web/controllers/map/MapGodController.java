@@ -1,7 +1,6 @@
 package gazap.site.web.controllers.map;
 
 import gazap.domain.dao.ContributionDao;
-import gazap.domain.dao.MapDao;
 import gazap.domain.entity.*;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
@@ -11,7 +10,6 @@ import gazap.site.model.TileImage;
 import gazap.site.model.viewer.ContributionV;
 import gazap.site.services.ContributionService;
 import gazap.site.services.FileService;
-import gazap.site.web.controllers.BaseController;
 import gazap.site.web.controllers.ResponseBuilder;
 import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.views.map.MapEditPlainPage;
@@ -35,11 +33,9 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-public class MapGodController extends BaseController {
+public class MapGodController extends MapGodControllerBase {
     private static final String ACTION_URL = "/map/{map}/god";
 
-    @Autowired
-    private MapDao mapDao;
     @Autowired
     private ContributionService contributionService;
     @Autowired
@@ -47,29 +43,13 @@ public class MapGodController extends BaseController {
     @Autowired
     private FileService fileService;
 
-    private Map loadMapById(Locale locale, String id) throws ObjectNotFoundException, ObjectIllegalStateException {
-        Map mapInstance;
-        try {
-            mapInstance = mapDao.getMap(Integer.parseInt(id));
-        } catch (NumberFormatException nfe) {
-            mapInstance = mapDao.findMapByAlias(id);
-        }
-        if (mapInstance == null) {
-            throw new ObjectNotFoundException(Map.class, id);
-        }
-        if (mapInstance.getGeometry() == null) {
-            throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.noGeometrySpecified"));
-        }
-        return mapInstance;
-    }
-
     @RequestMapping(value = ACTION_URL, method = RequestMethod.GET)
     public ModelAndView getEditor(Locale locale, @PathVariable("map") String map) throws ObjectNotFoundException, ObjectIllegalStateException {
         if (!auth.isAuthorized()) {
             throw new AccessDeniedException("you should be authorized to enter god mode");
         }
 
-        Map mapInstance = loadMapById(locale, map);
+        Map mapInstance = loadMapById(map, locale);
 
         if (Geometry.Plain.CLASS.equals(mapInstance.getGeometry().getGeometryClass())) {
             MapEditPlainPage page = new MapEditPlainPage();
@@ -84,7 +64,7 @@ public class MapGodController extends BaseController {
     @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/tile", method = RequestMethod.GET)
     @ResponseBody
     public UrlResource getContributionTile(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
-        Map map = loadMapById(locale, mapId);
+        Map map = loadMapById(mapId, locale);
         ContributionTile contribution = contributionDao.loadTile(contributionId);
         URL url = fileService.getTileURL(map, contribution.getFile());
         return new UrlResource(url);
@@ -92,20 +72,21 @@ public class MapGodController extends BaseController {
 
     @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/reject.ajax", method = RequestMethod.POST)
     public ModelAndView rejectChanges(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
-        Map map = loadMapById(locale, mapId);
+        Map map = loadMapById(mapId, locale);
         UserProfile visitor = auth.getCurrentProfile();
         ApiAnswer answer = new ApiAnswer();
         try {
             contributionService.reject(visitor, map, contributionId);
             answer.setSuccess(true);
         } catch (ServiceErrorException e) {
+            answer.setSuccess(false);
         }
         return responseBuilder(locale).json(answer);
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/changes.ajax", method = RequestMethod.GET)
     public ModelAndView getLocalChanges(Locale locale, @PathVariable("map") String map, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
-        Map mapInstance = loadMapById(locale, map);
+        Map mapInstance = loadMapById(map, locale);
         UserProfile visitor = auth.getCurrentProfile();
         GetLocalChangesApiAnswer answer = new GetLocalChangesApiAnswer();
 
@@ -144,7 +125,7 @@ public class MapGodController extends BaseController {
             return response.json(answer);
         }
 
-        Map mapInstance = loadMapById(locale, map);
+        Map mapInstance = loadMapById(map, locale);
 
         TileImage info = new TileImage();
         info.setFileSize(form.getFile().getSize());
