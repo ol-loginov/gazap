@@ -5,6 +5,7 @@ import gazap.domain.entity.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -67,5 +68,36 @@ public class MapDaoImpl extends DaoImpl implements MapDao {
                 .setEntity("user", profile)
                 .setParameter("decision", ContributionDecision.NONE)
                 .uniqueResult());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Contribution> listContributionsToShow(Map map, UserProfile viewer, Date after) {
+        return getSession().createQuery("from Contribution c where c.map=:map and c.author=:user and c.decision=:decision and c.createdAt>:after order by c.createdAt")
+                .setEntity("map", map)
+                .setEntity("user", viewer)
+                .setParameter("decision", ContributionDecision.NONE)
+                .setParameter("after", after)
+                .list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Contribution> listContributionsToApprove(Map map, UserProfile viewer, Date after) {
+        return getSession().createQuery("select c from Contribution c, MapApprover ma where ma.id.map=c.map and ma.id.user=:user and ma.id.level=c.approveLevel and c.map=:map and c.decision=:decision")
+                .setEntity("map", map)
+                .setEntity("user", viewer)
+                .setParameter("decision", ContributionDecision.NONE)
+                .list();
+    }
+
+    @Override
+    public ContributionTile getContributionTile(int id) {
+        return (ContributionTile) getSession().get(ContributionTile.class, id);
+    }
+
+    @Override
+    public Contribution getContribution(int id) {
+        return (Contribution) getSession().get(Contribution.class, id);
     }
 }

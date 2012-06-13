@@ -11,7 +11,7 @@ ${set sc=eCdn.contextPath}
         <ul class="unstyled pull-right">
             ${if(map.approveCount gt 0)}
             <li>
-                <a href="${sc}${map.route}/god-approve" class="btn-mini">аппрувить (${map.approveCount})</a>
+                <a href="${sc}${map.route}/approve" class="btn-mini">аппрувить (${map.approveCount})</a>
             </li>
             ${if}
             ${if(can:editMap(map.id))}

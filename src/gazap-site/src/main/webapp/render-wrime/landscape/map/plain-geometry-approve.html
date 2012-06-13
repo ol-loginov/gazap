@@ -2,19 +2,19 @@
 ${param gazap.site.web.views.map.MapEditPlainPage content}
 ${param gazap.site.web.extensions.CdnExtension eCdn transient}
 ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
-<html class="edit-geometry">
+<html class="geometry-god">
 ${include("../shared/html-head.html")}
 <body class="brand-with-menu">
 <div id="geometryCanvasOuter"></div>
 <script type="text/javascript" src="${scriptsRoot}/api/gazap.js"></script>
 <script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.js"></script>
 <script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.map.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Edit.js"></script>
+<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Approve.js"></script>
 <script type="text/javascript">
     BUS.map.plain.editor.ready(function (controller) {
         controller.tileSize = ${content.geometry.tileSize};
         controller.actionMap = '${content.map.id}';
-        controller.actionBase = '${content.map.route}/god';
+        controller.actionBase = '${content.map.route}/approve';
         controller.messages = {
             'change-tile-load-image':'загрузка картинки начата...',
             'change-tile-load-image-success':'загружена картинка',

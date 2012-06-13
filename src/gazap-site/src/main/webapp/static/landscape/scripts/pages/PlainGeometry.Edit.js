@@ -1,9 +1,6 @@
 var EditPlainMapEvents = {
     CONTRIBUTION_HIGHLIGHT:'contribution_highlight',
     CONTRIBUTION_REJECT:'contribution_reject',
-    CONTRIBUTION_INIT_VIEW:'contribution_init_view',
-    CONTRIBUTION_INIT_VIEW_FOR_ADD_TILE:'contribution_init_view_for_add_tile',
-    CONTRIBUTION_INIT_VIEW_FOR_REMOVE_TILE:'contribution_init_view_for_remove_tile',
     CURRENT_TILE_CHANGED:'current_tile_changed',
     CURRENT_TILE_UPLOAD:'current_tile_upload',
     CURRENT_TILE_CLEAR:'current_tile_clear'
@@ -58,6 +55,7 @@ ActionList.prototype = {
 function EditPlainMapController() {
     this.customTiling = {};
     this.localChanges = {};
+    this.localChangesFactory = {};
     Gazap.defineEvents(this, EditPlainMapEvents);
     return this;
 }
@@ -81,6 +79,7 @@ EditPlainMapController.prototype = {
     selectionTile:null,
     selectionEnabled:true,
 
+    localChangesFactory:null,
     localChanges:null,
     localChangesFetching:false,
     localChangesAfter:null,
@@ -198,12 +197,17 @@ EditPlainMapController.prototype = {
     },
 
     appendLocalChanges:function (list) {
-        var that = this
+        var that = this;
         $.each(list, function (index) {
             if (!this) {
                 return;
             }
-            that.trigger(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW, this);
+            var factoryKey = '' + this.type + ':' + this.action;
+            var factory = that.localChangesFactory[factoryKey];
+            if (!factory) {
+                throw new Error('Support for change with key ' + factoryKey + ' is not implemented');
+            }
+            factory.create();
         });
         this.ui.refreshTiles();
     },
@@ -311,20 +315,21 @@ ContributionInitView.prototype = {
     }
 };
 
-ContributionInitViewForAddTile = function () {
+ContributionTileAddFactory = function () {
     return this;
 };
 
-ContributionInitViewForAddTile.prototype = {
-    create:function (sender, event, e) {
-        var item = e.item, container = e.container;
-        this.createView(sender, container, item);
-        sender.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
-            data.src = Gazap.format('{0}/contribution/{1}/tile', sender.actionBase, item.id);
+ContributionTileAddFactory.prototype = {
+    TEMPLATE:"",
+
+    create:function (controller, item) {
+        this.createView(controller, item);
+        controller.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
+            data.src = Gazap.format('{0}/contribution/{1}/tile', controller.actionBase, item.id);
         });
     },
 
-    createView:function (controller, container, item) {
+    createView:function (controller, item) {
         var $div = $('<div/>').addClass(('change-' + item.type + '-' + item.action).toLowerCase());
         // init header
         $div.append($('<div class="author"/>')
@@ -356,7 +361,7 @@ ContributionInitViewForAddTile.prototype = {
             //.append($('<div class="btn-group "/>').append($highlightBtn))
             .appendTo($div);
 
-        container.append($div);
+        return $div;
     }
 };
 
@@ -449,6 +454,9 @@ SelectedTileUploadOperator.prototype = {
 
 $(window).load(function () {
     var controller = new EditPlainMapController();
+    controller.localChangesFactory['TILE:ADD'] = {
+
+    };
 
     var conReject = new ContributionRejectOperator();
     var conInitView = new ContributionInitView();

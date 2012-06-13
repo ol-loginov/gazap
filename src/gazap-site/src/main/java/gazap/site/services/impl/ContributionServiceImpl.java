@@ -1,6 +1,6 @@
 package gazap.site.services.impl;
 
-import gazap.domain.dao.ContributionDao;
+import gazap.domain.dao.MapDao;
 import gazap.domain.entity.*;
 import gazap.site.model.ServiceError;
 import gazap.site.model.ServiceErrorException;
@@ -27,7 +27,7 @@ public class ContributionServiceImpl implements ContributionService {
     @Autowired
     private FileService fileService;
     @Autowired
-    private ContributionDao contributionDao;
+    private MapDao mapDao;
 
     @Override
     public ContributionTile addMapTile(UserProfile author, Map map, final TileImage file) throws ServiceErrorException {
@@ -52,13 +52,13 @@ public class ContributionServiceImpl implements ContributionService {
         tile.setY(file.getTileY());
         tile.setScale(file.getTileScale());
         tile.setSize(file.getTileSize());
-        contributionDao.create(tile);
+        mapDao.create(tile);
         return tile;
     }
 
     @Override
     public void reject(UserProfile visitor, Map map, int contributionId) throws ServiceErrorException {
-        Contribution contribution = contributionDao.load(contributionId);
+        Contribution contribution = mapDao.getContribution(contributionId);
         if (contribution == null) {
             throw new ServiceErrorException(ServiceError.INVALID_PARAM);
         }
@@ -66,7 +66,7 @@ public class ContributionServiceImpl implements ContributionService {
         if (ContributionTile.CLASS.equals(contribution.getContributionClass())) {
             ContributionTile tile = (ContributionTile) contribution;
             fileService.deleteTile(map, tile.getFile());
-            contributionDao.delete(tile);
+            mapDao.delete(tile);
         } else {
             throw new ServiceErrorException(ServiceError.INVALID_PARAM);
         }

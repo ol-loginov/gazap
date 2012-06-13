@@ -1,6 +1,5 @@
 package gazap.site.web.controllers.map;
 
-import gazap.domain.dao.ContributionDao;
 import gazap.domain.entity.*;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
@@ -33,13 +32,11 @@ import java.util.List;
 import java.util.Locale;
 
 @Controller
-public class MapGodController extends MapGodControllerBase {
+public class MapGodContributeController extends MapGodControllerBase {
     private static final String ACTION_URL = "/map/{map}/god";
 
     @Autowired
     private ContributionService contributionService;
-    @Autowired
-    private ContributionDao contributionDao;
     @Autowired
     private FileService fileService;
 
@@ -55,7 +52,7 @@ public class MapGodController extends MapGodControllerBase {
             MapEditPlainPage page = new MapEditPlainPage();
             page.setGeometry((GeometryPlain) mapInstance.getGeometry());
             page.setMap(viewer.mapTitle(mapInstance));
-            return responseBuilder(locale).view("map/edit-plain-geometry", page);
+            return responseBuilder(locale).view("map/plain-geometry-edit", page);
         } else {
             throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.geometryUnknown"));
         }
@@ -65,7 +62,7 @@ public class MapGodController extends MapGodControllerBase {
     @ResponseBody
     public UrlResource getContributionTile(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
         Map map = loadMapById(mapId, locale);
-        ContributionTile contribution = contributionDao.loadTile(contributionId);
+        ContributionTile contribution = mapDao.getContributionTile(contributionId);
         URL url = fileService.getTileURL(map, contribution.getFile());
         return new UrlResource(url);
     }
@@ -85,32 +82,17 @@ public class MapGodController extends MapGodControllerBase {
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/changes.ajax", method = RequestMethod.GET)
-    public ModelAndView getLocalChanges(Locale locale, @PathVariable("map") String map, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
-        Map mapInstance = loadMapById(map, locale);
+    public ModelAndView getLocalChanges(Locale locale, @PathVariable("map") String mapId, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+        Map map = loadMapById(mapId, locale);
         UserProfile visitor = auth.getCurrentProfile();
-        GetLocalChangesApiAnswer answer = new GetLocalChangesApiAnswer();
+        MapGodControllerLocalChangesApiAnswer answer = new MapGodControllerLocalChangesApiAnswer();
 
         List<ContributionV> list = new ArrayList<ContributionV>();
-        for (Contribution c : contributionDao.findContributions(mapInstance, visitor, ContributionDecision.NONE, new Date(after))) {
+        for (Contribution c : mapDao.listContributionsToShow(map, visitor, new Date(after))) {
             list.add(viewer.mapContribution(c));
         }
         answer.setList(list);
         return responseBuilder(locale).json(answer);
-    }
-
-    @JsonAutoDetect(JsonMethod.NONE)
-    public static class GetLocalChangesApiAnswer extends ApiAnswer {
-        private List<ContributionV> list;
-
-        @JsonProperty
-        public List<ContributionV> getList() {
-            return list;
-        }
-
-        public void setList(List<ContributionV> list) {
-            this.list = list;
-            setSuccess(list != null);
-        }
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/add_tile.ajax", method = RequestMethod.POST)
