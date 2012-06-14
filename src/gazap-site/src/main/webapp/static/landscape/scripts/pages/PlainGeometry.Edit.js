@@ -165,6 +165,7 @@ PlainGeometry.EditController.prototype = {
                     .append($content);
             }
         });
+        UI.loadAsyncImages();
         this.ui.refreshTiles();
     },
 

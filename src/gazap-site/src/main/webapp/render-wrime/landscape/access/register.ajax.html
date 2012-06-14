@@ -49,9 +49,9 @@ ${set au=eCdn.server, cp=eCdn.contextPath}
             </div>
             <div class="alert alert-error hidden"/>
         </form>
-        <script type="text/javascript">
+        <script type="text/javascript">head('local_bus', function () {
             BUS.captcha.init('${l18n:t('recaptcha.public')}');
             BUS.account.modal_register_dialog.init('#registerForm')
-        </script>
+        })</script>
     </div>
 </div>

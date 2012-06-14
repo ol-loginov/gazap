@@ -4,6 +4,6 @@ import org.springframework.security.authentication.encoding.MessageDigestPasswor
 
 public class PasswordEncoder extends MessageDigestPasswordEncoder {
     public PasswordEncoder() {
-        super("MD5", true);
+        super("SHA-256", true);
     }
 }

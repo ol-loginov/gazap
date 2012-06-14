@@ -1,6 +1,13 @@
 html.geometry-god {
     height: 100%;
 
+    div.btn-group {
+        > label {
+            margin:0;
+            float: left;
+        }
+    }
+
     > body {
         height: 100%;
         overflow: hidden;
@@ -112,6 +119,14 @@ html.geometry-god {
         }
 
         #god-tool-contribution-list {
+            label.contribution-list-caption{
+                background: #eceef9 url(../img/controls/tabbed-pane-section-head-back.png) repeat-x bottom left;
+                font-size: @baseFontSize;
+                line-height: @baseLineHeight;
+                text-indent: 5px;
+                margin: 5px 0 0;
+            }
+
             ul.contribution-list {
                 > li {
                     > .change-TILE-ADD {
@@ -133,12 +148,6 @@ html.geometry-god {
                         }
                         .author {
                             margin: 0 .5em;
-                            img {
-                                margin-right: .5em;
-                            }
-                            span {
-                                line-height: 16px;
-                            }
                         }
                         .details {
                             strong {
@@ -170,6 +179,13 @@ html.geometry-god {
                 &.hide-author {
                     > li {
                         .author {
+                            display: none;
+                        }
+                    }
+                }
+                &.hide-date {
+                    > li {
+                        .date {
                             display: none;
                         }
                     }

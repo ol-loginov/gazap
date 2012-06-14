@@ -148,8 +148,6 @@ Gazap.extendNamespace('Ui', function (N, G) {
                 return;
             }
 
-            console.log(Gazap.formatTemplate('refresh tile image src [{req.x},{req.y}] : {oldSrc} -> {newSrc}', {req:req, oldSrc:currentSrc, newSrc:req.src}));
-
             var callback = function () {
                 img.style({left:req.clientX, top:req.clientY, width:req.size, height:req.size, display:'inherit'});
             };

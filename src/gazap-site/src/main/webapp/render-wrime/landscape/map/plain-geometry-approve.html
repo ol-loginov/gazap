@@ -6,33 +6,6 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
 ${include("../shared/html-head.html")}
 <body class="brand-with-menu">
 <div id="geometryCanvasOuter"></div>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.map.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Approve.js"></script>
-<script type="text/javascript">
-    BUS.map.plain.editor.ready(function (controller) {
-        controller.tileServer = '${eCdn.server}';
-        controller.tileSize = ${content.geometry.tileSize};
-        controller.actionMap = '${content.map.id}';
-        controller.actionBase = '${eCdn.server}${content.map.route}/approve';
-        controller.messages = {
-            'change-tile-load-image':'загрузка картинки начата...',
-            'change-tile-load-image-success':'загружена картинка',
-            'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
-            'change-tile-add-strong':'Заменить картинку',
-            'change-tile-add':'в тайле T:{0}:{1}:{2}:{3}',
-            'change-reject':'удалить',
-            'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
-            'change-highlight':'показать',
-            'change-approve':'сохранить',
-            'change-approve-confirm':'Это действие подтвердит изменение и оно будет отображаться на карте. Продолжить?'
-        };
-        controller.start();
-    });
-</script>
-
 <div id="leftPane">
     ${include("../shared/html-bars-brand.html")}
     ${include("../shared/html-bars-account.html")}
@@ -114,14 +87,72 @@ ${include("../shared/html-head.html")}
                 </div>
             </div>
             <div class="tab-pane" id="god-tool-contribution-list">
-                <ul class="unstyled contribution-list">
-                </ul>
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <label class="btn-mini">Группировка</label>
+                    </div>
+
+                    <div class="btn-group group-contributions-radio" data-toggle="buttons-radio">
+                        <button id="group-contributions-by-time" class="btn btn-mini btn-info">
+                            <i class="glyphicon-time glyphicon-white"></i>
+                        </button>
+                        <button id="group-contributions-by-author" class="btn btn-mini btn-info">
+                            <i class="glyphicon-user glyphicon-white"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id='contribution-list-groups-outer'></div>
             </div>
         </div>
-        <script>$(function () {
-            $('#godSurfaceTools > ul a:first').tab('show');
-        })</script>
     </section>
 </div>
+<script type="text/javascript">
+    var pageController = null;
+    head('local_bus', function () {
+        BUS.map.plain.editor.ready(function (controller) {
+            pageController = controller;
+
+            controller.tileServer = '${eCdn.server}';
+            controller.tileSize = ${content.geometry.tileSize};
+            controller.actionMap = '${content.map.id}';
+            controller.actionBase = '${eCdn.server}${content.map.route}/approve';
+            controller.messages = {
+                'change-tile-load-image':'загрузка картинки начата...',
+                'change-tile-load-image-success':'загружена картинка',
+                'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
+                'change-tile-add-strong':'Заменить картинку',
+                'change-tile-add':'в тайле {0}:{1}:{2}:{3}',
+                'change-reject':'удалить',
+                'change-reject-title':'Нажмите, чтобы удалить запрос из очереди полностью',
+                'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
+                'change-highlight':'показать',
+                'change-highlight-title':'Нажмите, чтобы увидеть это изменение на карте',
+                'change-approve':'фиксировать',
+                'change-approve-title':'Это действие подтвердит изменение и оно будет отображаться на карте',
+                'change-approve-confirm':'Это действие подтвердит изменение и оно будет отображаться на карте. Продолжить?'
+            };
+            controller.setContributionGrouping('time');
+            controller.start();
+        });
+    });
+    head.js(
+            '${scriptsRoot}/api/gazap.js',
+            "${scriptsRoot}/api/gazap.ui.js",
+            "${scriptsRoot}/api/gazap.ui.map.js",
+            "${scriptsRoot}/pages/PlainGeometry.js",
+            "${scriptsRoot}/pages/PlainGeometry.Approve.js");
+    head(function () {
+        $('#godSurfaceTools > ul a:last').tab('show');
+
+        var $groupingButtons = $('#god-tool-contribution-list .group-contributions-radio');
+
+        $('#group-contributions-by-time', $groupingButtons).button('toggle').click(function () {
+            pageController.setContributionGrouping('time');
+        });
+        $('#group-contributions-by-author', $groupingButtons).click(function () {
+            pageController.setContributionGrouping('author');
+        });
+    });
+</script>
 </body>
 </html>

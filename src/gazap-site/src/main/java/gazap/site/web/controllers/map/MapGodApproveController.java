@@ -49,7 +49,7 @@ public class MapGodApproveController extends MapGodControllerBase {
         MapGodControllerLocalChangesApiAnswer answer = new MapGodControllerLocalChangesApiAnswer();
 
         List<ContributionV> list = new ArrayList<ContributionV>();
-        for (Contribution c : mapDao.listContributionsToApprove(map, visitor, new Date(after))) {
+        for (Contribution c : mapDao.listContributionsToApprove(map, visitor, new Date(after), 200)) {
             list.add(viewer.mapContribution(c, ModelViewerSet.ADD_AUTHOR_DETAILS));
         }
         answer.setList(list);

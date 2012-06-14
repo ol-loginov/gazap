@@ -9,6 +9,7 @@ import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import java.net.URL;
 
 @Controller
 public class MapTileProviderController extends MapGodControllerBase {
+    public static final AbstractResource NOP_PNG = new MapTileProviderControllerNopImage();
+
     @Autowired
     private MapDao mapDao;
     @Autowired
@@ -32,7 +35,7 @@ public class MapTileProviderController extends MapGodControllerBase {
 
     @RequestMapping(value = "/tiles/m{map}/c{scale}s{size}x{x}y{y}")
     @ResponseBody
-    public UrlResource getTile(
+    public AbstractResource getTile(
             @PathVariable("map") String mapId,
             @PathVariable("scale") int scale,
             @PathVariable("size") int size,
@@ -43,13 +46,13 @@ public class MapTileProviderController extends MapGodControllerBase {
         try {
             map = loadMapById(mapId, null);
         } catch (ObjectNotFoundException e) {
-            return null;
+            return NOP_PNG;
         } catch (ObjectIllegalStateException e) {
-            return null;
+            return NOP_PNG;
         }
 
         if (map.getGeometry() == null || !Geometry.Plain.CLASS.equals(map.getGeometry().getGeometryClass())) {
-            return null;
+            return NOP_PNG;
         }
 
         GeometryPlainTile tile = mapDao.loadGeometryPlainTile((GeometryPlain) map.getGeometry(), scale, size, x, y);
@@ -59,6 +62,6 @@ public class MapTileProviderController extends MapGodControllerBase {
                 return new UrlResource(url);
             }
         }
-        return null;
+        return NOP_PNG;
     }
 }

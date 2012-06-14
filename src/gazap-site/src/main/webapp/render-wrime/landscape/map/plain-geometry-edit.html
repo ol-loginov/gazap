@@ -6,29 +6,33 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
 ${include("../shared/html-head.html")}
 <body class="brand-with-menu">
 <div id="geometryCanvasOuter"></div>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/api/gazap.ui.map.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.js"></script>
-<script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Edit.js"></script>
 <script type="text/javascript">
-    BUS.map.plain.editor.ready(function (controller) {
-        controller.tileServer = '${eCdn.server}';
-        controller.tileSize = ${content.geometry.tileSize};
-        controller.actionMap = '${content.map.id}';
-        controller.actionBase = '${eCdn.server}${content.map.route}/god';
-        controller.messages = {
-            'change-tile-load-image':'загрузка картинки начата...',
-            'change-tile-load-image-success':'загружена картинка',
-            'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
-            'change-tile-add-strong':'Заменить картинку',
-            'change-tile-add':'в тайле T:{0}:{1}:{2}:{3}',
-            'change-reject':'удалить',
-            'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
-            'change-highlight':'показать'
-        };
-        controller.start();
+    head('local_bus', function () {
+        BUS.map.plain.editor.ready(function (controller) {
+            controller.tileServer = '${eCdn.server}';
+            controller.tileSize = ${content.geometry.tileSize};
+            controller.actionMap = '${content.map.id}';
+            controller.actionBase = '${eCdn.server}${content.map.route}/god';
+            controller.messages = {
+                'change-tile-load-image':'загрузка картинки начата...',
+                'change-tile-load-image-success':'загружена картинка',
+                'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
+                'change-tile-add-strong':'Заменить картинку',
+                'change-tile-add':'в тайле {0}:{1}:{2}:{3}',
+                'change-reject':'удалить',
+                'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
+                'change-highlight':'показать'
+            };
+            controller.start();
+        });
     });
+    head.js(
+            '${scriptsRoot}/api/gazap.js',
+            "${scriptsRoot}/api/gazap.ui.js",
+            "${scriptsRoot}/api/gazap.ui.map.js",
+            "${scriptsRoot}/pages/PlainGeometry.js",
+            "${scriptsRoot}/pages/PlainGeometry.Edit.js"
+    );
 </script>
 
 <div id="leftPane">
@@ -110,11 +114,10 @@ ${include("../shared/html-head.html")}
                 </div>
             </div>
             <div class="tab-pane" id="god-tool-contribution-list">
-                <ul class="unstyled contribution-list hide-author">
-                </ul>
+                <ul class="unstyled contribution-list hide-author"/>
             </div>
         </div>
-        <script>$(function () {
+        <script>head('bootstrap_tab', function () {
             $('#godSurfaceTools > ul a:first').tab('show');
         })</script>
     </section>

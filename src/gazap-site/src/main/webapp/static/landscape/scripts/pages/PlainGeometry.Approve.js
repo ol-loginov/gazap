@@ -2,6 +2,7 @@ PlainGeometry.ApproveController = function () {
     this.customTiling = {};
     this.localChanges = {};
     this.localChangesFactory = {};
+    this.localChangesGroupingApplier = {};
     Gazap.defineEvents(this, PlainGeometry.ApproveController.Events);
     return this;
 };
@@ -26,6 +27,8 @@ PlainGeometry.ApproveController.prototype = {
     localChanges:null,
     localChangesFetching:false,
     localChangesAfter:null,
+    localChangesGrouping:null,
+    localChangesSorters:null,
 
     start:function () {
         this.createStage();
@@ -102,26 +105,52 @@ PlainGeometry.ApproveController.prototype = {
         }
     },
 
+    setContributionGrouping:function (value) {
+        this.localChangesGrouping = value;
+        this.refreshLocalChangesList();
+    },
+
     appendLocalChanges:function (list) {
-        var that = this, $container = $('#god-tool-contribution-list ul.contribution-list');
+        var that = this;
         $.each(list, function (index) {
             if (!this) {
                 return;
             }
             that.localChanges[this.id] = this;
+        });
+
+        if (this.localChangesGrouping != null) {
+            this.refreshLocalChangesList();
+        }
+    },
+
+    refreshLocalChangesList:function () {
+        var that = this, $outer = $('#god-tool-contribution-list #contribution-list-groups-outer').empty();
+        console.log('group by ' + this.localChangesGrouping);
+
+        var array = [], applier = this.localChangesGroupingApplier[this.localChangesGrouping];
+        $.each(that.localChanges, function (index) {
+            array.push(this);
+        });
+        array.sort(applier.sort);
+
+        var $list = null;
+        $.each(array, function () {
             var factoryKey = Gazap.format("{0}:{1}", this.type, this.action);
             var factory = that.localChangesFactory[factoryKey];
             if (!factory) {
                 throw new Error('Support for change with key ' + factoryKey + ' is not implemented');
             }
+
+            $list = applier.nextList($list, $outer, this);
             var $content = factory.create(that, this);
             if ($content != null) {
                 $('<li/>').attr('data-contribution-id', this.id)
-                    .appendTo($container)
+                    .appendTo($list)
                     .append($content);
             }
         });
-        this.ui.refreshTiles();
+        UI.loadAsyncImages();
     }
 };
 
@@ -172,6 +201,40 @@ $(window).load(function () {
     var controller = new ControllerClass();
     controller.localChangesFactory['TILE:ADD'] = new PlainGeometry.ContributionTileAddFactory(ControllerClass.Events.CONTRIBUTION_REJECT, ControllerClass.Events.CONTRIBUTION_HIGHLIGHT, ControllerClass.Events.CONTRIBUTION_APPROVE);
     controller.localChangesFactory['TILE:REMOVE'] = new PlainGeometry.ContributionTileRemoveFactory(ControllerClass.Events.CONTRIBUTION_REJECT, ControllerClass.Events.CONTRIBUTION_HIGHLIGHT, ControllerClass.Events.CONTRIBUTION_APPROVE);
+
+    controller.localChangesGroupingApplier['time'] = {
+        listTemplate:"<div><label class='contribution-list-caption'>На дату {date}</label><ul class='unstyled contribution-list hide-date' data-group='{group}'></ul></div>",
+        lastGroup:null,
+        sort:function (a, b) {
+            return a.createdAt - b.createdAt;
+        },
+        nextList:function ($ul, $outer, item) {
+            var itemGroup = new Date(item.createdAt).toLocaleDateString();
+            if ($ul == null || itemGroup !== this.lastGroup) {
+                this.lastGroup = itemGroup;
+                $ul = $(Gazap.formatTemplate(this.listTemplate, {group:itemGroup, date:itemGroup})).appendTo($outer);
+                $ul = $('ul', $ul);
+            }
+            return $ul;
+        }
+    };
+
+    controller.localChangesGroupingApplier['author'] = {
+        listTemplate:"<div><label class='contribution-list-caption'>От <a href='/user/{item.author}' class='username'><img width='16' height='16' alt='' src-async='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'/><span>{item.authorName}</span></a></label><ul class='unstyled contribution-list hide-author' data-group='{group}'></ul></div>",
+        lastGroup:null,
+        sort:function (a, b) {
+            return  a.authorName.localeCompare(b.authorName);
+        },
+        nextList:function ($ul, $outer, item) {
+            var itemGroup = item.author;
+            if ($ul == null || itemGroup !== this.lastGroup) {
+                this.lastGroup = itemGroup;
+                $ul = $(Gazap.formatTemplate(this.listTemplate, {group:itemGroup, item:item})).appendTo($outer);
+                $ul = $('ul', $ul);
+            }
+            return $ul;
+        }
+    };
 
     var conReject = new PlainGeometry.ApproveController.RejectOperator();
     controller.bind(ControllerClass.Events.CONTRIBUTION_REJECT, Gazap.delegate(conReject, conReject.execute));

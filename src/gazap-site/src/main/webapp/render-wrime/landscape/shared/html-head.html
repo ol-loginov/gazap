@@ -7,33 +7,41 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
     <meta name="format-detection" content="telephone=no">
 
     <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
+
     <script type="text/javascript">
         V = {};
         E = {language:'${l18n:locale.language}', 'SCE':'${l18n:t("E.SCE")}'};
     </script>
-    <script type="text/javascript" src="${libRoot}/jquery/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="${libRoot}/jquery/jquery.form-2.94.min.js"></script>
-    <script type="text/javascript" src="${libRoot}/jquery/jquery.exists.js"></script>
-    <script type="text/javascript" src="${libRoot}/fancybox/jquery.fancybox.js"></script>
-    <script type="text/javascript" src="${libRoot}/backbone/undescore-1.1.7.min.js"></script>
-    <script type="text/javascript" src="${libRoot}/backbone/backbone-0.5.3.min.js"></script>
-    <script type="text/javascript" src="${libRoot}/bootstrap/bootstrap-tooltip.js"></script>
-    <script type="text/javascript" src="${libRoot}/bootstrap/bootstrap-popover.js"></script>
-    <script type="text/javascript" src="${libRoot}/bootstrap/bootstrap-tab.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/visitor.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/ui.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/bus.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/Account.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/ReCaptcha.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/UserProfile.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/World.Modals.js"></script>
-    <script type="text/javascript" src="${scriptsRoot}/events/Map.Forms.js"></script>
+    <script type="text/javascript" src="${libRoot}/head/head-0.96.min.js"></script>
+    <script>
+        head.js(
+                {jquery:"${libRoot}/jquery/jquery-1.7.1.min.js"},
+                {jquery_form:"${libRoot}/jquery/jquery.form-2.94.min.js"},
+                {jquery_exists:"${libRoot}/jquery/jquery.exists.js"},
+                {fancybox:"${libRoot}/fancybox/jquery.fancybox.js"},
+                {undescore:"${libRoot}/backbone/undescore-1.1.7.min.js"},
+                {backbone:"${libRoot}/backbone/backbone-0.5.3.min.js"},
+                {bootstrap_tooltip:"${libRoot}/bootstrap/bootstrap-tooltip.js"},
+                {bootstrap_popover:"${libRoot}/bootstrap/bootstrap-popover.js"},
+                {bootstrap_tab:"${libRoot}/bootstrap/bootstrap-tab.js"},
+                {bootstrap_button:"${libRoot}/bootstrap/bootstrap-button.js"},
+                {local_visitor:"${scriptsRoot}/visitor.js"},
+                {local_ui:"${scriptsRoot}/ui.js"},
+                {local_bus:"${scriptsRoot}/bus.js"},
+                "${scriptsRoot}/events/Account.js",
+                "${scriptsRoot}/events/ReCaptcha.js",
+                "${scriptsRoot}/events/UserProfile.js",
+                "${scriptsRoot}/events/World.Modals.js",
+                "${scriptsRoot}/events/Map.Forms.js"
+        );
+    </script>
 
-    <!--
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>
     <script type="text/javascript" src="${libRoot}/less/less-1.3.0.min.js"></script>
-  -->
+
+    <!--
     <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.min.css"/>
+  -->
 
     ${if(o:nn(eViewMeta) and s:ne(eViewMeta.titleKey))}
     <title>${l18n:t(eViewMeta.titleKey)}</title>

@@ -4,12 +4,11 @@ PlainGeometry.ContributionFactory = {
     TILE_TEMPLATE:"" +
         "<div class='change-{item.type}-{item.action}'>" +
         " <div class='about'><span class='id'>#{item.id}</span><span class='date'>{date}</span><span class='time'>{time}</span></div>" +
-        " <div class='author'><a href='/user/{item.author}'><img width='16' height='16' alt='' src='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'><span>{item.authorName}</span><a/></div>" +
+        " <div class='author'><a href='/user/{item.author}' class='username'><img width='16' height='16' alt='' src-async='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'><span>{item.authorName}</span></a></div>" +
         " <div class='details'><strong>{text1}</strong><span class='short'>{text2}</span></div>" +
         " <div class='btn-toolbar'>" +
-        "  <div class='btn-group'><button class='btn btn-info btn-mini btn-highlight'><span>{textHighlight}</span></button></div>" +
-        "  <div class='btn-group'><button class='btn btn-success btn-mini btn-approve'><span>{textApprove}</span></button></div>" +
-        "  <div class='btn-group'><button class='btn btn-danger btn-mini btn-reject'><span>{textReject}</span></button></div>" +
+        "  <div class='btn-group'><button class='btn btn-info btn-mini btn-highlight' title='{textHighlightTitle}'><span>{textHighlight}</span></button></div>" +
+        "  <div class='btn-group'><button class='btn btn-success btn-mini btn-approve' title='{textApproveTitle}'><span>{textApprove}</span></button><button class='btn btn-danger btn-mini btn-reject' title='{textRejectTitle}'><span>{textReject}</span></button></div>" +
         " </div>" +
         "</div>",
 
@@ -49,8 +48,11 @@ PlainGeometry.ContributionTileAddFactory.prototype = {
             text1:controller.messages['change-tile-add-strong'],
             text2:Gazap.format(controller.messages['change-tile-add'], item.scale, item.size, item.x, item.y),
             textReject:controller.messages['change-reject'],
+            textRejectTitle:controller.messages['change-reject-title'],
             textApprove:controller.messages['change-approve'],
-            textHighlight:controller.messages['change-highlight']
+            textApproveTitle:controller.messages['change-approve-title'],
+            textHighlight:controller.messages['change-highlight'],
+            textHighlightTitle:controller.messages['change-highlight-title']
         });
         var $content = $(content);
         PlainGeometry.ContributionFactory.addControllerTrigger($('button.btn-reject', $content), controller, this.rejectEvent, item.id);
@@ -85,8 +87,11 @@ PlainGeometry.ContributionTileRemoveFactory.prototype = {
             text1:controller.messages['change-tile-remove-strong'],
             text2:Gazap.format(controller.messages['change-tile-remove'], item.scale, item.size, item.x, item.y),
             textReject:controller.messages['change-reject'],
+            textRejectTitle:controller.messages['change-reject-title'],
             textApprove:controller.messages['change-approve'],
-            textHighlight:controller.messages['change-highlight']
+            textApproveTitle:controller.messages['change-approve-title'],
+            textHighlight:controller.messages['change-highlight'],
+            textHighlightTitle:controller.messages['change-highlight-title']
         });
         var $content = $(content);
         PlainGeometry.ContributionFactory.addControllerTrigger($('button.btn-reject', $content), controller, this.rejectEvent, item.id);

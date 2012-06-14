@@ -43,6 +43,8 @@ ${set au=eCdn.server, cp=eCdn.contextPath}
             </div>
             <div class="alert alert-error hidden"/>
         </form>
-        <script type="text/javascript">BUS.account.modal_login_dialog.init('#loginForm')</script>
+        <script type="text/javascript">head('local_bus', function () {
+            BUS.account.modal_login_dialog.init('#loginForm')
+        })</script>
     </div>
 </div>

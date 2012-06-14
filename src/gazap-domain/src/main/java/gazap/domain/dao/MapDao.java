@@ -20,9 +20,9 @@ public interface MapDao extends Dao {
 
     int countMapPendingApproves(UserProfile profile, Map map);
 
-    List<Contribution> listContributionsToShow(Map map, UserProfile viewer, Date after);
+    List<Contribution> listContributionsToShow(Map map, UserProfile viewer, Date after, int limit);
 
-    List<Contribution> listContributionsToApprove(Map map, UserProfile viewer, Date after);
+    List<Contribution> listContributionsToApprove(Map map, UserProfile viewer, Date after, int limit);
 
     ContributionTile getContributionTile(int id);
 

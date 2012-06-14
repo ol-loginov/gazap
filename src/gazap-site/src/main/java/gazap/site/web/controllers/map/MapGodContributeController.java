@@ -88,7 +88,7 @@ public class MapGodContributeController extends MapGodControllerBase {
         MapGodControllerLocalChangesApiAnswer answer = new MapGodControllerLocalChangesApiAnswer();
 
         List<ContributionV> list = new ArrayList<ContributionV>();
-        for (Contribution c : mapDao.listContributionsToShow(map, visitor, new Date(after))) {
+        for (Contribution c : mapDao.listContributionsToShow(map, visitor, new Date(after), 200)) {
             list.add(viewer.mapContribution(c));
         }
         answer.setList(list);

@@ -8,6 +8,12 @@ if (typeof(UI) == "undefined") {
         },
         cancelModal:function () {
             $.fancybox.cancel();
+        },
+        loadAsyncImages:function () {
+            $('img[src-async]').each(function () {
+                var asyncSrc = $(this).attr('src-async');
+                $(this).removeAttr('src-async').attr('src', asyncSrc);
+            });
         }
     };
 }
@@ -126,5 +132,8 @@ ButtonHelper.prototype = {
     $('.modal-closer').live('click', function () {
         UI.closeModal();
         return false;
+    });
+    $(function () {
+        UI.loadAsyncImages();
     });
 })(jQuery);

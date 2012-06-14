@@ -78,7 +78,9 @@ ${include("../shared/html-head.html")}
             <div class="alert alert-message alert-progress hidden">${l18n:t('MapCreateForm.submitting')}</div>
             <div class="alert alert-error hidden"/>
         </form>
-        <script type="text/javascript">BUS.map.modal_create_dialog.init('#createMapForm')</script>
+        <script type="text/javascript">head('local_bus', function () {
+            BUS.map.modal_create_dialog.init('#createMapForm')
+        })</script>
     </div>
 </div>
 </body>
