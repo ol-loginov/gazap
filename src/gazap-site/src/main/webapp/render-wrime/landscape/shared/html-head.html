@@ -29,11 +29,11 @@ ${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s
     <script type="text/javascript" src="${scriptsRoot}/events/World.Modals.js"></script>
     <script type="text/javascript" src="${scriptsRoot}/events/Map.Forms.js"></script>
 
+    <!--
     <link rel="stylesheet/less" href="${cp}/static/landscape/less/layout.less"/>
     <script type="text/javascript" src="${libRoot}/less/less-1.3.0.min.js"></script>
-    <!--
-    <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.css"/>
   -->
+    <link rel="stylesheet" href="${cp}/static/landscape/dist/gazap.min.css"/>
 
     ${if(o:nn(eViewMeta) and s:ne(eViewMeta.titleKey))}
     <title>${l18n:t(eViewMeta.titleKey)}</title>

@@ -4,6 +4,7 @@ import gazap.domain.entity.*;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.model.viewer.ContributionV;
+import gazap.site.services.ModelViewerSet;
 import gazap.site.web.views.map.MapEditPlainPage;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -49,7 +50,7 @@ public class MapGodApproveController extends MapGodControllerBase {
 
         List<ContributionV> list = new ArrayList<ContributionV>();
         for (Contribution c : mapDao.listContributionsToApprove(map, visitor, new Date(after))) {
-            list.add(viewer.mapContribution(c));
+            list.add(viewer.mapContribution(c, ModelViewerSet.ADD_AUTHOR_DETAILS));
         }
         answer.setList(list);
         return responseBuilder(locale).json(answer);

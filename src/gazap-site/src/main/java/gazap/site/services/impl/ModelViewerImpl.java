@@ -68,23 +68,23 @@ public class ModelViewerImpl implements ModelViewer {
 
     private void mapTitleSet(MapTitle view, Map map, ModelViewerSet set) {
         switch (set) {
-            case MAP_APPROVE_LIST:
+            case ADD_MAP_APPROVE_COUNT:
                 view.setApproveCount(mapDao.countMapPendingApproves(auth.getCurrentProfile(), map));
                 break;
         }
     }
 
     @Override
-    public ContributionV mapContribution(Contribution c) {
+    public ContributionV mapContribution(Contribution c, ModelViewerSet... viewSet) {
         if (ContributionTile.CLASS.equals(c.getContributionClass())) {
-            return mapContribution((ContributionTile) c);
+            return mapContribution((ContributionTile) c, viewSet);
         }
         return null;
     }
 
-    public ContributionV mapContribution(ContributionTile c) {
+    public ContributionV mapContribution(ContributionTile c, ModelViewerSet[] viewSet) {
         ContributionV result = new ContributionV();
-        mapContributionAttributes(result, c);
+        mapContributionAttributes(result, c, viewSet);
         result.setAction(c.getAction());
         result.setScale(c.getScale());
         result.setSize(c.getSize());
@@ -94,12 +94,25 @@ public class ModelViewerImpl implements ModelViewer {
         return result;
     }
 
-    private void mapContributionAttributes(ContributionV destination, Contribution source) {
+    private void mapContributionAttributes(ContributionV destination, Contribution source, ModelViewerSet[] viewSet) {
         destination.setId(source.getId());
         destination.setCreatedAt(source.getCreatedAt());
         destination.setType(source.getContributionClass());
         destination.setDecision(source.getDecision());
-        destination.setAuthor(source.getAuthor().getId());
-        destination.setAuthorName(source.getAuthor().getDisplayName());
+        if (viewSet != null) {
+            for (ModelViewerSet set : viewSet) {
+                mapContributionAttributesSet(destination, source, set);
+            }
+        }
+    }
+
+    private void mapContributionAttributesSet(ContributionV destination, Contribution source, ModelViewerSet set) {
+        switch (set) {
+            case ADD_AUTHOR_DETAILS:
+                destination.setAuthor(source.getAuthor().getId());
+                destination.setAuthorName(source.getAuthor().getDisplayName());
+                destination.setAuthorGravatar(GravatarHelper.hashOrDefault(source.getAuthor().getEmail()));
+                break;
+        }
     }
 }

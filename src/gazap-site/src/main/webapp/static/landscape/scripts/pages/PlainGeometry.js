@@ -3,7 +3,8 @@ PlainGeometry = {};
 PlainGeometry.ContributionFactory = {
     TILE_TEMPLATE:"" +
         "<div class='change-{item.type}-{item.action}'>" +
-        " <div class='author'><span class='id'>#{item.id}</span><span class='date'>{date}</span><span class='time'>{time}</span></div>" +
+        " <div class='about'><span class='id'>#{item.id}</span><span class='date'>{date}</span><span class='time'>{time}</span></div>" +
+        " <div class='author'><a href='/user/{item.author}'><img width='16' height='16' alt='' src='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'><span>{item.authorName}</span><a/></div>" +
         " <div class='details'><strong>{text1}</strong><span class='short'>{text2}</span></div>" +
         " <div class='btn-toolbar'>" +
         "  <div class='btn-group'><button class='btn btn-info btn-mini btn-highlight'><span>{textHighlight}</span></button></div>" +

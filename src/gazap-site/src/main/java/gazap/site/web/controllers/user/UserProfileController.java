@@ -49,7 +49,7 @@ public class UserProfileController extends BaseController {
         }
 
         for (Map map : mapDao.listMapBelongsToUser(account)) {
-            page.getMaps().add(viewer.mapTitle(map, ModelViewerSet.MAP_APPROVE_LIST));
+            page.getMaps().add(viewer.mapTitle(map, ModelViewerSet.ADD_MAP_APPROVE_COUNT));
         }
 
         return responseBuilder(locale).view("user/profile", page);

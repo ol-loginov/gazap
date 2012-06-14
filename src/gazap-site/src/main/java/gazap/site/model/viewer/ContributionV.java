@@ -13,8 +13,6 @@ public class ContributionV {
     private int id;
     private Date createdAt;
     private String type;
-    private int author;
-    private String authorName;
     private ContributionDecision decision;
 
     private int x;
@@ -24,6 +22,10 @@ public class ContributionV {
     private ContributionTileAction action;
 
     private String file;
+
+    private int author;
+    private String authorName;
+    private String authorGravatar;
 
     @JsonProperty
     public Date getCreatedAt() {
@@ -131,5 +133,14 @@ public class ContributionV {
 
     public void setFile(String file) {
         this.file = file;
+    }
+
+    @JsonProperty
+    public String getAuthorGravatar() {
+        return authorGravatar;
+    }
+
+    public void setAuthorGravatar(String authorGravatar) {
+        this.authorGravatar = authorGravatar;
     }
 }

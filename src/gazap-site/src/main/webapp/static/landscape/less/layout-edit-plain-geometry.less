@@ -118,7 +118,7 @@ html.geometry-god {
                         padding: 0 3px;
                         border-bottom: solid 1px #ccc;
                         background: #FEFEFE;
-                        .author {
+                        .about {
                             > .id {
                                 color: #0000A0;
                             }
@@ -129,6 +129,15 @@ html.geometry-god {
                             > .time {
                                 margin-left: .5em;
                                 color: #A000A0;
+                            }
+                        }
+                        .author {
+                            margin: 0 .5em;
+                            img {
+                                margin-right: .5em;
+                            }
+                            span {
+                                line-height: 16px;
                             }
                         }
                         .details {
@@ -153,6 +162,14 @@ html.geometry-god {
 
                     &.disabled {
                         .btn-toolbar {
+                            display: none;
+                        }
+                    }
+                }
+
+                &.hide-author {
+                    > li {
+                        .author {
                             display: none;
                         }
                     }

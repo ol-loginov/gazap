@@ -16,5 +16,5 @@ public interface ModelViewer {
 
     MapTitle mapTitle(Map map, ModelViewerSet... viewSet);
 
-    ContributionV mapContribution(Contribution c);
+    ContributionV mapContribution(Contribution c, ModelViewerSet... viewSet);
 }
