@@ -5,7 +5,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
         var width = Number(opts.width || 0);
         var height = Number(opts.height || 0);
 
-        this.tileServer = '';
+        this.tileServer = opts.tileServer || '';
         this.tileMap = opts.map;
         this.tileSize = opts.tileSize;
 
@@ -85,26 +85,23 @@ Gazap.extendNamespace('Ui', function (N, G) {
             return {x:x2, y:y2};
         },
 
-        describeTileByHash:function (hash) {
-            var parts = hash.split(/:/g);
-            var tileScale = Number(parts[1]), tileSize = Number(parts[2]), x = Number(parts[3]), y = Number(parts[4]);
-            return this.describeTile(x, y, tileScale, tileSize, null, null);
-        },
-
-        describeTileByMapPoint:function (pt) {
+        describeTileByMapPoint:function (pt, opts) {
             var q = this.tileSize * this.viewScale;
             var x = Math.floor(pt.x / q) * q, clientX = x;
             var y = Math.ceil(pt.y / q) * q, clientY = -y;
-            return this.describeTile(x, y, this.viewScale, this.tileSize, clientX, clientY);
+            return this.describeTile(x, y, this.viewScale, this.tileSize, clientX, clientY, opts);
         },
 
-        describeTile:function (x, y, tileScale, tileSize, clientX, clientY) {
+        describeTile:function (x, y, tileScale, tileSize, clientX, clientY, opts) {
+            var setSrc = !opts || opts.setSrc;
             var request = {
                 size:tileSize,
                 scale:tileScale,
                 x:x, y:y, clientX:clientX, clientY:clientY, id:"tile " + x + "x" + y,
                 src:null, hash:'T:' + tileScale + ':' + tileSize + ':' + x + ':' + y };
-            this.trigger('tile.request', request);
+            if (setSrc) {
+                this.trigger('tile.request', request);
+            }
             return request;
         },
 
@@ -146,11 +143,12 @@ Gazap.extendNamespace('Ui', function (N, G) {
                     .style({position:'absolute', border:'none', display:'none'})
                     .appendTo(this.$tileLayer);
             }
-
-            if (img.attr('src') == req.src) {
-                console.log('skip tile image update');
+            var currentSrc = img.attr('src');
+            if (currentSrc == req.src) {
                 return;
             }
+
+            console.log(Gazap.formatTemplate('refresh tile image src [{req.x},{req.y}] : {oldSrc} -> {newSrc}', {req:req, oldSrc:currentSrc, newSrc:req.src}));
 
             var callback = function () {
                 img.style({left:req.clientX, top:req.clientY, width:req.size, height:req.size, display:'inherit'});

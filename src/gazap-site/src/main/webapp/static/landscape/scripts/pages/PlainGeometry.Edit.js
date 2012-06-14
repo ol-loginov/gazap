@@ -2,6 +2,7 @@ PlainGeometry.EditController = function () {
     this.customTiling = {};
     this.localChanges = {};
     this.localChangesFactory = {};
+
     Gazap.defineEvents(this, PlainGeometry.EditController.Events);
     return this;
 };
@@ -23,10 +24,8 @@ PlainGeometry.EditController.prototype = {
     ui:null,
     uiTileHelper:null,
 
-    $aimTemplate:'<div style="border:solid 2px green;margin-left:-2px;margin-top:-2px;position:absolute;cursor:pointer;" class="surface-map-aim"></div>',
     $aim:null,
     $aimTile:null,
-    $aimSelectorTemplate:'<div style="border:none;position:absolute;background:transparent url(/static/img/pFFF-50.png);" class="surface-map-selector"></div>',
     $aimSelector:null,
 
     selectionTile:null,
@@ -41,7 +40,7 @@ PlainGeometry.EditController.prototype = {
 
     createStage:function () {
         var that = this;
-        this.ui = new Gazap.Ui.PlainMap({container:'geometryCanvasOuter', width:100, height:100, map:this.actionMap, tileSize:this.tileSize});
+        this.ui = new Gazap.Ui.PlainMap({container:'geometryCanvasOuter', width:100, height:100, map:this.actionMap, tileSize:this.tileSize, tileServer:this.tileServer});
         this.uiTileHelper = this.ui.createLayer();
         this.ui.bind('finger.hover', Gazap.delegate(this, this.updateAimPosition));
         this.ui.bind('finger.touch', Gazap.delegate(this, this.updateAimSelectorPosition));
@@ -67,15 +66,13 @@ PlainGeometry.EditController.prototype = {
     },
 
     createAim:function () {
-        var tileSize = this.ui.tileSize;
-        this.$aim = $(this.$aimTemplate)
-            .css({width:tileSize, height:tileSize});
-
-        this.$aim.appendTo($(this.uiTileHelper.getContent()));
+        this.$aim = $('<div style="border:solid 2px green;margin-left:-2px;margin-top:-2px;position:absolute;cursor:pointer;" class="surface-map-aim"/>')
+            .css({width:this.ui.tileSize, height:this.ui.tileSize})
+            .appendTo($(this.uiTileHelper.getContent()));
     },
 
     updateAimPosition:function (sender, event, mapPoint) {
-        var tile = this.ui.describeTileByMapPoint(mapPoint);
+        var tile = this.ui.describeTileByMapPoint(mapPoint, {setSrc:false});
         if (this.$aimTile == null || this.$aimTile.hash != tile.hash) {
             this.$aimTile = tile;
             this.$aim.css({left:tile.clientX, top:tile.clientY, width:tile.size, height:tile.size});
@@ -85,7 +82,7 @@ PlainGeometry.EditController.prototype = {
     updateAimSelectorPosition:function (sender, event, mapPoint) {
         var tile = this.ui.describeTileByMapPoint(mapPoint);
         if (this.$aimSelector == null) {
-            this.$aimSelector = $(this.$aimSelectorTemplate)
+            this.$aimSelector = $('<div style="border:none;position:absolute;background:transparent url(/static/img/pFFF-50.png);" class="surface-map-selector"/>')
                 .prependTo($(this.uiTileHelper.getContent()));
         }
         if (this.selectionEnabled) {
@@ -201,7 +198,6 @@ PlainGeometry.EditController.prototype = {
     applyTileCustom:function (data) {
         var key = this.generateTileHash(data.scale, data.size, data.x, data.y);
         if (this.customTiling[key]) {
-            console.log('request tile for key ' + key);
             this.customTiling[key].execute(data);
         }
     },
@@ -320,17 +316,18 @@ SelectedTileUploadOperator.prototype = {
 };
 
 $(window).load(function () {
-    var controller = new PlainGeometry.EditController();
-    controller.localChangesFactory['TILE:ADD'] = new PlainGeometry.ContributionTileAddFactory(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT);
-    controller.localChangesFactory['TILE:REMOVE'] = new PlainGeometry.ContributionTileRemoveFactory(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT);
+    var ControllerClass = PlainGeometry.EditController;
+    var controller = new ControllerClass();
+    controller.localChangesFactory['TILE:ADD'] = new PlainGeometry.ContributionTileAddFactory(ControllerClass.Events.CONTRIBUTION_REJECT);
+    controller.localChangesFactory['TILE:REMOVE'] = new PlainGeometry.ContributionTileRemoveFactory(ControllerClass.Events.CONTRIBUTION_REJECT);
 
     var conReject = new ContributionRejectOperator();
-    controller.bind(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT, Gazap.delegate(conReject, conReject.execute));
+    controller.bind(ControllerClass.Events.CONTRIBUTION_REJECT, Gazap.delegate(conReject, conReject.execute));
 
     var selectedTileOperationView = new SelectedTileOperationView();
     var selectedTileUploadOperator = new SelectedTileUploadOperator();
-    controller.bind(PlainGeometry.EditController.Events.CURRENT_TILE_CHANGED, Gazap.delegate(selectedTileOperationView, selectedTileOperationView.initialize));
-    controller.bind(PlainGeometry.EditController.Events.CURRENT_TILE_UPLOAD, Gazap.delegate(selectedTileUploadOperator, selectedTileUploadOperator.execute));
+    controller.bind(ControllerClass.Events.CURRENT_TILE_CHANGED, Gazap.delegate(selectedTileOperationView, selectedTileOperationView.initialize));
+    controller.bind(ControllerClass.Events.CURRENT_TILE_UPLOAD, Gazap.delegate(selectedTileUploadOperator, selectedTileUploadOperator.execute));
 
     BUS.map.plain.editor.ready(controller);
 });

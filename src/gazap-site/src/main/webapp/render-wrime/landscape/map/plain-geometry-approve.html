@@ -13,9 +13,10 @@ ${include("../shared/html-head.html")}
 <script type="text/javascript" src="${scriptsRoot}/pages/PlainGeometry.Approve.js"></script>
 <script type="text/javascript">
     BUS.map.plain.editor.ready(function (controller) {
+        controller.tileServer = '${eCdn.server}';
         controller.tileSize = ${content.geometry.tileSize};
         controller.actionMap = '${content.map.id}';
-        controller.actionBase = '${content.map.route}/approve';
+        controller.actionBase = '${eCdn.server}${content.map.route}/approve';
         controller.messages = {
             'change-tile-load-image':'загрузка картинки начата...',
             'change-tile-load-image-success':'загружена картинка',
@@ -24,7 +25,9 @@ ${include("../shared/html-head.html")}
             'change-tile-add':'в тайле T:{0}:{1}:{2}:{3}',
             'change-reject':'удалить',
             'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
-            'change-highlight':'показать'
+            'change-highlight':'показать',
+            'change-approve':'сохранить',
+            'change-approve-confirm':'Это действие подтвердит изменение и оно будет отображаться на карте. Продолжить?'
         };
         controller.start();
     });
