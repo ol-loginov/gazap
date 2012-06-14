@@ -81,11 +81,15 @@ Gazap.extendNamespace('Ui', function (N, G) {
         },
 
         attr:function (name, value) {
-            try {
-                this.node[name] = value;
-            } catch (e) {
+            if (typeof value === "undefined") {
+                return this.node[name];
+            } else {
+                try {
+                    this.node[name] = value;
+                } catch (e) {
+                }
+                return this;
             }
-            return this;
         },
 
         addClass:function (value) {

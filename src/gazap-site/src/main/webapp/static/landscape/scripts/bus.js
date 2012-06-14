@@ -95,3 +95,51 @@ if (!Function.delegate) {
         throw new Error("delegate has no target function");
     }
 }
+
+if (typeof ActionList === "undefined") {
+    function ActionList() {
+        this.root = {id:null, next:null};
+        return this;
+    }
+
+    ActionList.prototype = {
+        root:null,
+
+        empty:function () {
+            return this.root.next == null;
+        },
+        remove:function (id) {
+            if (this.empty()) {
+                return false;
+            }
+            var current = this.root, previous = current;
+            while (current != null) {
+                if (current.id == id) {
+                    previous.next = current.next;
+                    return true;
+                }
+                previous = current;
+                current = current.next;
+            }
+        },
+        addAction:function (id, action) {
+            this.getLast().next = {id:id, action:action, next:null};
+        },
+        getLast:function () {
+            var last = this.root;
+            while (last.next != null) {
+                last = last.next;
+            }
+            return last;
+        },
+        execute:function () {
+            var last = this.root;
+            while (last != null) {
+                if (last.action) {
+                    last.action.apply(null, arguments);
+                }
+                last = last.next;
+            }
+        }
+    };
+}

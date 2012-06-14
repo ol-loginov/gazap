@@ -1,66 +1,19 @@
-var EditPlainMapEvents = {
-    CONTRIBUTION_HIGHLIGHT:'contribution_highlight',
+PlainGeometry.EditController = function () {
+    this.customTiling = {};
+    this.localChanges = {};
+    this.localChangesFactory = {};
+    Gazap.defineEvents(this, PlainGeometry.EditController.Events);
+    return this;
+};
+
+PlainGeometry.EditController.Events = {
     CONTRIBUTION_REJECT:'contribution_reject',
     CURRENT_TILE_CHANGED:'current_tile_changed',
     CURRENT_TILE_UPLOAD:'current_tile_upload',
     CURRENT_TILE_CLEAR:'current_tile_clear'
 };
 
-function ActionList() {
-    this.root = {id:null, next:null};
-    return this;
-}
-
-ActionList.prototype = {
-    root:null,
-
-    empty:function () {
-        return this.root.next == null;
-    },
-    remove:function (id) {
-        if (this.empty()) {
-            return false;
-        }
-        var current = this.root, previous = current;
-        while (current != null) {
-            if (current.id == id) {
-                previous.next = current.next;
-                return true;
-            }
-            previous = current;
-            current = current.next;
-        }
-    },
-    addAction:function (id, action) {
-        this.getLast().next = {id:id, action:action, next:null};
-    },
-    getLast:function () {
-        var last = this.root;
-        while (last.next != null) {
-            last = last.next;
-        }
-        return last;
-    },
-    execute:function () {
-        var last = this.root;
-        while (last != null) {
-            if (last.action) {
-                last.action.apply(null, arguments);
-            }
-            last = last.next;
-        }
-    }
-};
-
-function EditPlainMapController() {
-    this.customTiling = {};
-    this.localChanges = {};
-    this.localChangesFactory = {};
-    Gazap.defineEvents(this, EditPlainMapEvents);
-    return this;
-}
-
-EditPlainMapController.prototype = {
+PlainGeometry.EditController.prototype = {
     actionBase:null,
     actionMap:null,
     messages:null,
@@ -99,10 +52,10 @@ EditPlainMapController.prototype = {
 
         $(window).resize(Gazap.delegate(this, this.updateMapContainer));
         $('#god-tool-surface-tile-current-load').click(function () {
-            that.trigger(EditPlainMapEvents.CURRENT_TILE_UPLOAD);
+            that.trigger(PlainGeometry.EditController.Events.CURRENT_TILE_UPLOAD);
         });
         $('#god-tool-surface-tile-current-clear').click(function () {
-            that.trigger(EditPlainMapEvents.CURRENT_TILE_CLEAR);
+            that.trigger(PlainGeometry.EditController.Events.CURRENT_TILE_CLEAR);
         });
     },
 
@@ -138,7 +91,7 @@ EditPlainMapController.prototype = {
         if (this.selectionEnabled) {
             this.$aimSelector.css({left:tile.clientX, top:tile.clientY, width:tile.size, height:tile.size});
             this.selectionTile = tile;
-            this.trigger(EditPlainMapEvents.CURRENT_TILE_CHANGED);
+            this.trigger(PlainGeometry.EditController.Events.CURRENT_TILE_CHANGED);
         }
     },
 
@@ -197,17 +150,23 @@ EditPlainMapController.prototype = {
     },
 
     appendLocalChanges:function (list) {
-        var that = this;
+        var that = this, $container = $('#god-tool-contribution-list ul.contribution-list');
         $.each(list, function (index) {
             if (!this) {
                 return;
             }
-            var factoryKey = '' + this.type + ':' + this.action;
+            that.localChanges[this.id] = this;
+            var factoryKey = Gazap.format("{0}:{1}", this.type, this.action);
             var factory = that.localChangesFactory[factoryKey];
             if (!factory) {
                 throw new Error('Support for change with key ' + factoryKey + ' is not implemented');
             }
-            factory.create();
+            var $content = factory.create(that, this);
+            if ($content != null) {
+                $('<li/>').attr('data-contribution-id', this.id)
+                    .appendTo($container)
+                    .append($content);
+            }
         });
         this.ui.refreshTiles();
     },
@@ -283,7 +242,7 @@ ContributionRejectOperator.prototype = {
 
                     view.slideUp();
                     sender.selectionTile = null;
-                    sender.trigger(EditPlainMapEvents.CURRENT_TILE_CHANGED);
+                    sender.trigger(PlainGeometry.EditController.Events.CURRENT_TILE_CHANGED);
                     sender.setCustomTile(item.scale, item.size, item.x, item.y, id, null);
                     sender.ui.refreshTiles();
                 };
@@ -294,98 +253,6 @@ ContributionRejectOperator.prototype = {
     }
 };
 
-ContributionInitView = function () {
-};
-
-ContributionInitView.prototype = {
-    create:function (sender, event, item) {
-        sender.localChanges[item.id] = item;
-
-        var container = $('#god-tool-contribution-list ul.contribution-list');
-        var target = item.type + ':' + item.action, $li = $('<li/>').attr('data-contribution-id', item.id);
-        switch (target) {
-            case 'TILE:ADD':
-                sender.trigger(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW_FOR_ADD_TILE, {container:$li, item:item});
-                break;
-            case 'TILE:REMOVE':
-                sender.trigger(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW_FOR_REMOVE_TILE, {container:$li, item:item});
-                break;
-        }
-        $li.appendTo(container);
-    }
-};
-
-ContributionTileAddFactory = function () {
-    return this;
-};
-
-ContributionTileAddFactory.prototype = {
-    TEMPLATE:"",
-
-    create:function (controller, item) {
-        this.createView(controller, item);
-        controller.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
-            data.src = Gazap.format('{0}/contribution/{1}/tile', controller.actionBase, item.id);
-        });
-    },
-
-    createView:function (controller, item) {
-        var $div = $('<div/>').addClass(('change-' + item.type + '-' + item.action).toLowerCase());
-        // init header
-        $div.append($('<div class="author"/>')
-            .append($('<span class="id"/>').text('#' + item.id))
-            .append($('<span class="date"/>').text(new Date(item.createdAt).toLocaleDateString()))
-            .append($('<span class="time"/>').text(new Date(item.createdAt).toLocaleTimeString()))
-        );
-        // init content
-        $div.append($('<div class="details"/>')
-            .append($('<strong/>').text(controller.messages['change-tile-add-strong']))
-            .append($('<span class="short"/>').text(Gazap.format(controller.messages['change-tile-add'], item.scale, item.size, item.x, item.y)))
-        );
-
-        // init reject button
-        var $rejectBtn = $('<button class="btn btn-danger btn-mini"/>')
-            .append($('<span/>').text(controller.messages['change-reject']))
-            .click(function () {
-                controller.trigger(EditPlainMapEvents.CONTRIBUTION_REJECT, item.id);
-            });
-        var $highlightBtn = $('<button class="btn btn-info btn-mini"/>')
-            .append($('<span/>').text(controller.messages['change-highlight']))
-            .click(function () {
-                controller.trigger(EditPlainMapEvents.CONTRIBUTION_HIGHLIGHT, item.id);
-            });
-
-        // init button bar
-        $('<div class="btn-toolbar"/>')
-            .append($('<div class="btn-group "/>').append($rejectBtn))
-            //.append($('<div class="btn-group "/>').append($highlightBtn))
-            .appendTo($div);
-
-        return $div;
-    }
-};
-
-ContributionInitViewForRemoveTile = function () {
-    return this;
-};
-
-ContributionInitViewForRemoveTile.prototype = {
-    create:function (sender, event, e) {
-        var item = e.item, container = e.container;
-        this.createView(sender, container, item);
-        sender.setCustomTile(item.scale, item.size, item.x, item.y, item.id, function (data) {
-            data.src = null;
-        });
-    },
-
-    createView:function (controller, container, item) {
-        var $div = $('<div/>').addClass(('change-' + item.type + '-' + item.action).toLowerCase());
-        $('<span class="id"/>').text('#' + item.id).appendTo($div);
-        $('<strong/>').text(controller.messages['change-tile-add-strong']).appendTo($div);
-        $('<span class="short"/>').text(Gazap.format(controller.messages['change-tile-add'], item.scale, item.size, item.x, item.y)).appendTo($div);
-        container.append($div);
-    }
-};
 
 SelectedTileOperationView = function () {
     return this;
@@ -427,10 +294,10 @@ SelectedTileUploadOperator.prototype = {
 
             $form.remove();
             $progress.text(sender.messages['change-tile-load-image-success']);
-            sender.trigger(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW, response.contribution);
+            sender.appendLocalChanges([response.contribution]);
 
             sender.selectionTile = sender.ui.describeTile(tile.x, tile.y, tile.scale, tile.size);
-            sender.trigger(EditPlainMapEvents.CURRENT_TILE_CHANGED);
+            sender.trigger(PlainGeometry.EditController.Events.CURRENT_TILE_CHANGED);
             sender.toggleTileUI(true);
             sender.ui.refreshTiles();
         };
@@ -453,24 +320,17 @@ SelectedTileUploadOperator.prototype = {
 };
 
 $(window).load(function () {
-    var controller = new EditPlainMapController();
-    controller.localChangesFactory['TILE:ADD'] = {
-
-    };
+    var controller = new PlainGeometry.EditController();
+    controller.localChangesFactory['TILE:ADD'] = new PlainGeometry.ContributionTileAddFactory(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT);
+    controller.localChangesFactory['TILE:REMOVE'] = new PlainGeometry.ContributionTileRemoveFactory(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT);
 
     var conReject = new ContributionRejectOperator();
-    var conInitView = new ContributionInitView();
-    var conInitViewForAddTile = new ContributionInitViewForAddTile();
-    var conInitViewForRemoveTile = new ContributionInitViewForRemoveTile();
-    controller.bind(EditPlainMapEvents.CONTRIBUTION_REJECT, Gazap.delegate(conReject, conReject.execute));
-    controller.bind(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW, Gazap.delegate(conInitView, conInitView.create));
-    controller.bind(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW_FOR_ADD_TILE, Gazap.delegate(conInitViewForAddTile, conInitViewForAddTile.create));
-    controller.bind(EditPlainMapEvents.CONTRIBUTION_INIT_VIEW_FOR_REMOVE_TILE, Gazap.delegate(conInitViewForRemoveTile, conInitViewForRemoveTile.create));
+    controller.bind(PlainGeometry.EditController.Events.CONTRIBUTION_REJECT, Gazap.delegate(conReject, conReject.execute));
 
     var selectedTileOperationView = new SelectedTileOperationView();
     var selectedTileUploadOperator = new SelectedTileUploadOperator();
-    controller.bind(EditPlainMapEvents.CURRENT_TILE_CHANGED, Gazap.delegate(selectedTileOperationView, selectedTileOperationView.initialize));
-    controller.bind(EditPlainMapEvents.CURRENT_TILE_UPLOAD, Gazap.delegate(selectedTileUploadOperator, selectedTileUploadOperator.execute));
+    controller.bind(PlainGeometry.EditController.Events.CURRENT_TILE_CHANGED, Gazap.delegate(selectedTileOperationView, selectedTileOperationView.initialize));
+    controller.bind(PlainGeometry.EditController.Events.CURRENT_TILE_UPLOAD, Gazap.delegate(selectedTileUploadOperator, selectedTileUploadOperator.execute));
 
     BUS.map.plain.editor.ready(controller);
 });

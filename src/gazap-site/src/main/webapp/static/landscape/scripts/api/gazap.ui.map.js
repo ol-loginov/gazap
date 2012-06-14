@@ -143,8 +143,13 @@ Gazap.extendNamespace('Ui', function (N, G) {
                 img = H.create('img')
                     .attr('id', id)
                     .attr('alt', '')
-                    .appendTo(this.$tileLayer)
-                    .style({position:'absolute', border:'none', display:'none'});
+                    .style({position:'absolute', border:'none', display:'none'})
+                    .appendTo(this.$tileLayer);
+            }
+
+            if (img.attr('src') == req.src) {
+                console.log('skip tile image update');
+                return;
             }
 
             var callback = function () {
@@ -152,6 +157,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
             };
 
             img
+                .style({display:'none'})
                 .eventAdd('load', callback)
                 .attr('src', req.src);
         }

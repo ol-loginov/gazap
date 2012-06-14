@@ -194,5 +194,24 @@ var Gazap = (function (T) {
         });
     };
 
+    T.formatTemplateGetValue = function (param, name) {
+        var parts = name.split('.'), result = param;
+        for (var i = 0; i < parts.length; ++i) {
+            var part = parts[i];
+            if (result.hasOwnProperty(part)) {
+                result = result[part];
+            } else {
+                return name;
+            }
+        }
+        return result;
+    };
+
+    T.formatTemplate = function (template, param) {
+        return template.replace(/{([a-zA-Z0-9\-_.]+)}/g, function (match, group) {
+            return T.formatTemplateGetValue(param, group);
+        });
+    };
+
     return  T;
 })(Gazap || {});
