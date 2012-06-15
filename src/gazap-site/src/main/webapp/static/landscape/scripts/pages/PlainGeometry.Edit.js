@@ -109,13 +109,9 @@ PlainGeometry.EditController.prototype = {
     },
 
     createTileOperationForm:function (tile) {
-        var $tileControls = $('#god-tool-surface-tile-current');
-        var $form = $('<form method="post"/>').appendTo($('.tile-change-forms', $tileControls));
-        $('<input type="hidden" name="x"/>').val(tile.x).appendTo($form);
-        $('<input type="hidden" name="y"/>').val(tile.y).appendTo($form);
-        $('<input type="hidden" name="scale"/>').val(tile.scale).appendTo($form);
-        $('<input type="hidden" name="size"/>').val(tile.size).appendTo($form);
-        return $form;
+        var template = '<form method="post"><input type="hidden" name="x" value="{x}"/><input type="hidden" name="y" value="{y}"/><input type="hidden" name="scale" value="{scale}"/><input type="hidden" name="size" value="{size}"/></form>';
+        var $outer = $('#god-tool-surface-tile-current .tile-change-forms');
+        return $(Gazap.formatTemplate(template, tile)).appendTo($outer);
     },
 
     toggleTileUI:function (enabled) {
@@ -156,11 +152,11 @@ PlainGeometry.EditController.prototype = {
             var factoryKey = Gazap.format("{0}:{1}", this.type, this.action);
             var factory = that.localChangesFactory[factoryKey];
             if (!factory) {
-                throw new Error('Support for change with key ' + factoryKey + ' is not implemented');
+                throw new Error(Gazap.format('Support for change with key {0} is not implemented', factoryKey));
             }
             var $content = factory.create(that, this);
             if ($content != null) {
-                $('<li/>').attr('data-contribution-id', this.id)
+                $(Gazap.formatTemplate('<li data-contribution-id="{id}"/>', this))
                     .appendTo($container)
                     .append($content);
             }
@@ -218,8 +214,7 @@ ContributionRejectOperator.prototype = {
         }
 
         var item = sender.localChanges[id];
-        var view = $('#god-tool-contribution-list ul.contribution-list li[data-contribution-id=' + item.id + ']');
-        view.addClass('disabled');
+        var view = $(Gazap.format('#god-tool-contribution-list ul.contribution-list li[data-contribution-id={0}]', item.id)).addClass('disabled');
 
         switch (item.type) {
             case 'TILE':
@@ -250,13 +245,12 @@ ContributionRejectOperator.prototype = {
     }
 };
 
-
 SelectedTileOperationView = function () {
     return this;
 };
 
 SelectedTileOperationView.prototype = {
-    initialize:function (sender, event, opts) {
+    initialize:function (sender) {
         var tile = sender.selectionTile, $info = $('#god-tool-surface-tile-current').toggle(tile != null);
         $info.toggleClass('has-tile-thumb', tile != null && tile.src != null);
         $info.toggleClass('has-tile-operations', tile != null && !sender.hasTileCustom(tile));
@@ -274,7 +268,7 @@ SelectedTileUploadOperator = function () {
 };
 
 SelectedTileUploadOperator.prototype = {
-    execute:function (sender, event, args) {
+    execute:function (sender) {
         var tile = sender.selectionTile,
             $form = sender.createTileOperationForm(tile),
             $progress = $('<span/>');
