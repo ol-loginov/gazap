@@ -163,6 +163,9 @@ var Gazap = (function (T) {
             if (chain == undefined) {
                 throw new Error('event listener named "' + name + '" is not defined');
             }
+            if (host.triggerLogEvents && host.triggerLogEvents.indexOf(name) >= 0) {
+                console.log({trigger:name, tm:new Date().getTime(), arg:value});
+            }
             chain.trigger.call(chain, host, name, value);
         };
 

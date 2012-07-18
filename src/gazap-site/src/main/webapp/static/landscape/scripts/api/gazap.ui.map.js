@@ -33,6 +33,8 @@ Gazap.extendNamespace('Ui', function (N, G) {
         this.setSize({width:isNaN(width) ? 0 : width, height:isNaN(height) ? 0 : height});
 
         G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch finger.leave finger.enter tile.request');
+        G.defineEvents(this, 'drag.start drag.stop drag.move');
+        G.defineEvents(this, 'tile.request');
         return this;
     };
 
@@ -55,6 +57,8 @@ Gazap.extendNamespace('Ui', function (N, G) {
         viewScale:0,
         viewCenter:null,
 
+        dragNavigatable:true,
+
         createLayer:function (name) {
             var layer = new N.PlainMap.Layer({name:name});
             layer.$node = H.create('div').appendTo(this.$childrenLayer)
@@ -71,6 +75,14 @@ Gazap.extendNamespace('Ui', function (N, G) {
             this.$container.style({width:this.width, height:this.height});
             this.$childrenLayer.style({left:this.width / 2, top:this.height / 2});
             this.$tileLayer.style({left:this.width / 2, top:this.height / 2});
+
+            this._showViewCenter();
+        },
+
+        _showViewCenter:function () {
+            console.log(this.viewCenter);
+            this.$childrenLayer.style({left:this.width / 2 - this.viewCenter.x, top:this.height / 2 + this.viewCenter.y});
+            this.$tileLayer.style({left:this.width / 2 - this.viewCenter.x, top:this.height / 2 + this.viewCenter.y});
         },
 
         mapToClientPoint:function (pt) {
@@ -156,6 +168,44 @@ Gazap.extendNamespace('Ui', function (N, G) {
                 .style({display:'none'})
                 .eventAdd('load', callback)
                 .attr('src', req.src);
+        },
+
+        fingerTouch:function (current) {
+            this.trigger('finger.touch', current);
+        },
+
+        fingerEnter:function (current) {
+            this.trigger('finger.enter', current);
+        },
+
+        fingerLeave:function (current) {
+            this.trigger('finger.leave', current);
+        },
+
+        fingerHover:function (current) {
+            this.trigger('finger.hover', current);
+        },
+
+        dragStart:function (start) {
+            this.viewCenterDrag = {x:this.viewCenter.x, y:this.viewCenter.y};
+            this.trigger('drag.start', {start:start});
+        },
+
+        dragMove:function (start, current) {
+            this.viewCenter.x = this.viewCenterDrag.x - (current.x - start.x) - this.viewCenter.x;
+            this.viewCenter.y = this.viewCenterDrag.y - (current.y - start.y) - this.viewCenter.y;
+            this._showViewCenter();
+
+            this.trigger('drag.move', {start:start, current:current});
+        },
+
+        dragStop:function (start, current) {
+            this.viewCenter.x = this.viewCenterDrag.x - (current.x - start.x) - this.viewCenter.x;
+            this.viewCenter.y = this.viewCenterDrag.y - (current.y - start.y) - this.viewCenter.y;
+            this.viewCenterDrag = null;
+            this._showViewCenter();
+
+            this.trigger('drag.stop', {start:start, current:current});
         }
     };
 
@@ -178,31 +228,86 @@ Gazap.extendNamespace('Ui', function (N, G) {
         return this;
     };
 
+    var MODE_DRAG = 'drag';
+    var MODE_FINGER = 'finger';
+
     N.PlainMap.EventListener.prototype = {
         map:null,
 
         fingerPos:null,
         fingerDown:null,
 
+        mode:MODE_FINGER,
+
+        _is_finger_mode:function () {
+            return this.mode == MODE_FINGER;
+        },
+
+        _is_drag_mode:function () {
+            return this.mode == MODE_DRAG;
+        },
+
+        _can_start_drag:function () {
+            return this.map.dragNavigatable && this.fingerDown != null;
+        },
+
+        _drag_start:function () {
+            this.mode = MODE_DRAG;
+            this.map.dragStart(this.fingerDown);
+        },
+
+        _drag_move:function () {
+            if (!this._is_drag_mode()) return;
+            this.map.dragMove(this.fingerDown, this.fingerPos);
+        },
+
+        _drag_stop:function () {
+            if (!this._is_drag_mode()) return;
+            this.mode = MODE_FINGER;
+            this.map.dragStop(this.fingerDown, this.fingerPos);
+        },
+
         on_mousemove:function (e) {
             this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
+
+            if (this._is_finger_mode() && this._can_start_drag()) {
+                if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
+                    this._drag_start();
+                }
+            }
+
+            this._drag_move();
         },
 
         on_mouseup:function (e) {
             this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
-            if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
-                this.map.trigger('finger.touch', this.fingerPos);
+
+            if (this._is_finger_mode()) {
+                if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
+                    this.map.fingerTouch(this.fingerPos);
+                }
+            }
+
+            if (this._is_drag_mode()) {
+                this._drag_stop();
             }
         },
 
         on_mouseenter:function () {
-            this.map.trigger('finger.enter', this.fingerPos);
+            if (this._is_finger_mode()) {
+                this.map.fingerEnter(this.fingerPos);
+            }
         },
 
         on_mouseleave:function () {
-            this.map.trigger('finger.leave', this.fingerPos);
+            if (this._is_finger_mode()) {
+                this.map.fingerLeave(this.fingerPos);
+            }
+            if (this._is_drag_mode()) {
+                this._drag_stop();
+            }
         },
 
         on_mousedown:function (e) {
@@ -213,7 +318,9 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         setTouchClientPoint:function (ev) {
             this.fingerPos = this.map.clientToMapPoint({x:ev.x, y:ev.y});
-            this.map.trigger('finger.hover', this.fingerPos);
+            if (this._is_finger_mode()) {
+                this.map.fingerHover(this.fingerPos);
+            }
         },
 
         testTouchThreshold:function (a, b) {
