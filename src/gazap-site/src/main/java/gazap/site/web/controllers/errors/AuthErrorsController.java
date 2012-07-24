@@ -1,9 +1,9 @@
 package gazap.site.web.controllers.errors;
 
-import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.ServiceError;
 import gazap.site.web.controllers.BaseController;
-import gazap.site.web.mvc.AuthenticationRequest;
+import gazap.site.web.model.ApiAnswer;
+import gazap.site.web.mvc.AuthenticationRequestHelper;
 import gazap.site.web.views.errors.AuthError;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -19,13 +19,13 @@ import java.util.Locale;
 public class AuthErrorsController extends BaseController {
     public static final String ROUTE = "/errors/auth";
 
-    private final AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    private final AuthenticationRequestHelper authenticationRequestHelper = new AuthenticationRequestHelper();
 
     @RequestMapping(ROUTE + ".html")
     public ModelAndView errorHtml(Locale locale, HttpServletRequest request) {
         AuthError response = new AuthError();
 
-        AuthenticationException error = authenticationRequest.retrieveError(request);
+        AuthenticationException error = authenticationRequestHelper.getError(request);
         if (error instanceof BadCredentialsException) {
             response.setErrorCode(ServiceError.AUTH_BAD_CREDENTIALS.code());
             response.getSuggestions().addAll(Arrays.asList("repeat", "restore", "register"));
@@ -39,9 +39,14 @@ public class AuthErrorsController extends BaseController {
         ApiAnswer status = new ApiAnswer();
         status.setSuccess(false);
 
-        AuthenticationException error = authenticationRequest.retrieveError(request);
+        AuthenticationException error = authenticationRequestHelper.getError(request);
         if (error instanceof BadCredentialsException) {
             status.setCode(ServiceError.AUTH_BAD_CREDENTIALS.code());
+        } else {
+            status.setCode(ServiceError.AUTH_FAILED.code());
+        }
+
+        if (status.getCode() != null && status.getMessage() == null) {
             status.setMessage(format.getMessage(locale, status.getCode()));
         }
         return responseBuilder(locale).json(status);

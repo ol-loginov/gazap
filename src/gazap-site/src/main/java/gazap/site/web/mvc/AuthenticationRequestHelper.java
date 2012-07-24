@@ -5,7 +5,7 @@ import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AuthenticationRequest {
+public class AuthenticationRequestHelper {
     private static final String FAILURE = "AuthenticationRequest.AUTH_FAILURE";
     private static final String RESPONSE_TYPE = "AuthenticationRequest.RESPONSE_TYPE";
     private static final String RESPONSE = "AuthenticationRequest.RESPONSE";
@@ -26,16 +26,16 @@ public class AuthenticationRequest {
         request.setAttribute(key, value);
     }
 
-    public AuthenticationRequest withError(HttpServletRequest request, AuthenticationException exception) {
+    public AuthenticationRequestHelper setError(HttpServletRequest request, AuthenticationException exception) {
         addAttribute(request, FAILURE, exception, false);
         return this;
     }
 
-    public AuthenticationException retrieveError(HttpServletRequest request) {
+    public AuthenticationException getError(HttpServletRequest request) {
         return removeAttribute(request, FAILURE);
     }
 
-    public AuthenticationRequest withAnswer(HttpServletRequest request, ApiAnswerType answerType) {
+    public AuthenticationRequestHelper useAnswer(HttpServletRequest request, ApiAnswerType answerType) {
         addAttribute(request, RESPONSE_TYPE, answerType, false);
         return this;
     }
@@ -44,7 +44,7 @@ public class AuthenticationRequest {
         return removeAttribute(request, RESPONSE_TYPE);
     }
 
-    public AuthenticationRequest withResponse(HttpServletRequest request, AuthenticationResponse authenticationResponse) {
+    public AuthenticationRequestHelper useResponse(HttpServletRequest request, AuthenticationResponse authenticationResponse) {
         addAttribute(request, RESPONSE, authenticationResponse, false);
         return this;
     }

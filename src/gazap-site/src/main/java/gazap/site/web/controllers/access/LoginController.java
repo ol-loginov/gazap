@@ -1,9 +1,9 @@
 package gazap.site.web.controllers.access;
 
-import gazap.site.web.model.ApiAnswerType;
 import gazap.site.services.UserAccess;
 import gazap.site.web.controllers.BaseController;
-import gazap.site.web.mvc.AuthenticationRequest;
+import gazap.site.web.model.ApiAnswerType;
+import gazap.site.web.mvc.AuthenticationRequestHelper;
 import gazap.site.web.mvc.AuthenticationResponse;
 import gazap.site.web.views.access.LoginMethods;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class LoginController extends BaseController {
     @Autowired
     protected UserAccess userAccess;
 
-    private AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    private AuthenticationRequestHelper authenticationRequestHelper = new AuthenticationRequestHelper();
 
     @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.GET)
     public ModelAndView getLoginPage(Locale locale) {
@@ -38,9 +38,9 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.POST)
     public ModelAndView proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
-        authenticationRequest
-                .withAnswer(request, ApiAnswerType.JSON)
-                .withResponse(request, AuthenticationResponse.STATUS);
+        authenticationRequestHelper
+                .useAnswer(request, ApiAnswerType.JSON)
+                .useResponse(request, AuthenticationResponse.STATUS);
         return responseBuilder(locale).forward(FORM_LOGIN_FILTER);
     }
 }

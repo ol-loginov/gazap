@@ -17,11 +17,11 @@ import java.util.Locale;
 
 @Service("authenticationHandler")
 public class AuthenticationHandler implements AuthenticationFailureHandler, AuthenticationSuccessHandler {
-    private final AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    private final AuthenticationRequestHelper authenticationRequest = new AuthenticationRequestHelper();
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        authenticationRequest.withError(request, exception);
+        authenticationRequest.setError(request, exception);
         forward(request, response, AuthErrorsController.ROUTE);
     }
 
