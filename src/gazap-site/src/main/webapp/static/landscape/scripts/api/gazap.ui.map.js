@@ -3,7 +3,6 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
     N.PlainMap = function (opts) {
         G.defineEvents(this, 'finger.hover finger.down finger.up finger.touch finger.leave finger.enter tile.request');
-        G.defineEvents(this, 'drag.start drag.stop drag.move');
         G.defineEvents(this, 'tile.request');
         G.defineEvents(this, 'view.point');
 
@@ -84,7 +83,6 @@ Gazap.extendNamespace('Ui', function (N, G) {
             this.viewPoint = pt;
             this.$domLayers.style({left:this.width / 2 - this.viewPoint.x, top:this.height / 2 + this.viewPoint.y});
             this.$domTiles.style({left:this.width / 2 - this.viewPoint.x, top:this.height / 2 + this.viewPoint.y});
-            console.log(this.viewPoint);
             this.trigger('view.point', pt);
         },
 
@@ -173,42 +171,34 @@ Gazap.extendNamespace('Ui', function (N, G) {
                 .attr('src', req.src);
         },
 
-        fingerTouch:function (current) {
-            this.trigger('finger.touch', current);
+        fingerTouch:function (clientPt) {
+            this.trigger('finger.touch', this.clientToMapPoint(clientPt));
         },
 
-        fingerEnter:function (current) {
-            this.trigger('finger.enter', current);
+        fingerEnter:function (clientPt) {
+            this.trigger('finger.enter', this.clientToMapPoint(clientPt));
         },
 
-        fingerLeave:function (current) {
-            this.trigger('finger.leave', current);
+        fingerLeave:function (clientPt) {
+            this.trigger('finger.leave', this.clientToMapPoint(clientPt));
         },
 
-        fingerHover:function (current) {
-            this.trigger('finger.hover', current);
+        fingerHover:function (clientPt) {
+            this.trigger('finger.hover', this.clientToMapPoint(clientPt));
         },
 
-        dragStart:function (start) {
-            this.viewPointDrag = {x:this.viewPoint.x, y:this.viewPoint.y};
-            this.trigger('drag.start', {start:start});
+        dragStart:function (clientPt) {
+            this.clientPtDrag = {x:clientPt.x, y:clientPt.y};
         },
 
-        dragMove:function (start, current) {
-            var x = this.viewPointDrag.x - (current.x - start.x) - this.viewPoint.x;
-            var y = this.viewPointDrag.y - (current.y - start.y) - this.viewPoint.y;
+        dragMove:function (clientPtStart, clientPtCurrent) {
+            var x = this.clientPtDrag.x - (clientPtCurrent.x - clientPtStart.x) - this.viewPoint.x;
+            var y = this.clientPtDrag.y - (clientPtCurrent.y - clientPtStart.y) - this.viewPoint.y;
             this.setViewPoint({x:x, y:y});
-
-            this.trigger('drag.move', {start:start, current:current});
         },
 
-        dragStop:function (start, current) {
-            var x = this.viewPointDrag.x - (current.x - start.x) - this.viewPoint.x;
-            var y = this.viewPointDrag.y - (current.y - start.y) - this.viewPoint.y;
-            this.viewPointDrag = null;
-            this.setViewPoint({x:x, y:y});
-
-            this.trigger('drag.stop', {start:start, current:current});
+        dragStop:function (clientPtStart, clientPtCurrent) {
+            this.clientPtDrag = null;
         }
     };
 
@@ -242,92 +232,92 @@ Gazap.extendNamespace('Ui', function (N, G) {
 
         mode:MODE_FINGER,
 
-        _is_finger_mode:function () {
+        _cleanupFinger:function () {
+            this.fingerDown = null;
+        },
+
+        _isFingerMode:function () {
             return this.mode == MODE_FINGER;
         },
 
-        _is_drag_mode:function () {
+        _isDragMode:function () {
             return this.mode == MODE_DRAG;
         },
 
-        _can_start_drag:function () {
+        _canStartDrag:function () {
             return this.map.dragNavigatable && this.fingerDown != null;
         },
 
-        _drag_start:function () {
+        _dragStart:function () {
             this.mode = MODE_DRAG;
             this.map.dragStart(this.fingerDown);
         },
 
-        _drag_move:function () {
-            if (!this._is_drag_mode()) return;
+        _dragMove:function () {
+            if (!this._isDragMode()) return;
+
             this.map.dragMove(this.fingerDown, this.fingerPos);
         },
 
-        _drag_stop:function () {
-            if (!this._is_drag_mode()) return;
+        _dragStop:function () {
+            if (!this._isDragMode()) return;
+
             this.mode = MODE_FINGER;
             this.map.dragStop(this.fingerDown, this.fingerPos);
         },
 
         on_mousemove:function (e) {
-            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
+            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
 
-            if (this._is_finger_mode() && this._can_start_drag()) {
-                if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
-                    this._drag_start();
-                }
+            if (this._isFingerMode() && this._canStartDrag()) {
+                this._dragStart();
             }
 
-            this._drag_move();
+            this._dragMove();
         },
 
         on_mouseup:function (e) {
-            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
+            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
 
-            if (this._is_finger_mode()) {
-                if (this.testTouchThreshold(this.fingerDown, this.fingerPos)) {
-                    this.map.fingerTouch(this.fingerPos);
-                }
+            if (this._isFingerMode()) {
+                this.map.fingerTouch(this.fingerPos);
             }
-
-            if (this._is_drag_mode()) {
-                this._drag_stop();
+            if (this._isDragMode()) {
+                this._dragStop();
             }
+            this._cleanupFinger();
         },
 
         on_mouseenter:function () {
-            if (this._is_finger_mode()) {
+            if (this._isFingerMode()) {
                 this.map.fingerEnter(this.fingerPos);
             }
         },
 
         on_mouseleave:function () {
-            if (this._is_finger_mode()) {
+            if (this._isFingerMode()) {
                 this.map.fingerLeave(this.fingerPos);
             }
-            if (this._is_drag_mode()) {
-                this._drag_stop();
+            if (this._isDragMode()) {
+                this._dragStop();
             }
+            this._cleanupFinger();
         },
 
         on_mousedown:function (e) {
-            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             e.preventDefault();
+
+            this.setTouchClientPoint({x:e.clientX, y:e.clientY});
             this.fingerDown = this.fingerPos;
         },
 
         setTouchClientPoint:function (ev) {
-            this.fingerPos = this.map.clientToMapPoint({x:ev.x, y:ev.y});
-            if (this._is_finger_mode()) {
+            this.fingerPos = {x:ev.x, y:ev.y};
+            if (this._isFingerMode()) {
                 this.map.fingerHover(this.fingerPos);
             }
-        },
-
-        testTouchThreshold:function (a, b) {
-            return Math.abs(a.x - b.x) < 2 && Math.abs(a.y - b.y) < 2;
         }
     };
 });

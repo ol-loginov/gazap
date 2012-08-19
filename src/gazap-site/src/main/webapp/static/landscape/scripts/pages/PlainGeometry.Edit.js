@@ -46,6 +46,7 @@ PlainGeometry.EditController.prototype = {
         this.ui.bind('finger.touch', Gazap.delegate(this, this.updateAimSelectorPosition));
         this.ui.bind('finger.leave finger.enter', Gazap.delegate(this, this.updateAimSelectorVisibility));
         this.ui.bind('tile.request', Gazap.delegate(this, this.requestTileListener));
+        this.ui.bind('view.point', Gazap.delegate(this, this.updateMapPositionStatus));
 
         this.createAim();
 
@@ -63,6 +64,13 @@ PlainGeometry.EditController.prototype = {
         this.updateAimPosition(this.ui, "", {x:0, y:0});
         this.updateMapContainer();
         this.loadLocalChangesPage();
+    },
+
+    updateMapPositionStatus:function () {
+        var $info = $('#god-tool-surface-view-controls');
+        $('.view-scale', $info).text(this.ui.viewScale);
+        $('.view-center-x', $info).text(this.ui.viewPoint.x);
+        $('.view-center-y', $info).text(this.ui.viewPoint.y);
     },
 
     createAim:function () {
@@ -98,14 +106,7 @@ PlainGeometry.EditController.prototype = {
 
     updateMapContainer:function () {
         this.ui.setSize({width:$('#geometryCanvasOuter').width(), height:$('#geometryCanvasOuter').height()});
-        this.setViewInfo();
-    },
-
-    setViewInfo:function () {
-        var $info = $('#god-tool-surface-view-controls');
-        $('.view-scale', $info).text(this.ui.viewScale);
-        $('.view-center-x', $info).text(this.ui.viewCenter.x);
-        $('.view-center-y', $info).text(this.ui.viewCenter.y);
+        this.updateMapPositionStatus();
     },
 
     createTileOperationForm:function (tile) {
