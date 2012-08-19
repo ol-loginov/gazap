@@ -1,6 +1,7 @@
 package gazap.site.web.extensions;
 
-import com.iserv2.commons.mvc_base.views.ModelExtender;
+
+import gazap.common.web.extensions.ModelExtender;
 import gazap.domain.dao.UserProfileDao;
 import gazap.domain.entity.UserProfile;
 import gazap.site.services.UserAccess;

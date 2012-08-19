@@ -14,4 +14,6 @@ public interface ResponseBuilder {
     ModelAndView forward(String url);
 
     ModelAndView view(String viewName, Object content);
+
+    ModelAndView view(String viewName);
 }

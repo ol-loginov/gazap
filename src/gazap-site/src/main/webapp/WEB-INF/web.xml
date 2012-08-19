@@ -3,7 +3,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee"
          version="2.5">
-    <display-name>Yapa</display-name>
+    <display-name>Gazap Site</display-name>
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
@@ -69,7 +69,7 @@
     </filter-mapping>
 
     <servlet>
-        <servlet-name>springapp</servlet-name>
+        <servlet-name>GazapSizeApp</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -78,7 +78,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>springapp</servlet-name>
+        <servlet-name>GazapSizeApp</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 

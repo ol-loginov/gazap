@@ -41,9 +41,13 @@ public class BaseControllerContentMixin implements ResponseBuilder {
 
     @Override
     public ModelAndView view(String viewName, final Object content) {
-        return new ModelAndView(viewName) {{
-            addObject("content", content);
-        }};
+        return new ModelAndView(viewName)
+                .addObject("content", content);
+    }
+
+    @Override
+    public ModelAndView view(String viewName) {
+        return new ModelAndView(viewName);
     }
 
     @Override
