@@ -44,7 +44,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <springframework.version>3.1.0.RC1</springframework.version>
+        <springframework.version>3.1.2.RELEASE</springframework.version>
         <springframework.social.version>1.0.0.RELEASE</springframework.social.version>
         <springframework.crypto.version>3.1.0.RELEASE</springframework.crypto.version>
         <iserv2.version>1.0</iserv2.version>

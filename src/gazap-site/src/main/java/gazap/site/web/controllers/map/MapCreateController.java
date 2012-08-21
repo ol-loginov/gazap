@@ -2,15 +2,16 @@ package gazap.site.web.controllers.map;
 
 import gazap.domain.entity.Geometry;
 import gazap.domain.entity.Map;
-import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.viewer.MapTitle;
 import gazap.site.services.MapService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.controllers.ResponseBuilder;
+import gazap.site.web.model.ApiAnswer;
 import gazap.site.web.views.map.MapCreatePage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,9 +34,9 @@ public class MapCreateController extends BaseController {
     @RequestMapping(value = "/map/create.ajax", method = RequestMethod.POST)
     public ModelAndView create(Locale locale, @Valid MapCreateForm form, BindingResult binding) {
         if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
-            validate(form, binding, Geometry.Geoid.class);
+            ValidationUtils.invokeValidator(validator, form, binding, Geometry.Geoid.class);
         } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
-            validate(form, binding, Geometry.Plain.class);
+            ValidationUtils.invokeValidator(validator, form, binding, Geometry.Plain.class);
         }
 
         ResponseBuilder response = responseBuilder(locale);
