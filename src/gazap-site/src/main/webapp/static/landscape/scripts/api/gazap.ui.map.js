@@ -15,7 +15,7 @@ Gazap.extendNamespace('Ui', function (N, G) {
         this.tileSize = opts.tileSize;
 
         this.$domRoot = H.create('div').appendTo(H.byID(opts.container))
-            .style({position:'relative', overflow:'hidden', background:'red'})
+            .style({position:'relative', overflow:'hidden'})
             .addClass('gazap-ui-map-container');
 
         // init eventually
