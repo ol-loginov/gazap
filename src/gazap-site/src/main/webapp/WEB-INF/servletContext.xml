@@ -26,32 +26,41 @@
         </bean>
     </mvc:interceptors>
 
-    <mvc:annotation-driven message-codes-resolver="messageCodesResolver"/>
+    <mvc:annotation-driven/>
 
     <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:resources mapping="/errors/**" location="/errors/"/>
     <mvc:resources mapping="/robots.txt" location="/robots.txt"/>
 
-    <bean id="messageCodesResolver" class="com.iserv2.commons.mvc_base.support.MessageCodesResolver"/>
-
-    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
-    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
-          p:cache="${engine.cache}" p:viewClass="gazap.site.web.mvc.wrime.WrimeView2"
-          p:prefix="/render-wrime/landscape/"
-          p:suffix=".html"
-            />
-
     <bean id="localResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>
 
-    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" scope="prototype"
-          p:extractValueFromSingleKeyModel="true" p:encoding="UTF8" p:modelKey="content">
-        <property name="objectMapper">
-            <bean class="gazap.common.util.JaxbJacksonObjectMapper" scope="prototype"/>
-        </property>
-    </bean>
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="1"/>
+    <bean class="org.springframework.web.servlet.view.velocity.VelocityViewResolver" p:order="2"
+          p:cache="${engine.cache}"
+          p:prefix=""
+          p:suffix=".vm"
+          p:contentType="text/html; charset=UTF-8"
+          p:exposeSpringMacroHelpers="true"
+          p:dateToolAttribute="dateTool"
+            />
 
-    <bean id="wrimeViewEngine" class="wrime.spring.webmvc.WrimeEngineFactoryAdapter"/>
+    <bean id="jsonViewObjectMapper" class="gazap.common.util.JaxbJacksonObjectMapper" scope="prototype"/>
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" scope="prototype"
+          p:extractValueFromSingleKeyModel="true"
+          p:encoding="UTF8"
+          p:modelKey="content"
+          p:objectMapper="jsonViewObjectMapper"
+            />
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-          p:maxUploadSize="1000000"/>
+          p:maxUploadSize="1000000"
+            />
+
+    <!-- This bean sets up the Velocity environment for us based on a root path for templates.
+Optionally, a properties file can be specified for more control over the Velocity
+environment, but the defaults are pretty sane for file based template loading. -->
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer"
+          p:resourceLoaderPath="/WEB-INF/velocity/"
+          p:configLocation="classpath:/gazap-site-velocity.properties"
+            />
 </beans>

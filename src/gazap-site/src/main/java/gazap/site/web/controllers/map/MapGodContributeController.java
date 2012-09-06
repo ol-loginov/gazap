@@ -24,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -96,11 +97,9 @@ public class MapGodContributeController extends MapGodControllerBase {
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/add_tile.ajax", method = RequestMethod.POST)
-    public ModelAndView uploadTile(Locale locale, @PathVariable("map") String map, MapGodControllerAddTileForm form, BindingResult formBinding) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+    public ModelAndView uploadTile(Locale locale, @PathVariable("map") String map, @Valid MapGodControllerAddTileForm form, BindingResult formBinding) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
         UploadTileApiAnswer answer = new UploadTileApiAnswer();
         ResponseBuilder response = responseBuilder(locale);
-
-        validate(form, formBinding);
 
         if (formBinding.hasErrors()) {
             response.validationErrors(answer, formBinding);

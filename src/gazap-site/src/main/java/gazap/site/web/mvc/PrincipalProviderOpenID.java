@@ -1,8 +1,8 @@
 package gazap.site.web.mvc;
 
-import com.iserv2.commons.lang.HashUtil;
-import com.iserv2.commons.lang.Tester;
-import com.iserv2.commons.lang.collections.Collections;
+import com.iserv2.commons.lang.IservHashUtil;
+import com.iserv2.commons.lang.Predicate;
+import com.iserv2.commons.lang.collections.IservCollections;
 import gazap.common.web.model.SocialProfile;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
@@ -37,7 +37,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
     }
 
     private String createOpenIDUserName(URL url) {
-        return HashUtil.md5(url.toString());
+        return IservHashUtil.md5(url.toString());
     }
 
     private UserProfile loadUser(OpenIDAuthenticationToken token) throws ServiceErrorException {
@@ -68,7 +68,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
     }
 
     private String takeFirstAttribute(List<OpenIDAttribute> attributes, final String name) {
-        OpenIDAttribute attr = Collections.find(attributes, new Tester<OpenIDAttribute>() {
+        OpenIDAttribute attr = IservCollections.find(attributes, new Predicate<OpenIDAttribute>() {
             @Override
             public boolean test(OpenIDAttribute item) {
                 return name.equals(item.getName());

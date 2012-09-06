@@ -20,6 +20,9 @@
     <context:component-scan base-package="gazap.site.validation"/>
     <context:component-scan base-package="gazap.site.web.mvc"/>
 
+    <bean id="passwordEncoder" class="gazap.common.web.security.PasswordEncoder"/>
+    <bean id="passwordSalter" class="gazap.common.web.security.PasswordSalter" p:saltBase="0xDEADBEEF"/>
+
     <!-- dao configuration -->
     <bean id="gazap.dao.dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driver}"/>

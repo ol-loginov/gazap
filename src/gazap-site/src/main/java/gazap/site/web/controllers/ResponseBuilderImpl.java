@@ -1,10 +1,10 @@
 package gazap.site.web.controllers;
 
-import com.iserv2.commons.lang.collections.Collections;
-import gazap.site.web.model.ApiAnswer;
-import gazap.site.web.model.ApiFieldMessage;
+import com.iserv2.commons.lang.collections.IservCollections;
 import gazap.site.model.ServiceError;
 import gazap.site.services.FormatService;
+import gazap.site.web.model.ApiAnswer;
+import gazap.site.web.model.ApiFieldMessage;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class BaseControllerContentMixin implements ResponseBuilder {
+public class ResponseBuilderImpl implements ResponseBuilder {
     private final FormatService formatService;
     private final Locale locale;
 
-    public BaseControllerContentMixin(FormatService formatService, Locale locale) {
+    public ResponseBuilderImpl(FormatService formatService, Locale locale) {
         this.formatService = formatService;
         this.locale = locale;
     }
@@ -51,7 +51,7 @@ public class BaseControllerContentMixin implements ResponseBuilder {
     }
 
     @Override
-    public BaseControllerContentMixin validationErrors(ApiAnswer apiAnswer, Errors errors) {
+    public ResponseBuilderImpl validationErrors(ApiAnswer apiAnswer, Errors errors) {
         apiAnswer.setSuccess(false);
         apiAnswer.setCode(ServiceError.VALIDATION_FAILED.code());
         apiAnswer.setMessage(formatService.getMessage(locale, apiAnswer.getCode()));
@@ -79,7 +79,7 @@ public class BaseControllerContentMixin implements ResponseBuilder {
         if (message == null) {
             return null;
         }
-        String code = Collections.firstOrNull(message.getCodes());
+        String code = IservCollections.firstOrNull(message.getCodes());
         return formatService.getMessage(locale, code == null ? "message.unknown" : code, message.getArguments());
     }
 }

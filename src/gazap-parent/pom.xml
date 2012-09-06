@@ -44,13 +44,14 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <springframework.version>3.1.0.RC1</springframework.version>
+        <springframework.version>3.1.2.RELEASE</springframework.version>
         <springframework.social.version>1.0.0.RELEASE</springframework.social.version>
         <springframework.crypto.version>3.1.0.RELEASE</springframework.crypto.version>
         <iserv2.version>1.0</iserv2.version>
 
         <app.engine.debug>true</app.engine.debug>
         <app.engine.cache>false</app.engine.cache>
+        <app.engine.cache.checkInterval>0</app.engine.cache.checkInterval>
 
         <app.db.urlo>?characterEncoding=utf8&amp;rewriteBatchedStatements=true</app.db.urlo>
         <app.db.url>jdbc:mysql://localhost:3306/gazap${app.db.urlo}</app.db.url>
@@ -156,6 +157,11 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>1.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-tools</artifactId>
+                <version>2.0</version>
             </dependency>
 
             <dependency>

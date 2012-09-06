@@ -22,7 +22,7 @@
         <db.show_sql>true</db.show_sql>
         <buildNumber>DEVELOPMENT</buildNumber>
 
-        <app.engine.url>http://local.gazap.com:8080</app.engine.url>
+        <app.engine.url>http://gazap.local:8080</app.engine.url>
         <app.engine.context/>
     </properties>
 
@@ -56,12 +56,6 @@
         <dependency>
             <groupId>com.iserv2</groupId>
             <artifactId>iserv2-commons-mvc_base</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.wrime</groupId>
-            <artifactId>wrime-in-webmvc</artifactId>
-            <version>1.0</version>
         </dependency>
 
         <dependency>
@@ -101,6 +95,10 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-tools</artifactId>
         </dependency>
 
         <!-- validation -->

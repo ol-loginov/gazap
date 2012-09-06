@@ -1,6 +1,6 @@
 package gazap.site.services.impl;
 
-import com.iserv2.commons.lang.HashUtil;
+import com.iserv2.commons.lang.IservHashUtil;
 import gazap.common.web.model.SocialProfile;
 import gazap.common.web.security.PasswordSalter;
 import gazap.domain.dao.UserProfileDao;
@@ -30,16 +30,16 @@ public class UserServiceImpl implements UserService {
     protected PasswordSalter passwordSalter;
 
     private UserProfile createUserWithRandomPassword(String email) throws ServiceErrorException {
-        return createUser(HashUtil.isNull(email, ""), HashUtil.newUuid());
+        return createUser(IservHashUtil.isNull(email, ""), IservHashUtil.newUuid());
     }
 
     @Override
     @Transactional
     public UserProfile createUser(String email, String password) {
         UserProfile user = new UserProfile();
-        user.setPasswordSalt(HashUtil.md5("" + user.getCreatedAt().getTime() + System.nanoTime(), true));
+        user.setPasswordSalt(IservHashUtil.md5("" + user.getCreatedAt().getTime() + System.nanoTime(), true));
         user.setPassword(passwordEncoder.encodePassword(password, passwordSalter.getSalt(user)));
-        user.setEmail(HashUtil.isNull(email, ""));
+        user.setEmail(IservHashUtil.isNull(email, ""));
         user.setDisplayName("");
         profileDao.create(user);
 
