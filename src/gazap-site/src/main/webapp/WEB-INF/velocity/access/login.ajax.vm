@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+#* @vtlvariable name="eCdn" type="gazap.site.web.extensions.CdnExtension" *#
+#* @vtlvariable name="eViewMeta" type="gazap.site.web.extensions.ViewMetaExtension" *#
+    #set($au=$eCdn.server)
+    #set($cp=$eCdn.contextPath)
+    #parse('shared/spring-macros.vm')
+<div id="modalLogin" class="small-modal-dialog">
+    <h1>
+        #springMessage('Login.title')
+        <span class="notice">
+            #springMessage1('Login.title.registration', $au)
+        </span>
+    </h1>
+
+    <p class="notice alert-info">
+        #springMessage1('Login.notice.forget', $au)
+    </p>
+
+    <div class="by-form">
+        <form id="loginForm" action="$au/auth" data-ax-action="$au/auth.ajax" method="post">
+            <input type="hidden" name="_spring_security_remember_me" value="on"/>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="email" name="j_username"
+                           placeholder="#springMessage('Login.auth.form.username.placeholder')"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="password" name="j_password"
+                           placeholder="#springMessage('Login.auth.form.password.placeholder')"/>
+                </div>
+            </div>
+            <div class="control-group submit-group">
+                <button class="btn" type="submit">
+                    #springMessage('Login.form.submit')
+                </button>
+                <a class="submit-option modal-closer">
+                    #springMessage('Login.form.cancel')
+                </a>
+            </div>
+            <div class="alert alert-message alert-progress hidden">
+                #springMessage('Login.form.submitting')
+            </div>
+            <div class="alert alert-error hidden"/>
+        </form>
+        <script type="text/javascript">head('local_bus', function () {
+            BUS.account.modal_login_dialog.init('#loginForm')
+        })</script>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+## ${param gazap.site.web.extensions.ViewMetaExtension eViewMeta transient}
+## ${param gazap.site.web.extensions.CdnExtension eCdn transient}
+<html>
+    #parse('shared/html-head.vm')
+<body>
+<div id="leftPane">
+    #parse('shared/html-bars-brand.vm')
+    #parse('shared/html-bars-account.vm')
+</div>
+<div id="mainColumn">
+    <div id="navPane">
+        #parse('shared/html-bars-menu.vm')
+    </div>
+</div>
+</body>
+</html>
