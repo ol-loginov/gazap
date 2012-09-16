@@ -14,8 +14,7 @@
         <property name="password" value="${db.pass}"/>
     </bean>
 
-    <bean id="testSessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
+    <bean id="testSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="configLocation" value="classpath:gazap-domain.hibernate.xml"/>
         <property name="dataSource" ref="testDataSource"/>
         <property name="hibernateProperties">

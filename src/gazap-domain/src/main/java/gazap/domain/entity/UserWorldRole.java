@@ -2,6 +2,7 @@ package gazap.domain.entity;
 
 import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -9,51 +10,61 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "UserWorldRole")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
+@IdClass(UserWorldRole.PK.class)
 public class UserWorldRole implements DomainEntity {
-    @EmbeddedId
-    private PK id;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user", nullable = false, updatable = false)
+    private UserProfile user;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "world", nullable = false, updatable = false)
+    private World world;
+    @Id
+    @Column(name = "userWorldRole", nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    private UserWorldRoles role;
 
     protected UserWorldRole() {
     }
 
     public UserWorldRole(UserProfile profile, World world, UserWorldRoles role) {
-        setId(new PK(profile, world, role));
-    }
-
-    public PK getId() {
-        return id;
-    }
-
-    protected void setId(PK id) {
-        this.id = id;
+        setUser(profile);
+        setWorld(world);
+        setRole(role);
     }
 
     public UserProfile getUser() {
-        return getId().getUser();
+        return user;
+    }
+
+    protected void setUser(UserProfile user) {
+        this.user = user;
     }
 
     public World getWorld() {
-        return getId().getWorld();
+        return world;
+    }
+
+    protected void setWorld(World world) {
+        this.world = world;
     }
 
     public UserWorldRoles getRole() {
-        return getId().getRole();
+        return role;
     }
 
-    @Embeddable
+    protected void setRole(UserWorldRoles role) {
+        this.role = role;
+    }
+
     public static class PK implements Serializable {
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "world", nullable = false, updatable = false)
         private World world;
-        @Column(name = "userWorldRole", nullable = false, updatable = false)
-        @Enumerated(EnumType.STRING)
         private UserWorldRoles role;
 
-        public PK() {
+        protected PK() {
         }
 
         public PK(UserProfile user, World world, UserWorldRoles role) {
@@ -69,7 +80,7 @@ public class UserWorldRole implements DomainEntity {
             return user;
         }
 
-        public void setUser(UserProfile user) {
+        protected void setUser(UserProfile user) {
             this.user = user;
         }
 
@@ -77,7 +88,7 @@ public class UserWorldRole implements DomainEntity {
             return world;
         }
 
-        public void setWorld(World world) {
+        protected void setWorld(World world) {
             this.world = world;
         }
 
@@ -85,7 +96,7 @@ public class UserWorldRole implements DomainEntity {
             return role;
         }
 
-        public void setRole(UserWorldRoles role) {
+        protected void setRole(UserWorldRoles role) {
             this.role = role;
         }
 
@@ -97,17 +108,17 @@ public class UserWorldRole implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return getUser() != null && getUser().isSame(other.getUser())
-                    && getWorld() != null && getWorld().isSame(other.getWorld())
-                    && getRole() != null && getRole().equals(other.getRole());
+            return user != null && user.isSame(other.user)
+                    && world != null && world.isSame(other.world)
+                    && role != null && role.equals(other.role);
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(getUser())
-                    .append(getWorld())
-                    .append(getRole())
+                    .append(user)
+                    .append(world)
+                    .append(role)
                     .toHashCode();
         }
     }

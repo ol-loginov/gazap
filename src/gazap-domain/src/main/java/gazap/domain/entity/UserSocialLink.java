@@ -1,12 +1,13 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCU;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "UserSocialLink")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class UserSocialLink extends IntegerIdentityCU {
     @Column(name = "provider", length = 32)
     private String provider;

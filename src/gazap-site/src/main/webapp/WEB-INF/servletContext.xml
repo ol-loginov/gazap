@@ -49,7 +49,7 @@
           p:extractValueFromSingleKeyModel="true"
           p:encoding="UTF8"
           p:modelKey="content"
-          p:objectMapper="jsonViewObjectMapper"
+          p:objectMapper-ref="jsonViewObjectMapper"
             />
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"

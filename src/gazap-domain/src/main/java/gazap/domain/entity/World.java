@@ -1,6 +1,7 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCUD;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "World")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class World extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;

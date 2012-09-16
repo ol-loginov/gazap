@@ -2,6 +2,7 @@ package gazap.domain.entity;
 
 import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -9,51 +10,61 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "UserMapRole")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
+@IdClass(UserMapRole.PK.class)
 public class UserMapRole implements DomainEntity {
-    @EmbeddedId
-    private PK id;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user", nullable = false, updatable = false)
+    private UserProfile user;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "map", nullable = false, updatable = false)
+    private Map map;
+    @Id
+    @Column(name = "userMapRole", nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    private UserMapRoles role;
 
     protected UserMapRole() {
     }
 
     public UserMapRole(UserProfile profile, Map map, UserMapRoles role) {
-        setId(new PK(profile, map, role));
-    }
-
-    public PK getId() {
-        return id;
-    }
-
-    protected void setId(PK id) {
-        this.id = id;
+        setUser(profile);
+        setMap(map);
+        setRole(role);
     }
 
     public UserProfile getUser() {
-        return getId().getUser();
+        return user;
+    }
+
+    protected void setUser(UserProfile user) {
+        this.user = user;
     }
 
     public Map getMap() {
-        return getId().getMap();
+        return map;
+    }
+
+    protected void setMap(Map map) {
+        this.map = map;
     }
 
     public UserMapRoles getRole() {
-        return getId().getRole();
+        return role;
     }
 
-    @Embeddable
+    protected void setRole(UserMapRoles role) {
+        this.role = role;
+    }
+
     public static class PK implements Serializable {
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "map", nullable = false, updatable = false)
         private Map map;
-        @Column(name = "userMapRole", nullable = false, updatable = false)
-        @Enumerated(EnumType.STRING)
         private UserMapRoles role;
 
-        public PK() {
+        protected PK() {
         }
 
         public PK(UserProfile user, Map map, UserMapRoles role) {
@@ -69,7 +80,7 @@ public class UserMapRole implements DomainEntity {
             return user;
         }
 
-        public void setUser(UserProfile user) {
+        protected void setUser(UserProfile user) {
             this.user = user;
         }
 
@@ -77,7 +88,7 @@ public class UserMapRole implements DomainEntity {
             return map;
         }
 
-        public void setMap(Map map) {
+        protected void setMap(Map map) {
             this.map = map;
         }
 
@@ -85,7 +96,7 @@ public class UserMapRole implements DomainEntity {
             return role;
         }
 
-        public void setRole(UserMapRoles role) {
+        protected void setRole(UserMapRoles role) {
             this.role = role;
         }
 
@@ -97,17 +108,17 @@ public class UserMapRole implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return getUser() != null && getUser().isSame(other.getUser())
-                    && getMap() != null && getMap().isSame(other.getMap())
-                    && getRole() != null && getRole().equals(other.getRole());
+            return user != null && user.isSame(other.user)
+                    && map != null && map.isSame(other.map)
+                    && role != null && role.equals(other.role);
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(getUser())
-                    .append(getMap())
-                    .append(getRole())
+                    .append(user)
+                    .append(map)
+                    .append(role)
                     .toHashCode();
         }
     }

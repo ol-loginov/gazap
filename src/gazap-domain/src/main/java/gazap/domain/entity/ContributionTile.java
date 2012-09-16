@@ -1,10 +1,12 @@
 package gazap.domain.entity;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "ContributionTile")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 @DiscriminatorValue(ContributionTile.CLASS)
 public class ContributionTile extends Contribution {
     public static final String CLASS = "TILE";

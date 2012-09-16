@@ -2,6 +2,7 @@ package gazap.domain.entity;
 
 import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -9,10 +10,13 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "UserSummary")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
-public class UserSummary implements DomainEntity {
-    @EmbeddedId
-    private PK id;
+@DynamicUpdate
+@IdClass(UserSummary.PK.class)
+public class UserSummary implements DomainEntity, Serializable {
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user", nullable = false, updatable = false)
+    private UserProfile user;
     @Column(name = "worldsCreated")
     private int worldsCreated;
     @Column(name = "playersCreated")
@@ -24,15 +28,15 @@ public class UserSummary implements DomainEntity {
     }
 
     public UserSummary(UserProfile profile) {
-        setId(new PK(profile));
+        setUser(profile);
     }
 
-    public PK getId() {
-        return id;
+    public UserProfile getUser() {
+        return user;
     }
 
-    protected void setId(PK id) {
-        this.id = id;
+    protected void setUser(UserProfile user) {
+        this.user = user;
     }
 
     public int getWorldsCreated() {
@@ -59,12 +63,7 @@ public class UserSummary implements DomainEntity {
         this.mapsCreated = mapsCreated;
     }
 
-    @Embeddable
     public static class PK implements Serializable {
-        public static final String F_USER = "user";
-
-        @ManyToOne(optional = false)
-        @JoinColumn(name = F_USER, nullable = false)
         private UserProfile user;
 
         public PK() {
@@ -91,13 +90,13 @@ public class UserSummary implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return getUser() != null && getUser().isSame(other.getUser());
+            return user != null && user.isSame(other.user);
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(getUser())
+                    .append(user)
                     .toHashCode();
         }
     }

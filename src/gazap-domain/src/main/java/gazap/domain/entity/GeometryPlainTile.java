@@ -1,12 +1,13 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentity;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "GeometryPlainTile")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class GeometryPlainTile extends IntegerIdentity {
     @ManyToOne
     @JoinColumn(name = "geometry", nullable = false)

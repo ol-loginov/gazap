@@ -1,7 +1,7 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCUD;
-import org.hibernate.annotations.CollectionOfElements;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "UserProfile")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class UserProfile extends IntegerIdentityCUD {
     public static final int CONTACT_EMAIL_LENGTH = 128;
     public static final int PASSWORD_LENGTH = 64;
@@ -29,9 +29,9 @@ public class UserProfile extends IntegerIdentityCUD {
     private String passwordSalt;
     @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
     private String displayName;
-    @JoinTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
-    @Column(name = "aclRole", nullable = false)
-    @CollectionOfElements(fetch = FetchType.LAZY)
+    @ElementCollection
+    @CollectionTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
+    @Column(name = "aclRole")
     @Enumerated(EnumType.STRING)
     private Set<UserAcl> roles = Collections.emptySet();
 

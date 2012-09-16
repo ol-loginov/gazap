@@ -1,12 +1,13 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCUD;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Map")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class Map extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;

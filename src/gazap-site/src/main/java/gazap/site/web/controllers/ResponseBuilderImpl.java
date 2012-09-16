@@ -41,8 +41,7 @@ public class ResponseBuilderImpl implements ResponseBuilder {
 
     @Override
     public ModelAndView view(String viewName, final Object content) {
-        return new ModelAndView(viewName)
-                .addObject("content", content);
+        return view(viewName).addObject("content", content);
     }
 
     @Override

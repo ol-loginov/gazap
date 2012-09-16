@@ -66,7 +66,7 @@ public class UserProfileDaoImpl extends DaoImpl implements UserProfileDao {
 
     @Override
     public UserSummary loadSummary(UserProfile user) {
-        return (UserSummary) getSession().createQuery("from UserSummary where id.user=:user")
+        return (UserSummary) getSession().createQuery("from UserSummary where user=:user")
                 .setEntity("user", user)
                 .uniqueResult();
     }

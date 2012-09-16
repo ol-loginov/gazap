@@ -261,13 +261,8 @@
 
             <dependency>
                 <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-annotations</artifactId>
-                <version>3.4.0.GA</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>3.3.2.GA</version>
+                <version>4.0.1.Final</version>
             </dependency>
             <dependency>
                 <groupId>javassist</groupId>
@@ -298,6 +293,7 @@
                 <groupId>com.iserv2</groupId>
                 <artifactId>iserv2-commons-mock-tests</artifactId>
                 <version>1.0</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>

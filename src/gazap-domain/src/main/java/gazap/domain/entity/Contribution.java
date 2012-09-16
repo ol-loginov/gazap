@@ -1,12 +1,13 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityC;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Contribution")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "class", discriminatorType = DiscriminatorType.STRING)
 public abstract class Contribution extends IntegerIdentityC {

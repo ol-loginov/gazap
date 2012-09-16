@@ -1,5 +1,7 @@
 package gazap.domain.entity;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -7,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "GeometryGeoid")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 @DiscriminatorValue(Geometry.Geoid.CLASS)
 public class GeometryGeoid extends Geometry {
     @Column(name = "radiusZ")

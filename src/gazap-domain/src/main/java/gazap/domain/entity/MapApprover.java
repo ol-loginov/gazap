@@ -2,6 +2,7 @@ package gazap.domain.entity;
 
 import gazap.domain.entity.base.DomainEntity;
 import gazap.domain.entity.base.DomainHashCodeBuilder;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -9,50 +10,60 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "MapApprover")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
+@IdClass(MapApprover.PK.class)
 public class MapApprover implements DomainEntity {
-    @EmbeddedId
-    private PK id;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "map", nullable = false, updatable = false)
+    private Map map;
+    @Id
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user", nullable = false, updatable = false)
+    private UserProfile user;
+    @Id
+    @Column(name = "level")
+    private int level;
 
     protected MapApprover() {
     }
 
     public MapApprover(Map map, UserProfile profile, int level) {
-        setId(new PK(map, profile, level));
-    }
-
-    public PK getId() {
-        return id;
-    }
-
-    protected void setId(PK id) {
-        this.id = id;
-    }
-
-    public int getLevel() {
-        return getId().getLevel();
+        setMap(map);
+        setUser(profile);
+        setLevel(level);
     }
 
     public Map getMap() {
-        return getId().getMap();
+        return map;
+    }
+
+    protected void setMap(Map map) {
+        this.map = map;
     }
 
     public UserProfile getUser() {
-        return getId().getUser();
+        return user;
     }
 
-    @Embeddable
+    protected void setUser(UserProfile user) {
+        this.user = user;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    protected void setLevel(int level) {
+        this.level = level;
+    }
+
     public static class PK implements Serializable {
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "map", nullable = false, updatable = false)
         private Map map;
-        @ManyToOne(optional = false)
-        @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
-        @Column(name = "level")
         private int level;
 
-        public PK() {
+        protected PK() {
         }
 
         public PK(Map map, UserProfile user, int level) {
@@ -67,7 +78,7 @@ public class MapApprover implements DomainEntity {
             return user;
         }
 
-        public void setUser(UserProfile user) {
+        protected void setUser(UserProfile user) {
             this.user = user;
         }
 
@@ -75,7 +86,7 @@ public class MapApprover implements DomainEntity {
             return map;
         }
 
-        public void setMap(Map map) {
+        protected void setMap(Map map) {
             this.map = map;
         }
 
@@ -83,7 +94,7 @@ public class MapApprover implements DomainEntity {
             return level;
         }
 
-        public void setLevel(int level) {
+        protected void setLevel(int level) {
             this.level = level;
         }
 
@@ -95,17 +106,17 @@ public class MapApprover implements DomainEntity {
                 return false;
 
             final PK other = (PK) instance;
-            return getUser() != null && getUser().isSame(other.getUser())
-                    && getMap() != null && getMap().isSame(other.getMap())
-                    && getLevel() == other.getLevel();
+            return user != null && user.isSame(other.user)
+                    && map != null && map.isSame(other.map)
+                    && level == other.level;
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
-                    .append(getUser())
-                    .append(getMap())
-                    .append(getLevel())
+                    .append(user)
+                    .append(map)
+                    .append(level)
                     .toHashCode();
         }
     }

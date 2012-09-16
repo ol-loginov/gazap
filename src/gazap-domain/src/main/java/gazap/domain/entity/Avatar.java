@@ -1,6 +1,7 @@
 package gazap.domain.entity;
 
 import gazap.domain.entity.base.IntegerIdentityCUD;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Avatar")
-@org.hibernate.annotations.Entity(dynamicUpdate = true)
+@DynamicUpdate
 public class Avatar extends IntegerIdentityCUD {
     @ManyToOne
     @JoinColumn(name = "world", nullable = true, updatable = false)
