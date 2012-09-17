@@ -1,12 +1,11 @@
 package gazap.site.web.controllers.world;
 
 import gazap.domain.entity.World;
-import gazap.site.web.model.ApiAnswer;
 import gazap.site.model.viewer.WorldTitle;
 import gazap.site.services.WorldService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.controllers.ResponseBuilder;
-import gazap.site.web.views.world.WorldCreatePage;
+import gazap.site.web.model.ApiAnswer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -24,9 +23,8 @@ public class WorldCreateController extends BaseController {
 
     @RequestMapping(value = "/world/create.ajax", method = RequestMethod.GET)
     public ModelAndView formAjax(Locale locale) {
-        WorldCreatePage page = new WorldCreatePage();
-        page.setForm(new WorldCreateForm());
-        return responseBuilder(locale).view("world/create.ajax", page);
+        return responseBuilder(locale).view("world/create.ajax")
+                .addObject("form", new WorldCreateForm());
     }
 
     @RequestMapping(value = "/world/create.ajax", method = RequestMethod.POST)
