@@ -1,0 +1,25 @@
+${param gazap.site.model.viewer.MapTitle map}
+${param waypalm.site.web.extensions.CdnExtension eCdn}
+${set sc=eCdn.contextPath}
+<div class="map-title container">
+
+    <h4 class="breakword">
+        <a href="${sc}${map.route}">${map.title}</a>
+    </h4>
+
+    <div class="actions">
+        <ul class="unstyled pull-right">
+            ${if(map.approveCount gt 0)}
+            <li>
+                <a href="${sc}${map.route}/approve" class="btn-mini">аппрувить (${map.approveCount})</a>
+            </li>
+            ${if}
+            ${if(can:editMap(map.id))}
+            <li>
+                <a href="${sc}${map.route}/god" class="btn-mini">редактирование</a>
+            </li>
+            ${if}
+        </ul>
+    </div>
+</div>
+

@@ -1,0 +1,219 @@
+html.geometry-god {
+    height: 100%;
+
+    div.btn-group {
+        > label {
+            margin:0;
+            float: left;
+        }
+    }
+
+    > body {
+        height: 100%;
+        overflow: hidden;
+
+        > #rightPane {
+            height: 100%;
+        }
+    }
+
+    #godSurfaceTools {
+        width: 300px;
+        height: 100%;
+
+        > div {
+            overflow: auto;
+            position: absolute;
+            top: 25px;
+            left: 0;
+            bottom: 0;
+            width: 299px;
+
+            ul.labels {
+                li {
+                    padding: 0 5px;
+                    clear: both;
+                }
+                label {
+                    display: block;
+                    float:left;
+                    width: 80px;
+                    line-height: @baseLineHeight;
+                    font-size: @baseFontSize;
+                    margin:0;
+                }
+                span {
+                    line-height: @baseLineHeight;
+                    font-weight: bold;
+                    font-size: @baseFontSize;
+                }
+            }
+        }
+
+        #god-tool-surface-view-controls {
+        }
+
+        #god-tool-surface-tile-current {
+            .tile-thumb-outer {
+                position: relative;
+                left: 45px;
+                width: 210px;
+            }
+
+            .tile-thumb {
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                width: 200px;
+                height: 200px;
+                background: #E0E0E0;
+                border:solid 5px #999999;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    display: none;
+                }
+
+                span {
+                    display: block;
+                }
+            }
+            .btn-toolbar {
+                text-align: center;
+            }
+            &.has-tile-thumb {
+                .tile-thumb {
+                    img {
+                        display: inherit;
+                    }
+                    span {
+                        display: none;
+                    }
+                }
+                #god-tool-surface-tile-current-clear {
+                    display: inherit;
+                }
+            }
+
+            &.has-tile-operations {
+                .btn-toolbar.tile-operations {
+                    display: inherit;
+                }
+            }
+
+            &.ui-disabled {
+                .btn-toolbar {
+                    display: none !important;
+                }
+            }
+
+            .tile-change-forms {
+                form {
+                    display: block;
+                    overflow: hidden;
+                    width: 0;
+                    height: 0;
+                }
+            }
+        }
+
+        #god-tool-contribution-list {
+            label.contribution-list-caption{
+                background: #eceef9 url(../img/controls/tabbed-pane-section-head-back.png) repeat-x bottom left;
+                font-size: @baseFontSize;
+                line-height: @baseLineHeight;
+                text-indent: 5px;
+                margin: 5px 0 0;
+            }
+
+            ul.contribution-list {
+                > li {
+                    > .change-TILE-ADD {
+                        padding: 0 3px;
+                        border-bottom: solid 1px #ccc;
+                        background: #FEFEFE;
+                        .about {
+                            > .id {
+                                color: #0000A0;
+                            }
+                            > .date {
+                                margin-left: .5em;
+                                color: #A000A0;
+                            }
+                            > .time {
+                                margin-left: .5em;
+                                color: #A000A0;
+                            }
+                        }
+                        .author {
+                            margin: 0 .5em;
+                        }
+                        .details {
+                            strong {
+                                margin: 0 .5em;
+                                font-style: italic;
+                            }
+                            .short {
+                            }
+                        }
+                        .btn-toolbar {
+                            text-align: right;
+                            margin-bottom: 0;
+                            margin-top: 3px;
+                            padding-right: 10px;
+
+                            .btn-group + .btn-group {
+                                margin-left: 0;
+                            }
+                        }
+                    }
+
+                    &.disabled {
+                        .btn-toolbar {
+                            display: none;
+                        }
+                    }
+                }
+
+                &.hide-author {
+                    > li {
+                        .author {
+                            display: none;
+                        }
+                    }
+                }
+                &.hide-date {
+                    > li {
+                        .date {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #geometryCanvasOuter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 300px;
+        height: 100%;
+        background: transparent url(../img/sprites/tiled-back.png) repeat;
+    }
+
+    div.waypalm-widget-plain-map-embedded {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: #fdfdfd;
+
+        > .waypalm-widget-plain-map-image-layer {
+            > .waypalm-widget-plain-map-image-layer-target {
+                background: rgba(0, 255,0,100);
+            }
+        }
+    }
+}
+

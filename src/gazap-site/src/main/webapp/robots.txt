@@ -1,7 +1,0 @@
-User-agent: *
-Disallow: /static/
-Disallow: /j_spring_oauth_security_check
-Disallow: /j_spring_openid_security_check
-Disallow: /j_spring_security_logout
-Disallow: /settings
-Disallow: /user

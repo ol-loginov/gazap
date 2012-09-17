@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+${param waypalm.site.web.extensions.ViewMetaExtension eViewMeta transient}
+${param waypalm.site.web.extensions.CdnExtension eCdn transient}
+${set au=eCdn.server, cp=eCdn.contextPath}
+<div id="modalLogin" class="small-modal-dialog">
+    <h1>
+        ${l18n:t('Login.title')}
+    <span class="notice">
+        ${l18n:t('Login.title.registration', au)}
+    </span>
+    </h1>
+
+    <p class="notice alert-info">
+        ${l18n:t('Login.notice.forget', au)}
+    </p>
+
+    <div class="by-form">
+        <form id="loginForm" action="${au}/auth" data-ax-action="${au}/auth.ajax" method="post">
+            <input type="hidden" name="_spring_security_remember_me" value="on"/>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="email" name="j_username"
+                           placeholder="${l18n:t('Login.auth.form.username.placeholder')}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="password" name="j_password"
+                           placeholder="${l18n:t('Login.auth.form.password.placeholder')}"/>
+                </div>
+            </div>
+            <div class="control-group submit-group">
+                <button class="btn" type="submit">
+                    ${l18n:t('Login.form.submit')}
+                </button>
+                <a class="submit-option modal-closer">
+                    ${l18n:t('Login.form.cancel')}
+                </a>
+            </div>
+            <div class="alert alert-message alert-progress hidden">
+                ${l18n:t('Login.form.submitting')}
+            </div>
+            <div class="alert alert-error hidden"/>
+        </form>
+        <script type="text/javascript">head('local_bus', function () {
+            BUS.account.modal_login_dialog.init('#loginForm')
+        })</script>
+    </div>
+</div>

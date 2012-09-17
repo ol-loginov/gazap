@@ -1,0 +1,24 @@
+#* @vtlvariable name="map" type="waypalm.site.model.viewer.MapTitle" *#
+#set($sc=$eCdn.contextPath)
+<div class="map-title container">
+
+    <h4 class="breakword">
+        <a href="$sc$map.route">$map.title</a>
+    </h4>
+
+    <div class="actions">
+        <ul class="unstyled pull-right">
+            #if($map.approveCount > 0)
+                <li>
+                    <a href="$sc$map.route/approve" class="btn-mini">аппрувить ($map.approveCount)</a>
+                </li>
+            #end
+            #if($eCan.editMap($map.id))
+                <li>
+                    <a href="$sc$map.route/god" class="btn-mini">редактирование</a>
+                </li>
+            #end
+        </ul>
+    </div>
+</div>
+

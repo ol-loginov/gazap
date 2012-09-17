@@ -1,7 +1,0 @@
-<!DOCTYPE html>
-<html>
-#* @vtlvariable name="content" type="gazap.site.web.views.errors.HttpError" *#
-<body>
-    $content.http
-</body>
-</html>

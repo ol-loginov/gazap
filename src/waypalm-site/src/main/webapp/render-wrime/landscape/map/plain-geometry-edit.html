@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+${param waypalm.site.web.views.map.MapEditPlainPage content}
+${param waypalm.site.web.extensions.CdnExtension eCdn transient}
+${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
+<html class="geometry-god">
+${include("../shared/html-head.html")}
+<body class="brand-with-menu">
+<div id="geometryCanvasOuter"></div>
+<script type="text/javascript">
+    head('local_bus', function () {
+        BUS.map.plain.editor.ready(function (controller) {
+            controller.tileServer = '${eCdn.server}';
+            controller.tileSize = ${content.geometry.tileSize};
+            controller.actionMap = '${content.map.id}';
+            controller.actionBase = '${eCdn.server}${content.map.route}/god';
+            controller.messages = {
+                'change-tile-load-image':'загрузка картинки начата...',
+                'change-tile-load-image-success':'загружена картинка',
+                'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
+                'change-tile-add-strong':'Заменить картинку',
+                'change-tile-add':'в тайле {0}:{1}:{2}:{3}',
+                'change-reject':'удалить',
+                'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
+                'change-highlight':'показать'
+            };
+            controller.start();
+        });
+    });
+    head.js(
+            '${scriptsRoot}/api/waypalm.js',
+            "${scriptsRoot}/api/waypalm.ui.js",
+            "${scriptsRoot}/api/waypalm.ui.map.js",
+            "${scriptsRoot}/pages/PlainGeometry.js",
+            "${scriptsRoot}/pages/PlainGeometry.Edit.js"
+    );
+</script>
+
+<div id="rightPane" class="pin-right free-content">
+    <section id="godSurfaceTools" class="tabbed-pane">
+        <ul class="unstyled container">
+            <li><a href="#god-tool-surface" data-toggle="tab">Поверхность</a></li>
+            <li><a href="#god-tool-contribution-list" data-toggle="tab">Изменения</a></li>
+        </ul>
+        <div class="container">
+            <div class="tab-pane" id="god-tool-surface">
+                <div id="god-tool-surface-view-controls" class="tab-pane-section">
+                    <h3>Масштаб</h3>
+
+                    <div class="content">
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Scale</label>
+                                <span class="view-scale"></span>
+                            </li>
+                            <li>
+                                <label>Center</label>
+                                <span>
+                                    <span class="view-center-x"></span><span>;</span><span class="view-center-y"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div id="god-tool-surface-tile-current" class="tab-pane-section hidden">
+                    <h3>Выбранный тайл</h3>
+
+                    <div class="content">
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Hash</label>
+                                <span class="tile-hash"></span>
+                            </li>
+                            <li>
+                                <label>Point</label>
+                                <span>
+                                    <span class="tile-x"></span><span>;</span><span class="tile-y"></span>
+                                </span>
+                            </li>
+                            <li>
+                                <label>Size</label>
+                                <span>
+                                    <span class="tile-size"></span><span>px</span>
+                                </span>
+                            </li>
+                        </ul>
+
+                        <div class="tile-thumb-outer">
+                            <div class="tile-thumb">
+                                <img/>
+                                <span>Тайл не задан</span>
+                            </div>
+                        </div>
+
+
+                        <div class="btn-toolbar tile-operations hidden">
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-clear" class="btn btn-danger hidden">
+                                    <span>Удалить</span>
+                                </button>
+                            </div>
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-load" class="btn btn-success">
+                                    <span>Загрузить</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tile-change-forms"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="god-tool-contribution-list">
+                <ul class="unstyled contribution-list hide-author"/>
+            </div>
+        </div>
+        <script>head('bootstrap_tab', function () {
+            $('#godSurfaceTools > ul a:first').tab('show');
+        })</script>
+    </section>
+</div>
+</body>
+</html>

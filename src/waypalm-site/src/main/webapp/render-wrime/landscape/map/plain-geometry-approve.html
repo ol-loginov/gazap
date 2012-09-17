@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+${param waypalm.site.web.views.map.MapEditPlainPage content}
+${param waypalm.site.web.extensions.CdnExtension eCdn transient}
+${set cp=eCdn.contextPath, themeRoot=s:concat(cp,'/static/landscape'), libRoot=s:concat(themeRoot,'/lib'), scriptsRoot=s:concat(themeRoot,'/scripts')}
+<html class="geometry-god">
+${include("../shared/html-head.html")}
+<body class="brand-with-menu">
+<div id="geometryCanvasOuter"></div>
+<div id="rightPane" class="pin-right free-content">
+    <section id="godSurfaceTools" class="tabbed-pane">
+        <ul class="unstyled container">
+            <li><a href="#god-tool-surface" data-toggle="tab">Поверхность</a></li>
+            <li><a href="#god-tool-contribution-list" data-toggle="tab">Изменения</a></li>
+        </ul>
+        <div class="container">
+            <div class="tab-pane" id="god-tool-surface">
+                <div id="god-tool-surface-view-controls" class="tab-pane-section">
+                    <h3>Масштаб</h3>
+
+                    <div class="content">
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Scale</label>
+                                <span class="view-scale"></span>
+                            </li>
+                            <li>
+                                <label>Center</label>
+                                <span>
+                                    <span class="view-center-x"></span><span>;</span><span class="view-center-y"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+                <div id="god-tool-surface-tile-current" class="tab-pane-section hidden">
+                    <h3>Выбранный тайл</h3>
+
+                    <div class="content">
+                        <ul class="unstyled labels">
+                            <li>
+                                <label>Hash</label>
+                                <span class="tile-hash"></span>
+                            </li>
+                            <li>
+                                <label>Point</label>
+                                <span>
+                                    <span class="tile-x"></span><span>;</span><span class="tile-y"></span>
+                                </span>
+                            </li>
+                            <li>
+                                <label>Size</label>
+                                <span>
+                                    <span class="tile-size"></span><span>px</span>
+                                </span>
+                            </li>
+                        </ul>
+
+                        <div class="tile-thumb-outer">
+                            <div class="tile-thumb">
+                                <img/>
+                            <span>
+                                Тайл не задан
+                            </span>
+                            </div>
+                        </div>
+
+
+                        <div class="btn-toolbar tile-operations hidden">
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-clear" class="btn btn-danger hidden">
+                                    <span>Удалить</span>
+                                </button>
+                            </div>
+                            <div class="btn-group ">
+                                <button id="god-tool-surface-tile-current-load" class="btn btn-success">
+                                    <span>Загрузить</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tile-change-forms"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="god-tool-contribution-list">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <label class="btn-mini">Группировка</label>
+                    </div>
+
+                    <div class="btn-group group-contributions-radio" data-toggle="buttons-radio">
+                        <button id="group-contributions-by-time" class="btn btn-mini btn-info">
+                            <i class="glyphicon-time glyphicon-white"></i>
+                        </button>
+                        <button id="group-contributions-by-author" class="btn btn-mini btn-info">
+                            <i class="glyphicon-user glyphicon-white"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id='contribution-list-groups-outer'></div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    var pageController = null;
+    head('local_bus', function () {
+        BUS.map.plain.editor.ready(function (controller) {
+            pageController = controller;
+
+            controller.tileServer = '${eCdn.server}';
+            controller.tileSize = ${content.geometry.tileSize};
+            controller.actionMap = '${content.map.id}';
+            controller.actionBase = '${eCdn.server}${content.map.route}/approve';
+            controller.messages = {
+                'change-tile-load-image':'загрузка картинки начата...',
+                'change-tile-load-image-success':'загружена картинка',
+                'change-tile-load-image-failure':'загрузить картинку не удалось из-за какой-то ошибки',
+                'change-tile-add-strong':'Заменить картинку',
+                'change-tile-add':'в тайле {0}:{1}:{2}:{3}',
+                'change-reject':'удалить',
+                'change-reject-title':'Нажмите, чтобы удалить запрос из очереди полностью',
+                'change-reject-confirm':'Это действие удалит запрос. Продолжить?',
+                'change-highlight':'показать',
+                'change-highlight-title':'Нажмите, чтобы увидеть это изменение на карте',
+                'change-approve':'фиксировать',
+                'change-approve-title':'Это действие подтвердит изменение и оно будет отображаться на карте',
+                'change-approve-confirm':'Это действие подтвердит изменение и оно будет отображаться на карте. Продолжить?'
+            };
+            controller.setContributionGrouping('time');
+            controller.start();
+        });
+    });
+    head.js(
+            '${scriptsRoot}/api/waypalm.js',
+            "${scriptsRoot}/api/waypalm.ui.js",
+            "${scriptsRoot}/api/waypalm.ui.map.js",
+            "${scriptsRoot}/pages/PlainGeometry.js",
+            "${scriptsRoot}/pages/PlainGeometry.Approve.js");
+    head(function () {
+        $('#godSurfaceTools > ul a:last').tab('show');
+
+        var $groupingButtons = $('#god-tool-contribution-list .group-contributions-radio');
+
+        $('#group-contributions-by-time', $groupingButtons).button('toggle').click(function () {
+            pageController.setContributionGrouping('time');
+        });
+        $('#group-contributions-by-author', $groupingButtons).click(function () {
+            pageController.setContributionGrouping('author');
+        });
+    });
+</script>
+</body>
+</html>

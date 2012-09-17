@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+#* @vtlvariable name="content" type="waypalm.site.web.views.user.UserProfilePage" *#
+    #set($sc=$eCdn.contextPath)
+<html>
+    #parse('shared/html-head.vm')
+<body class="brand-with-menu">
+<div id="leftPane">
+    #parse('shared/html-bars-brand.vm')
+    #parse('shared/html-bars-account.vm')
+</div>
+<div id="mainColumn" class="profile-page">
+    <h1 class="accountName">
+        #if($content.user.name)
+            <span class="noname">#springMessage('UserProfilePage.user.noName')</span>
+        #else
+            $content.user.name
+        #end
+    </h1>
+    <hr class="clear"/>
+
+    <section id="accountMaps">
+        <h3>
+            #springMessage('UserProfilePage.accountMaps.h')
+            <span class="actions">
+                #if($content.user.me)
+                    <a id="createMap" class=" btn-mini" href="${sc}/map/create">создать карту</a>
+                #end
+            </span>
+        </h3>
+
+        #if($content.maps.empty)
+            <p class="empty">
+                #springMessage('UserProfilePage.accountMaps.empty')
+            </p>
+        #else
+            <ul class="list">
+                #foreach($map in $content.maps)
+                    <li>
+                        #parse('user/_map-title.vm')
+                    </li>
+                #end
+            </ul>
+        #end
+    </section>
+
+    <section id="accountWorlds">
+        <h3>
+            #springMessage('UserProfilePage.accountWorlds.h')
+        </h3>
+
+        #if($content.worlds.empty)
+            <p class="empty">
+                #springMessage('UserProfilePage.accountWorlds.empty')
+            </p>
+        #else
+            <ul class="list">
+                #foreach($e in $content.worlds)
+                    <li>
+                        <div class="world-title">
+                            <h4>
+                                <a href="$sc$e.route">
+                                    <span class="breakword">$e.title</span>
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                #end
+            </ul>
+        #end
+    </section>
+
+    <section id="accountAvatars">
+        <h3>
+            #springMessage('UserProfilePage.accountAvatars.h')
+        </h3>
+
+        <p class="empty">
+            #springMessage('UserProfilePage.accountAvatars.empty')
+        </p>
+    </section>
+
+    <div class="clear"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+${param waypalm.site.web.views.user.UserProfilePage content}
+${param waypalm.site.web.extensions.CdnExtension eCdn}
+${param waypalm.site.web.extensions.VisitorExtension eVisitor}
+${set sc=eCdn.contextPath}
+<html>
+${include("../shared/html-head.html")}
+<body class="brand-with-menu">
+<div id="leftPane">
+    ${include("../shared/html-bars-brand.html")}
+    ${include("../shared/html-bars-account.html")}
+</div>
+<div id="mainColumn" class="profile-page">
+    <h1 class="accountName">
+        ${if(content.user.name.length eq 0)}
+        <span class="noname">${l18n:t('UserProfilePage.user.noName')}</span>
+        ${else}
+        ${content.user.name}
+        ${if}
+    </h1>
+    <hr class="clear"/>
+
+    <section id="accountMaps">
+        <h3>
+            ${l18n:t('UserProfilePage.accountMaps.h')}
+            <span class="actions">
+                ${if(content.user.me)}
+                    <a id="createMap" class=" btn-mini" href="${sc}/map/create">создать карту</a>
+                ${if}
+            </span>
+        </h3>
+
+        ${if(not o:empty(content.maps))}
+        <ul class="list">
+            ${for(map : content.maps)}
+            <li>
+                ${include('_map-title.html',map)}
+            </li>
+            ${for}
+        </ul>
+        ${else}
+        <p class="empty">
+            ${l18n:t('UserProfilePage.accountMaps.empty')}
+        </p>
+        ${if}
+    </section>
+
+    <section id="accountWorlds">
+        <h3>
+            ${l18n:t('UserProfilePage.accountWorlds.h')}
+        </h3>
+
+        ${if(not o:empty(content.worlds))}
+        <ul class="list">
+            ${for(e : content.worlds)}
+            <li>
+                <div class="world-title">
+                    <h4>
+                        <a href="${sc}${e.route}">
+                            <span class="breakword">${e.title}</span>
+                        </a>
+                    </h4>
+                    <span class="world-flags">
+                    ${for(gr : content.worldRoles.get(e.id))}
+                        <span class="world-role ${gr}">
+                            <i class="worldroleicon"></i>
+                            ${l18n:t(s:concat('UserWorldRoles.', gr, '.flag'))}
+                        </span>
+                    ${for}
+                    </span>
+                </div>
+            </li>
+            ${for}
+        </ul>
+        ${else}
+        <p class="empty">
+            ${l18n:t('UserProfilePage.accountWorlds.empty')}
+        </p>
+        ${if}
+    </section>
+
+    <section id="accountAvatars">
+        <h3>
+            ${l18n:t('UserProfilePage.accountAvatars.h')}
+        </h3>
+
+        <p class="empty">
+            ${l18n:t('UserProfilePage.accountAvatars.empty')}
+        </p>
+    </section>
+
+    <div class="clear"></div>
+</div>
+</body>
+</html>
