@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     25.07.2012 11:46:37                          */
+/* Created on:     17.09.2012 13:42:35                          */
 /*==============================================================*/
 
 
@@ -18,13 +18,11 @@ drop table if exists GeometryPlain;
 
 drop table if exists GeometryPlainTile;
 
-drop table if exists Map;
+drop table if exists Surface;
 
-drop table if exists MapApprover;
+drop table if exists Surface_Actors;
 
 drop table if exists UserAcl;
-
-drop table if exists UserMapRole;
 
 drop table if exists UserProfile;
 
@@ -32,9 +30,9 @@ drop table if exists UserSocialLink;
 
 drop table if exists UserSummary;
 
-drop table if exists UserWorldRole;
-
 drop table if exists World;
+
+drop table if exists World_Actors;
 
 /*==============================================================*/
 /* Table: Avatar                                                */
@@ -123,11 +121,10 @@ engine = MYISAM;
 create table GeometryPlain
 (
    id                   int not null,
-   west                 int not null,
-   north                int not null,
-   east                 int not null comment '	',
-   south                int not null,
-   tileSize             int not null,
+   westMax              int not null,
+   northMax             int not null,
+   eastMax              int not null comment '	',
+   southMax             int not null,
    scaleMin             int not null,
    scaleMax             int not null,
    primary key (id)
@@ -153,9 +150,9 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: Map                                                   */
+/* Table: Surface                                               */
 /*==============================================================*/
-create table Map
+create table Surface
 (
    id                   int not null auto_increment,
    createdAt            datetime not null,
@@ -164,7 +161,7 @@ create table Map
    title                varchar(64) not null,
    alias                varchar(64),
    geometry             int,
-   approveLimit         int not null,
+   world                int not null,
    primary key (id),
    key AK_UniqueAlias (alias)
 )
@@ -172,14 +169,15 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: MapApprover                                           */
+/* Table: Surface_Actors                                        */
 /*==============================================================*/
-create table MapApprover
+create table Surface_Actors
 (
-   map                  int not null,
+   surface              int not null,
    user                 int not null,
-   level                int not null,
-   primary key (map, user, level)
+   author               bit(1) not null default 0,
+   editor               bit(1) not null default 0,
+   primary key (user, surface)
 )
 charset = utf8
 engine = MYISAM;
@@ -196,19 +194,6 @@ charset = utf8
 engine = MYISAM;
 
 insert into UserAcl(userProfile,aclRole)values(1,'GOD_MODE');
-
-/*==============================================================*/
-/* Table: UserMapRole                                           */
-/*==============================================================*/
-create table UserMapRole
-(
-   user                 int not null,
-   map                  int not null,
-   userMapRole          varchar(16) not null,
-   primary key (user, map, userMapRole)
-)
-charset = utf8
-engine = MYISAM;
 
 /*==============================================================*/
 /* Table: UserProfile                                           */
@@ -270,19 +255,6 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: UserWorldRole                                         */
-/*==============================================================*/
-create table UserWorldRole
-(
-   user                 int not null,
-   world                int not null,
-   userWorldRole        varchar(16) not null,
-   primary key (user, world, userWorldRole)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
 /* Table: World                                                 */
 /*==============================================================*/
 create table World
@@ -300,6 +272,20 @@ create table World
 charset = utf8
 engine = MYISAM;
 
+/*==============================================================*/
+/* Table: World_Actors                                          */
+/*==============================================================*/
+create table World_Actors
+(
+   world                int not null,
+   user                 int not null,
+   author               bit(1) not null default 0,
+   editor               bit(1) not null default 0,
+   primary key (user, world)
+)
+charset = utf8
+engine = MYISAM;
+
 alter table Avatar add constraint FK_Avatar_owner foreign key (owner)
       references UserProfile (id) on delete restrict on update restrict;
 
@@ -307,7 +293,7 @@ alter table Avatar add constraint FK_Avatar_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 
 alter table Contribution add constraint FK_Contribution_map foreign key (map)
-      references Map (id) on delete restrict on update restrict;
+      references Surface (id) on delete restrict on update restrict;
 
 alter table ContributionTile add constraint FK_ContributionTile_id foreign key (id)
       references Contribution (id) on delete restrict on update restrict;
@@ -321,22 +307,19 @@ alter table GeometryPlain add constraint FK_GeometryPlain_id foreign key (id)
 alter table GeometryPlainTile add constraint FK_GeometryPlainTile_geometry foreign key (geometry)
       references GeometryPlain (id) on delete restrict on update restrict;
 
-alter table Map add constraint FK_Map_geometry foreign key (id)
+alter table Surface add constraint FK_Surface_geometry foreign key (id)
       references Geometry (id) on delete restrict on update restrict;
 
-alter table MapApprover add constraint FK_MapApprover_map foreign key (map)
-      references Map (id) on delete restrict on update restrict;
+alter table Surface add constraint FK_Surface_world foreign key (world)
+      references World (id) on delete restrict on update restrict;
 
-alter table MapApprover add constraint FK_MapApprover_user foreign key (user)
+alter table Surface_Actors add constraint FK_SurfaceRole_surface foreign key (surface)
+      references Surface (id) on delete restrict on update restrict;
+
+alter table Surface_Actors add constraint FK_SurfaceRole_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
 alter table UserAcl add constraint FK_UserAcl_userProfile foreign key (userProfile)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table UserMapRole add constraint FK_UserMapRole_map foreign key (map)
-      references Map (id) on delete restrict on update restrict;
-
-alter table UserMapRole add constraint FK_UserMapRole_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
 alter table UserSocialLink add constraint FK_UserSocialLink_user foreign key (user)
@@ -345,8 +328,9 @@ alter table UserSocialLink add constraint FK_UserSocialLink_user foreign key (us
 alter table UserSummary add constraint FK_UserSummary_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
-alter table UserWorldRole add constraint FK_UserWorldRole_user foreign key (user)
+alter table World_Actors add constraint FK_WorldRole_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
-alter table UserWorldRole add constraint FK_UserWorldRole_world foreign key (world)
+alter table World_Actors add constraint FK_WorldRole_world foreign key (world)
       references World (id) on delete restrict on update restrict;
+

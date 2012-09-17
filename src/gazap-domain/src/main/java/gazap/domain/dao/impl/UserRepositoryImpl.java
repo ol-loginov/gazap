@@ -1,6 +1,6 @@
 package gazap.domain.dao.impl;
 
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.domain.entity.UserSummary;
@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Repository
-public class UserProfileDaoImpl extends DaoImpl implements UserProfileDao {
+public class UserRepositoryImpl extends DaoImpl implements UserRepository {
     @Override
     public UserSocialLink findSocialConnection(String provider, String providerUser, String email) {
         UserSocialLink socialLink = null;

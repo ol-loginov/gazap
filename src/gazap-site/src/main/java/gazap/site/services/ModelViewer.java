@@ -1,20 +1,20 @@
 package gazap.site.services;
 
 import gazap.domain.entity.Contribution;
-import gazap.domain.entity.World;
-import gazap.domain.entity.Map;
+import gazap.domain.entity.Surface;
 import gazap.domain.entity.UserProfile;
+import gazap.domain.entity.World;
 import gazap.site.model.viewer.ContributionV;
-import gazap.site.model.viewer.WorldTitle;
-import gazap.site.model.viewer.MapTitle;
+import gazap.site.model.viewer.SurfaceTitle;
 import gazap.site.model.viewer.UserTitle;
+import gazap.site.model.viewer.WorldTitle;
 
 public interface ModelViewer {
     UserTitle userTitle(UserProfile profile);
 
     WorldTitle worldTitle(World world);
 
-    MapTitle mapTitle(Map map, ModelViewerSet... viewSet);
+    SurfaceTitle surfaceTitle(Surface surface);
 
     ContributionV mapContribution(Contribution c, ModelViewerSet... viewSet);
 }

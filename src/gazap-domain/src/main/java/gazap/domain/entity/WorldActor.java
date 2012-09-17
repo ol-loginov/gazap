@@ -9,37 +9,29 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "MapApprover")
+@Table(name = "WorldActor")
 @DynamicUpdate
-@IdClass(MapApprover.PK.class)
-public class MapApprover implements DomainEntity {
-    @Id
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "map", nullable = false, updatable = false)
-    private Map map;
+@IdClass(WorldActor.PK.class)
+public class WorldActor implements DomainEntity {
     @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "user", nullable = false, updatable = false)
     private UserProfile user;
     @Id
-    @Column(name = "level")
-    private int level;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "world", nullable = false, updatable = false)
+    private World world;
+    @Column
+    private boolean author;
+    @Column
+    private boolean editor;
 
-    protected MapApprover() {
+    protected WorldActor() {
     }
 
-    public MapApprover(Map map, UserProfile profile, int level) {
-        setMap(map);
-        setUser(profile);
-        setLevel(level);
-    }
-
-    public Map getMap() {
-        return map;
-    }
-
-    protected void setMap(Map map) {
-        this.map = map;
+    public WorldActor(World world, UserProfile user) {
+        this.world = world;
+        this.user = user;
     }
 
     public UserProfile getUser() {
@@ -50,28 +42,42 @@ public class MapApprover implements DomainEntity {
         this.user = user;
     }
 
-    public int getLevel() {
-        return level;
+    public World getWorld() {
+        return world;
     }
 
-    protected void setLevel(int level) {
-        this.level = level;
+    protected void setWorld(World world) {
+        this.world = world;
+    }
+
+    public boolean isEditor() {
+        return editor;
+    }
+
+    public void setEditor(boolean editor) {
+        this.editor = editor;
+    }
+
+    public boolean isAuthor() {
+        return author;
+    }
+
+    public void setAuthor(boolean author) {
+        this.author = author;
     }
 
     public static class PK implements Serializable {
-        private Map map;
         private UserProfile user;
-        private int level;
+        private World world;
 
         protected PK() {
         }
 
-        public PK(Map map, UserProfile user, int level) {
+        public PK(UserProfile user, World world) {
             Assert.notNull(user);
-            Assert.notNull(map);
+            Assert.notNull(world);
             this.user = user;
-            this.map = map;
-            this.level = level;
+            this.world = world;
         }
 
         public UserProfile getUser() {
@@ -82,20 +88,12 @@ public class MapApprover implements DomainEntity {
             this.user = user;
         }
 
-        public Map getMap() {
-            return map;
+        public World getWorld() {
+            return world;
         }
 
-        protected void setMap(Map map) {
-            this.map = map;
-        }
-
-        public int getLevel() {
-            return level;
-        }
-
-        protected void setLevel(int level) {
-            this.level = level;
+        protected void setWorld(World world) {
+            this.world = world;
         }
 
         @Override
@@ -107,16 +105,14 @@ public class MapApprover implements DomainEntity {
 
             final PK other = (PK) instance;
             return user != null && user.isSame(other.user)
-                    && map != null && map.isSame(other.map)
-                    && level == other.level;
+                    && world != null && world.isSame(other.world);
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
                     .append(user)
-                    .append(map)
-                    .append(level)
+                    .append(world)
                     .toHashCode();
         }
     }

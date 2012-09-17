@@ -1,6 +1,6 @@
 package gazap.site.services;
 
-import gazap.domain.entity.Map;
+import gazap.domain.entity.Surface;
 import gazap.site.model.ServiceErrorException;
 import gazap.site.model.TileImage;
 
@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.net.URL;
 
 public interface FileService {
-    String storeTile(Map map, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException;
+    String storeTile(Surface surface, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException;
 
-    void deleteTile(Map map, String file);
+    void deleteTile(Surface surface, String file);
 
-    URL getTileURL(Map map, String fileName);
+    URL getTileURL(Surface surface, String fileName);
 
     public static interface ImageValidator {
         boolean test(String fileFormat, ImageReader reader) throws ServiceErrorException, IOException;

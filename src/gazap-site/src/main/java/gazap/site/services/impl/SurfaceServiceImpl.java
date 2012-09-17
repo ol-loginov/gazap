@@ -1,21 +1,19 @@
 package gazap.site.services.impl;
 
-import gazap.domain.dao.MapDao;
+import gazap.domain.dao.WorldRepository;
 import gazap.domain.entity.*;
-import gazap.site.services.MapService;
+import gazap.site.services.SurfaceService;
 import gazap.site.web.controllers.map.MapCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MapServiceImpl implements MapService {
-    public static final int TILE_SIZE_DEFAULT = 300;
-
+public class SurfaceServiceImpl implements SurfaceService {
     @Autowired
-    protected MapDao mapDao;
+    protected WorldRepository worldRepository;
 
     @Override
-    public Map createMap(UserProfile creator, MapCreateForm form) {
+    public Surface createSurface(World world, UserProfile creator, MapCreateForm form) {
         Geometry geometry;
         if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
             GeometryGeoid geoid = new GeometryGeoid();
@@ -25,26 +23,25 @@ public class MapServiceImpl implements MapService {
             geometry = geoid;
         } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
             GeometryPlain plain = new GeometryPlain();
-            plain.setTileSize(TILE_SIZE_DEFAULT);
             plain.setScaleMax(1);
             plain.setScaleMin(1);
             geometry = plain;
         } else {
             throw new IllegalArgumentException("geometry " + form.getGeometryClass() + " is not supported");
         }
+        worldRepository.create(geometry);
 
-        mapDao.create(geometry);
+        Surface surface = new Surface();
+        surface.setWorld(world);
+        surface.setTitle(form.getTitle());
+        surface.setGeometry(geometry);
+        worldRepository.create(surface);
 
-        Map map = new Map();
-        map.setTitle(form.getTitle());
-        map.setGeometry(geometry);
-        map.setApproveLimit(0);
+        SurfaceActor actor = new SurfaceActor(surface, creator);
+        actor.setAuthor(true);
+        actor.setEditor(true);
+        worldRepository.create(actor);
 
-        mapDao.create(map);
-        mapDao.create(new UserMapRole(creator, map, UserMapRoles.CREATOR));
-        mapDao.create(new UserMapRole(creator, map, UserMapRoles.APPROVER));
-        mapDao.create(new MapApprover(map, creator, map.getApproveLimit()));
-
-        return map;
+        return surface;
     }
 }

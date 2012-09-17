@@ -1,16 +1,10 @@
 package gazap.common.web.security;
 
-import gazap.domain.dao.UserProfileDao;
-import gazap.domain.entity.UserProfile;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class PasswordSalter implements SaltSource {
     private String saltBase;
-
-    @Autowired
-    private UserProfileDao userProfileDao;
 
     public String getSaltBase() {
         return saltBase;
@@ -22,14 +16,14 @@ public class PasswordSalter implements SaltSource {
 
     @Override
     public Object getSalt(UserDetails user) {
-        UserProfile profile = null;
+        String passwordSalt = null;
         if (user instanceof PrincipalImpl) {
-            profile = userProfileDao.getUser(((PrincipalImpl) user).getUserId());
+            passwordSalt = ((PrincipalImpl) user).getPasswordSalt();
         }
-        return getSalt(profile);
+        return getSalt(passwordSalt);
     }
 
-    public String getSalt(UserProfile profile) {
-        return getSaltBase() + (profile != null ? profile.getPasswordSalt() : null);
+    public String getSalt(String passwordSalt) {
+        return getSaltBase() + passwordSalt;
     }
 }

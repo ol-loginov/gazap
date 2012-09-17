@@ -20,6 +20,7 @@
                 <util:list>
                     <bean p:extensionKey="eVisitor" class="gazap.site.web.extensions.VisitorExtender"/>
                     <bean p:extensionKey="eCdn" class="gazap.site.web.extensions.CdnExtender"/>
+                    <bean p:extensionKey="eCan" class="gazap.site.web.extensions.CanExtender"/>
                     <bean p:extensionKey="eViewMeta" class="gazap.site.web.extensions.ViewMetaExtender"/>
                 </util:list>
             </property>

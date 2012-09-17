@@ -1,11 +1,11 @@
 package gazap.site.services.impl;
 
 import gazap.common.util.GravatarHelper;
-import gazap.domain.dao.MapDao;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
+import gazap.domain.dao.WorldRepository;
 import gazap.domain.entity.*;
 import gazap.site.model.viewer.ContributionV;
-import gazap.site.model.viewer.MapTitle;
+import gazap.site.model.viewer.SurfaceTitle;
 import gazap.site.model.viewer.UserTitle;
 import gazap.site.model.viewer.WorldTitle;
 import gazap.site.services.FormatService;
@@ -20,9 +20,9 @@ public class ModelViewerImpl implements ModelViewer {
     @Autowired
     protected FormatService formatService;
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
     @Autowired
-    protected MapDao mapDao;
+    protected WorldRepository worldRepository;
     @Autowired
     protected UserAccess auth;
 
@@ -33,8 +33,8 @@ public class ModelViewerImpl implements ModelViewer {
         title.setAlias(profile.getAlias());
         title.setName(profile.getDisplayName());
         title.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
-        title.setRoute("/user/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
-        title.setSummary(userProfileDao.loadSummary(profile));
+        title.setRoute("/u/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
+        title.setSummary(userRepository.loadSummary(profile));
         title.setMe(profile.isSame(auth.getCurrentProfile()));
         return title;
     }
@@ -50,28 +50,13 @@ public class ModelViewerImpl implements ModelViewer {
     }
 
     @Override
-    public MapTitle mapTitle(Map map, ModelViewerSet... viewSet) {
-        MapTitle title = new MapTitle();
-        title.setId(map.getId());
-        title.setTitle(map.getTitle());
-        title.setAlias(map.getAlias());
-        title.setRoute("/map/" + (map.getAlias() == null ? Integer.toString(map.getId()) : map.getAlias()));
-
-        if (viewSet != null) {
-            for (ModelViewerSet set : viewSet) {
-                mapTitleSet(title, map, set);
-            }
-        }
-
+    public SurfaceTitle surfaceTitle(Surface surface) {
+        SurfaceTitle title = new SurfaceTitle();
+        title.setId(surface.getId());
+        title.setTitle(surface.getTitle());
+        title.setAlias(surface.getAlias());
+        title.setRoute(String.format("/w/%s/%s", surface.getWorld().getAlias(), surface.getAlias() == null ? Integer.toString(surface.getId()) : surface.getAlias()));
         return title;
-    }
-
-    private void mapTitleSet(MapTitle view, Map map, ModelViewerSet set) {
-        switch (set) {
-            case ADD_MAP_APPROVE_COUNT:
-                view.setApproveCount(mapDao.countMapPendingApproves(auth.getCurrentProfile(), map));
-                break;
-        }
     }
 
     @Override

@@ -1,22 +1,24 @@
 package gazap.site.exceptions;
 
+import java.io.Serializable;
+
 public class ObjectNotFoundException extends RecoverableException {
     private final Class target;
-    private final String id;
+    private final Serializable id;
 
-    public ObjectNotFoundException(Class target, String id) {
+    public ObjectNotFoundException(Class target, Serializable id) {
         super("object not found of type " + target.getSimpleName());
         this.id = id;
         this.target = target;
     }
 
-    public ObjectNotFoundException(String message, Throwable cause, Class target, String id) {
+    public ObjectNotFoundException(String message, Throwable cause, Class target, Serializable id) {
         super("object not found of type " + target.getSimpleName(), cause);
         this.id = id;
         this.target = target;
     }
 
-    public String getId() {
+    public Serializable getId() {
         return id;
     }
 

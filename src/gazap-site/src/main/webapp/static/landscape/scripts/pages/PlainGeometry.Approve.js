@@ -220,7 +220,7 @@ $(window).load(function () {
     };
 
     controller.localChangesGroupingApplier['author'] = {
-        listTemplate:"<div><label class='contribution-list-caption'>От <a href='/user/{item.author}' class='username'><img width='16' height='16' alt='' src-async='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'/><span>{item.authorName}</span></a></label><ul class='unstyled contribution-list hide-author' data-group='{group}'></ul></div>",
+        listTemplate:"<div><label class='contribution-list-caption'>От <a href='/u/{item.author}' class='username'><img width='16' height='16' alt='' src-async='http://www.gravatar.com/avatar/{item.authorGravatar}?s=16'/><span>{item.authorName}</span></a></label><ul class='unstyled contribution-list hide-author' data-group='{group}'></ul></div>",
         lastGroup:null,
         sort:function (a, b) {
             return  a.authorName.localeCompare(b.authorName);

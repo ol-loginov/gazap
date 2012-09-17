@@ -1,6 +1,6 @@
 package gazap.site.model.viewer;
 
-public class MapTitle {
+public class SurfaceTitle {
     private int id;
     private String title;
     private String alias;

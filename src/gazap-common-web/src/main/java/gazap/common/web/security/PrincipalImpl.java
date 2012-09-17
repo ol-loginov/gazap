@@ -14,6 +14,7 @@ public class PrincipalImpl implements UserDetails {
     private final int userId;
     private final String userName;
     private final String userPass;
+    private final String userPassSalt;
 
     private final Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
@@ -28,11 +29,13 @@ public class PrincipalImpl implements UserDetails {
         if (profile != null) {
             this.userId = profile.getId();
             this.userPass = profile.getPassword();
+            this.userPassSalt = profile.getPasswordSalt();
             this.userName = profile.getEmail();
         } else {
             this.userId = 0;
             this.userName = null;
             this.userPass = null;
+            this.userPassSalt = null;
         }
     }
 
@@ -48,6 +51,10 @@ public class PrincipalImpl implements UserDetails {
     @Override
     public String getPassword() {
         return userPass;
+    }
+
+    public String getPasswordSalt() {
+        return userPassSalt;
     }
 
     @Override

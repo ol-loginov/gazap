@@ -3,8 +3,8 @@ package gazap.site.services.impl;
 import gazap.common.web.model.SocialProfileProvider;
 import gazap.common.web.model.SocialProfileProviders;
 import gazap.common.web.security.PrincipalImpl;
-import gazap.domain.dao.MapDao;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
+import gazap.domain.dao.WorldRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.site.services.UserAccess;
@@ -21,9 +21,9 @@ import java.util.Collections;
 @Service
 public class UserAccessImpl implements UserAccess {
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
     @Autowired
-    protected MapDao mapDao;
+    protected WorldRepository worldRepository;
 
     @Override
     public boolean isAuthorized() {
@@ -51,7 +51,7 @@ public class UserAccessImpl implements UserAccess {
     public UserProfile getCurrentProfile() {
         PrincipalImpl principal = getCurrentPrincipal();
         if (principal != null) {
-            return userProfileDao.getUser(principal.getUserId());
+            return userRepository.getUser(principal.getUserId());
         }
         return null;
     }
@@ -72,6 +72,6 @@ public class UserAccessImpl implements UserAccess {
 
     @Override
     public UserActionGuard can() {
-        return new UserActionGuardImpl(getCurrentProfile(), mapDao);
+        return new UserActionGuardImpl(getCurrentProfile(), worldRepository);
     }
 }

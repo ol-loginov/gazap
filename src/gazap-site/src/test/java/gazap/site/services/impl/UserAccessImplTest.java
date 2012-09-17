@@ -4,7 +4,7 @@ import com.iserv2.test.ServiceTest;
 import com.iserv2.test.Values;
 import gazap.common.web.model.SocialProfileProviders;
 import gazap.common.web.security.PrincipalImpl;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.domain.entity.base.EntityUtil;
@@ -16,12 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
     @Mock
-    private UserProfileDao userProfileDao;
+    private UserRepository userRepository;
 
     @Override
     public void setUp() {
         super.setUp();
-        service.userProfileDao = userProfileDao;
+        service.userRepository = userRepository;
 
         SecurityContextHolder.clearContext();
         SecurityContextHolder.createEmptyContext();

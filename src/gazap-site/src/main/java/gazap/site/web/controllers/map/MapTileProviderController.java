@@ -1,10 +1,10 @@
 package gazap.site.web.controllers.map;
 
-import gazap.domain.dao.MapDao;
+import gazap.domain.dao.WorldRepository;
 import gazap.domain.entity.Geometry;
 import gazap.domain.entity.GeometryPlain;
 import gazap.domain.entity.GeometryPlainTile;
-import gazap.domain.entity.Map;
+import gazap.domain.entity.Surface;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.services.FileService;
@@ -24,7 +24,7 @@ public class MapTileProviderController extends MapGodControllerBase {
     public static final AbstractResource NOP_PNG = new MapTileProviderControllerNopImage();
 
     @Autowired
-    private MapDao mapDao;
+    private WorldRepository worldRepository;
     @Autowired
     private FileService fileService;
 
@@ -33,18 +33,18 @@ public class MapTileProviderController extends MapGodControllerBase {
         return responseBuilder(null).forward("/static/img/pFFF-0.png");
     }
 
-    @RequestMapping(value = "/tiles/m{map}/c{scale}s{size}x{x}y{y}")
+    @RequestMapping(value = "/tiles/s{surface}/c{scale}s{size}x{x}y{y}")
     @ResponseBody
     public AbstractResource getTile(
-            @PathVariable("map") String mapId,
+            @PathVariable("surface") int surfaceId,
             @PathVariable("scale") int scale,
             @PathVariable("size") int size,
             @PathVariable("x") int x,
             @PathVariable("y") int y
     ) {
-        Map map;
+        Surface map;
         try {
-            map = loadMapById(mapId, null);
+            map = loadSurfaceById(surfaceId, null);
         } catch (ObjectNotFoundException e) {
             return NOP_PNG;
         } catch (ObjectIllegalStateException e) {
@@ -55,7 +55,7 @@ public class MapTileProviderController extends MapGodControllerBase {
             return NOP_PNG;
         }
 
-        GeometryPlainTile tile = mapDao.loadGeometryPlainTile((GeometryPlain) map.getGeometry(), scale, size, x, y);
+        GeometryPlainTile tile = worldRepository.loadGeometryPlainTile((GeometryPlain) map.getGeometry(), scale, x, y);
         if (tile != null) {
             URL url = fileService.getTileURL(map, tile.getFile());
             if (url != null) {

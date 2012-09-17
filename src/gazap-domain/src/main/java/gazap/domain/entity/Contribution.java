@@ -18,7 +18,7 @@ public abstract class Contribution extends IntegerIdentityC {
     private String contributionClass = null;
     @ManyToOne
     @JoinColumn(name = "map", nullable = true, updatable = false)
-    private Map map;
+    private Surface surface;
     @ManyToOne
     @JoinColumn(name = "author", nullable = false, updatable = false)
     private UserProfile author;
@@ -51,12 +51,12 @@ public abstract class Contribution extends IntegerIdentityC {
         this.contributionClass = contributionClass;
     }
 
-    public Map getMap() {
-        return map;
+    public Surface getSurface() {
+        return surface;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setSurface(Surface surface) {
+        this.surface = surface;
     }
 
     public UserProfile getAuthor() {

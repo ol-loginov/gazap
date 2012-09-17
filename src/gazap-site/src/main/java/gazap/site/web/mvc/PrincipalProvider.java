@@ -1,7 +1,7 @@
 package gazap.site.web.mvc;
 
 import gazap.common.web.security.PrincipalImpl;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.site.services.UserAccess;
 import gazap.site.services.UserService;
@@ -18,7 +18,7 @@ public abstract class PrincipalProvider {
     @Autowired
     protected UserService userService;
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
     @Autowired
     protected UserAccess auth;
 
@@ -33,13 +33,13 @@ public abstract class PrincipalProvider {
     }
 
     protected UserProfile getLoggedUser() {
-        return getLoggedUser(userProfileDao);
+        return getLoggedUser(userRepository);
     }
 
-    public static UserProfile getLoggedUser(UserProfileDao userProfileDao) {
+    public static UserProfile getLoggedUser(UserRepository userRepository) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null && authentication.getPrincipal() instanceof PrincipalImpl
-                ? userProfileDao.getUser(((PrincipalImpl) authentication.getPrincipal()).getUserId())
+                ? userRepository.getUser(((PrincipalImpl) authentication.getPrincipal()).getUserId())
                 : null;
     }
 }

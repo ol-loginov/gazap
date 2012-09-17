@@ -1,2 +1,6 @@
 #* @implicitly included *#
 #* @velocityproperties path="../resources/gazap-site-velocity.properties" runtime_root="../webapp/WEB-INF/velocity" *#
+#* @vtlvariable name="eCdn" type="gazap.site.web.extensions.CdnExtension" *#
+#* @vtlvariable name="eVisitor" type="gazap.site.web.extensions.VisitorExtension" *#
+#* @vtlvariable name="eViewMeta" type="gazap.site.web.extensions.ViewMetaExtension" *#
+#* @vtlvariable name="eCan" type="gazap.site.web.extensions.CanExtension" *#

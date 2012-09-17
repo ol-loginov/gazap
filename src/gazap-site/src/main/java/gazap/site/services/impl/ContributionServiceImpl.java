@@ -1,6 +1,6 @@
 package gazap.site.services.impl;
 
-import gazap.domain.dao.MapDao;
+import gazap.domain.dao.WorldRepository;
 import gazap.domain.entity.*;
 import gazap.site.model.ServiceError;
 import gazap.site.model.ServiceErrorException;
@@ -27,11 +27,11 @@ public class ContributionServiceImpl implements ContributionService {
     @Autowired
     private FileService fileService;
     @Autowired
-    private MapDao mapDao;
+    private WorldRepository worldRepository;
 
     @Override
-    public ContributionTile addMapTile(UserProfile author, Map map, final TileImage file) throws ServiceErrorException {
-        String fileName = fileService.storeTile(map, file, new FileService.ImageValidator() {
+    public ContributionTile addMapTile(UserProfile author, Surface surface, final TileImage file) throws ServiceErrorException {
+        String fileName = fileService.storeTile(surface, file, new FileService.ImageValidator() {
             @Override
             public boolean test(String fileFormat, ImageReader reader) throws ServiceErrorException, IOException {
                 return reader.getHeight(0) == file.getTileSize() && reader.getWidth(0) == file.getTileSize()
@@ -45,28 +45,28 @@ public class ContributionServiceImpl implements ContributionService {
 
         ContributionTile tile = new ContributionTile();
         tile.setAuthor(author);
-        tile.setMap(map);
+        tile.setSurface(surface);
         tile.setAction(ContributionTileAction.ADD);
         tile.setFile(fileName);
         tile.setX(file.getTileX());
         tile.setY(file.getTileY());
         tile.setScale(file.getTileScale());
         tile.setSize(file.getTileSize());
-        mapDao.create(tile);
+        worldRepository.create(tile);
         return tile;
     }
 
     @Override
-    public void reject(UserProfile visitor, Map map, int contributionId) throws ServiceErrorException {
-        Contribution contribution = mapDao.getContribution(contributionId);
+    public void reject(UserProfile visitor, Surface surface, int contributionId) throws ServiceErrorException {
+        Contribution contribution = worldRepository.getContribution(contributionId);
         if (contribution == null) {
             throw new ServiceErrorException(ServiceError.INVALID_PARAM);
         }
 
         if (ContributionTile.CLASS.equals(contribution.getContributionClass())) {
             ContributionTile tile = (ContributionTile) contribution;
-            fileService.deleteTile(map, tile.getFile());
-            mapDao.delete(tile);
+            fileService.deleteTile(surface, tile.getFile());
+            worldRepository.delete(tile);
         } else {
             throw new ServiceErrorException(ServiceError.INVALID_PARAM);
         }

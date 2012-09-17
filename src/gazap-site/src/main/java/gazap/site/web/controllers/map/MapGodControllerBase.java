@@ -1,7 +1,8 @@
 package gazap.site.web.controllers.map;
 
-import gazap.domain.dao.MapDao;
-import gazap.domain.entity.Map;
+import gazap.domain.dao.WorldRepository;
+import gazap.domain.entity.Surface;
+import gazap.domain.entity.World;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.web.controllers.BaseController;
@@ -11,21 +12,32 @@ import java.util.Locale;
 
 public abstract class MapGodControllerBase extends BaseController {
     @Autowired
-    protected MapDao mapDao;
+    protected WorldRepository worldRepository;
 
-    protected Map loadMapById(String id, Locale locale) throws ObjectNotFoundException, ObjectIllegalStateException {
-        Map mapInstance;
+    protected Surface loadSurfaceByAlias(World world, String id, Locale locale) throws ObjectNotFoundException, ObjectIllegalStateException {
+        Surface instance;
         try {
-            mapInstance = mapDao.getMap(Integer.parseInt(id));
+            instance = worldRepository.getSurface(Integer.parseInt(id));
         } catch (NumberFormatException nfe) {
-            mapInstance = mapDao.findMapByAlias(id);
+            instance = worldRepository.findSurfaceByAlias(world, id);
         }
-        if (mapInstance == null) {
-            throw new ObjectNotFoundException(Map.class, id);
+        if (instance == null) {
+            throw new ObjectNotFoundException(Surface.class, id);
         }
-        if (mapInstance.getGeometry() == null) {
+        if (instance.getGeometry() == null) {
             throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.noGeometrySpecified"));
         }
-        return mapInstance;
+        return instance;
+    }
+
+    protected Surface loadSurfaceById(int surfaceId, Locale locale) throws ObjectNotFoundException, ObjectIllegalStateException {
+        Surface instance = worldRepository.getSurface(surfaceId);
+        if (instance == null) {
+            throw new ObjectNotFoundException(Surface.class, surfaceId);
+        }
+        if (instance.getGeometry() == null) {
+            throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.noGeometrySpecified"));
+        }
+        return instance;
     }
 }

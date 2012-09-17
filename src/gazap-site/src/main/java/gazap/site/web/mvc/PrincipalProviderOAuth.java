@@ -30,7 +30,7 @@ public class PrincipalProviderOAuth extends PrincipalProvider implements Authent
 
     private UserProfile loadUser(Connection<?> connection) throws ServiceErrorException {
         ConnectionKey key = connection.getKey();
-        UserSocialLink socialLink = userProfileDao.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
+        UserSocialLink socialLink = userRepository.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
         if (socialLink == null) {
             socialLink = userService.createSocialConnection(getLoggedUser(), key, wrap(connection));
         }

@@ -1,7 +1,7 @@
 package gazap.site.web.controllers;
 
 import gazap.common.web.security.PrincipalImpl;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SecurityHelper {
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
 
     public UserProfile getCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -25,7 +25,7 @@ public class SecurityHelper {
         }
         Object principal = authentication.getPrincipal();
         if (principal instanceof PrincipalImpl) {
-            return userProfileDao.getUser(((PrincipalImpl) principal).getUserId());
+            return userRepository.getUser(((PrincipalImpl) principal).getUserId());
         }
         return null;
     }

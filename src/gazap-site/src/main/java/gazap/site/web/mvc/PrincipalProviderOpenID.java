@@ -56,7 +56,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
             email = takeFirstAttribute(token.getAttributes(), "axEmail");
         }
 
-        UserSocialLink socialLink = userProfileDao.findSocialConnection(provider, userName, email);
+        UserSocialLink socialLink = userRepository.findSocialConnection(provider, userName, email);
         if (socialLink == null) {
             ConnectionKey socialKey = new ConnectionKey(provider, userName);
             SocialProfile socialProfile = new SocialProfile();

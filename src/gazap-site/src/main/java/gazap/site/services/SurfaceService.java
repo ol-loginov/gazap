@@ -1,11 +1,12 @@
 package gazap.site.services;
 
-import gazap.domain.entity.Map;
+import gazap.domain.entity.Surface;
 import gazap.domain.entity.UserProfile;
+import gazap.domain.entity.World;
 import gazap.site.web.controllers.map.MapCreateForm;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface MapService {
+public interface SurfaceService {
     @Transactional
-    Map createMap(UserProfile creator, MapCreateForm form);
+    Surface createSurface(World world, UserProfile creator, MapCreateForm form);
 }

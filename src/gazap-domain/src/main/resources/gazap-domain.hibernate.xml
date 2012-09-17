@@ -8,8 +8,9 @@
 
         <mapping class="gazap.domain.entity.Avatar"/>
         <mapping class="gazap.domain.entity.World"/>
-        <mapping class="gazap.domain.entity.Map"/>
-        <mapping class="gazap.domain.entity.MapApprover"/>
+        <mapping class="gazap.domain.entity.WorldActor"/>
+        <mapping class="gazap.domain.entity.Surface"/>
+        <mapping class="gazap.domain.entity.SurfaceActor"/>
         <mapping class="gazap.domain.entity.Geometry"/>
 
         <mapping class="gazap.domain.entity.GeometryGeoid"/>
@@ -20,8 +21,6 @@
         <mapping class="gazap.domain.entity.UserProfile"/>
         <mapping class="gazap.domain.entity.UserSocialLink"/>
         <mapping class="gazap.domain.entity.UserSummary"/>
-        <mapping class="gazap.domain.entity.UserWorldRole"/>
-        <mapping class="gazap.domain.entity.UserMapRole"/>
 
         <event type="pre-insert">
             <listener class="gazap.domain.dao.SessionListener"/>

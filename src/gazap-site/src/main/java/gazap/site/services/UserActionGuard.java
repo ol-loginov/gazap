@@ -1,7 +1,7 @@
 package gazap.site.services;
 
 public interface UserActionGuard {
-    boolean createMap();
+    boolean createSurface(int worldId);
 
-    boolean editMap(int mapId);
+    boolean editSurface(int surfaceId);
 }

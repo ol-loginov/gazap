@@ -6,21 +6,22 @@ import org.hibernate.annotations.DynamicUpdate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Map")
+@Table(name = "Surface")
 @DynamicUpdate
-public class Map extends IntegerIdentityCUD {
+public class Surface extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 
     @Column(name = "title", length = TITLE_LENGTH, nullable = false)
     private String title;
-    @Column(name = "alias", length = ALIAS_LENGTH, unique = true, nullable = true)
+    @Column(name = "alias", length = ALIAS_LENGTH, nullable = true)
     private String alias;
     @OneToOne
     @JoinColumn(name = "geometry", nullable = true)
     private Geometry geometry;
-    @Column(name = "approveLimit")
-    private int approveLimit;
+    @ManyToOne
+    @JoinColumn(name = "world", nullable = false, updatable = false)
+    private World world;
 
     public String getTitle() {
         return title;
@@ -46,11 +47,11 @@ public class Map extends IntegerIdentityCUD {
         this.geometry = geometry;
     }
 
-    public int getApproveLimit() {
-        return approveLimit;
+    public World getWorld() {
+        return world;
     }
 
-    public void setApproveLimit(int approveLimit) {
-        this.approveLimit = approveLimit;
+    public void setWorld(World world) {
+        this.world = world;
     }
 }

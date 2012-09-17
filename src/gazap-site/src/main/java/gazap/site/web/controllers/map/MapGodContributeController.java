@@ -1,6 +1,9 @@
 package gazap.site.web.controllers.map;
 
-import gazap.domain.entity.*;
+import gazap.domain.entity.ContributionTile;
+import gazap.domain.entity.Geometry;
+import gazap.domain.entity.Surface;
+import gazap.domain.entity.UserProfile;
 import gazap.site.exceptions.ObjectIllegalStateException;
 import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.model.ServiceError;
@@ -11,7 +14,6 @@ import gazap.site.services.ContributionService;
 import gazap.site.services.FileService;
 import gazap.site.web.controllers.ResponseBuilder;
 import gazap.site.web.model.ApiAnswer;
-import gazap.site.web.views.map.MapEditPlainPage;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonMethod;
@@ -28,13 +30,12 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 @Controller
 public class MapGodContributeController extends MapGodControllerBase {
-    private static final String ACTION_URL = "/map/{map}/god";
+    private static final String ACTION_URL = "/s/{surface}/god";
 
     @Autowired
     private ContributionService contributionService;
@@ -42,18 +43,17 @@ public class MapGodContributeController extends MapGodControllerBase {
     private FileService fileService;
 
     @RequestMapping(value = ACTION_URL, method = RequestMethod.GET)
-    public ModelAndView getEditor(Locale locale, @PathVariable("map") String map) throws ObjectNotFoundException, ObjectIllegalStateException {
+    public ModelAndView getEditor(Locale locale, @PathVariable("surface") int surfaceId) throws ObjectNotFoundException, ObjectIllegalStateException {
         if (!auth.isAuthorized()) {
             throw new AccessDeniedException("you should be authorized to enter god mode");
         }
 
-        Map mapInstance = loadMapById(map, locale);
+        Surface mapInstance = loadSurfaceById(surfaceId, locale);
 
         if (Geometry.Plain.CLASS.equals(mapInstance.getGeometry().getGeometryClass())) {
-            MapEditPlainPage page = new MapEditPlainPage();
-            page.setGeometry((GeometryPlain) mapInstance.getGeometry());
-            page.setMap(viewer.mapTitle(mapInstance));
-            return responseBuilder(locale).view("map/plain-geometry-edit", page);
+            return responseBuilder(locale).view("map/plain-geometry-edit")
+                    .addObject("surface", viewer.surfaceTitle(mapInstance))
+                    .addObject("geometry", mapInstance.getGeometry());
         } else {
             throw new ObjectIllegalStateException(format.getMessage(locale, "illegalState.Map.geometryUnknown"));
         }
@@ -61,20 +61,20 @@ public class MapGodContributeController extends MapGodControllerBase {
 
     @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/tile", method = RequestMethod.GET)
     @ResponseBody
-    public UrlResource getContributionTile(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
-        Map map = loadMapById(mapId, locale);
-        ContributionTile contribution = mapDao.getContributionTile(contributionId);
-        URL url = fileService.getTileURL(map, contribution.getFile());
+    public UrlResource getContributionTile(Locale locale, @PathVariable("surface") int surfaceId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
+        Surface surface = loadSurfaceById(surfaceId, locale);
+        ContributionTile contribution = worldRepository.getContributionTile(contributionId);
+        URL url = fileService.getTileURL(surface, contribution.getFile());
         return new UrlResource(url);
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/reject.ajax", method = RequestMethod.POST)
-    public ModelAndView rejectChanges(Locale locale, @PathVariable("map") String mapId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
-        Map map = loadMapById(mapId, locale);
+    public ModelAndView rejectChanges(Locale locale, @PathVariable("surface") int surfaceId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
+        Surface surface = loadSurfaceById(surfaceId, locale);
         UserProfile visitor = auth.getCurrentProfile();
         ApiAnswer answer = new ApiAnswer();
         try {
-            contributionService.reject(visitor, map, contributionId);
+            contributionService.reject(visitor, surface, contributionId);
             answer.setSuccess(true);
         } catch (ServiceErrorException e) {
             answer.setSuccess(false);
@@ -83,21 +83,13 @@ public class MapGodContributeController extends MapGodControllerBase {
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/changes.ajax", method = RequestMethod.GET)
-    public ModelAndView getLocalChanges(Locale locale, @PathVariable("map") String mapId, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
-        Map map = loadMapById(mapId, locale);
-        UserProfile visitor = auth.getCurrentProfile();
-        MapGodControllerLocalChangesApiAnswer answer = new MapGodControllerLocalChangesApiAnswer();
-
-        List<ContributionV> list = new ArrayList<ContributionV>();
-        for (Contribution c : mapDao.listContributionsToShow(map, visitor, new Date(after), 200)) {
-            list.add(viewer.mapContribution(c));
-        }
-        answer.setList(list);
-        return responseBuilder(locale).json(answer);
+    public ModelAndView getLocalChanges(Locale locale, @PathVariable("surface") int surfaceId, @RequestParam(value = "after", defaultValue = "0") long after) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+        List<ContributionV> list = new ArrayList<>();
+        return responseBuilder(locale).json(list);
     }
 
     @RequestMapping(value = ACTION_URL + "/contribution/add_tile.ajax", method = RequestMethod.POST)
-    public ModelAndView uploadTile(Locale locale, @PathVariable("map") String map, @Valid MapGodControllerAddTileForm form, BindingResult formBinding) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
+    public ModelAndView uploadTile(Locale locale, @PathVariable("surface") int surfaceId, @Valid MapGodControllerAddTileForm form, BindingResult formBinding) throws ObjectIllegalStateException, ObjectNotFoundException, IOException {
         UploadTileApiAnswer answer = new UploadTileApiAnswer();
         ResponseBuilder response = responseBuilder(locale);
 
@@ -106,7 +98,7 @@ public class MapGodContributeController extends MapGodControllerBase {
             return response.json(answer);
         }
 
-        Map mapInstance = loadMapById(map, locale);
+        Surface surface = loadSurfaceById(surfaceId, locale);
 
         TileImage info = new TileImage();
         info.setFileSize(form.getFile().getSize());
@@ -118,7 +110,7 @@ public class MapGodContributeController extends MapGodControllerBase {
         info.setTileY(form.getY());
 
         try {
-            ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), mapInstance, info);
+            ContributionTile tile = contributionService.addMapTile(auth.getCurrentProfile(), surface, info);
             answer.setContribution(viewer.mapContribution(tile));
         } catch (ServiceErrorException see) {
             answer.setCode(see.getError().code());

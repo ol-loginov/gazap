@@ -2,7 +2,7 @@ package gazap.site.web.extensions;
 
 
 import gazap.common.web.extensions.ModelExtender;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.site.services.UserAccess;
 import gazap.site.web.mvc.PrincipalProvider;
@@ -15,7 +15,7 @@ public abstract class Extender<T> implements ModelExtender {
     @Autowired
     protected UserAccess auth;
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
 
     private String extensionKey;
     private String contentKey;
@@ -57,7 +57,7 @@ public abstract class Extender<T> implements ModelExtender {
     protected abstract T populate(WebRequest request, T extension, Object content);
 
     protected UserProfile getLoggedUser() {
-        return PrincipalProvider.getLoggedUser(userProfileDao);
+        return PrincipalProvider.getLoggedUser(userRepository);
     }
 
     protected <T> T instantiateIfNull(T value, Class<T> valueClass) {

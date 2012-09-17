@@ -1,6 +1,6 @@
 package gazap.site.validation;
 
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
@@ -10,7 +10,7 @@ public class UserEmailRegisteredValidator implements ConstraintValidator<UserEma
     private boolean shouldBeRegistered;
 
     @Autowired
-    protected UserProfileDao userProfileDao;
+    protected UserRepository userRepository;
 
     @Override
     public void initialize(UserEmailRegistered constraintAnnotation) {
@@ -23,6 +23,6 @@ public class UserEmailRegisteredValidator implements ConstraintValidator<UserEma
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return userProfileDao.findUserByEmail(value) == null ^ shouldBeRegistered;
+        return userRepository.findUserByEmail(value) == null ^ shouldBeRegistered;
     }
 }

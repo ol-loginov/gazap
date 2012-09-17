@@ -1,6 +1,6 @@
 package gazap.site.services.impl;
 
-import gazap.domain.entity.Map;
+import gazap.domain.entity.Surface;
 import gazap.site.model.ServiceError;
 import gazap.site.model.ServiceErrorException;
 import gazap.site.model.TileImage;
@@ -40,18 +40,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String storeTile(Map map, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException {
+    public String storeTile(Surface surface, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException {
         String fileName = String.format("c%ds%dx%dy%d-%d",
                 tileImage.getTileScale(), tileImage.getTileSize(), tileImage.getTileX(), tileImage.getTileY(),
                 System.currentTimeMillis());
 
         try {
-            storeFile(getMapFolder(map), fileName, tileImage.getFileInputStream());
+            storeFile(getMapFolder(surface), fileName, tileImage.getFileInputStream());
         } catch (IOException e) {
             throw new ServiceErrorException(ServiceError.INTERNAL_ERROR, e);
         }
 
-        File tempFile = getTileFile(map, fileName);
+        File tempFile = getTileFile(surface, fileName);
 
         InputStream is = null;
         try {
@@ -62,7 +62,7 @@ public class FileServiceImpl implements FileService {
 
             is = new FileInputStream(tempFile);
             fileName = fileName + "." + fileExtension;
-            storeFile(getMapFolder(map), fileName, is);
+            storeFile(getMapFolder(surface), fileName, is);
         } catch (IOException e) {
             throw new ServiceErrorException(ServiceError.INTERNAL_ERROR, e);
         } finally {
@@ -76,8 +76,8 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void deleteTile(Map map, String file) {
-        File target = getTileFile(map, file);
+    public void deleteTile(Surface surface, String file) {
+        File target = getTileFile(surface, file);
         if (target.exists()) {
             target.delete();
         }
@@ -129,21 +129,21 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private static String getMapFolder(Map map) {
-        return "m" + Integer.toString(map.getId());
+    private static String getMapFolder(Surface surface) {
+        return "m" + Integer.toString(surface.getId());
     }
 
     @Override
-    public URL getTileURL(Map map, String fileName) {
+    public URL getTileURL(Surface surface, String fileName) {
         try {
-            return getTileFile(map, fileName).toURI().toURL();
+            return getTileFile(surface, fileName).toURI().toURL();
         } catch (MalformedURLException e) {
             return null;
         }
     }
 
-    public File getTileFile(Map map, String fileName) {
-        File targetFolder = new File(tilesFolderFile, getMapFolder(map));
+    public File getTileFile(Surface surface, String fileName) {
+        File targetFolder = new File(tilesFolderFile, getMapFolder(surface));
         return new File(targetFolder, fileName);
     }
 }

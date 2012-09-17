@@ -3,7 +3,7 @@ package gazap.site.services.impl;
 import com.iserv2.commons.lang.IservHashUtil;
 import gazap.common.web.model.SocialProfile;
 import gazap.common.web.security.PasswordSalter;
-import gazap.domain.dao.UserProfileDao;
+import gazap.domain.dao.UserRepository;
 import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.domain.entity.UserSummary;
@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    protected UserProfileDao profileDao;
+    protected UserRepository userRepository;
     @Autowired
     @Qualifier("passwordEncoder")
     protected PasswordEncoder passwordEncoder;
@@ -38,13 +38,13 @@ public class UserServiceImpl implements UserService {
     public UserProfile createUser(String email, String password) {
         UserProfile user = new UserProfile();
         user.setPasswordSalt(IservHashUtil.md5("" + user.getCreatedAt().getTime() + System.nanoTime(), true));
-        user.setPassword(passwordEncoder.encodePassword(password, passwordSalter.getSalt(user)));
+        user.setPassword(passwordEncoder.encodePassword(password, passwordSalter.getSalt(user.getPasswordSalt())));
         user.setEmail(IservHashUtil.isNull(email, ""));
         user.setDisplayName("");
-        profileDao.create(user);
+        userRepository.create(user);
 
         UserSummary userSummary = new UserSummary(user);
-        profileDao.create(userSummary);
+        userRepository.create(userSummary);
 
         return user;
     }
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         socialLink.setUserEmail(social.getEmail());
         socialLink.setUser(user != null ? user : createUserWithRandomPassword(social.getEmail()));
 
-        profileDao.create(socialLink);
+        userRepository.create(socialLink);
         return socialLink;
     }
 
@@ -71,8 +71,8 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return Character.isDigit(aliasOrId.charAt(0))
-                ? profileDao.getUser(Integer.parseInt(aliasOrId))
-                : profileDao.findUserByAlias(aliasOrId);
+                ? userRepository.getUser(Integer.parseInt(aliasOrId))
+                : userRepository.findUserByAlias(aliasOrId);
     }
 }
 

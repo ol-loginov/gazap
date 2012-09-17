@@ -4,7 +4,7 @@ import gazap.domain.entity.UserProfile;
 import gazap.domain.entity.UserSocialLink;
 import gazap.domain.entity.UserSummary;
 
-public interface UserProfileDao extends Dao {
+public interface UserRepository extends Dao {
     UserSocialLink findSocialConnection(String provider, String providerUser, String email);
 
     UserProfile getUser(int id);

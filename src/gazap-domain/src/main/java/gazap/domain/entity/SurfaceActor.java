@@ -9,30 +9,29 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "UserMapRole")
+@Table(name = "SurfaceActor")
 @DynamicUpdate
-@IdClass(UserMapRole.PK.class)
-public class UserMapRole implements DomainEntity {
+@IdClass(SurfaceActor.PK.class)
+public class SurfaceActor implements DomainEntity {
     @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "user", nullable = false, updatable = false)
     private UserProfile user;
     @Id
     @ManyToOne(optional = false)
-    @JoinColumn(name = "map", nullable = false, updatable = false)
-    private Map map;
-    @Id
-    @Column(name = "userMapRole", nullable = false, updatable = false)
-    @Enumerated(EnumType.STRING)
-    private UserMapRoles role;
+    @JoinColumn(name = "surface", nullable = false, updatable = false)
+    private Surface surface;
+    @Column
+    private boolean author;
+    @Column
+    private boolean editor;
 
-    protected UserMapRole() {
+    protected SurfaceActor() {
     }
 
-    public UserMapRole(UserProfile profile, Map map, UserMapRoles role) {
-        setUser(profile);
-        setMap(map);
-        setRole(role);
+    public SurfaceActor(Surface surface, UserProfile user) {
+        this.surface = surface;
+        this.user = user;
     }
 
     public UserProfile getUser() {
@@ -43,37 +42,42 @@ public class UserMapRole implements DomainEntity {
         this.user = user;
     }
 
-    public Map getMap() {
-        return map;
+    public Surface getSurface() {
+        return surface;
     }
 
-    protected void setMap(Map map) {
-        this.map = map;
+    protected void setSurface(Surface surface) {
+        this.surface = surface;
     }
 
-    public UserMapRoles getRole() {
-        return role;
+    public boolean isEditor() {
+        return editor;
     }
 
-    protected void setRole(UserMapRoles role) {
-        this.role = role;
+    public void setEditor(boolean editor) {
+        this.editor = editor;
+    }
+
+    public boolean isAuthor() {
+        return author;
+    }
+
+    public void setAuthor(boolean author) {
+        this.author = author;
     }
 
     public static class PK implements Serializable {
         private UserProfile user;
-        private Map map;
-        private UserMapRoles role;
+        private Surface surface;
 
         protected PK() {
         }
 
-        public PK(UserProfile user, Map map, UserMapRoles role) {
+        public PK(UserProfile user, Surface surface) {
             Assert.notNull(user);
-            Assert.notNull(map);
-            Assert.notNull(role);
+            Assert.notNull(surface);
             this.user = user;
-            this.map = map;
-            this.role = role;
+            this.surface = surface;
         }
 
         public UserProfile getUser() {
@@ -84,20 +88,12 @@ public class UserMapRole implements DomainEntity {
             this.user = user;
         }
 
-        public Map getMap() {
-            return map;
+        public Surface getSurface() {
+            return surface;
         }
 
-        protected void setMap(Map map) {
-            this.map = map;
-        }
-
-        public UserMapRoles getRole() {
-            return role;
-        }
-
-        protected void setRole(UserMapRoles role) {
-            this.role = role;
+        protected void setSurface(Surface surface) {
+            this.surface = surface;
         }
 
         @Override
@@ -109,16 +105,14 @@ public class UserMapRole implements DomainEntity {
 
             final PK other = (PK) instance;
             return user != null && user.isSame(other.user)
-                    && map != null && map.isSame(other.map)
-                    && role != null && role.equals(other.role);
+                    && surface != null && surface.isSame(other.surface);
         }
 
         @Override
         public int hashCode() {
             return new DomainHashCodeBuilder()
                     .append(user)
-                    .append(map)
-                    .append(role)
+                    .append(surface)
                     .toHashCode();
         }
     }

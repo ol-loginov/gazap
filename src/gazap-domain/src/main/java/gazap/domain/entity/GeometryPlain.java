@@ -12,63 +12,53 @@ import javax.persistence.Table;
 @DynamicUpdate
 @DiscriminatorValue(Geometry.Plain.CLASS)
 public class GeometryPlain extends Geometry {
-    @Column(name = "west")
-    private int west;
-    @Column(name = "north")
-    private int north;
-    @Column(name = "east")
-    private int east;
-    @Column(name = "south")
-    private int south;
-    @Column(name = "tileSize")
-    private int tileSize;
-    @Column(name = "scaleMin")
+    @Column
+    private int westMax;
+    @Column
+    private int northMax;
+    @Column
+    private int eastMax;
+    @Column
+    private int southMax;
+    @Column
     private int scaleMin;
-    @Column(name = "scaleMax")
+    @Column
     private int scaleMax;
 
     public GeometryPlain() {
         super(Plain.CLASS);
     }
 
-    public int getWest() {
-        return west;
+    public int getWestMax() {
+        return westMax;
     }
 
-    public void setWest(int west) {
-        this.west = west;
+    public void setWestMax(int westMax) {
+        this.westMax = westMax;
     }
 
-    public int getNorth() {
-        return north;
+    public int getNorthMax() {
+        return northMax;
     }
 
-    public void setNorth(int north) {
-        this.north = north;
+    public void setNorthMax(int northMax) {
+        this.northMax = northMax;
     }
 
-    public int getEast() {
-        return east;
+    public int getEastMax() {
+        return eastMax;
     }
 
-    public void setEast(int east) {
-        this.east = east;
+    public void setEastMax(int eastMax) {
+        this.eastMax = eastMax;
     }
 
-    public int getSouth() {
-        return south;
+    public int getSouthMax() {
+        return southMax;
     }
 
-    public void setSouth(int south) {
-        this.south = south;
-    }
-
-    public int getTileSize() {
-        return tileSize;
-    }
-
-    public void setTileSize(int tileSize) {
-        this.tileSize = tileSize;
+    public void setSouthMax(int southMax) {
+        this.southMax = southMax;
     }
 
     public int getScaleMin() {

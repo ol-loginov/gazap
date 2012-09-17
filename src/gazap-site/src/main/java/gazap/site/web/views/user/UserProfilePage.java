@@ -1,17 +1,16 @@
 package gazap.site.web.views.user;
 
-import gazap.domain.entity.UserWorldRoles;
-import gazap.site.model.viewer.MapTitle;
+import gazap.site.model.viewer.SurfaceTitle;
 import gazap.site.model.viewer.UserTitle;
 import gazap.site.model.viewer.WorldTitle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserProfilePage {
     private UserTitle user;
-    private List<WorldTitle> worlds = new ArrayList<WorldTitle>();
-    private Map<Integer, Set<UserWorldRoles>> worldRoles = new TreeMap<Integer, Set<UserWorldRoles>>();
-    private List<MapTitle> maps = new ArrayList<MapTitle>();
+    private List<WorldTitle> worlds = new ArrayList<>();
+    private List<SurfaceTitle> surfaces = new ArrayList<>();
 
     public UserTitle getUser() {
         return user;
@@ -29,23 +28,11 @@ public class UserProfilePage {
         this.worlds = worlds;
     }
 
-    public Map<Integer, Set<UserWorldRoles>> getWorldRoles() {
-        return worldRoles;
+    public List<SurfaceTitle> getSurfaces() {
+        return surfaces;
     }
 
-    public Set<UserWorldRoles> getWorldRolesList(int world) {
-        Set<UserWorldRoles> list = worldRoles.get(world);
-        if (list == null) {
-            worldRoles.put(world, list = new TreeSet<UserWorldRoles>());
-        }
-        return list;
-    }
-
-    public List<MapTitle> getMaps() {
-        return maps;
-    }
-
-    public void setMaps(List<MapTitle> maps) {
-        this.maps = maps;
+    public void setSurfaces(List<SurfaceTitle> surfaces) {
+        this.surfaces = surfaces;
     }
 }

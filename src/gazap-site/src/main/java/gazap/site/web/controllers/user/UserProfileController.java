@@ -1,14 +1,11 @@
 package gazap.site.web.controllers.user;
 
-import gazap.domain.dao.MapDao;
-import gazap.domain.dao.WorldDao;
-import gazap.domain.entity.Map;
+import gazap.domain.dao.WorldRepository;
+import gazap.domain.entity.Surface;
 import gazap.domain.entity.UserProfile;
-import gazap.domain.entity.UserWorldRole;
 import gazap.domain.entity.World;
-import gazap.site.exceptions.UserProfileNotFound;
+import gazap.site.exceptions.ObjectNotFoundException;
 import gazap.site.model.SimpleRegistry;
-import gazap.site.services.ModelViewerSet;
 import gazap.site.services.UserService;
 import gazap.site.web.controllers.BaseController;
 import gazap.site.web.views.user.UserProfilePage;
@@ -25,31 +22,25 @@ public class UserProfileController extends BaseController {
     @Autowired
     protected UserService userService;
     @Autowired
-    protected WorldDao worldDao;
-    @Autowired
-    protected MapDao mapDao;
+    protected WorldRepository worldRepository;
 
-    @RequestMapping("/user/{accountId}")
-    public ModelAndView showProfilePage(Locale locale, @PathVariable String accountId) throws UserProfileNotFound {
+    @RequestMapping("/u/{accountId}")
+    public ModelAndView showProfilePage(Locale locale, @PathVariable String accountId) throws ObjectNotFoundException {
         UserProfile account = userService.findUserByAliasOrId(accountId);
         if (account == null) {
-            throw new UserProfileNotFound();
+            throw new ObjectNotFoundException(UserProfile.class, accountId);
         }
 
         UserProfilePage page = new UserProfilePage();
         page.setUser(viewer.userTitle(account));
 
         SimpleRegistry<Integer, World> worldRegistry = new SimpleRegistry<Integer, World>();
-        for (UserWorldRole role : worldDao.listWorldRoleByUser(account)) {
-            worldRegistry.add(role.getWorld().getId(), role.getWorld());
-            page.getWorldRolesList(role.getWorld().getId()).add(role.getRole());
-        }
         for (World world : worldRegistry.values()) {
             page.getWorlds().add(viewer.worldTitle(world));
         }
 
-        for (Map map : mapDao.listMapBelongsToUser(account)) {
-            page.getMaps().add(viewer.mapTitle(map, ModelViewerSet.ADD_MAP_APPROVE_COUNT));
+        for (Surface surface : worldRepository.listSurfaceBelongsToUser(account)) {
+            page.getSurfaces().add(viewer.surfaceTitle(surface));
         }
 
         return responseBuilder(locale).view("user/profile", page);
