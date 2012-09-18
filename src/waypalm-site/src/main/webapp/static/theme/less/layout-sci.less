@@ -3,6 +3,8 @@ body {
 }
 
 #topBar {
+    float: none;
+
     > a.brand-logo {
         margin-left: .3em;
         text-decoration: none;
@@ -38,6 +40,84 @@ body {
                 color: #fafafa;
                 font-size: .7em;
                 line-height: 1em;
+            }
+        }
+    }
+}
+
+.fancybox-wrap {
+    top: 0 !important;
+    .fancybox-close {
+        display: none !important;
+    }
+}
+
+.small-modal-dialog {
+    max-width: 500px;
+    background: white;
+    border-radius: 0 0 5px 5px;
+
+    h1 {
+        margin: 0;
+        line-height: 100%;
+        color: white;
+        text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
+        padding: .3em .3em .2em;
+        background: #4682B4;
+
+        >.notice {
+            display: block;
+            font-size: 40%;
+            line-height: 100%;
+            text-align: right;
+            padding: 5px 10px;
+            a,
+            a:visited,
+            a:hover,
+            a:focus {
+                color: white;
+            }
+        }
+    }
+    > .notice {
+        padding: 5px 10px;
+        font-size: @baseFontSize * .8;
+        line-height: @baseLineHeight * .8;
+        margin-bottom: 0;
+        text-align: center;
+    }
+    >div {
+        padding: 0 10px 10px;
+        >form {
+            margin-bottom: 0;
+            margin-top: 10px;
+            >.control-group {
+                padding-bottom: 5px;
+                margin: 0 auto;
+                input {
+                    width: 90%;
+                }
+            }
+            >.alert {
+                margin-bottom: 0;
+                margin-top: 5px;
+                >ul {
+                    margin-bottom: 0;
+                }
+            }
+            .submit-option {
+                margin-left: 5px;
+            }
+            >.alert-progress {
+                display: none;
+            }
+            &.submit-in-progress {
+                >.alert-progress {
+                    display: inherit;
+                }
+                >.submit-group {
+                    display: none;
+                }
             }
         }
     }

@@ -10,12 +10,12 @@
         </span>
     </h1>
 
-    <p class="notice alert-info">
+    <div class="notice alert-info">
         #springMessage1('Login.notice.forget', $au)
-    </p>
+    </div>
 
     <div class="by-form">
-        <form id="loginForm" action="$au/auth" data-ax-action="$au/auth.ajax" method="post">
+        <form id="loginForm" action="$au/auth" method="post">
             <input type="hidden" name="_spring_security_remember_me" value="on"/>
 
             <div class="control-group">
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="control-group submit-group">
-                <button class="btn" type="submit">
+                <button class="btn btn-primary" type="submit">
                     #springMessage('Login.form.submit')
                 </button>
                 <a class="submit-option modal-closer">

@@ -1,0 +1,42 @@
+form {
+    .submit-option {
+        margin-left: 5px;
+    }
+    .progress-element {
+        display: none;
+    }
+    &.submit-in-progress {
+        .progress-element {
+            display: inline-block;
+        }
+        .static-element {
+            display: none;
+        }
+    }
+    .control-group.mandatory {
+        >.control-label:before {
+            content: "*";
+            color: @errorText;
+            padding-right: 5px;
+            font-weight: bold;
+        }
+    }
+    .control-group.sub-group {
+        margin-left: 100px;
+    }
+}
+
+#registerForm {
+    #recaptchaContainer {
+        float: left;
+        width: 320px;
+        height: 130px;
+        margin: 0 auto;
+        padding-bottom: 10px;
+        p.wait-message {
+            width: 100%;
+            text-align: center;
+            padding-top: 50px;
+        }
+    }
+}
