@@ -36,6 +36,7 @@
         );
     </script>
 
+    <link rel="stylesheet" href="${libRoot}/fancybox/jquery.fancybox.css"/>
     #if($eCdn.debugMode)
         <link rel="stylesheet/less" href="$cp/static/theme/less/layout.less"/>
         <script type="text/javascript" src="$libRoot/less/less-1.3.0.min.js"></script>

@@ -4,6 +4,7 @@
 <body class="sci">
 <section id="topBar">
     #parse('shared/html-bars-brand.vm')
+    #parse('shared/html-bars-account.vm')
 </section>
 </body>
 </html>

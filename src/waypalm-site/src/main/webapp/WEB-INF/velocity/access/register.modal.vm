@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+    #set($au=$eCdn.server)
+    #set($cp=$eCdn.contextPath)
+    #parse('shared/spring-macros.vm')
+<div id="modalRegister" class="small-modal-dialog">
+    <h1>
+        #springMessage('Register.title')
+        <span class="notice">
+            #springMessage1('Register.title.login', $au)
+        </span>
+    </h1>
+
+    <p class="notice alert-info">
+        #springMessage1('Register.notice', $au)
+    </p>
+
+    <div>
+        <form id="registerForm" action="${au}/auth/register" method="post">
+            <div class="control-group">
+                <div class="controls">
+                    <input type="text" name="username"
+                           placeholder="#springMessage('Register.form.username.placeholder')"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="password" name="password"
+                           placeholder="#springMessage('Register.form.password.placeholder')"/>
+                </div>
+            </div>
+            <div id="recaptchaContainer">
+                <div id="recaptcha-container"
+                     class="recaptcha_nothad_incorrect_sol recaptcha_isnot_showing_audio">
+                    <p class="wait-message">
+                        #springMessage('Register.waitCaptcha')
+                    </p>
+                </div>
+            </div>
+            <div class="control-group submit-group">
+                <button class="btn" type="submit">
+                    #springMessage('Register.form.submit')
+                </button>
+                <a class="submit-option modal-closer">
+                    #springMessage('Register.form.cancel')
+                </a>
+            </div>
+            <div class="alert alert-message alert-progress hidden">
+                #springMessage('Register.form.submitting')
+            </div>
+            <div class="alert alert-error hidden"/>
+        </form>
+        <script type="text/javascript">head('local_bus', function () {
+            BUS.captcha.init('#springMessage('recaptcha.public')');
+            BUS.account.modal_register_dialog.init('#registerForm')
+        })</script>
+    </div>
+</div>

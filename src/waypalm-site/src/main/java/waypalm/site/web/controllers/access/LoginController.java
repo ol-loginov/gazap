@@ -22,22 +22,21 @@ public class LoginController extends BaseController {
     private final static String FORM_LOGIN_FILTER = "/j_spring_security_check";
 
     public final static String LOGIN_ROUTE = "/auth";
-    public final static String LOGIN_ROUTE_AJAX = LOGIN_ROUTE + ".ajax";
 
     @Autowired
     protected UserAccess userAccess;
 
     private AuthenticationRequestHelper authenticationRequestHelper = new AuthenticationRequestHelper();
 
-    @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.GET)
-    public ModelAndView getLoginPage(Locale locale) {
+    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.GET, params = "_target=modal")
+    public ModelAndView getLoginPageModal(Locale locale) {
         LoginMethods dialog = new LoginMethods();
         dialog.getAuthProviders().addAll(userAccess.getAvailableSocialProviders());
-        return responseBuilder(locale).view("access/login.ajax", dialog);
+        return responseBuilder(locale).view("access/login.modal", dialog);
     }
 
-    @RequestMapping(value = LOGIN_ROUTE_AJAX, method = RequestMethod.POST)
-    public ModelAndView proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
+    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.POST)
+    public ModelAndView proceedFormLoginModal(Locale locale, HttpServletRequest request) throws IOException, ServletException {
         authenticationRequestHelper
                 .useAnswer(request, ApiAnswerType.JSON)
                 .useResponse(request, AuthenticationResponse.STATUS);

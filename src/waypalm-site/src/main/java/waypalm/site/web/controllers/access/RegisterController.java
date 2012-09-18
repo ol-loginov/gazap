@@ -1,16 +1,16 @@
 package waypalm.site.web.controllers.access;
 
-import waypalm.site.web.model.ApiAnswer;
-import waypalm.site.services.UserService;
-import waypalm.site.web.controllers.BaseController;
-import waypalm.site.web.controllers.ResponseBuilder;
-import waypalm.site.web.views.access.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import waypalm.site.services.UserService;
+import waypalm.site.web.controllers.BaseController;
+import waypalm.site.web.controllers.ResponseBuilder;
+import waypalm.site.web.model.ApiAnswer;
+import waypalm.site.web.views.access.Register;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -20,11 +20,11 @@ public class RegisterController extends BaseController {
     @Autowired
     protected UserService userService;
 
-    @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth/register", method = RequestMethod.GET, params = "_target=modal")
     public ModelAndView showFormAjax(Locale locale) {
         Register response = new Register();
         response.setForm(new RegisterForm());
-        return responseBuilder(locale).view("access/register.ajax", response);
+        return responseBuilder(locale).view("access/register.modal", response);
     }
 
     @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.POST)
@@ -36,7 +36,7 @@ public class RegisterController extends BaseController {
         } else {
             userService.createUser(form.getUsername(), form.getPassword());
             response.setSuccess(true);
-            response.setLoginUrl(LoginController.LOGIN_ROUTE_AJAX);
+            response.setLoginUrl(LoginController.LOGIN_ROUTE);
         }
         return responseBuilder.json(response);
     }

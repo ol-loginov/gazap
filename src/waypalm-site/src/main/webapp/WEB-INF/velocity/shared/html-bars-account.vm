@@ -49,11 +49,8 @@
             })
         </script>
     #else
-        <h3>
-            #springMessage('accountBar.anonymous.welcome')
-        </h3>
-    <span>
-        #springMessage1('accountBar.anonymous.welcome.p', $au)
-    </span>
+        <span class="actions">
+            #springMessage1('accountBar.anonymous.actions', $cp)
+        </span>
     #end
 </section>
