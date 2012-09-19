@@ -53,24 +53,26 @@ body {
 }
 
 .small-modal-dialog {
-    max-width: 500px;
-    background: white;
+    @backColor: #FEFFFF;
+    @headerBackColor: #58666E;
+    width: 500px;
+    background: @backColor;
     border-radius: 0 0 5px 5px;
 
-    h1 {
+    > h1 {
         margin: 0;
         line-height: 100%;
         color: white;
-        text-shadow: -1px 1px 1px rgba(55, 55, 55, 0.8);
+        text-shadow: -.08em .08em .08em rgba(55, 55, 55, 0.8);
         padding: .3em .3em .2em;
-        background: #4682B4;
+        background: @headerBackColor url(../images/body-net-opaque.png) repeat-x bottom left;
 
         >.notice {
             display: block;
             font-size: 40%;
             line-height: 100%;
             text-align: right;
-            padding: 5px 10px;
+            padding: .4em .5em;
             a,
             a:visited,
             a:hover,
@@ -79,28 +81,34 @@ body {
             }
         }
     }
-    > .notice {
-        padding: 5px 10px;
-        font-size: @baseFontSize * .8;
-        line-height: @baseLineHeight * .8;
+    > div.notice {
+        background: @headerBackColor;
+        color: white;
+        padding: .4em .5em;
+        font-size: 80%;
+        line-height: 80%;
         margin-bottom: 0;
         text-align: center;
     }
-    >div {
-        padding: 0 10px 10px;
+    > div.content {
+        border: solid .2em @headerBackColor;
+        border-radius: 0 0 5px 5px;
+
+        padding: 0 .5em;
+        margin: 0 auto;
         >form {
             margin-bottom: 0;
-            margin-top: 10px;
+            margin-top: .7em;
             >.control-group {
-                padding-bottom: 5px;
+                padding-bottom: .4em;
                 margin: 0 auto;
                 input {
-                    width: 90%;
+                    width: 50%;
                 }
             }
             >.alert {
                 margin-bottom: 0;
-                margin-top: 5px;
+                margin-top: .4em;
                 >ul {
                     margin-bottom: 0;
                 }

@@ -6,29 +6,20 @@
     <h1>
         #springMessage('Login.title')
         <span class="notice">
-            #springMessage1('Login.title.registration', $au)
+            #springMessage1('Login.title.notice', $au)
         </span>
     </h1>
-
-    <div class="notice alert-info">
-        #springMessage1('Login.notice.forget', $au)
-    </div>
-
-    <div class="by-form">
+    <div class="by-form content">
         <form id="loginForm" action="$au/auth" method="post">
             <input type="hidden" name="_spring_security_remember_me" value="on"/>
 
             <div class="control-group">
-                <div class="controls">
-                    <input type="email" name="j_username"
-                           placeholder="#springMessage('Login.auth.form.username.placeholder')"/>
-                </div>
+                <input type="email" name="j_username"
+                       placeholder="#springMessage('Login.auth.form.username.placeholder')"/>
             </div>
             <div class="control-group">
-                <div class="controls">
-                    <input type="password" name="j_password"
-                           placeholder="#springMessage('Login.auth.form.password.placeholder')"/>
-                </div>
+                <input type="password" name="j_password"
+                       placeholder="#springMessage('Login.auth.form.password.placeholder')"/>
             </div>
             <div class="control-group submit-group">
                 <button class="btn btn-primary" type="submit">
