@@ -1,5 +1,6 @@
 <a id="brandLogo" href="$eCdn.server"><!--brand goes here--></a>
-<div id="brandMenu">
-    <a class="first">аккаунт</a>
-    <a class="second">меню</a>
-</div>
+<ul id="brandMenu">
+    <li class="first"><a id="siteMenuToggler">карта сайта</a></li>
+    <li class="second"><a id="accountMenuToggler">аккаунт</a></li>
+</ul>
+<div id="brandMenuContent" class="hidden"></div>
