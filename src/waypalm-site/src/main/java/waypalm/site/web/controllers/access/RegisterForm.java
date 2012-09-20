@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @ReCaptcha
 public class RegisterForm {
     @UserEmail
-    @Size(min = 1, max = UserProfile.CONTACT_EMAIL_LENGTH)
+    @Size(min = 1, max = UserProfile.EMAIL_LENGTH)
     @UserEmailRegistered(false)
     private String username;
     @NotNull

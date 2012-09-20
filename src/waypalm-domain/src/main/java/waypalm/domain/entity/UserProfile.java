@@ -1,17 +1,19 @@
 package waypalm.domain.entity;
 
-import waypalm.domain.entity.base.IntegerIdentityCUD;
 import org.hibernate.annotations.DynamicUpdate;
+import waypalm.domain.entity.base.IntegerIdentityCUD;
 
 import javax.persistence.*;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "UserProfile")
 @DynamicUpdate
 public class UserProfile extends IntegerIdentityCUD {
-    public static final int CONTACT_EMAIL_LENGTH = 128;
+    public static final int EMAIL_LENGTH = 128;
+    public static final int EMAIL_CONFIRM_TOKEN_LENGTH = 128;
     public static final int PASSWORD_LENGTH = 64;
     public static final int PASSWORD_SALT_LENGTH = 32;
     public static final int DISPLAY_NAME_LENGTH = 64;
@@ -19,15 +21,19 @@ public class UserProfile extends IntegerIdentityCUD {
 
     @Column(name = "systemAccount", nullable = false)
     private boolean systemAccount;
-    @Column(name = "alias", length = ALIAS_LENGTH)
+    @Column(length = ALIAS_LENGTH)
     private String alias;
-    @Column(name = "email", nullable = false, length = CONTACT_EMAIL_LENGTH)
+    @Column(nullable = false, length = EMAIL_LENGTH)
     private String email;
-    @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
+    @Column
+    private Date emailConfirmDate;
+    @Column(length = EMAIL_CONFIRM_TOKEN_LENGTH)
+    private String emailConfirmToken;
+    @Column(nullable = false, length = PASSWORD_LENGTH)
     private String password;
-    @Column(name = "passwordSalt", nullable = false, length = PASSWORD_SALT_LENGTH)
+    @Column(nullable = false, length = PASSWORD_SALT_LENGTH)
     private String passwordSalt;
-    @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
+    @Column(nullable = false, length = DISPLAY_NAME_LENGTH)
     private String displayName;
     @ElementCollection
     @CollectionTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
@@ -89,5 +95,21 @@ public class UserProfile extends IntegerIdentityCUD {
 
     public void setPasswordSalt(String passwordSalt) {
         this.passwordSalt = passwordSalt;
+    }
+
+    public Date getEmailConfirmDate() {
+        return emailConfirmDate;
+    }
+
+    public void setEmailConfirmDate(Date emailConfirmDate) {
+        this.emailConfirmDate = emailConfirmDate;
+    }
+
+    public String getEmailConfirmToken() {
+        return emailConfirmToken;
+    }
+
+    public void setEmailConfirmToken(String emailConfirmToken) {
+        this.emailConfirmToken = emailConfirmToken;
     }
 }

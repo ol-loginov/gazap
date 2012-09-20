@@ -1,4 +1,5 @@
-<a class="brand-logo" href="$eCdn.server">
-    <span></span>
-    WAY-PALM
-</a>
+<a id="brandLogo" href="$eCdn.server"><!--brand goes here--></a>
+<div id="brandMenu">
+    <a class="first">аккаунт</a>
+    <a class="second">меню</a>
+</div>

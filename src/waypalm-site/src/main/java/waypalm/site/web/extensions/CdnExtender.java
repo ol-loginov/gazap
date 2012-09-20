@@ -17,7 +17,7 @@ public class CdnExtender extends Extender<CdnExtension> {
         extension.setServer(engineSetup.getSiteUrl());
         extension.setContextPath(engineSetup.getServletContext());
         extension.setYear(DateUtil.utc().get(Calendar.YEAR));
-        extension.setLocale(request.getLocale().toString());
+        extension.setLocale(request.getLocale().getLanguage());
         extension.setDebugMode(engineSetup.isDebugMode());
         return extension;
     }

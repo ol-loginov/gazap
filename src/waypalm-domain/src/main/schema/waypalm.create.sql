@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     17.09.2012 13:42:35                          */
+/* Created on:     20.09.2012 19:09:15                          */
 /*==============================================================*/
 
 
@@ -20,7 +20,7 @@ drop table if exists GeometryPlainTile;
 
 drop table if exists Surface;
 
-drop table if exists Surface_Actors;
+drop table if exists SurfaceActor;
 
 drop table if exists UserAcl;
 
@@ -32,7 +32,7 @@ drop table if exists UserSummary;
 
 drop table if exists World;
 
-drop table if exists World_Actors;
+drop table if exists WorldActor;
 
 /*==============================================================*/
 /* Table: Avatar                                                */
@@ -169,9 +169,9 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: Surface_Actors                                        */
+/* Table: SurfaceActor                                          */
 /*==============================================================*/
-create table Surface_Actors
+create table SurfaceActor
 (
    surface              int not null,
    user                 int not null,
@@ -206,6 +206,8 @@ create table UserProfile
    deletedAt            datetime,
    systemAccount        bit(1) not null default 0,
    email                varchar(128) not null,
+   emailConfirmDate     datetime,
+   emailConfirmToken    varchar(128),
    password             varchar(64) not null,
    passwordSalt         varchar(32) not null,
    alias                varchar(32),
@@ -273,9 +275,9 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: World_Actors                                          */
+/* Table: WorldActor                                            */
 /*==============================================================*/
-create table World_Actors
+create table WorldActor
 (
    world                int not null,
    user                 int not null,
@@ -313,10 +315,10 @@ alter table Surface add constraint FK_Surface_geometry foreign key (id)
 alter table Surface add constraint FK_Surface_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 
-alter table Surface_Actors add constraint FK_SurfaceRole_surface foreign key (surface)
+alter table SurfaceActor add constraint FK_SurfaceRole_surface foreign key (surface)
       references Surface (id) on delete restrict on update restrict;
 
-alter table Surface_Actors add constraint FK_SurfaceRole_user foreign key (user)
+alter table SurfaceActor add constraint FK_SurfaceRole_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
 alter table UserAcl add constraint FK_UserAcl_userProfile foreign key (userProfile)
@@ -328,9 +330,9 @@ alter table UserSocialLink add constraint FK_UserSocialLink_user foreign key (us
 alter table UserSummary add constraint FK_UserSummary_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
-alter table World_Actors add constraint FK_WorldRole_user foreign key (user)
+alter table WorldActor add constraint FK_WorldRole_user foreign key (user)
       references UserProfile (id) on delete restrict on update restrict;
 
-alter table World_Actors add constraint FK_WorldRole_world foreign key (world)
+alter table WorldActor add constraint FK_WorldRole_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 

@@ -1,0 +1,46 @@
+@sciHeaderBorderColor: lighten(#121111, 7%);
+
+header.sci-header {
+    background: #1E1E1E url(../images/dirty_header.png);
+    border-bottom: solid 1px @sciHeaderBorderColor;
+    .box-shadow(0 2px 2px @sciHeaderBorderColor);
+}
+
+#logoBar {
+    float: left;
+
+    > #brandLogo {
+        float: left;
+        margin-left: .5em;
+        text-decoration: none;
+        display: block;
+        width: 170px;
+        height: 40px;
+        background: transparent url(../images/dirty_brand.png) no-repeat center center;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    > #brandMenu {
+        float: left;
+        width: 10em;
+        padding: .2em 0 .2em 1em;
+        text-align: right;
+        border-right: solid 1px @sciHeaderBorderColor;
+
+        > a {
+            width: 100%;
+            display: block;
+            color: #eaeaea;
+            font-size: 80%;
+            text-decoration: none;
+            padding-right: 1em;
+            &.second {
+                border-top: solid 1px @sciHeaderBorderColor;
+            }
+        }
+    }
+
+}

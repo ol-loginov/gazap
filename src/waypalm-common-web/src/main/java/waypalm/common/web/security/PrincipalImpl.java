@@ -1,10 +1,10 @@
 package waypalm.common.web.security;
 
-import waypalm.domain.entity.UserProfile;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import waypalm.domain.entity.UserProfile;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,7 +16,7 @@ public class PrincipalImpl implements UserDetails {
     private final String userPass;
     private final String userPassSalt;
 
-    private final Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+    private final Set<GrantedAuthority> authorities = new HashSet<>();
 
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
@@ -75,10 +75,6 @@ public class PrincipalImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public boolean isValid() {

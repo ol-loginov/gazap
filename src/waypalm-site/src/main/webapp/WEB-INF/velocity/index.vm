@@ -2,9 +2,10 @@
 <html>
     #parse('shared/html-head.vm')
 <body class="sci">
-<section id="topBar" class="clearfix">
-    #parse('shared/html-bars-brand.vm')
-    #parse('shared/html-bars-account.vm')
-</section>
+<header class="sci-header clearfix">
+    <section id="logoBar">
+        #parse('shared/html-bars-brand.vm')
+    </section>
+</header>
 </body>
 </html>
