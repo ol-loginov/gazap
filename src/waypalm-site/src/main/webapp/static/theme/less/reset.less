@@ -12,6 +12,10 @@ body {
 a, a:hover {
     text-decoration: underline;
     cursor: pointer;
+    color: black;
+    &:visited {
+        color: lighten(black, 5%);
+    }
 }
 
 .hidden {

@@ -12,4 +12,14 @@ public class IndexController extends BaseController {
     public ModelAndView welcome(Locale locale) {
         return responseBuilder(locale).view("index");
     }
+
+    @RequestMapping(value = "/brandMenu/account", params = "_target=bar")
+    public ModelAndView accountMenu(Locale locale) {
+        return responseBuilder(locale).view("brandMenu-account.bar");
+    }
+
+    @RequestMapping(value = "/brandMenu/site", params = "_target=bar")
+    public ModelAndView siteMenu(Locale locale) {
+        return responseBuilder(locale).view("brandMenu-site.bar");
+    }
 }

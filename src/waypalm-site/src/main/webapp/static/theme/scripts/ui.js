@@ -29,30 +29,30 @@ if (typeof(UI) == "undefined") {
 
 UI.BrandMenuController = {
     list:null,
-    current:null,
-    toggleMenu:function (menu) {
+    contentUrl:null,
+    toggleMenu:function (/*String*/contentUrl) {
         $('li', this.list).removeClass('open');
-        if (this.current == menu) {
+        if (this.contentUrl == contentUrl) {
             this.hideMenu();
         } else {
-            this.showMenu(menu);
+            this.showMenu(contentUrl);
         }
     },
-    showMenu:function (/*String*/menu) {
-        switch (menu) {
-            case 'site':
-                $('li.first', this.list).addClass('open');
-                break;
-            case 'account':
-                $('li.second', this.list).addClass('open');
-                break;
-        }
-        this.content.fadeIn();
-        this.current = menu;
+    showMenu:function (/*String*/contentUrl) {
+        var self = this;
+        $('a[href="' + contentUrl + '"]', this.list).parent('li').first().addClass('open');
+        this.content.empty().append('<div class="load-wait"/>').fadeIn();
+        this.contentUrl = contentUrl;
+        $.get(this.addTargetParameter(this.contentUrl), function (data, status, xhr) {
+            $(data).hide().appendTo(self.content.empty()).fadeIn(1000)
+        });
     },
     hideMenu:function () {
-        this.current = null;
-        this.content.fadeOut();
+        this.contentUrl = null;
+        this.content.fadeOut().empty();
+    },
+    addTargetParameter:function (/*String*/url) {
+        return url + (url.indexOf('?') > 0 ? "&" : "?") + "_target=bar";
     }
 };
 
@@ -60,10 +60,8 @@ head.ready(function () {
     var controller = UI.BrandMenuController;
     controller.list = $('#brandMenu');
     controller.content = $('#brandMenuContent');
-    $('#siteMenuToggler').click(function () {
-        controller.toggleMenu('site');
-    });
-    $('#accountMenuToggler').click(function () {
-        controller.toggleMenu('account');
+    $('#siteMenuToggler, #accountMenuToggler').click(function () {
+        controller.toggleMenu($(this).attr('href'));
+        return false;
     });
 });
