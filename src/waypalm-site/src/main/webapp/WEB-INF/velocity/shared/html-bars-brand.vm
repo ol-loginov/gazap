@@ -1,6 +1,8 @@
 <a id="brandLogo" href="$eCdn.server"><!--brand goes here--></a>
 <ul id="brandMenu">
-    <li class="first"><a id="siteMenuToggler" href="$eCdn.contextPath/brandMenu/site">карта сайта</a></li>
-    <li class="second"><a id="accountMenuToggler" href="$eCdn.contextPath/brandMenu/account">аккаунт</a></li>
+    <li class="first"><a id="siteMenuToggler" href="$eCdn.contextPath/brandMenu/site" title="карта сайта">
+        карта сайта</a></li>
+    <li class="second"><a id="accountMenuToggler" href="$eCdn.contextPath/brandMenu/account" title="вход в аккаунт">
+        вход в аккаунт</a></li>
 </ul>
 <div id="brandMenuContent" class="hidden"></div>

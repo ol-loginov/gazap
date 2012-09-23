@@ -8,3 +8,20 @@ body {
     background: #1E1E1E url(../images/dirty_body.png) repeat-x center top;
     min-width: 640px;
 }
+
+div.two-column {
+    display: table-row;
+
+    > .left {
+        display: table-cell;
+    }
+
+    > .right {
+        display: table-cell;
+    }
+}
+
+.one-liner {
+    word-break: keep-all;
+    white-space: nowrap;
+}

@@ -1,16 +1,32 @@
+.btn-style(@color: #555){
+    border: solid 1px @color;
+    cursor: pointer;
+    background: @color;
+}
+
 form {
     .formRow {
-        margin:.1em;
+        margin: .3em;
     }
 }
 
-input[type=text],
-input[type=password],
-input[type=email] {
+input {
+    @borderColor: #999;
     padding: .2em;
-    border: solid 1px #999;
-    .border-radius(.5em);
-    .box-shadow(0  0 .1em #333);
-    background: #888 url(../images/input-back-shadow-white.png) top left repeat-x;
-    color: white;
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px @borderColor;
+    border-left: solid 1px @borderColor;
+    background: none;
+    color: #fff;
+
+    &:focus {
+        outline: none;
+        border-color: lighten(@borderColor, 20%);
+    }
 }
+
+input[type=submit] {
+    .btn-style();
+}
+

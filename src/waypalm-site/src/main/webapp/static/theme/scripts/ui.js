@@ -44,7 +44,7 @@ UI.BrandMenuController = {
         this.content.empty().append('<div class="load-wait"/>').fadeIn();
         this.contentUrl = contentUrl;
         $.get(this.addTargetParameter(this.contentUrl), function (data, status, xhr) {
-            $(data).hide().appendTo(self.content.empty()).fadeIn(1000)
+            $(data).hide().appendTo(self.content.empty()).fadeIn(500);
         });
     },
     hideMenu:function () {

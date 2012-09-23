@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <div id="accountBar" class="content">
-    <span class="head">Введите адрес почты и пароль</span>
-
-    <form>
+    <form method="post" action="$eCdn.contextPath/auth">
         <div class="formRow">
             <input type="text" name="j_username" placeholder="e-mail"/>
         </div>
         <div class="formRow">
             <input type="password" name="j_password" placeholder="пароль"/>
         </div>
-        <div class="formRow">
+        <div class="formRow one-liner">
             <input type="submit" value="войти"/>
+            <span class="one-liner">
+                <a href="$eCdn.contextPath/auth/register">регистрация</a>
+                <a href="$eCdn.contextPath/auth/reset">сброс пароля</a>
+            </span>
         </div>
     </form>
 </div>
