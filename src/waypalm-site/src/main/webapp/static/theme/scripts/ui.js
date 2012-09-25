@@ -27,41 +27,5 @@ if (typeof(UI) == "undefined") {
     });
 })(jQuery);
 
-UI.BrandMenuController = {
-    list:null,
-    contentUrl:null,
-    toggleMenu:function (/*String*/contentUrl) {
-        $('li', this.list).removeClass('open');
-        if (this.contentUrl == contentUrl) {
-            this.hideMenu();
-        } else {
-            this.showMenu(contentUrl);
-        }
-    },
-    showMenu:function (/*String*/contentUrl) {
-        var self = this;
-        $('a[href="' + contentUrl + '"]', this.list).parent('li').first().addClass('open');
-        this.content.empty().append('<div class="load-wait"/>').fadeIn();
-        this.contentUrl = contentUrl;
-        $.get(this.addTargetParameter(this.contentUrl), function (data, status, xhr) {
-            $(data).hide().appendTo(self.content.empty()).fadeIn(500);
-        });
-    },
-    hideMenu:function () {
-        this.contentUrl = null;
-        this.content.fadeOut().empty();
-    },
-    addTargetParameter:function (/*String*/url) {
-        return url + (url.indexOf('?') > 0 ? "&" : "?") + "_target=bar";
-    }
-};
-
 head.ready(function () {
-    var controller = UI.BrandMenuController;
-    controller.list = $('#brandMenu');
-    controller.content = $('#brandMenuContent');
-    $('#siteMenuToggler, #accountMenuToggler').click(function () {
-        controller.toggleMenu($(this).attr('href'));
-        return false;
-    });
 });

@@ -31,12 +31,9 @@
     <security:http auto-config="true">
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 
-        <security:form-login login-page="/auth" default-target-url="/"
-                             authentication-success-handler-ref="authenticationHandler"
-                             authentication-failure-handler-ref="authenticationHandler"/>
+        <security:form-login login-page="/auth" default-target-url="/"/>
 
-        <security:openid-login user-service-ref="principalProvider"
-                               authentication-failure-handler-ref="authenticationHandler">
+        <security:openid-login user-service-ref="principalProvider">
             <security:attribute-exchange>
                 <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"
                                            count="1"/>
@@ -52,8 +49,7 @@
 
     <bean id="oauthAuthenticationFilter" class="waypalm.site.web.mvc.oauth.OAuthAuthenticationFilter"
           p:authenticationManager-ref="authenticationManager"
-          p:rememberMeServices-ref="rememberMeServices"
-          p:authenticationFailureHandler-ref="authenticationHandler"/>
+          p:rememberMeServices-ref="rememberMeServices"/>
     <bean id="oauthAuthenticationProvider" class="waypalm.site.web.mvc.oauth.OAuthAuthenticationProvider"
           p:userDetailsService-ref="principalProvider"/>
 

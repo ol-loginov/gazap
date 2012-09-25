@@ -9,13 +9,31 @@ body {
     min-width: 640px;
 }
 
+#bodyColumns {
+    display: table;
+    width: 100%;
+
+    > .content {
+        display: table-row;
+
+        > .left,
+        >.center,
+        >.right {
+            display: table-cell;
+            width: 30%;
+            vertical-align: top;
+        }
+
+        >.center {
+            width: 40%;
+        }
+    }
+}
+
 div.two-column {
     display: table-row;
 
-    > .left {
-        display: table-cell;
-    }
-
+    > .left,
     > .right {
         display: table-cell;
     }
@@ -24,4 +42,22 @@ div.two-column {
 .one-liner {
     word-break: keep-all;
     white-space: nowrap;
+}
+
+.w100p {
+    width: 100%;
+}
+
+.widget {
+    padding-top: .5em;
+    > .head {
+        font-size: 120%;
+        line-height: 120%;
+        color: white;
+    }
+    > .body {
+        font-size: 100%;
+        line-height: 100%;
+        color: white;
+    }
 }

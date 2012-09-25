@@ -7,18 +7,18 @@
         #parse('shared/html-bars-brand.vm')
     </div>
 </header>
-<div style="text-align: center">
-    <form>
-        <div class="formRow">
-            <input type="text" name="j_username" placeholder="e-mail"/>
+<div id="bodyColumns">
+    <div class="content">
+        <div class="left">
+            #parse('user-column.vm')
         </div>
-        <div class="formRow">
-            <input type="password" name="j_password" placeholder="пароль"/>
+        <div class="center">
+            #parse('world-column.vm')
         </div>
-        <div class="formRow">
-            <input type="submit" value="войти"/>
+        <div class="right">
+            #parse('news-column.vm')
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>

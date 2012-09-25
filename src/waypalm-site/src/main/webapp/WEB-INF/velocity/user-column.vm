@@ -1,0 +1,19 @@
+#if($eVisitor.logged)
+<div>
+    <a href="$eCdn.contextPath/auth/logout" class="btn">#springMessage('Auth.logOut')</a>
+</div>
+#else
+<div>
+    <form method="post" action="$eCdn.contextPath/auth">
+        <div class="formRow">
+            <input type="email" name="j_username" placeholder="#springMessage('Auth.form.email.placeholder')"/>
+        </div>
+        <div class="formRow">
+            <input type="password" name="j_password" placeholder="#springMessage('Auth.form.password.placeholder')"/>
+        </div>
+        <div class="formRow">
+            <input type="submit" value="#springMessage('Auth.logIn')"/>
+        </div>
+    </form>
+</div>
+#end
