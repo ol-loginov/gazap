@@ -15,10 +15,10 @@
         <div class="head">
             <ul class="quick-actions">
                 <li>
-                    <a href="$eCdn.contextPath/i/worlds">view all</a>
+                    <a href="$eCdn.contextPath/i/worlds">управление</a>
                 </li>
             </ul>
-            <h3>Мои миры Мои миры</h3>
+            <h3>Избранные миры</h3>
         </div>
     </div>
 </div>

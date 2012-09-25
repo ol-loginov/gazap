@@ -28,7 +28,9 @@
         <security:authentication-provider ref="oauthAuthenticationProvider"/>
     </security:authentication-manager>
 
-    <security:http auto-config="true">
+    <security:http auto-config="true" use-expressions="true">
+        <security:intercept-url pattern="/i" access="isAuthenticated()"/>
+
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 
         <security:form-login login-page="/auth" default-target-url="/"/>

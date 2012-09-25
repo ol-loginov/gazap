@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+    #parse('shared/html-head.vm')
+<body class="sci">
+<header class="sci-header">
+    <div id="logoBar">
+        #parse('shared/html-bars-brand.vm')
+    </div>
+</header>
+</body>
+</html>
