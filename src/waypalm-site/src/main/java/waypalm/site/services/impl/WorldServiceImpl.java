@@ -5,7 +5,7 @@ import waypalm.domain.entity.UserProfile;
 import waypalm.domain.entity.World;
 import waypalm.domain.entity.WorldActor;
 import waypalm.site.services.WorldService;
-import waypalm.site.web.controllers.world.WorldCreateForm;
+import waypalm.site.model.world.WorldCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

@@ -1,7 +1,7 @@
 package waypalm.site.web.mvc;
 
 import waypalm.site.web.model.ApiAnswerType;
-import waypalm.site.web.controllers.access.StatusController;
+import waypalm.site.web.controllers.user.StatusController;
 import waypalm.site.web.controllers.errors.AuthErrorsController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.access;
+package waypalm.site.web.controllers.user;
 
 import waypalm.site.web.model.ApiAnswer;
 import waypalm.site.web.controllers.BaseController;

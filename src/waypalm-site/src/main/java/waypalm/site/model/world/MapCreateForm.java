@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.map;
+package waypalm.site.model.world;
 
 import waypalm.domain.entity.Geometry;
 import waypalm.domain.entity.Surface;

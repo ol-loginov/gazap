@@ -5,6 +5,7 @@ import waypalm.domain.entity.Geometry;
 import waypalm.domain.entity.Surface;
 import waypalm.domain.entity.World;
 import waypalm.site.model.viewer.SurfaceTitle;
+import waypalm.site.model.world.MapCreateForm;
 import waypalm.site.services.SurfaceService;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.ResponseBuilder;

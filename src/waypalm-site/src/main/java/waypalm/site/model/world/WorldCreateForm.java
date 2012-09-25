@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.world;
+package waypalm.site.model.world;
 
 import waypalm.domain.entity.World;
 import waypalm.site.validation.UniqueWorldProfileTitle;

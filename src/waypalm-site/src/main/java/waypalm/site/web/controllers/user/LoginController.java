@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.access;
+package waypalm.site.web.controllers.user;
 
 import waypalm.site.services.UserAccess;
 import waypalm.site.web.controllers.BaseController;

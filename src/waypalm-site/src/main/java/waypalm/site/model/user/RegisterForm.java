@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.access;
+package waypalm.site.model.user;
 
 import waypalm.domain.entity.UserProfile;
 import waypalm.site.validation.ReCaptcha;

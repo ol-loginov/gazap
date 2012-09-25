@@ -1,6 +1,6 @@
 package waypalm.site.web.views.access;
 
-import waypalm.site.web.controllers.access.RestoreForm;
+import waypalm.site.model.user.RestoreForm;
 
 public class Restore {
     private RestoreForm form;

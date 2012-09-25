@@ -1,6 +1,6 @@
 package waypalm.site.web.views.access;
 
-import waypalm.site.web.controllers.access.RegisterForm;
+import waypalm.site.model.user.RegisterForm;
 
 public class Register {
     private RegisterForm form;

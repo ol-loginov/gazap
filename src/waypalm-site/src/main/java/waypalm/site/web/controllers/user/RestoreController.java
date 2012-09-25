@@ -1,5 +1,6 @@
-package waypalm.site.web.controllers.access;
+package waypalm.site.web.controllers.user;
 
+import waypalm.site.model.user.RestoreForm;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.views.access.Restore;
 import org.springframework.stereotype.Controller;

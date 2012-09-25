@@ -2,6 +2,7 @@ package waypalm.site.web.controllers.world;
 
 import waypalm.domain.entity.World;
 import waypalm.site.model.viewer.WorldTitle;
+import waypalm.site.model.world.WorldCreateForm;
 import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.ResponseBuilder;

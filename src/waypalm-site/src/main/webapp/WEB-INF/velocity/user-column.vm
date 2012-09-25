@@ -1,6 +1,15 @@
 #if($eVisitor.logged)
-<div>
-    <a href="$eCdn.contextPath/auth/logout" class="btn">#springMessage('Auth.logOut')</a>
+<div id="userColumn">
+    <div class="user-title clearfix">
+        <img src="http://www.gravatar.com/avatar/$eVisitor.user.gravatar?s=48" width="48" height="48" title="" alt=""/>
+
+        <h2>$eVisitor.user.name</h2>
+
+        <div class="quick-menu">
+            <a href="$eCdn.contextPath/auth/logout">#springMessage('Auth.logOut')</a>
+        </div>
+    </div>
+    <hr/>
 </div>
 #else
 <div>
