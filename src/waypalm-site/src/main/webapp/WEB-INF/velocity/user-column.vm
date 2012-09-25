@@ -6,22 +6,33 @@
         <h2>$eVisitor.user.name</h2>
 
         <div class="quick-menu">
-            <a href="$eCdn.contextPath/auth/logout">#springMessage('Auth.logOut')</a>
+            <a href="$eCdn.contextPath/auth/logout" class="one-liner">#springMessage('Account.logOut')</a>
+            <a href="$eCdn.contextPath/settings" class="one-liner">#springMessage('Account.settings')</a>
         </div>
     </div>
     <hr/>
+    <div class="widget">
+        <div class="head">
+            <ul class="quick-actions">
+                <li>
+                    <a href="$eCdn.contextPath/i/worlds">view all</a>
+                </li>
+            </ul>
+            <h3>Мои миры Мои миры</h3>
+        </div>
+    </div>
 </div>
 #else
 <div>
     <form method="post" action="$eCdn.contextPath/auth">
         <div class="formRow">
-            <input type="email" name="j_username" placeholder="#springMessage('Auth.form.email.placeholder')"/>
+            <input type="email" name="j_username" placeholder="#springMessage('LoginForm.email.placeholder')"/>
         </div>
         <div class="formRow">
-            <input type="password" name="j_password" placeholder="#springMessage('Auth.form.password.placeholder')"/>
+            <input type="password" name="j_password" placeholder="#springMessage('LoginForm.password.placeholder')"/>
         </div>
         <div class="formRow">
-            <input type="submit" value="#springMessage('Auth.logIn')"/>
+            <input type="submit" value="#springMessage('Account.logIn')"/>
         </div>
     </form>
 </div>
