@@ -6,7 +6,7 @@
 @import "forms.less";
 
 body {
-    background: #eaeaea url(../images/dirty_body-light.png) repeat-x center top;
+    background: @bodyBackgroundColor url(../images/dirty_body-light.png) repeat-x center top;
     min-width: 640px;
 }
 
@@ -69,7 +69,6 @@ div.two-column {
             float: left;
             margin-right: 1em;
             .border-radius(6px);
-            border: solid 1px #333;
         }
         > h2 {
             font-size: 100%;
@@ -84,10 +83,10 @@ div.two-column {
 
     > hr {
         margin: 1em 1em .3em 0;
-        height: 10px;
+        height: .15em;
         border: none;
         background: transparent url(../images/input-back-shadow-white-a50.png) repeat-x left bottom;
-        .box-shadow(0 -1px 1px #333);
+        .box-shadow(0 -1px 1px @inputBorder);
     }
 }
 

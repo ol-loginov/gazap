@@ -1,6 +1,6 @@
-.btn-style(@color: #555){
-    @box-shadow1: 1px 1px 1px fade(darken(@color, 20%), 90%);
-    @box-shadow2: -1px -1px 1px fade(lighten(@color, 20%), 90%);
+.btn-style(@color: @buttonBackground){
+    @box-shadow1: 0px 1px 1px fade(darken(@color, 30%), 90%);
+    @box-shadow2: -1px -1px 1px fade(lighten(@color, 30%), 90%);
     @box-shadows: @box-shadow1, @box-shadow2;
     border: solid 1px @color;
     cursor: pointer;
@@ -13,15 +13,15 @@
     padding: .1em .3em;
     margin: 0;
     outline: none;
-    .box-shadow(@box-shadow1);
     .border-radius(.2em);
 
     &:focus,
-    &:hover {
+    &:hover,
+    &:active,
+    &.focus {
         outline: none;
         text-decoration: none;
-        color: lighten(#eee, 20%);
-        background-color: lighten(@color, 20%);
+        background-color: lighten(@color, 5%);
     }
 }
 
@@ -32,18 +32,17 @@ form {
 }
 
 input {
-    @borderColor: #999;
     padding: .2em;
-    border-top: none;
-    border-right: none;
-    border-bottom: solid 1px @borderColor;
-    border-left: solid 1px @borderColor;
+    border-top: solid 1px transparent;
+    border-right: solid 1px transparent;
+    border-bottom: solid 1px @inputBorder;
+    border-left: solid 1px @inputBorder;
     background: none;
-    color: #fff;
+    color: @inputColor;
 
-    &:focus {
-        outline: none;
-        border-color: lighten(@borderColor, 20%);
+    &:focus,
+    &.focus {
+        border: solid 1px darken(@inputBorder, 20%);
     }
 }
 
