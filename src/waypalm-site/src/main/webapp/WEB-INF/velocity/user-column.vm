@@ -15,21 +15,13 @@
         <div class="head">
             <ul class="quick-actions">
                 <li>
-                    <a href="$eCdn.contextPath/i/world">весь список</a>
+                    <a href="$eCdn.contextPath/i/world">миры</a>
                 </li>
-            </ul>
-            <h3>Избранные миры</h3>
-        </div>
-    </div>
-    <hr/>
-    <div class="widget">
-        <div class="head">
-            <ul class="quick-actions">
                 <li>
-                    <a href="$eCdn.contextPath/i/avatar">весь список</a>
+                    <a href="$eCdn.contextPath/i/avatar">аватары</a>
                 </li>
             </ul>
-            <h3>Избранные аватары</h3>
+            <h3>Избранное</h3>
         </div>
     </div>
 </div>
