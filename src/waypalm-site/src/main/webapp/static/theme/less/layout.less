@@ -18,13 +18,20 @@ body {
         display: table-row;
 
         > .left,
-        >.center,
-        >.right {
+        > .center,
+        > .right,
+        > .center-right {
             display: table-cell;
-            width: 30%;
             vertical-align: top;
         }
 
+        > .left,
+        > .right {
+            width: 30%;
+        }
+        > .center-right {
+            width: 70%;
+        }
         >.center {
             width: 40%;
         }

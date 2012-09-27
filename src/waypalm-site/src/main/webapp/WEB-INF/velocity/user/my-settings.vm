@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    #parse('shared/html-head.vm')
+<body class="sci">
+<header class="sci-header">
+    <div id="logoBar">
+        #parse('shared/html-bars-brand.vm')
+    </div>
+</header>
+<div id="bodyColumns">
+    <div class="content">
+        <div class="left">
+            <div id="userColumn">
+                #parse('user/_account-widget.vm')
+                <hr>
+                <div>
+                    <ul id="tabNavigator">
+                        <li>
+                            <a data-toggle='tab' data-target='home' href="${eCdn.contextPath}/my/settings">
+                                #springMessage('MySettings.tabs.home')</a></li>
+                        <li>
+                            <a data-toggle='tab' data-target='social' href="${eCdn.contextPath}/my/socials">
+                                #springMessage('MySettings.tabs.social')</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="center-right">
+            <div id="tabContent"></div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                function setContentTarget(/*String*/url, /*String*/target) {
+                    return url + ( url.indexOf('?') > 0 ? '&' : '?') + "_target=" + target;
+                }
+
+                var tabNavigator = $('#tabNavigator'), tabContent = $('#tabContent');
+                $('a', tabNavigator).on('shown', function (e) {
+                    $.get(setContentTarget($(e.target).attr('href'), 'tab'), function (data, textStatus, xhr) {
+                        $(data).appendTo(tabContent.empty());
+                    });
+                });
+                $('a:first', tabNavigator).tab('show');
+            })
+        </script>
+    </div>
+</div>
+</body>
+</html>

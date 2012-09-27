@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 #* @vtlvariable name="content" type="waypalm.site.web.views.errors.HttpError" *#
+<head>
+    <title>$content.http</title>
+</head>
 <body>
     $content.http
 </body>

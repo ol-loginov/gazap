@@ -8,10 +8,9 @@ import waypalm.site.web.controllers.BaseController;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/i/worlds")
-public class WorldCatalogController extends BaseController {
-    @RequestMapping("")
+public class MyAvatarsController extends BaseController {
+    @RequestMapping("/my/avatars")
     public ModelAndView showIndex(Locale locale) {
-        return responseBuilder(locale).view("user/worlds");
+        return responseBuilder(locale).view("user/my-avatars");
     }
 }

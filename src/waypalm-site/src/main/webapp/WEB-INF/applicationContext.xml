@@ -29,7 +29,7 @@
     </security:authentication-manager>
 
     <security:http auto-config="true" use-expressions="true">
-        <security:intercept-url pattern="/i" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/my" access="isAuthenticated()"/>
 
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 
