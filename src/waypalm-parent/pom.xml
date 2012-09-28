@@ -75,11 +75,6 @@
                 <version>2.5</version>
             </dependency>
             <dependency>
-                <groupId>javax.persistence</groupId>
-                <artifactId>persistence-api</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>1.4</version>
@@ -316,8 +311,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.3.2</version>
                     <configuration>
-                        <target>1.6</target>
-                        <source>1.6</source>
+                        <target>1.7</target>
+                        <source>1.7</source>
                         <encoding>UTF-8</encoding>
                         <debug>true</debug>
                     </configuration>
