@@ -69,7 +69,7 @@
     </filter-mapping>
 
     <servlet>
-        <servlet-name>WaypalmSizeApp</servlet-name>
+        <servlet-name>WaypalmSiteApp</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -78,7 +78,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>WaypalmSizeApp</servlet-name>
+        <servlet-name>WaypalmSiteApp</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
