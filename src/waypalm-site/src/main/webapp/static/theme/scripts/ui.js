@@ -27,5 +27,53 @@ if (typeof(UI) == "undefined") {
     });
 })(jQuery);
 
-head.ready(function () {
+head(function () {
+    $.validator.setDefaults({onfocusout:false, onkeyup:false});
+    $.validator.addMethod("validate-good", function (value, element) {
+        return true;
+    }, "");
 });
+
+(function () {
+    UI.ajaxErrorsToValidationList = function (errors) {
+        var res = {};
+        $.each(errors, function () {
+            if (this.field) {
+                var trap = "";
+                if (res[this.field]) {
+                    trap = res[this.field] + " ";
+                }
+                res[this.field] = trap + this.message;
+            }
+        });
+        return res;
+    };
+
+    UI.ajaxForm = function (/*String*/formSelector, /*Function*/success, /*Function*/failure) {
+        var form = $(formSelector),
+            submitter = $('input[type=submit], button.submit'),
+            validator = null,
+            formOptions = {
+                beforeSubmit:function (arr, $form, options) {
+                    if (!validator) validator = $form.validate();
+                    submitter.attr('disabled', 'disabled').addClass('disabled');
+                },
+                error:function (status, xhr) {
+                    submitter.removeAttr('disabled').removeClass('disabled');
+                    failure();
+                },
+                success:function (data, status, xhr, $form) {
+                    submitter.removeAttr('disabled').removeClass('disabled');
+                    if (!data.success) {
+                        validator.form();
+                        validator.showErrors(UI.ajaxErrorsToValidationList(data.errorList));
+                    } else {
+                        success();
+                    }
+                }
+            };
+        form
+            .append($('<input type=hidden name="_response" value="json"/>'))
+            .ajaxForm(formOptions);
+    };
+})();

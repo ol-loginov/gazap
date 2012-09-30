@@ -19,4 +19,6 @@ public @interface UniqueWorldProfileTitle {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    boolean nullIsValid() default true;
 }

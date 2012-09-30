@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    #parse('shared/html-head.vm')
+<body class="sci">
+<header class="sci-header">
+    <div id="logoBar">
+        #parse('shared/html-bars-brand.vm')
+    </div>
+</header>
+<div id="bodyColumns">
+    <div class="content">
+        <div class="left">
+        </div>
+        <div class="center">
+            <div class="widget">
+                <form id="form" action="$cp/my/new/world" method="post">
+                    <div class="formRow vgrid12">
+                        <div class="vcell2">
+                            <label>Asdasdasd</label>
+                        </div>
+                        <div class="vcell10">
+                            #springFormInput('form.title', 'class="w100p validate-good"')
+                        </div>
+                    </div>
+                    <div class="formRow">
+                        <input type="submit" value="#springMessage('form.create')"/>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    UI.ajaxForm('#form', function () {
+                    }, function () {
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</div>
+</body>
+</html>

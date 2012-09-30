@@ -25,3 +25,25 @@ header.sci-header {
         }
     }
 }
+
+#tabNavigator.tab-bar {
+    .clearfix();
+    list-style: none;
+
+    > li {
+        list-style: none;
+        float: left;
+        margin: .5em;
+        padding: .5em;
+        font-size: 90%;
+
+        > a {
+            text-decoration: underline;
+        }
+        &.active {
+            > a {
+                text-decoration: none;
+            }
+        }
+    }
+}

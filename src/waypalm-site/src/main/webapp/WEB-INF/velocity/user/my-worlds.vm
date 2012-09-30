@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    #parse('shared/html-head.vm')
+<body class="sci">
+<header class="sci-header">
+    <div id="logoBar">
+        #parse('shared/html-bars-brand.vm')
+    </div>
+</header>
+<div id="bodyColumns">
+    <div class="content">
+        <div class="left">
+            <a href="$cp/my/new/world" class="btn">создать новый мир</a>
+        </div>
+        <div class="center-right">
+            <div>
+                пусто
+            </div>
+            <ul id="worldGallery">
+
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

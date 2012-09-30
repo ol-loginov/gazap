@@ -7,11 +7,7 @@
             <a class="username" href="${cp}${m.user.route}">
                 <img src-async="http://www.gravatar.com/avatar/${m.user.gravatar}?s=16" alt="" width="16" height="16"/>
             <span>
-                #if($m.user.name)
-                    $m.user.name
-                #else
-                    #springMessage('tb.menu.welcome.anonymous.name')
-                #end
+                $!m.user.name
             </span>
             </a>
         </div>

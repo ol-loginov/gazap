@@ -1,16 +1,31 @@
 package waypalm.site.services.impl;
 
-import waypalm.domain.dao.WorldRepository;
-import waypalm.site.services.SurfaceService;
-import waypalm.site.model.world.MapCreateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
+import waypalm.site.model.world.MapCreateForm;
+import waypalm.site.model.world.WorldCreateForm;
+import waypalm.site.services.SurfaceService;
 
 @Service
 public class SurfaceServiceImpl implements SurfaceService {
     @Autowired
     protected WorldRepository worldRepository;
+
+    @Override
+    public World createWorld(UserProfile creator, WorldCreateForm form) {
+        World world = new World();
+        world.setTitle(form.getTitle());
+        worldRepository.create(world);
+
+        WorldActor actor = new WorldActor(world, creator);
+        actor.setAuthor(true);
+        actor.setEditor(true);
+        worldRepository.create(actor);
+
+        return world;
+    }
 
     @Override
     public Surface createSurface(World world, UserProfile creator, MapCreateForm form) {

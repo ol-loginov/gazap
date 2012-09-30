@@ -17,6 +17,8 @@
         head.js(
                 {jquery:"$libRoot/jquery/jquery-1.7.1.min.js"},
                 {jquery_exists:"$libRoot/jquery/jquery.exists.js"},
+                {jquery_form:"$libRoot/jquery/jquery.form-3.18.js"},
+                {jquery_validate:"$libRoot/jquery/jquery.validate-1.10.0.js"},
                 {undescore:"$libRoot/backbone/undescore-1.1.7.min.js"},
                 {backbone:"$libRoot/backbone/backbone-0.5.3.min.js"},
                 {bootstrap_tab:"$libRoot/bootstrap/bootstrap-tab.js"},

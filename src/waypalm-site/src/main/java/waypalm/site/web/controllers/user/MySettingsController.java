@@ -17,11 +17,11 @@ public class MySettingsController extends BaseController {
 
     @RequestMapping(value = "/my/settings", method = RequestMethod.GET, params = "_target=tab")
     public ModelAndView settingsTab(Locale locale) {
-        return responseBuilder(locale).view("user/my-settings-home.tab");
+        return responseBuilder(locale).view("user/_my-settings-home");
     }
 
     @RequestMapping(value = "/my/socials", method = RequestMethod.GET, params = "_target=tab")
     public ModelAndView socialTab(Locale locale) {
-        return responseBuilder(locale).view("user/my-settings-socials.tab");
+        return responseBuilder(locale).view("user/_my-settings-socials");
     }
 }

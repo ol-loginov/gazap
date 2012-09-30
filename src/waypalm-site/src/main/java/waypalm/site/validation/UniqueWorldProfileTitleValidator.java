@@ -1,21 +1,26 @@
 package waypalm.site.validation;
 
-import waypalm.domain.dao.WorldRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import waypalm.domain.dao.WorldRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class UniqueWorldProfileTitleValidator implements ConstraintValidator<UniqueWorldProfileTitle, String> {
     @Autowired
-    protected WorldRepository worldRepository;
+    WorldRepository worldRepository;
+    private boolean nullIsValid;
 
     @Override
-    public void initialize(UniqueWorldProfileTitle uniqueWorldProfileTitle) {
+    public void initialize(UniqueWorldProfileTitle annotation) {
+        nullIsValid = annotation.nullIsValid();
     }
 
     @Override
     public boolean isValid(String title, ConstraintValidatorContext constraintValidatorContext) {
-        return title == null || null == worldRepository.findWorldByTitle(title);
+        if (title == null) {
+            return nullIsValid;
+        }
+        return null == worldRepository.findWorldByTitle(title);
     }
 }

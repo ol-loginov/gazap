@@ -14,7 +14,7 @@
                 #parse('user/_account-widget.vm')
                 <hr>
                 <div>
-                    <ul id="tabNavigator">
+                    <ul id="tabNavigator" class="tab-bar">
                         <li>
                             <a data-toggle='tab' data-target='home' href="${eCdn.contextPath}/my/settings">
                                 #springMessage('MySettings.tabs.home')</a></li>
@@ -36,8 +36,11 @@
 
                 var tabNavigator = $('#tabNavigator'), tabContent = $('#tabContent');
                 $('a', tabNavigator).on('shown', function (e) {
+                    tabContent.empty()
+                            .append('<div class="ani-bar-38x6"></div>')
+                            .addClass('ani-bar-container');
                     $.get(setContentTarget($(e.target).attr('href'), 'tab'), function (data, textStatus, xhr) {
-                        $(data).appendTo(tabContent.empty());
+                        $(data).appendTo(tabContent.empty().removeClass('ani-bar-container'));
                     });
                 });
                 $('a:first', tabNavigator).tab('show');

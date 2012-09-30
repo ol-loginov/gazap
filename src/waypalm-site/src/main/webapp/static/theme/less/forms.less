@@ -1,7 +1,4 @@
 .btn-style(@color: @buttonBackground){
-    @box-shadow1: 0px 1px 1px fade(darken(@color, 30%), 90%);
-    @box-shadow2: -1px -1px 1px fade(lighten(@color, 30%), 90%);
-    @box-shadows: @box-shadow1, @box-shadow2;
     border: solid 1px @color;
     cursor: pointer;
     background: @color url(../images/input-back-shadow-white.png) repeat-x left top;
@@ -22,6 +19,20 @@
         outline: none;
         text-decoration: none;
         background-color: lighten(@color, 5%);
+    }
+}
+
+.btn-style-disabled(@color: @buttonBackground){
+    color: transparent;
+    border-color: fade(@color, 80%);
+    background: transparent url(../images/sprites/ani-bar-38x6.gif) no-repeat center center;
+    cursor: wait;
+
+    &:focus,
+    &:hover,
+    &:active,
+    &.focus {
+        background-color: transparent;
     }
 }
 
@@ -59,4 +70,8 @@ a.btn-small {
     line-height: 80%;
 }
 
-
+input:disabled, input.disabled,
+button:disabled, button.disabled,
+btn:disabled, btn.disabled {
+    .btn-style-disabled();
+}

@@ -23,6 +23,7 @@ body {
         > .center-right {
             display: table-cell;
             vertical-align: top;
+            padding-top: .5em;
         }
 
         > .left,
@@ -38,15 +39,6 @@ body {
     }
 }
 
-div.two-column {
-    display: table-row;
-
-    > .left,
-    > .right {
-        display: table-cell;
-    }
-}
-
 .one-liner {
     word-break: keep-all;
     white-space: nowrap;
@@ -57,7 +49,6 @@ div.two-column {
 }
 
 .widget {
-    padding-top: .5em;
     > .head {
         font-size: 120%;
         line-height: 120%;
@@ -69,7 +60,7 @@ div.two-column {
 }
 
 #userColumn {
-    padding: 1em;
+    padding: .5em 1em;
 
     > .user-title {
         > img {
@@ -119,5 +110,70 @@ div.two-column {
                 }
             }
         }
+    }
+}
+
+.ani-bar-container {
+    > div.ani-bar-38x6 {
+        min-height: 5em;
+        width: 100%;
+    }
+}
+
+#worldGallery {
+}
+
+.vgrid12 {
+    @full: 100%;
+/* 12 parts, 11 dividers of width 1/10 of one parts. in summary this means 13.1 parts are in 100% */
+    @part_complete: @full / 12.0;
+    @part_width: 0.9 * @part_complete;
+    @part_margin: 0.05 * @part_complete;
+
+    .clearfix();
+
+    .set-size(@counter){
+        display: block;
+        float: left;
+        margin-left: @part_margin;
+        margin-right: @part_margin;
+        width: @part_complete * @counter - 2 * @part_margin;
+    }
+
+    > .vcell1 {
+        .set-size(1);
+    }
+    > .vcell2 {
+        .set-size(2);
+    }
+    > .vcell3 {
+        .set-size(3);
+    }
+    > .vcell4 {
+        .set-size(4);
+    }
+    > .vcell5 {
+        .set-size(5);
+    }
+    > .vcell6 {
+        .set-size(6);
+    }
+    > .vcell7 {
+        .set-size(7);
+    }
+    > .vcell8 {
+        .set-size(8);
+    }
+    > .vcell9 {
+        .set-size(9);
+    }
+    > .vcell10 {
+        .set-size(10);
+    }
+    > .vcell11 {
+        .set-size(11);
+    }
+    > .vcell12 {
+        .set-size(12);
     }
 }
