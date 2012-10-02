@@ -1,9 +1,5 @@
 header.sci-header {
     .clearfix();
-    @sciHeaderBorderColor: lighten(@headerBackgroundColor, 7%);
-
-    border-bottom: solid 1px @sciHeaderBorderColor;
-    .box-shadow(0 2px 2px @sciHeaderBorderColor);
 }
 
 #logoBar {
@@ -22,6 +18,17 @@ header.sci-header {
         &:focus {
             outline: none;
         }
+    }
+}
+
+#breadcrumbBar {
+    float: left;
+    position: relative;
+
+    > h1 {
+        line-height: 40px;
+        padding: 0;
+        margin: 0;
     }
 }
 

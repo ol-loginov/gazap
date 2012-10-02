@@ -6,35 +6,39 @@
     <div id="logoBar">
         #parse('shared/html-bars-brand.vm')
     </div>
+    <div id="breadcrumbBar">
+        <h1>/ #springMessage('CreateNewWorld.breadcrumb')</h1>
+    </div>
 </header>
-<div id="bodyColumns">
+<div id="bodyColumns" class="layout-0-7-3">
     <div class="content">
-        <div class="left">
-        </div>
+        <div class="left"></div>
         <div class="center">
-            <div class="widget">
-                <form id="form" action="$cp/my/new/world" method="post">
-                    <div class="formRow vgrid12">
-                        <div class="vcell2">
-                            <label>Asdasdasd</label>
-                        </div>
-                        <div class="vcell10">
-                            #springFormInput('form.title', 'class="w100p validate-good"')
+            <form id="form" action="$cp/my/new/world" method="post">
+                <div class="formRow vgrid12">
+                    <div class="vcell4 text-at-end">
+                        <label>#springMessage('CreateNewWorld.form.title')</label>
+                    </div>
+                    <div class="vcell8">
+                        <div class="full-input-outer">
+                            #springFormInput('form.title', 'class="validate-good"')
                         </div>
                     </div>
-                    <div class="formRow">
+                </div>
+                <div class="formRow vgrid12">
+                    <div class="vcell4"></div>
+                    <div class="vcell8">
                         <input type="submit" class="btn btn-green" value="#springMessage('form.create')"/>
                     </div>
-                </form>
-                <script type="text/javascript">
-                    UI.ajaxForm('#form', function () {
-                    }, function () {
-                    });
-                </script>
-            </div>
+                </div>
+            </form>
+            <script type="text/javascript">
+                UI.ajaxForm('#form', function () {
+                }, function () {
+                });
+            </script>
         </div>
-        <div class="right">
-        </div>
+        <div class="right"></div>
     </div>
 </div>
 </body>

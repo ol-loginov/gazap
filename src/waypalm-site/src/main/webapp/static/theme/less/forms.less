@@ -63,13 +63,26 @@ form {
 
 input {
     padding: .2em;
-    border: solid 1px fade(@inputBorder, 40%);
+    border: solid .1em fade(@inputBorder, 40%);
     background: none;
     color: @inputColor;
 
     &:focus,
     &.focus {
         border: solid 1px@inputBorder;
+    }
+}
+
+.full-input-outer {
+    padding-left: .3em;
+    padding-right: .3em;
+    > input,
+    > textarea {
+        width: 100%;
+    }
+    > * {
+        margin-left: -.3em;
+        margin-right: -.3em;
     }
 }
 

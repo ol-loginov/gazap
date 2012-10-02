@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html>
     #parse('shared/html-head.vm')
+#* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
 <body class="sci">
 <header class="sci-header">
     <div id="logoBar">
         #parse('shared/html-bars-brand.vm')
     </div>
+    <div id="breadcrumbBar">
+        <h1>/ your world list</h1>
+    </div>
 </header>
-<div id="bodyColumns" class="layout-3-7-0">
+<div id="bodyColumns" class="layout-0-7-3">
     <div class="content">
-        <div class="left">
-            <a href="$cp/my/new/world">создать новый мир</a>
-        </div>
-        <div class="center">
-            <div>
-                пусто
-            </div>
+        <div class="left"></div>
+        <div class="center wide-pad-left">
+            <ul class="menu-bar">
+                <li><a href="$cp/my/new/world">create own world</a></li>
+            </ul>
             <ul id="worldGallery">
-
+                #foreach($world in $worldList)
+                    <li>$world.id</li>
+                #end
             </ul>
         </div>
+        <div class="right"></div>
     </div>
 </div>
 </body>
