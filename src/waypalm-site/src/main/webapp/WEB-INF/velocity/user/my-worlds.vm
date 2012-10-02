@@ -10,7 +10,7 @@
 <div id="bodyColumns">
     <div class="content">
         <div class="left">
-            <a href="$cp/my/new/world" class="btn">создать новый мир</a>
+            <a href="$cp/my/new/world">создать новый мир</a>
         </div>
         <div class="center-right">
             <div>

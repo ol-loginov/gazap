@@ -52,10 +52,9 @@ head(function () {
     UI.ajaxForm = function (/*String*/formSelector, /*Function*/success, /*Function*/failure) {
         var form = $(formSelector),
             submitter = $('input[type=submit], button.submit'),
-            validator = null,
+            validator = form.waypalmValidate(),
             formOptions = {
                 beforeSubmit:function (arr, $form, options) {
-                    if (!validator) validator = $form.validate();
                     submitter.attr('disabled', 'disabled').addClass('busy');
                 },
                 error:function (status, xhr) {
@@ -65,7 +64,6 @@ head(function () {
                 success:function (data, status, xhr, $form) {
                     submitter.removeAttr('disabled').removeClass('busy');
                     if (!data.success) {
-                        validator.form();
                         validator.showErrors(UI.ajaxErrorsToValidationList(data.errorList));
                     } else {
                         success();

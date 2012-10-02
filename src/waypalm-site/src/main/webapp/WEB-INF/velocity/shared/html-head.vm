@@ -22,6 +22,7 @@
                 {undescore:"$libRoot/backbone/undescore-1.1.7.min.js"},
                 {backbone:"$libRoot/backbone/backbone-0.5.3.min.js"},
                 {bootstrap_tab:"$libRoot/bootstrap/bootstrap-tab.js"},
+                {waypalm_validate:"$libRoot/waypalm/form-validate.js"},
                 {ui:"$scriptsRoot/ui.js"}
         );
     </script>
