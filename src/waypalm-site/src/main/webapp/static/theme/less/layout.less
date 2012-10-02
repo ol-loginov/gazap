@@ -19,22 +19,47 @@ body {
 
         > .left,
         > .center,
-        > .right,
-        > .center-right {
+        > .right {
             display: table-cell;
             vertical-align: top;
             padding-top: .5em;
         }
+    }
 
-        > .left,
-        > .right {
-            width: 30%;
+    &.layout-3-3-3 {
+        > .content {
+            > .left,
+            > .right,
+            >.center {
+                width: 33.3%;
+            }
         }
-        > .center-right {
-            width: 70%;
+    }
+
+    &.layout-3-4-3 {
+        > .content {
+            > .left,
+            > .right {
+                width: 30%;
+            }
+            >.center {
+                width: 40%;
+            }
         }
-        >.center {
-            width: 40%;
+    }
+
+    &.layout-3-7-0 {
+        > .content {
+            > .left {
+                width: 30%;
+            }
+            >.center {
+                width: 70%;
+            }
+            > .right {
+                width: 0;
+                display: none;
+            }
         }
     }
 }
@@ -115,7 +140,7 @@ body {
 
 .ani-bar-container {
     > div.ani-bar-38x6 {
-        min-height: 5em;
+        min-height: 2em;
         width: 100%;
     }
 }
@@ -132,7 +157,7 @@ body {
 
     .clearfix();
 
-    .set-size(@counter){
+    .set-size(@counter) {
         display: block;
         float: left;
         margin-left: @part_margin;

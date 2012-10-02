@@ -7,7 +7,7 @@
         #parse('shared/html-bars-brand.vm')
     </div>
 </header>
-<div id="bodyColumns">
+<div id="bodyColumns" class="layout-3-7-0">
     <div class="content">
         <div class="left">
             <div id="userColumn">
@@ -25,7 +25,7 @@
                 </div>
             </div>
         </div>
-        <div class="center-right">
+        <div class="center">
             <div id="tabContent"></div>
         </div>
         <script type="text/javascript">
@@ -37,7 +37,7 @@
                 var tabNavigator = $('#tabNavigator'), tabContent = $('#tabContent');
                 $('a', tabNavigator).on('shown', function (e) {
                     tabContent.empty()
-                            .append('<div class="ani-bar-38x6"></div>')
+                            .append('<div class="ani-bar-38x6 on-left"></div>')
                             .addClass('ani-bar-container');
                     $.get(setContentTarget($(e.target).attr('href'), 'tab'), function (data, textStatus, xhr) {
                         $(data).appendTo(tabContent.empty().removeClass('ani-bar-container'));

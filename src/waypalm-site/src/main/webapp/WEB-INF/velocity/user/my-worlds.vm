@@ -7,12 +7,12 @@
         #parse('shared/html-bars-brand.vm')
     </div>
 </header>
-<div id="bodyColumns">
+<div id="bodyColumns" class="layout-3-7-0">
     <div class="content">
         <div class="left">
             <a href="$cp/my/new/world">создать новый мир</a>
         </div>
-        <div class="center-right">
+        <div class="center">
             <div>
                 пусто
             </div>
