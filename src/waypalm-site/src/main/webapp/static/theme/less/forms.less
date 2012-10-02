@@ -1,16 +1,18 @@
-.btn-style(@color: @buttonBackground) {
-    border: solid 1px @color;
+.btn-style(@color: @buttonBackground, @text: @buttonText) {
+    #gradient > .vertical(lighten(@color, 10%),@color);
+    border: solid 1px lighten(@color, 20%);
+    .border-radius(3px);
+    .box-shadow(2px 2px 0 fade(lighten(@color, 70%), 50%));
     cursor: pointer;
-    background: @color url(../images/input-back-shadow-white.png) repeat-x left top;
     text-decoration: none;
     font-size: @bodyFontSize;
+    font-weight: bold;
     line-height: @bodyLineHeight;
-    color: #eee;
+    color: @text;
     font-family: @bodyFontFamily;
     padding: .1em .3em;
     margin: 0;
     outline: none;
-    .border-radius(.2em);
 
     &:focus,
     &:hover,
@@ -18,7 +20,8 @@
     &.focus {
         outline: none;
         text-decoration: none;
-        background-color: lighten(@color, 5%);
+        background: @color;
+        color: @text;
     }
 }
 
@@ -36,6 +39,20 @@
     }
 }
 
+.btn-style-busy(@color: @buttonBackground) {
+    background-image: url(../images/sprites/ani-bar-38x6.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+    &:focus,
+    &:hover,
+    &:active,
+    &.focus {
+        background-image: url(../images/sprites/ani-bar-38x6.gif);
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+}
+
 form {
     .formRow {
         margin: .3em;
@@ -45,15 +62,15 @@ form {
 input {
     padding: .2em;
     border-top: solid 1px transparent;
-    border-right: solid 1px transparent;
+    border-left: solid 1px transparent;
     border-bottom: solid 1px @inputBorder;
-    border-left: solid 1px @inputBorder;
+    border-right: solid 1px @inputBorder;
     background: none;
     color: @inputColor;
 
     &:focus,
     &.focus {
-        border: solid 1px darken(@inputBorder, 20%);
+        border: solid 1px@inputBorder;
     }
 }
 
@@ -74,4 +91,10 @@ input:disabled, input.disabled,
 button:disabled, button.disabled,
 btn:disabled, btn.disabled {
     .btn-style-disabled();
+}
+
+input.busy,
+button.busy,
+btn.busy {
+    .btn-style-busy();
 }

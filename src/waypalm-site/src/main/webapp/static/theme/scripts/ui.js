@@ -56,14 +56,14 @@ head(function () {
             formOptions = {
                 beforeSubmit:function (arr, $form, options) {
                     if (!validator) validator = $form.validate();
-                    submitter.attr('disabled', 'disabled').addClass('disabled');
+                    submitter.attr('disabled', 'disabled').addClass('busy');
                 },
                 error:function (status, xhr) {
-                    submitter.removeAttr('disabled').removeClass('disabled');
+                    submitter.removeAttr('disabled').removeClass('busy');
                     failure();
                 },
                 success:function (data, status, xhr, $form) {
-                    submitter.removeAttr('disabled').removeClass('disabled');
+                    submitter.removeAttr('disabled').removeClass('busy');
                     if (!data.success) {
                         validator.form();
                         validator.showErrors(UI.ajaxErrorsToValidationList(data.errorList));
