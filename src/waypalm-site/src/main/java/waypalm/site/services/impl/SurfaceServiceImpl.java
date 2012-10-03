@@ -17,6 +17,7 @@ public class SurfaceServiceImpl implements SurfaceService {
     public World createWorld(UserProfile creator, WorldCreateForm form) {
         World world = new World();
         world.setTitle(form.getTitle());
+        world.setAlias("");
         worldRepository.create(world);
 
         WorldActor actor = new WorldActor(world, creator);

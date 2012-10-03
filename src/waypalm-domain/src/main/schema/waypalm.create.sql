@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     20.09.2012 19:09:15                          */
+/* Created on:     03.10.2012 20:22:44                          */
 /*==============================================================*/
 
 
@@ -162,8 +162,7 @@ create table Surface
    alias                varchar(64),
    geometry             int,
    world                int not null,
-   primary key (id),
-   key AK_UniqueAlias (alias)
+   primary key (id)
 )
 charset = utf8
 engine = MYISAM;
@@ -268,7 +267,6 @@ create table World
    title                varchar(64) not null,
    alias                varchar(64),
    primary key (id),
-   unique key AK_UniqueAlias (alias),
    unique key AK_UniqueTitle (title)
 )
 charset = utf8

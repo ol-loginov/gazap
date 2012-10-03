@@ -43,6 +43,7 @@
           p:contentType="text/html; charset=UTF-8"
           p:exposeSpringMacroHelpers="true"
           p:dateToolAttribute="dateTool"
+          p:toolboxConfigLocation="/WEB-INF/classes/waypalm-site-velocity-tools.xml"
             />
 
     <bean id="jsonViewObjectMapper" class="waypalm.common.util.JaxbJacksonObjectMapper" scope="prototype"/>

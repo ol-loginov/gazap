@@ -55,7 +55,7 @@ head(function () {
             validator = null,
             formOptions = {
                 beforeSubmit:function (arr, $form, options) {
-                    validator = validator || form.validate();
+                    if (!validator) validator = form.validate({onsubmit:false});
                     submitter.attr('disabled', 'disabled').addClass('busy');
                 },
                 error:function (status, xhr) {
@@ -68,7 +68,7 @@ head(function () {
                         validator.form();
                         validator.showErrors(UI.ajaxErrorsToValidationList(data.errorList));
                     } else {
-                        success();
+                        success(data);
                     }
                 }
             };

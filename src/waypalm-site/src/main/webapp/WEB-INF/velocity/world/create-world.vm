@@ -17,9 +17,10 @@
             <form id="form" action="$cp/my/new/world" method="post">
                 <div class="formRow vgrid12">
                     <div class="vcell4 text-at-end">
-                        <label>#springMessage('CreateNewWorld.form.title')</label>
                     </div>
                     <div class="vcell8">
+                        <label>#springMessage('CreateNewWorld.form.title')</label>
+
                         <div class="full-input-outer">
                             #springFormInput('form.title', 'class="validate-good"')
                         </div>
@@ -33,8 +34,11 @@
                 </div>
             </form>
             <script type="text/javascript">
-                UI.ajaxForm('#form', function () {
+                UI.ajaxForm('#form', function (data) {
+                    // on success
+                    document.location = "$cp/w/" + data.entity.id;
                 }, function () {
+                    // on failure
                 });
             </script>
         </div>
