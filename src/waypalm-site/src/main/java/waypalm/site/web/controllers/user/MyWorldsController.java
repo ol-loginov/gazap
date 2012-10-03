@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.entity.World;
 import waypalm.site.model.world.WorldCreateForm;
-import waypalm.site.services.SurfaceService;
+import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.EntityApiAnswer;
 import waypalm.site.web.controllers.ResponseBuilder;
@@ -20,7 +20,7 @@ import java.util.Locale;
 @Controller
 public class MyWorldsController extends BaseController {
     @Autowired
-    SurfaceService surfaceService;
+    WorldService worldService;
     @Autowired
     SecurityHelper securityHelper;
 
@@ -42,7 +42,7 @@ public class MyWorldsController extends BaseController {
         if (formBinding.hasErrors()) {
             responseBuilder.validationErrors(response, formBinding);
         } else {
-            response.setEntity(surfaceService.createWorld(securityHelper.requireCurrentUser(), form));
+            response.setEntity(worldService.createWorld(securityHelper.requireCurrentUser(), form));
             response.setSuccess(true);
         }
         return responseBuilder.json(response);

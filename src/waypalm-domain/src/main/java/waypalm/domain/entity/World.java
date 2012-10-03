@@ -1,11 +1,13 @@
 package waypalm.domain.entity;
 
+import org.springframework.util.StringUtils;
 import waypalm.domain.entity.base.IntegerIdentityCUD;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 
 @Entity
@@ -36,5 +38,10 @@ public class World extends IntegerIdentityCUD {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    @Transient
+    public String getSlug() {
+        return StringUtils.hasText(getAlias()) ? getAlias() : Integer.toString(getId());
     }
 }

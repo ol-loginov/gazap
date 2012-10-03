@@ -6,10 +6,13 @@ import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
 import waypalm.site.model.world.MapCreateForm;
 import waypalm.site.model.world.WorldCreateForm;
-import waypalm.site.services.SurfaceService;
+import waypalm.site.services.WorldService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class SurfaceServiceImpl implements SurfaceService {
+public class WorldServiceImpl implements WorldService {
     @Autowired
     protected WorldRepository worldRepository;
 
@@ -59,5 +62,14 @@ public class SurfaceServiceImpl implements SurfaceService {
         worldRepository.create(actor);
 
         return surface;
+    }
+
+    @Override
+    public List<World> getFavouriteWorlds(UserProfile currentProfile) {
+        List<World> result = new ArrayList<>();
+        for (WorldActor actor : worldRepository.listWorldActor(currentProfile)) {
+            result.add(actor.getWorld());
+        }
+        return result;
     }
 }

@@ -1,8 +1,8 @@
 package waypalm.domain.dao.impl;
 
-import waypalm.domain.dao.WorldRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
 
 import java.util.Date;
@@ -96,5 +96,13 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
     @Override
     public SurfaceActor getSurfaceActor(Surface surface, UserProfile user) {
         return (SurfaceActor) getSession().get(SurfaceActor.class, new SurfaceActor.PK(user, surface));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<WorldActor> listWorldActor(UserProfile user) {
+        return (List<WorldActor>) getSession().createQuery("from WorldActor where user=:user")
+                .setEntity("user", user)
+                .list();
     }
 }

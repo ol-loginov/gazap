@@ -6,3 +6,4 @@
 #* @vtlvariable name="eVisitor" type="waypalm.site.web.extensions.VisitorExtension" *#
 #* @vtlvariable name="eViewMeta" type="waypalm.site.web.extensions.ViewMetaExtension" *#
 #* @vtlvariable name="eCan" type="waypalm.site.web.extensions.CanExtension" *#
+#* @vtlvariable name="cp" type="java.lang.String" *#

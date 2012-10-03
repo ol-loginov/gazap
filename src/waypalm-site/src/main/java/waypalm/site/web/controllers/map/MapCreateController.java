@@ -6,7 +6,7 @@ import waypalm.domain.entity.Surface;
 import waypalm.domain.entity.World;
 import waypalm.site.model.viewer.SurfaceTitle;
 import waypalm.site.model.world.MapCreateForm;
-import waypalm.site.services.SurfaceService;
+import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.ResponseBuilder;
 import waypalm.site.web.model.ApiAnswer;
@@ -25,7 +25,7 @@ import java.util.Locale;
 @Controller
 public class MapCreateController extends BaseController {
     @Autowired
-    protected SurfaceService surfaceService;
+    protected WorldService worldService;
     @Autowired
     protected WorldRepository worldRepository;
 
@@ -49,7 +49,7 @@ public class MapCreateController extends BaseController {
         if (binding.hasErrors()) {
             response.validationErrors(answer, binding);
         } else {
-            Surface surface = surfaceService.createSurface(world, securityHelper.getCurrentUser(), form);
+            Surface surface = worldService.createSurface(world, securityHelper.getCurrentUser(), form);
             answer.setEntity(viewer.surfaceTitle(surface));
             answer.setSuccess(true);
         }
