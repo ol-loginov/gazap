@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
+<head>
     #parse('shared/html-head.vm')
-<body class="sci">
-<header class="sci-header">
-    <div id="logoBar">
-        #parse('shared/html-bars-brand.vm')
+</head>
+<body id="bodyColumns" class="layout-1-4">
+<div class="content">
+    <div class="left">
+        <section id="brandLogo">
+            <a href="$cp/" title="navigate to landing page"></a>
+        </section>
+        <section>
+            <h1>#springMessage('LandingPage.readyToBegin')</h1>
+
+        </section>
     </div>
-</header>
-<div id="bodyColumns" class="layout-3-4-3">
-    <div class="content">
-        <div class="left">
-            #parse('user-column.vm')
-        </div>
-        <div class="center">
-            #parse('world-column.vm')
-        </div>
-        <div class="right">
-            #parse('news-column.vm')
-        </div>
+    <div class="center">
+        #parse('news-column.vm')
     </div>
 </div>
 </body>

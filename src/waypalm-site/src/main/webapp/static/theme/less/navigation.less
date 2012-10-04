@@ -1,64 +1,14 @@
-header.sci-header {
-    .clearfix();
-    background: #111 url(../images/dirty_body.png) repeat-x left top;
-    padding-top: .3em;
-    padding-bottom: .3em;
-}
-
-#logoBar {
-    float: left;
-    width: 200px;
-    text-align: right;
-    position: relative;
-
-    #brandLogo {
-        font-family: @serifFontFamily;
-        text-decoration: none;
-        font-size: 1em;
-        line-height: 1.5em;
-        color: white;
-        font-weight: bold;
-
-        &:focus {
-            outline: none;
-        }
-    }
-}
-
-#breadcrumbBar {
-    float: left;
-    position: relative;
-    margin-left: .3em;
-    color: white;
-
-    > h1 {
-        font-family: @serifFontFamily;
-        font-size: 1em;
-        font-weight: bold;
-        line-height: 1.5em;
-        padding: 0;
-        margin: 0;
-    }
-}
-
-#tabNavigator.tab-bar {
-    .clearfix();
-    list-style: none;
-
-    > li {
-        list-style: none;
-        float: left;
-        margin: .5em;
-        padding: .5em;
-        font-size: 90%;
-
-        > a {
-            text-decoration: underline;
-        }
-        &.active {
-            > a {
-                text-decoration: none;
-            }
+section {
+    padding: 5%;
+    text-align: center;
+    > a {
+        display: block;
+        background: transparent url(../images/brand-light.png) no-repeat center center;
+        height: 26px;
+        width: 146px;
+        margin: 0 auto;
+        > strong {
+            display: none;
         }
     }
 }

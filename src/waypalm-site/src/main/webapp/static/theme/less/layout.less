@@ -1,237 +1,82 @@
 @import "bootstrap/mixins.less";
 @import "variables.less";
 @import "reset.less";
+@import "typography.less";
 @import "icons.less";
 @import "navigation.less";
 @import "forms.less";
 
+html, body {
+    height: 100%;
+}
+
 body {
     background: @bodyBackgroundColor;
+    color: @bodyTextColor;
     min-width: 640px;
 }
 
-#bodyColumns {
+body#bodyColumns {
+    position: relative;
     display: table;
     width: 100%;
 
     > .content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
         display: table-row;
 
         > .left,
         > .center,
         > .right {
+            min-height: 100%;
             display: table-cell;
             vertical-align: top;
-            padding-top: .5em;
         }
     }
 
+    > .content {
+        > .left {
+        }
+        >.center {
+            background: #F5F5F5 url(../images/layout/sideshadd.png) repeat-y left top;
+        }
+    }
+
+    .set-size(@total, @current){
+        @full: 100%;
+        @part_width: @full / @total;
+        display: block;
+        float: left;
+        margin-left: 0;
+        margin-right: 0;
+        width: @part_width * @current;
+    }
+
+    &.layout-1-5 {
+        > .content {
+            > .left {.set-size(6, 1); }
+            >.center {.set-size(6, 5); }
+            > .right { display: none; }
+        }
+    }
+    &.layout-1-4 {
+        > .content {
+            > .left {.set-size(5, 1); }
+            >.center {.set-size(5, 4); }
+            > .right { display: none; }
+        }
+    }
     &.layout-3-3-3 {
         > .content {
             > .left,
             > .right,
             >.center {
-                width: 33.3%;
+                .set-size(3, 1);
             }
-        }
-    }
-
-    &.layout-3-4-3 {
-        > .content {
-            > .left,
-            > .right {
-                width: 30%;
-            }
-            >.center {
-                width: 40%;
-            }
-        }
-    }
-
-    &.layout-3-7-0 {
-        > .content {
-            > .left {
-                width: 30%;
-            }
-            >.center {
-                width: 70%;
-            }
-            > .right {
-                width: 0;
-                display: none;
-            }
-        }
-    }
-
-    &.layout-0-7-3 {
-        > .content {
-            > .left {
-                width: 0;
-                display: none;
-            }
-            >.center {
-                width: 70%;
-            }
-            > .right {
-                width: 30%;
-            }
-        }
-    }
-}
-
-.widget {
-    > .head {
-        font-size: 120%;
-        line-height: 120%;
-    }
-    > .body {
-        font-size: 100%;
-        line-height: 100%;
-    }
-}
-
-#userColumn {
-    padding: .5em 1em;
-
-    > .user-title {
-        > img {
-            float: left;
-            margin-right: 1em;
-            .border-radius(6px);
-        }
-        > h2 {
-            font-size: 100%;
-        }
-        > .quick-menu {
-            font-size: 75%;
-            line-height: 100%;
-            a {
-            }
-        }
-    }
-
-    > hr {
-        margin: 1em 1em .3em 0;
-        height: .15em;
-        border: none;
-        background: transparent url(../images/input-back-shadow-white-a50.png) repeat-x left bottom;
-        .box-shadow(0 -1px 1px @inputBorder);
-    }
-}
-
-.widget {
-    > .head {
-        .clearfix();
-
-        > h3 {
-            font-size: 100%;
-            font-weight: bolder;
-        }
-        > ul.quick-actions {
-            list-style: none;
-            float: right;
-
-            > li {
-                float: right;
-                list-style: none;
-                font-size: 60%;
-                padding: 0 .3em;
-
-                > a {
-                }
-            }
-        }
-    }
-}
-
-.ani-bar-container {
-    > div.ani-bar-38x6 {
-        min-height: 2em;
-        width: 100%;
-    }
-}
-
-#worldGallery {
-}
-
-.vgrid12 {
-    @full: 100%;
-/* 12 parts, 11 dividers of width 1/10 of one parts. in summary this means 13.1 parts are in 100% */
-    @part_complete: @full / 12.0;
-    @part_width: 0.9 * @part_complete;
-    @part_margin: 0.05 * @part_complete;
-
-    .clearfix();
-
-    .set-size(@counter) {
-        display: block;
-        float: left;
-        margin-left: @part_margin;
-        margin-right: @part_margin;
-        width: @part_complete * @counter - 2 * @part_margin;
-        min-height: .1px;
-    }
-
-    > .vcell1 {
-        .set-size(1);
-    }
-    > .vcell2 {
-        .set-size(2);
-    }
-    > .vcell3 {
-        .set-size(3);
-    }
-    > .vcell4 {
-        .set-size(4);
-    }
-    > .vcell5 {
-        .set-size(5);
-    }
-    > .vcell6 {
-        .set-size(6);
-    }
-    > .vcell7 {
-        .set-size(7);
-    }
-    > .vcell8 {
-        .set-size(8);
-    }
-    > .vcell9 {
-        .set-size(9);
-    }
-    > .vcell10 {
-        .set-size(10);
-    }
-    > .vcell11 {
-        .set-size(11);
-    }
-    > .vcell12 {
-        .set-size(12);
-    }
-}
-
-.wide-pad-left {
-    padding-left: 10%;
-}
-
-.text-at-end {
-    text-align: end;
-}
-
-ul.menu-bar {
-    .clearfix();
-
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    > li {
-        list-style: none;
-        float: right;
-
-        > a {
-            text-transform: uppercase;
-            font-size: 60%;
         }
     }
 }
