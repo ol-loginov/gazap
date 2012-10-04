@@ -1,0 +1,25 @@
+#macro(bodyCommonMiniTabs)
+<div class="mini-tab-navigator">
+    <div class="grid-2">
+        <div class="content">
+            <div class="cell-1">
+                <a class="active-tab" href="#" data-tab="bodyMenuCommon">menu</a>
+            </div>
+            <div class="cell-1">
+                <a href="#" data-tab="bodyMenuAccount">login</a>
+            </div>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(bodyCommonMenuSelector)
+<ul class="option-selector">
+    <li><a href="$cp/avatars">#springMessage('commonMenu.worlds')
+        <span class="note">17</span>
+    </a></li>
+    <li><a href="$cp/avatars">#springMessage('commonMenu.avatars')
+        <span class="note">14</span>
+    </a></li>
+</ul>
+#end

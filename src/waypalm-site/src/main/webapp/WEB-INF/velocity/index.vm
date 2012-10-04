@@ -4,6 +4,7 @@
     #parse('shared/html-head.vm')
     <title>#springMessage('LandingPage.title')</title>
 </head>
+    #parse('_index-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
@@ -12,30 +13,11 @@
         </div>
         <div id="bodyMenu">
             <div class="mini-tabs">
-                <div class="mini-tab-navigator">
-                    <div class="grid-2">
-                        <div class="content">
-                            <div class="cell-1">
-                                <a class="active-tab" data-tab="bodyMenuCommon">menu</a>
-                            </div>
-                            <div class="cell-1">
-                                <a data-tab="bodyMenuAccount">login</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                #bodyCommonMiniTabs()
                 <div class="mini-tab-container">
                     <div id="bodyMenuCommon" data-tab="bodyMenuCommon" class="active-tab">
                         <h1>#springMessage('LandingPage.readyToBegin')</h1>
-
-                        <ul class="option-selector">
-                            <li><a>#springMessage('commonMenu.worlds')
-                                #if($eSummary.worldCount>0)<span class="note">$eSummary.worldCount</span>#end
-                            </a></li>
-                            <li><a>#springMessage('commonMenu.avatars')
-                                #if($eSummary.avatarCount>0)<span class="note">$eSummary.avatarCount</span>#end
-                            </a></li>
-                        </ul>
+                        #bodyCommonMenuSelector()
                     </div>
                     <div id="bodyMenuAccount" data-tab="bodyMenuAccount"></div>
                 </div>
@@ -43,7 +25,6 @@
         </div>
     </div>
     <div class="center">
-        #parse('news-column.vm')
     </div>
 </div>
 </body>
