@@ -2,17 +2,41 @@
 <html>
 <head>
     #parse('shared/html-head.vm')
+    <title>#springMessage('LandingPage.title')</title>
 </head>
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        <section id="brandLogo">
+        <div id="brandLogo">
             <a href="$cp/" title="navigate to landing page"></a>
-        </section>
-        <section>
-            <h1>#springMessage('LandingPage.readyToBegin')</h1>
+        </div>
+        <div id="bodyMenu">
+            <div class="mini-tabs">
+                <div class="mini-tab-navigator">
+                    <div class="grid-2">
+                        <div class="content">
+                            <div class="cell-1">
+                                <a class="active-tab" data-tab="bodyMenuCommon">menu</a>
+                            </div>
+                            <div class="cell-1">
+                                <a data-tab="bodyMenuAccount">login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-tab-container">
+                    <div id="bodyMenuCommon" data-tab="bodyMenuCommon" class="active-tab">
+                        <h1>#springMessage('LandingPage.readyToBegin')</h1>
 
-        </section>
+                        <ul class="menu">
+                            <li>#springMessage('commonMenu.worlds')</li>
+                            <li>#springMessage('commonMenu.avatars')</li>
+                        </ul>
+                    </div>
+                    <div id="bodyMenuAccount" data-tab="bodyMenuAccount"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="center">
         #parse('news-column.vm')

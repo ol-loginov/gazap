@@ -49,24 +49,29 @@ body#bodyColumns {
     .set-size(@total, @current){
         @full: 100%;
         @part_width: @full / @total;
+        width: @part_width * @current;
+    }
+
+    .content-style(@total, @current){
+        .set-size(@total, @current);
         display: block;
         float: left;
         margin-left: 0;
         margin-right: 0;
-        width: @part_width * @current;
+        position: relative;
     }
 
     &.layout-1-5 {
         > .content {
-            > .left {.set-size(6, 1); }
-            >.center {.set-size(6, 5); }
+            > .left {.content-style(6, 1); }
+            >.center {.content-style(6, 5); }
             > .right { display: none; }
         }
     }
     &.layout-1-4 {
         > .content {
-            > .left {.set-size(5, 1); }
-            >.center {.set-size(5, 4); }
+            > .left {.content-style(5, 1); }
+            >.center {.content-style(5, 4); }
             > .right { display: none; }
         }
     }
@@ -75,8 +80,43 @@ body#bodyColumns {
             > .left,
             > .right,
             >.center {
-                .set-size(3, 1);
+                .content-style(3, 1);
             }
+        }
+    }
+}
+
+body#bodyColumns {
+    #brandLogo {
+        padding: 2em;
+        text-align: center;
+        > a {
+            margin: 0 auto;
+        }
+    }
+
+    #bodyMenu {
+    }
+}
+
+#grid {
+    .width(@itemTotal, @item){
+        @full: 100%;
+        @part_width: @full / @itemTotal;
+        width: @part_width * @item;
+    }
+}
+
+.grid-2 {
+    display: table;
+    width: 100%;
+
+    > .content {
+        display: table-row;
+
+        > .cell-1 {
+            display: table-cell;
+            #grid > .width(2, 1);
         }
     }
 }

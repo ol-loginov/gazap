@@ -1,14 +1,68 @@
-section {
-    padding: 5%;
-    text-align: center;
+#brandLogo {
     > a {
         display: block;
         background: transparent url(../images/brand-light.png) no-repeat center center;
         height: 26px;
         width: 146px;
-        margin: 0 auto;
         > strong {
             display: none;
         }
     }
 }
+
+#bodyMenu {
+    margin-bottom: 1em;
+    .mini-tab-navigator {
+        a {
+            padding-top: .2em;
+            padding-bottom: .2em;
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+
+}
+
+.mini-tabs {
+    .mini-tab-navigator {
+        background: black;
+        font-size: 0.815em;
+
+        a {
+            font-family: 'Open Sans Condensed', sans-serif;
+            color: white;
+            line-height: 1.4em;
+            font-size: 1em;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-decoration: none;
+            outline: none;
+
+            &:hover,
+            &:focus,
+            &.active-tab {
+                text-decoration: none;
+                outline: none;
+                background: #84CD1C;
+            }
+        }
+
+        a[data-tab].active-tab {
+            cursor: default;
+        }
+    }
+
+    .mini-tab-container {
+        *[data-tab] { display: none; }
+    }
+
+    &[data-toggle=true] {
+        .mini-tab-navigator {
+            a[data-tab].active-tab {
+                cursor: pointer;
+            }
+        }
+    }
+}
+
