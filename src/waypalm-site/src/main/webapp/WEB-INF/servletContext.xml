@@ -3,11 +3,9 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
-            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:annotation-config/>
     <context:property-placeholder location="classpath:/waypalm-site.properties"/>
@@ -15,16 +13,8 @@
     <context:component-scan base-package="waypalm.site.web.controllers"/>
 
     <mvc:interceptors>
-        <bean class="waypalm.common.web.extensions.ModelExtenderInterceptor">
-            <property name="extenders">
-                <util:list>
-                    <bean p:extensionKey="eVisitor" class="waypalm.site.web.extensions.VisitorExtender"/>
-                    <bean p:extensionKey="eCdn" class="waypalm.site.web.extensions.CdnExtender"/>
-                    <bean p:extensionKey="eCan" class="waypalm.site.web.extensions.CanExtender"/>
-                    <bean p:extensionKey="eViewMeta" class="waypalm.site.web.extensions.ViewMetaExtender"/>
-                </util:list>
-            </property>
-        </bean>
+        <bean class="waypalm.common.web.extensions.ModelExtenderInterceptor"
+              p:basePackage="waypalm.site.web.extensions"/>
     </mvc:interceptors>
 
     <mvc:annotation-driven/>

@@ -28,9 +28,13 @@
                     <div id="bodyMenuCommon" data-tab="bodyMenuCommon" class="active-tab">
                         <h1>#springMessage('LandingPage.readyToBegin')</h1>
 
-                        <ul class="menu">
-                            <li>#springMessage('commonMenu.worlds')</li>
-                            <li>#springMessage('commonMenu.avatars')</li>
+                        <ul class="option-selector">
+                            <li><a>#springMessage('commonMenu.worlds')
+                                #if($eSummary.worldCount>0)<span class="note">$eSummary.worldCount</span>#end
+                            </a></li>
+                            <li><a>#springMessage('commonMenu.avatars')
+                                #if($eSummary.avatarCount>0)<span class="note">$eSummary.avatarCount</span>#end
+                            </a></li>
                         </ul>
                     </div>
                     <div id="bodyMenuAccount" data-tab="bodyMenuAccount"></div>

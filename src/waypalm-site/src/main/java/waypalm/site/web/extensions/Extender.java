@@ -16,32 +16,10 @@ public abstract class Extender<T> implements ModelExtender {
     @Autowired
     protected UserRepository userRepository;
 
-    private String extensionKey;
-    private String contentKey;
-
-    public String getExtensionKey() {
-        return extensionKey;
-    }
-
-    public void setExtensionKey(String extensionKey) {
-        this.extensionKey = extensionKey;
-    }
-
-    public String getContentKey() {
-        return contentKey;
-    }
-
-    public void setContentKey(String contentKey) {
-        this.contentKey = contentKey;
-    }
-
     @Override
-    public final void extend(WebRequest request, ModelMap model) {
-        String extensionKey = getExtensionKey(), contentKey = getContentKey();
-
-        Object extensionContent = contentKey != null ? model.get(contentKey) : null;
+    public final void extend(String extensionKey, Object content, WebRequest request, ModelMap model) {
         Object extensionInstance = model.get(extensionKey);
-        Object extensionApplied = createExtension(request, extensionInstance, extensionContent);
+        Object extensionApplied = createExtension(request, extensionInstance, content);
         if (extensionApplied != null) {
             model.put(extensionKey, extensionApplied);
         } else {

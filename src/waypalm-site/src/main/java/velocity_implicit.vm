@@ -2,8 +2,8 @@
 #* @velocityproperties path="../resources/waypalm-site-velocity.properties" runtime_root="../webapp/WEB-INF/velocity" *#
 #* @vtlvariable name="escTool" type="org.apache.velocity.tools.generic.EscapeTool" *#
 #* @vtlvariable name="dateTool" type="org.apache.velocity.tools.generic.DateTool" *#
-#* @vtlvariable name="eCdn" type="waypalm.site.web.extensions.CdnExtension" *#
-#* @vtlvariable name="eVisitor" type="waypalm.site.web.extensions.VisitorExtension" *#
-#* @vtlvariable name="eViewMeta" type="waypalm.site.web.extensions.ViewMetaExtension" *#
-#* @vtlvariable name="eCan" type="waypalm.site.web.extensions.CanExtension" *#
+#* @vtlvariable name="eCdn" type="waypalm.site.web.extensions.CdnExtender.Content" *#
+#* @vtlvariable name="eVisitor" type="waypalm.site.web.extensions.VisitorExtender.Content" *#
+#* @vtlvariable name="eCan" type="waypalm.site.web.extensions.CanExtender.Content" *#
+#* @vtlvariable name="eSummary" type="waypalm.site.web.extensions.SummaryExtender.Content" *#
 #* @vtlvariable name="cp" type="java.lang.String" *#
