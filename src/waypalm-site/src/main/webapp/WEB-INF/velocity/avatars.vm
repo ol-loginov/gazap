@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    $eCdn.setAppZone('/avatars')
 <head>
     #parse('shared/html-head.vm')
     <title>#springMessage('LandingPage.title')</title>

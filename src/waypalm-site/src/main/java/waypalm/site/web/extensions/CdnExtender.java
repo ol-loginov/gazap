@@ -18,7 +18,6 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
         extension = instantiateIfNull(extension, CdnExtender.Content.class);
         extension.setServer(engineSetup.getSiteUrl());
         extension.setContextPath(engineSetup.getServletContext());
-        extension.setYear(DateUtil.utc().get(Calendar.YEAR));
         extension.setLocale(request.getLocale().getLanguage());
         extension.setDebugMode(engineSetup.isDebugMode());
         return extension;
@@ -28,8 +27,8 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
         private boolean debugMode;
         private String server;
         private String contextPath;
-        private int year;
         private String locale;
+        private String appZone;
 
         public String getServer() {
             return server;
@@ -47,12 +46,12 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
             this.contextPath = contextPath;
         }
 
-        public int getYear() {
-            return year;
+        public String getAppZone() {
+            return appZone;
         }
 
-        public void setYear(int year) {
-            this.year = year;
+        public void setAppZone(String appZone) {
+            this.appZone = appZone;
         }
 
         public String getLocale() {

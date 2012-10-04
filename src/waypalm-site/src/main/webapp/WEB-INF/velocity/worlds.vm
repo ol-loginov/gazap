@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+    $eCdn.setAppZone('/worlds')
 <head>
     #parse('shared/html-head.vm')
     <title>#springMessage('LandingPage.title')</title>

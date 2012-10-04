@@ -11,8 +11,8 @@ html, body {
 }
 
 body {
-    background: @bodyBackgroundColor;
-    color: @bodyTextColor;
+    background: @baseBackgroundColor;
+    color: @baseTextColor;
     min-width: 640px;
 }
 
@@ -63,16 +63,24 @@ body#bodyColumns {
 
     &.layout-1-5 {
         > .content {
-            > .left {.content-style(6, 1); }
-            >.center {.content-style(6, 5); }
-            > .right { display: none; }
+            > .left {.content-style(6, 1);
+            }
+            >.center {.content-style(6, 5);
+            }
+            > .right {
+                display: none;
+            }
         }
     }
     &.layout-1-4 {
         > .content {
-            > .left {.content-style(5, 1); }
-            >.center {.content-style(5, 4); }
-            > .right { display: none; }
+            > .left {.content-style(5, 1);
+            }
+            >.center {.content-style(5, 4);
+            }
+            > .right {
+                display: none;
+            }
         }
     }
     &.layout-3-3-3 {
@@ -96,6 +104,17 @@ body#bodyColumns {
     }
 
     #bodyMenu {
+        text-align: center;
+        .mini-tab-container {
+            > div {
+                padding: 1em .5em;
+            }
+        }
+
+        .option-selector {
+            margin-top: 1em;
+            padding: 0 10%;
+        }
     }
 }
 
