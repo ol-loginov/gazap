@@ -3,7 +3,7 @@
     <div class="grid-2">
         <div class="content">
             <div class="cell-1">
-                <a class="active-tab" href="#" data-tab="bodyMenuCommon">
+                <a href="#" data-tab="bodyMenuCommon">
                     #springMessage('brandMenu.menu')
                 </a>
             </div>
@@ -48,8 +48,10 @@
 <div>
     <h1 class="section-head">#springMessage('settingsMenu.caption')</h1>
     <ul class="option-selector">
-        <li><a href="$cp/my/publicity">#springMessage('settingsMenu.publicity')</a></li>
-        <li><a href="$cp/my/socials">#springMessage('settingsMenu.socials')</a></li>
+        <li #if($eCdn.appZone.equals('/my/publicity'))class="current"#end>
+            <a href="$cp/my/publicity">#springMessage('settingsMenu.publicity')</a></li>
+        <li #if($eCdn.appZone.equals('/my/socials'))class="current"#end>
+            <a href="$cp/my/socials">#springMessage('settingsMenu.socials')</a></li>
     </ul>
 </div>
 #end

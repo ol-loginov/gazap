@@ -12,7 +12,6 @@ import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.EntityApiAnswer;
 import waypalm.site.web.controllers.ResponseBuilder;
-import waypalm.site.web.controllers.SecurityHelper;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -21,8 +20,6 @@ import java.util.Locale;
 public class MyWorldsController extends BaseController {
     @Autowired
     WorldService worldService;
-    @Autowired
-    SecurityHelper securityHelper;
 
     @RequestMapping("/my/worlds")
     public ModelAndView showIndex(Locale locale) {
@@ -42,7 +39,7 @@ public class MyWorldsController extends BaseController {
         if (formBinding.hasErrors()) {
             responseBuilder.validationErrors(response, formBinding);
         } else {
-            response.setEntity(worldService.createWorld(securityHelper.requireCurrentUser(), form));
+            response.setEntity(worldService.createWorld(requireProfile(), form));
             response.setSuccess(true);
         }
         return responseBuilder.json(response);

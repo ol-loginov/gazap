@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-    $eCdn.setAppZone('/')
+    $eCdn.setAppZone('/my/publicity')
 <head>
     #parse('shared/html-head.vm')
-    <title>#springMessage('LandingPage.title')</title>
+    <title>#springMessage('SettingsPublicityPage.title')</title>
 </head>
     #parse('_index-macros.vm')
     #parse('shared/form-macros.vm')
@@ -17,11 +17,11 @@
             <div class="mini-tabs">
                 #bodyCommonMiniTabs()
                 <div class="mini-tab-container">
-                    <div id="bodyMenuCommon" data-tab="bodyMenuCommon" class="active-tab">
+                    <div id="bodyMenuCommon" data-tab="bodyMenuCommon">
                         <h1>#springMessage('LandingPage.readyToBegin')</h1>
                         #bodyCommonMenuSelector()
                     </div>
-                    <div id="bodyMenuAccount" data-tab="bodyMenuAccount">
+                    <div id="bodyMenuAccount" data-tab="bodyMenuAccount" class="active-tab">
                         #if($eVisitor.logged)
                             #bodyAccountMenu()
                         #else

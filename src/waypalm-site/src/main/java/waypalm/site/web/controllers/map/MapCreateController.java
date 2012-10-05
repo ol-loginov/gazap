@@ -49,7 +49,7 @@ public class MapCreateController extends BaseController {
         if (binding.hasErrors()) {
             response.validationErrors(answer, binding);
         } else {
-            Surface surface = worldService.createSurface(world, securityHelper.getCurrentUser(), form);
+            Surface surface = worldService.createSurface(world, requireProfile(), form);
             answer.setEntity(viewer.surfaceTitle(surface));
             answer.setSuccess(true);
         }

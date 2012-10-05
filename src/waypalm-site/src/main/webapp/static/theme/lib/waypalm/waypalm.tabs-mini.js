@@ -49,13 +49,16 @@
         },
 
         pickUpState:function () {
-            var self = this;
-            $(this.clickers).each(function (index, item) {
+            var self = this, activator = function (index, item) {
                 if ($(item).hasClass(self.options.classActiveClicker)) {
                     self.showTab(index);
                     return false;
                 }
-            });
+            };
+            $(this.clickers).each(activator);
+            if (this.currentIndex == -1) {
+                $(this.contents).each(activator);
+            }
         },
 
         showTab:function (/*Number*/index) {
