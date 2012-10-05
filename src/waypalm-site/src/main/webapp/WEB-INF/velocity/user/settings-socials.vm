@@ -3,7 +3,7 @@
     $eCdn.setAppZone('/my/socials')
 <head>
     #parse('shared/html-head.vm')
-    <title>#springMessage('SettingsPublicityPage.title')</title>
+    <title>#springMessage('SettingsSocialsPage.title')</title>
 </head>
     #parse('_index-macros.vm')
     #parse('shared/form-macros.vm')
