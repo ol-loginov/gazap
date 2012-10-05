@@ -62,4 +62,21 @@ input[type=submit] {
     &:active {
         border-style: inset;
     }
+
+    &.lower {
+        padding: 2px 5px;
+        font-weight: normal;
+    }
+
+    &.btn-grey {
+        @darkColor: #D6D6D6;
+        @lightColor: #F5F5F5;
+        #gradient > .vertical(@lightColor, @darkColor);
+        border: outset 1px @lightColor;
+
+        &:focus,
+        &:hover {
+            #gradient > .vertical(@darkColor, @lightColor);
+        }
+    }
 }

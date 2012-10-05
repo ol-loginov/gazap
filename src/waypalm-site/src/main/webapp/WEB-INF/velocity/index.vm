@@ -21,30 +21,11 @@
                         #bodyCommonMenuSelector()
                     </div>
                     <div id="bodyMenuAccount" data-tab="bodyMenuAccount">
-                        <form method="post" action="$eCdn.contextPath/auth">
-                            <div class="form-field">
-                                #formFieldLabel(true, 'LoginForm.login.label')
-                                <div class="full-width-input">
-                                    <input type="email" name="j_username"
-                                           placeholder="#springMessage('LoginForm.login.placeholder')"/>
-                                </div>
-                            </div>
-                            <div class="form-field">
-                                #formFieldLabel(true, 'LoginForm.password.label')
-                                <div class="full-width-input">
-                                    <input type="password" name="j_password"
-                                           placeholder="#springMessage('LoginForm.password.placeholder')"/>
-                                </div>
-                            </div>
-                            <div class="form-submit clearfix">
-                                <div class="pull-left">
-                                    <input type="submit" value="#springMessage('LoginForm.submit')"/>
-                                </div>
-                                <div class="pull-right">
-                                    #springMessage('form.requiredNotice')
-                                </div>
-                            </div>
-                        </form>
+                        #if($eVisitor.logged)
+                            #bodyAccountMenu()
+                        #else
+                            #bodyAccountMenuEnter()
+                        #end
                     </div>
                 </div>
             </div>

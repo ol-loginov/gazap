@@ -143,3 +143,45 @@ body#bodyColumns {
 .pull-right {
     float: right;
 }
+
+.user-card {
+    .clearfix();
+    text-align: left;
+
+    > img {
+        width: 64px;
+        height: 64px;
+        .pull-left();
+        margin-right: 1em;
+        margin-bottom: 1em;
+    }
+
+    > .data-name {
+
+        > .name {
+            .one-liner();
+            display: block;
+            margin-bottom: .1em;
+            color: #111;
+            line-height: 1.3em;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        > form {
+            .alias {
+                .one-liner();
+                font-size: 96%;
+                font-family: @captionFontFamily;
+                margin-right: 1em;
+
+                > a {
+                    font-size: 96%;
+                    font-weight: 600;
+                    color: #72A022;
+                    margin-top: 1px;
+                }
+            }
+        }
+    }
+}

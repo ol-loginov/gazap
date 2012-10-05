@@ -4,6 +4,21 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     color: @captionColor;
     margin: 0;
+
+    &.section-head {
+        &:after, &:before {
+            font-size: 50%;
+            line-height: 100%;
+            margin: 1em;
+            vertical-align: middle;
+        }
+        &:after {
+            content: "∴";
+        }
+        &:before {
+            content: "∵";
+        }
+    }
 }
 
 h1 {

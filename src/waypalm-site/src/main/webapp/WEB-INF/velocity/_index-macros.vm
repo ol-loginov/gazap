@@ -3,10 +3,14 @@
     <div class="grid-2">
         <div class="content">
             <div class="cell-1">
-                <a class="active-tab" href="#" data-tab="bodyMenuCommon">menu</a>
+                <a class="active-tab" href="#" data-tab="bodyMenuCommon">
+                    #springMessage('brandMenu.menu')
+                </a>
             </div>
             <div class="cell-1">
-                <a href="#" data-tab="bodyMenuAccount">login</a>
+                <a href="#" data-tab="bodyMenuAccount">
+                    #springMessage('brandMenu.account')
+                </a>
             </div>
         </div>
     </div>
@@ -26,5 +30,53 @@
 </ul>
 #end
 
+#macro(bodyAccountMenu)
+<div class="user-card">
+    <img src="http://www.gravatar.com/avatar/${eVisitor.user.gravatar}?s=64" alt=""/>
+
+    <div class="data-name">
+        <span class="name">$escTool.html($eVisitor.user.name)</span>
+
+        <form action="$cp/auth/logout" method="post">
+            #if($eVisitor.user.alias)
+                <span class="alias">aka <a href="$cp/u/$eVisitor.user.alias">$eVisitor.user.alias</a></span>
+            #end
+            <input type="submit" class="lower btn-grey" value="#springMessage('LogoutForm.submit')"/>
+        </form>
+    </div>
+</div>
+<div>
+    <h1 class="section-head">#springMessage('settingsMenu.caption')</h1>
+    <ul class="option-selector">
+        <li><a href="$cp/my/publicity">#springMessage('settingsMenu.publicity')</a></li>
+        <li><a href="$cp/my/socials">#springMessage('settingsMenu.socials')</a></li>
+    </ul>
+</div>
+#end
+
 #macro(bodyAccountMenuEnter)
+<form method="post" action="$cp/auth">
+    <div class="form-field">
+        #formFieldLabel(true, 'LoginForm.login.label')
+        <div class="full-width-input">
+            <input type="email" name="j_username"
+                   placeholder="#springMessage('LoginForm.login.placeholder')"/>
+        </div>
+    </div>
+    <div class="form-field">
+        #formFieldLabel(true, 'LoginForm.password.label')
+        <div class="full-width-input">
+            <input type="password" name="j_password"
+                   placeholder="#springMessage('LoginForm.password.placeholder')"/>
+        </div>
+    </div>
+    <div class="form-submit clearfix">
+        <div class="pull-left">
+            <input type="submit" value="#springMessage('LoginForm.submit')"/>
+        </div>
+        <div class="pull-right">
+            #springMessage('form.requiredNotice')
+        </div>
+    </div>
+</form>
 #end
