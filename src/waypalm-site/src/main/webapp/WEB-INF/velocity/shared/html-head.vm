@@ -1,4 +1,5 @@
-#parse('_spring-macros.vm')
+#parse('shared/macros-spring.vm')
+#parse('shared/macros-form.vm')
 #set($cp=$eCdn.contextPath)
 #set($themeRoot="$cp/static/theme")
 #set($libRoot="$themeRoot/lib")
@@ -7,10 +8,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 
-##<link type="text/css" rel="stylesheet"
-##      href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic"/>
-##<link type="text/css" rel="stylesheet"
-##      href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic"/>
 #if($eCdn.debugMode)
 <link rel="stylesheet/less" href="$cp/static/theme/less/layout.less"/>
 <script type="text/javascript" src="$libRoot/less/less-1.3.0.min.js"></script>
@@ -22,17 +19,14 @@
     V = {};
     E = {language:'$eCdn.locale', 'SCE':'#springMessage('E.SCE')'};
 </script>
-<script type="text/javascript" src="${libRoot}/head/head-0.96.min.js"></script>
-<script>
-    head.js(
-            {jquery:"$libRoot/jquery/jquery-1.7.1.min.js"},
-            {jquery_form:"$libRoot/jquery/jquery.form-3.18.js"},
-            {jquery_validate:"$libRoot/jquery/jquery.validate-1.10.0.js"},
-            {undescore:"$libRoot/backbone/undescore-1.1.7.min.js"},
-            {backbone:"$libRoot/backbone/backbone-0.5.3.min.js"},
-            {waypalm_exists:"$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"},
-            {waypalm_tabs_mini:"$libRoot/waypalm/waypalm.tabs-mini.js?_=$eCdn.serverStart"},
-            {defaults:"$scriptsRoot/defaults.js?_=$eCdn.serverStart"},
-            {ui:"$scriptsRoot/ui.js?_=$eCdn.serverStart"}
-    );
-</script>
+
+<script type="text/javascript" src="$libRoot/head/head-0.96.min.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery.form-3.18.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery.validate-1.10.0.js"></script>
+<script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>
+<script type="text/javascript" src="$libRoot/backbone/backbone-0.5.3.min.js"></script>
+<script type="text/javascript" src="$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$libRoot/waypalm/waypalm.tabs-mini.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$scriptsRoot/defaults.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$scriptsRoot/ui.js?_=$eCdn.serverStart"></script>

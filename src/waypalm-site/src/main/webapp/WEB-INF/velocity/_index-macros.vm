@@ -6,12 +6,15 @@
     <div class="mini-tabs">
         #landingSidebarMiniTabs()
         <div class="mini-tab-container">
-            <div id="landingSidebarCommon" data-tab="landingSidebarCommon" #if($activeTab=='landingSidebarCommon')class="active-tab"#end>
+            <div id="landingSidebarCommon" data-tab="landingSidebarCommon"
+                 #if($activeTab=='landingSidebarCommon')class="active-tab"#end>
                 #landingSidebarCommonContent()
             </div>
-            <div id="landingSidebarHelp" data-tab="landingSidebarHelp" #if($activeTab=='landingSidebarHelp')class="active-tab"#end>
+            <div id="landingSidebarHelp" data-tab="landingSidebarHelp"
+                 #if($activeTab=='landingSidebarHelp')class="active-tab"#end>
             </div>
-            <div id="landingSidebarAccount" data-tab="landingSidebarAccount" #if($activeTab=='landingSidebarAccount')class="active-tab"#end>
+            <div id="landingSidebarAccount" data-tab="landingSidebarAccount"
+                 #if($activeTab=='landingSidebarAccount')class="active-tab"#end>
                 #if($eVisitor.logged)
                     #landingSidebarAccountContent()
                 #else
@@ -63,7 +66,9 @@
 
 #macro(landingSidebarAccountContent)
 <div class="user-card  section">
-    <img src="http://www.gravatar.com/avatar/${eVisitor.user.gravatar}?s=64" alt=""/>
+    <a class="user-thumb" href="$cp$eVisitor.user.route">
+        <img src="http://www.gravatar.com/avatar/${eVisitor.user.gravatar}?s=64" alt=""/>
+    </a>
 
     <div class="data-name">
         <span class="name">$escTool.html($eVisitor.user.name)</span>

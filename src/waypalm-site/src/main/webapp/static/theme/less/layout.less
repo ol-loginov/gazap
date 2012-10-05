@@ -137,12 +137,17 @@ body#bodyColumns {
     .clearfix();
     text-align: left;
 
-    > img {
+    > .user-thumb {
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
         width: 72px;
         height: 72px;
         .pull-left();
-        margin-right: 0.5em;
-        margin-bottom: 0.5em;
+
+        > img {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     > .data-name {

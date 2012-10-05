@@ -6,7 +6,6 @@
     <title>#springMessage('SettingsPublicityPage.title')</title>
 </head>
     #parse('_index-macros.vm')
-    #parse('shared/form-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
