@@ -126,7 +126,7 @@
         </div>
     </form>
 </div>
-<div>
+<div class="section">
     <h1 class="section-head">#springMessage('loginViaOther.caption')</h1>
     <span>Facebook, Twitter, Google...</span>
 </div>
