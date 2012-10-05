@@ -17,22 +17,28 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
-public class MyWorldsController extends BaseController {
+@RequestMapping("/my")
+public class MyEntitiesController extends BaseController {
     @Autowired
     WorldService worldService;
 
-    @RequestMapping("/my/worlds")
-    public ModelAndView showIndex(Locale locale) {
+    @RequestMapping("/avatars")
+    public ModelAndView myAvatars(Locale locale) {
+        return responseBuilder(locale).view("user/my-avatars");
+    }
+
+    @RequestMapping("/worlds")
+    public ModelAndView myWorlds(Locale locale) {
         return responseBuilder(locale).view("user/my-worlds");
     }
 
-    @RequestMapping(value = "/my/new/world", method = RequestMethod.GET)
+    @RequestMapping(value = "/new/world", method = RequestMethod.GET)
     public ModelAndView createWorldForm(Locale locale) {
         return responseBuilder(locale).view("world/create-world")
                 .addObject("form", new WorldCreateForm());
     }
 
-    @RequestMapping(value = "/my/new/world", method = RequestMethod.POST, params = "_response=json")
+    @RequestMapping(value = "/new/world", method = RequestMethod.POST, params = "_response=json")
     public ModelAndView createWorld(Locale locale, @Valid WorldCreateForm form, BindingResult formBinding) {
         ResponseBuilder responseBuilder = responseBuilder(locale);
         EntityApiAnswer<World> response = new EntityApiAnswer<>();
@@ -44,4 +50,5 @@ public class MyWorldsController extends BaseController {
         }
         return responseBuilder.json(response);
     }
+
 }

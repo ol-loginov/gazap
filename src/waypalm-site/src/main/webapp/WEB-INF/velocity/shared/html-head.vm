@@ -1,4 +1,4 @@
-#parse('shared/spring-macros.vm')
+#parse('_spring-macros.vm')
 #set($cp=$eCdn.contextPath)
 #set($themeRoot="$cp/static/theme")
 #set($libRoot="$themeRoot/lib")
@@ -20,14 +20,14 @@
 <script>
     head.js(
             {jquery:"$libRoot/jquery/jquery-1.7.1.min.js"},
-            {jquery_exists:"$libRoot/jquery/jquery.exists.js"},
             {jquery_form:"$libRoot/jquery/jquery.form-3.18.js"},
             {jquery_validate:"$libRoot/jquery/jquery.validate-1.10.0.js"},
             {undescore:"$libRoot/backbone/undescore-1.1.7.min.js"},
             {backbone:"$libRoot/backbone/backbone-0.5.3.min.js"},
-            {waypalm_tabs_mini:"$libRoot/waypalm/waypalm.tabs-mini.js"},
-            {defaults:"$scriptsRoot/defaults.js"},
-            {ui:"$scriptsRoot/ui.js"}
+            {waypalm_exists:"$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"},
+            {waypalm_tabs_mini:"$libRoot/waypalm/waypalm.tabs-mini.js?_=$eCdn.serverStart"},
+            {defaults:"$scriptsRoot/defaults.js?_=$eCdn.serverStart"},
+            {ui:"$scriptsRoot/ui.js?_=$eCdn.serverStart"}
     );
 </script>
 
@@ -35,5 +35,5 @@
 <link rel="stylesheet/less" href="$cp/static/theme/less/layout.less"/>
 <script type="text/javascript" src="$libRoot/less/less-1.3.0.min.js"></script>
 #else
-<link rel="stylesheet" href="$cp/static/theme/dist/waypalm.min.css"/>
+<link rel="stylesheet" href="$cp/static/theme/dist/waypalm.min.css?_=$eCdn.serverStart"/>
 #end

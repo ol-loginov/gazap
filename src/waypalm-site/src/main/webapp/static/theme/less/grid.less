@@ -1,0 +1,39 @@
+#grid {
+    .width(@itemTotal, @item){
+        @full: 100%;
+        @part_width: @full / @itemTotal;
+        width: @part_width * @item;
+    }
+}
+
+.grid-2 {
+    display: table;
+    width: 100%;
+
+    > .content {
+        display: table-row;
+
+        > .cell-1 {
+            display: table-cell;
+            #grid > .width(2, 1);
+        }
+    }
+}
+
+.grid-3 {
+    display: table;
+    width: 100%;
+
+    > .content {
+        display: table-row;
+
+        > .cell-1 {
+            display: table-cell;
+            #grid > .width(3, 1);
+        }
+        > .cell-2 {
+            display: table-cell;
+            #grid > .width(3, 2);
+        }
+    }
+}

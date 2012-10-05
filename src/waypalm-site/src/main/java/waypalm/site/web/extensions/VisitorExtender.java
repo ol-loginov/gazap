@@ -16,19 +16,19 @@ public class VisitorExtender extends Extender<VisitorExtender.Content> {
     protected VisitorExtender.Content populate(WebRequest request, VisitorExtender.Content extension, Object content) {
         UserProfile user = getLoggedUser();
         extension = instantiateIfNull(extension, VisitorExtender.Content.class);
-        extension.setUser(user != null ? modelViewer.userTitle(user) : null);
+        extension.user = user != null ? modelViewer.userTitle(user) : null;
+        extension.worldCount = 3;
+        extension.avatarCount = 0;
         return extension;
     }
 
     public static class Content {
         private UserTitle user;
+        private int worldCount;
+        private int avatarCount;
 
         public UserTitle getUser() {
             return user;
-        }
-
-        public void setUser(UserTitle user) {
-            this.user = user;
         }
 
         public boolean isLogged() {
@@ -38,6 +38,13 @@ public class VisitorExtender extends Extender<VisitorExtender.Content> {
         public int getUserId() {
             return user != null ? user.getId() : 0;
         }
-    }
 
+        public int getWorldCount() {
+            return worldCount;
+        }
+
+        public int getAvatarCount() {
+            return avatarCount;
+        }
+    }
 }

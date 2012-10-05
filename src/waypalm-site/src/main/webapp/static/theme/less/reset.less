@@ -2,7 +2,6 @@ body {
     font-family: @baseFontFamily;
     font-size: @baseFontSize;
     line-height: 1;
-
     margin: 0;
 }
 
@@ -22,6 +21,8 @@ a, a:hover {
 .one-liner {
     word-break: keep-all;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .w100p {

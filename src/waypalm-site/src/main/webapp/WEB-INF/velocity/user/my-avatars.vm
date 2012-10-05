@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-    $eCdn.setAppZone('/my/socials')
+    $eCdn.setAppZone('/my/avatars')
 <head>
     #parse('shared/html-head.vm')
-    <title>#springMessage('SettingsPublicityPage.title')</title>
+    <title>#springMessage('MyAvatarsPage.title')</title>
 </head>
     #parse('_index-macros.vm')
     #parse('shared/form-macros.vm')

@@ -16,34 +16,32 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
     @Override
     protected CdnExtender.Content populate(WebRequest request, CdnExtender.Content extension, Object content) {
         extension = instantiateIfNull(extension, CdnExtender.Content.class);
-        extension.setServer(engineSetup.getSiteUrl());
-        extension.setContextPath(engineSetup.getServletContext());
-        extension.setLocale(request.getLocale().getLanguage());
-        extension.setDebugMode(engineSetup.isDebugMode());
+        extension.debugMode = engineSetup.isDebugMode();
+        extension.server = engineSetup.getSiteUrl();
+        extension.serverStart = engineSetup.getStartTime();
+        extension.contextPath = engineSetup.getServletContext();
+        extension.locale = request.getLocale().getLanguage();
         return extension;
     }
 
     public static class Content {
         private boolean debugMode;
         private String server;
+        private long serverStart;
         private String contextPath;
         private String locale;
         private String appZone;
+
+        public long getServerStart() {
+            return debugMode ? System.currentTimeMillis() : serverStart;
+        }
 
         public String getServer() {
             return server;
         }
 
-        public void setServer(String server) {
-            this.server = server;
-        }
-
         public String getContextPath() {
             return contextPath;
-        }
-
-        public void setContextPath(String contextPath) {
-            this.contextPath = contextPath;
         }
 
         public String getAppZone() {
@@ -58,16 +56,8 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
             return locale;
         }
 
-        public void setLocale(String locale) {
-            this.locale = locale;
-        }
-
         public boolean isDebugMode() {
             return debugMode;
-        }
-
-        public void setDebugMode(boolean debugMode) {
-            this.debugMode = debugMode;
         }
     }
 }

@@ -1,6 +1,7 @@
 @import "bootstrap/mixins.less";
 @import "variables.less";
 @import "reset.less";
+@import "grid.less";
 @import "typography.less";
 @import "icons.less";
 @import "navigation.less";
@@ -108,30 +109,17 @@ body#bodyColumns {
         }
 
         .option-selector {
-            margin-top: 1em;
             padding: 0 10%;
         }
-    }
-}
 
-#grid {
-    .width(@itemTotal, @item){
-        @full: 100%;
-        @part_width: @full / @itemTotal;
-        width: @part_width * @item;
-    }
-}
-
-.grid-2 {
-    display: table;
-    width: 100%;
-
-    > .content {
-        display: table-row;
-
-        > .cell-1 {
-            display: table-cell;
-            #grid > .width(2, 1);
+        #landingSidebarAccount {
+            .user-card {
+                margin-left: -0.5em;
+                margin-right: -0.5em;
+                margin-top: -1em;
+                padding: 1em 0.5em 0;
+                background: #84CD1C;
+            }
         }
     }
 }
@@ -149,40 +137,42 @@ body#bodyColumns {
     text-align: left;
 
     > img {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
         .pull-left();
-        margin-right: 1em;
-        margin-bottom: 1em;
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
     }
 
     > .data-name {
+        margin-bottom: 0.5em;
 
         > .name {
             .one-liner();
             display: block;
-            margin-bottom: .1em;
-            color: #111;
-            line-height: 1.3em;
             font-weight: 700;
-            font-size: 1.3em;
+            font-size: 17px;
+            line-height: 23px;
+            color: #111;
+        }
+
+        > .alias {
+            .one-liner();
+            display: block;
+            font-size: 14px;
+            font-family: @captionFontFamily;
+            line-height: 23px;
+            color: #444;
+
+            > a {
+                font-size: 14px;
+                font-weight: 600;
+                color: #444;
+            }
         }
 
         > form {
-            .alias {
-                .one-liner();
-                font-size: 96%;
-                font-family: @captionFontFamily;
-                margin-right: 1em;
-                line-height: 1.3em;
-
-                > a {
-                    font-size: 96%;
-                    font-weight: 600;
-                    color: #72A022;
-                    margin-top: 1px;
-                }
-            }
+            margin-top: 4px;
         }
     }
 }

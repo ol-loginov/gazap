@@ -8,13 +8,14 @@ import waypalm.site.web.controllers.BaseController;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/my")
 public class MySettingsController extends BaseController {
-    @RequestMapping("/my/publicity")
+    @RequestMapping("/publicity")
     public ModelAndView viewPublicity(Locale locale) {
         return responseBuilder(locale).view("user/settings-publicity");
     }
 
-    @RequestMapping("/my/socials")
+    @RequestMapping("/socials")
     public ModelAndView viewSocials(Locale locale) {
         return responseBuilder(locale).view("user/settings-socials");
     }

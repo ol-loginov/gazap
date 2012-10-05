@@ -18,17 +18,8 @@ public class SummaryExtender extends Extender<SummaryExtender.Content> {
             return worldCount;
         }
 
-        public void setWorldCount(int worldCount) {
-            this.worldCount = worldCount;
-        }
-
         public int getAvatarCount() {
             return avatarCount;
         }
-
-        public void setAvatarCount(int avatarCount) {
-            this.avatarCount = avatarCount;
-        }
     }
-
 }

@@ -1,9 +1,32 @@
 package waypalm.site.services;
 
-public interface EngineSetup {
-    String getSiteUrl();
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-    String getServletContext();
+@Service
+public class EngineSetup {
+    public static final long startTime = System.currentTimeMillis();
 
-    boolean isDebugMode();
+    @Value("${engine.url}")
+    private String siteUrl;
+    @Value("${engine.context}")
+    private String servletContext;
+    @Value("${engine.debug}")
+    private boolean debugMode;
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public String getSiteUrl() {
+        return siteUrl;
+    }
+
+    public String getServletContext() {
+        return servletContext;
+    }
+
+    public boolean isDebugMode() {
+        return debugMode;
+    }
 }
