@@ -1,1 +1,65 @@
-/**/
+form {
+    text-align: left;
+}
+
+.form-field {
+    margin-bottom: .8em;
+
+    > label {
+        display: block;
+        font-size: .8em;
+        font-weight: 700;
+        margin-bottom: .5em;
+    }
+
+    > div {
+        > input,
+        > textarea {
+            border: solid 1px #aaa;
+            .border-radius(2px);
+            font-size: 1em;
+            line-height: 1.2em;
+            max-width: 100%;
+            padding: 5px;
+            margin: 0;
+        }
+
+        &.full-width-input {
+            padding: 6px;
+            > input,
+            > textarea {
+                width: 100%;
+                margin-left: -6px;
+                margin-top: -6px;
+            }
+        }
+    }
+}
+
+label {
+    > span.required {
+        color: #84CD1C;
+        font-weight: bold;
+    }
+}
+
+button,
+input[type=submit] {
+    #gradient > .vertical(#9DD53A, #7CBC0A);
+    border: outset 1px #9DD53A;
+    .border-radius(2px);
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1.2em;
+    max-width: 100%;
+    padding: 5px;
+    cursor: pointer;
+
+    &:focus,
+    &:hover {
+        #gradient > .vertical(#7CBC0A, #9DD53A);
+    }
+    &:active {
+        border-style: inset;
+    }
+}
