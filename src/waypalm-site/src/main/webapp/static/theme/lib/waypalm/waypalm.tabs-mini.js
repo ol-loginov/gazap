@@ -44,6 +44,7 @@
             var self = this;
             $(this.clickers).click(function () {
                 self.showTab(self.clickers.indexOf(this));
+                return false;
             });
         },
 
