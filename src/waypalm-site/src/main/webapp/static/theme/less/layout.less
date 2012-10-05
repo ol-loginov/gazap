@@ -102,24 +102,32 @@ body#bodyColumns {
 
     #bodyMenu {
         text-align: center;
-        .mini-tab-container {
-            > div {
-                padding: 1em .5em;
+
+        .section {
+            > .section-head {
+                border-top: 1px solid #EEEFFC;
+                color: #A68E4E;
             }
         }
 
         .option-selector {
-            padding: 0 10%;
+            padding: 0 0 0 10%;
+
+            > li {
+                > a {
+                    .border-radius(0);
+
+                    > span {
+                        margin-right: -7px;
+                        .border-radius(0);
+                    }
+                }
+            }
         }
 
         #landingSidebarAccount {
             .user-card {
-                margin-left: -0.5em;
-                margin-right: -0.5em;
-                margin-top: -1em;
                 padding: 1em 0.5em 0;
-                background: #84CD1C;
-                .box-shadow(0 2px 2px #76B819);
             }
         }
     }
@@ -139,7 +147,6 @@ body#bodyColumns {
 
     > .user-thumb {
         margin-right: 0.5em;
-        margin-bottom: 0.5em;
         width: 72px;
         height: 72px;
         .pull-left();
@@ -180,5 +187,13 @@ body#bodyColumns {
         > form {
             margin-top: 4px;
         }
+    }
+}
+
+.section {
+    margin-bottom: 1em;
+
+    > form {
+        padding: 1em 1em 0;
     }
 }

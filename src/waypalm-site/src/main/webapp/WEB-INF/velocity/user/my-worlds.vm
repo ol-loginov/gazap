@@ -11,7 +11,11 @@
     <div class="left">
         #landingSidebar('landingSidebarAccount')
     </div>
-    <div class="center"></div>
+    <div class="center">
+        <div class="section">
+            <h1 class="section-head">Чтобы создать свой собственный мир - нажмите плюсик</h1>
+        </div>
+    </div>
 </div>
 </body>
 </html>

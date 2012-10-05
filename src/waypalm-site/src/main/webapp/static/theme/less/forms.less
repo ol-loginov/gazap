@@ -45,9 +45,18 @@ label {
 
 button,
 input[type=submit] {
-    #gradient > .vertical(#9DD53A, #7CBC0A);
-    border: outset 1px #9DD53A;
-    .border-radius(2px);
+    .btn-colorizer(@darkColor: #D6D6D6, @lightColor: #F5F5F5){
+        #gradient > .vertical(@lightColor, @darkColor);
+        border: outset 1px @lightColor;
+
+        &:focus,
+        &:hover {
+            #gradient > .vertical(@darkColor, @lightColor);
+        }
+    }
+
+    .btn-colorizer(#D6D6D6, #F5F5F5);
+    .border-radius(3px);
     font-size: 75%;
     font-weight: 700;
     line-height: 1.2em;
@@ -55,10 +64,6 @@ input[type=submit] {
     padding: 5px;
     cursor: pointer;
 
-    &:focus,
-    &:hover {
-        #gradient > .vertical(#7CBC0A, #9DD53A);
-    }
     &:active {
         border-style: inset;
     }
@@ -68,15 +73,7 @@ input[type=submit] {
         font-weight: normal;
     }
 
-    &.btn-grey {
-        @darkColor: #D6D6D6;
-        @lightColor: #F5F5F5;
-        #gradient > .vertical(@lightColor, @darkColor);
-        border: outset 1px @lightColor;
-
-        &:focus,
-        &:hover {
-            #gradient > .vertical(@darkColor, @lightColor);
-        }
+    &.btn-green {
+        .btn-colorizer(#7CBC0A, #9DD53A);
     }
 }

@@ -76,7 +76,7 @@
             <span class="alias">aka <a href="$cp/u/$eVisitor.user.alias">$eVisitor.user.alias</a></span>
         #end
         <form action="$cp/auth/logout" method="post">
-            <input type="submit" class="lower btn-grey" value="#springMessage('LogoutForm.submit')"/>
+            <input type="submit" class="lower" value="#springMessage('LogoutForm.submit')"/>
         </form>
     </div>
 </div>
@@ -123,7 +123,7 @@
         </div>
         <div class="form-submit clearfix">
             <div class="pull-left">
-                <input type="submit" value="#springMessage('LoginForm.submit')"/>
+                <input type="submit" class="lower btn-green" value="#springMessage('LoginForm.submit')"/>
             </div>
             <div class="pull-right">
                 #springMessage('form.requiredNotice')
