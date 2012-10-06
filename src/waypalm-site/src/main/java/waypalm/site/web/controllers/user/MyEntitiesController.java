@@ -29,7 +29,8 @@ public class MyEntitiesController extends BaseController {
 
     @RequestMapping("/worlds")
     public ModelAndView myWorlds(Locale locale) {
-        return responseBuilder(locale).view("user/my-worlds");
+        return responseBuilder(locale).view("user/my-worlds")
+                .addObject("worldList", worldService.getUserWorldList(requireProfile()));
     }
 
     @RequestMapping(value = "/new/world", method = RequestMethod.GET)

@@ -6,6 +6,7 @@
     <title>#springMessage('MyWorldsPage.title')</title>
 </head>
     #parse('_index-macros.vm')
+#* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
@@ -13,7 +14,11 @@
     </div>
     <div class="center">
         <div class="section">
-            <h1 class="section-head">Чтобы создать свой собственный мир - нажмите плюсик</h1>
+            <ul>
+                #foreach($world in $worldList)
+                    <li><a href="$cp/w/$world.slug">$world.title</a></li>
+                #end
+            </ul>
         </div>
     </div>
 </div>

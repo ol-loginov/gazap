@@ -65,7 +65,7 @@ public class WorldServiceImpl implements WorldService {
     }
 
     @Override
-    public List<World> getFavouriteWorlds(UserProfile currentProfile) {
+    public List<World> getUserWorldList(UserProfile currentProfile) {
         List<World> result = new ArrayList<>();
         for (WorldActor actor : worldRepository.listWorldActor(currentProfile)) {
             result.add(actor.getWorld());

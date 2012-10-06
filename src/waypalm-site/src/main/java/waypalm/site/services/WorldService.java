@@ -16,5 +16,5 @@ public interface WorldService {
     @Transactional
     World createWorld(UserProfile creator, WorldCreateForm form);
 
-    List<World> getFavouriteWorlds(UserProfile currentProfile);
+    List<World> getUserWorldList(UserProfile currentProfile);
 }
