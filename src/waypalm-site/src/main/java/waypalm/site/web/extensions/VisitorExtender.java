@@ -1,6 +1,7 @@
 package waypalm.site.web.extensions;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.entity.Profile;
@@ -17,7 +18,7 @@ public class VisitorExtender extends Extender<VisitorExtender.Content> {
     protected UserService userService;
 
     @Override
-    protected VisitorExtender.Content populate(WebRequest request, VisitorExtender.Content extension, Object content) {
+    protected VisitorExtender.Content populate(WebRequest request, VisitorExtender.Content extension, ModelMap model) {
         Profile user = getLoggedUser();
         extension = instantiateIfNull(extension, VisitorExtender.Content.class);
         if (user != null) {

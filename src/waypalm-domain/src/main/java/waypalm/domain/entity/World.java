@@ -6,20 +6,21 @@ import waypalm.domain.entity.base.IntegerIdentityCUD;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "World")
 @DynamicUpdate
-public class World extends IntegerIdentityCUD {
+public class World extends IntegerIdentityCUD implements Serializable {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 
     @Column(name = "title", length = TITLE_LENGTH, unique = true, nullable = false)
     @XmlElement
     private String title;
-    @Column(name = "alias", length = ALIAS_LENGTH, unique = true, nullable = false)
+    @Column(name = "alias", length = ALIAS_LENGTH, unique = true)
     @XmlElement
     private String alias;
     @ManyToOne(optional = true)

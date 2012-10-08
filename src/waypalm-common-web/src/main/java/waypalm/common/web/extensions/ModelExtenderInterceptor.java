@@ -17,7 +17,6 @@ import java.util.Map;
 public class ModelExtenderInterceptor implements WebRequestInterceptor {
     private Map<String, ModelExtender> extenders;
     private String basePackage;
-    private String contentKey = "content";
 
     @Autowired
     AutowireCapableBeanFactory beanFactory;
@@ -27,10 +26,7 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
         this.basePackage = basePackage;
     }
 
-    public void setContentKey(String contentKey) {
-        this.contentKey = contentKey;
-    }
-
+    @SuppressWarnings("unchecked")
     @PostConstruct
     public void pickExtenders() {
         if (basePackage == null) {
@@ -67,7 +63,7 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
         }
         if (hasExtenders()) {
             for (Map.Entry<String, ModelExtender> kv : extenders.entrySet()) {
-                kv.getValue().extend(kv.getKey(), model.get(contentKey), request, model);
+                kv.getValue().extend(kv.getKey(), request, model);
             }
         }
     }

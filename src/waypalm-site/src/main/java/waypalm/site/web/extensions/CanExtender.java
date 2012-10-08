@@ -1,6 +1,7 @@
 package waypalm.site.web.extensions;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.entity.Surface;
@@ -14,7 +15,7 @@ public class CanExtender extends Extender<CanExtender.Content> {
     protected UserAccess userAccess;
 
     @Override
-    protected CanExtender.Content populate(WebRequest request, CanExtender.Content extension, Object content) {
+    protected CanExtender.Content populate(WebRequest request, CanExtender.Content extension, ModelMap model) {
         extension = instantiateIfNull(extension, CanExtender.Content.class);
         extension.guard = userAccess.can(getLoggedUser());
         return extension;

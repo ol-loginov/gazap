@@ -1,21 +1,27 @@
 package waypalm.domain.entity;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import waypalm.domain.entity.base.DomainEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "ProfileAvatarRel")
 @DynamicUpdate
 public class ProfileAvatarRel implements DomainEntity {
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "profile", updatable = false, nullable = false)
+    @SuppressWarnings("UnusedDeclaration")
+    @EmbeddedId
+    private ID id = new ID();
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "profile", nullable = false, updatable = false)
+    @MapsId("profile")
     private Profile profile;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "avatar", updatable = false, nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "avatar", nullable = false, updatable = false)
+    @MapsId("avatar")
     private Avatar avatar;
     @Column(name = "author")
     private boolean author;
@@ -25,7 +31,7 @@ public class ProfileAvatarRel implements DomainEntity {
     protected ProfileAvatarRel() {
     }
 
-    protected ProfileAvatarRel(Profile profile, Avatar avatar) {
+    public ProfileAvatarRel(Profile profile, Avatar avatar) {
         setProfile(profile);
         setAvatar(avatar);
     }
@@ -60,5 +66,54 @@ public class ProfileAvatarRel implements DomainEntity {
 
     public void setFavourite(boolean favourite) {
         this.favourite = favourite;
+    }
+
+    @Embeddable
+    public static class ID implements Serializable {
+        private Integer avatar;
+        private Integer profile;
+
+        protected ID() {
+        }
+
+        public ID(Integer avatar, Integer profile) {
+            this.avatar = avatar;
+            this.profile = profile;
+        }
+
+        public Integer getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(Integer avatar) {
+            this.avatar = avatar;
+        }
+
+        public Integer getProfile() {
+            return profile;
+        }
+
+        public void setProfile(Integer profile) {
+            this.profile = profile;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof ID && equals((ID) obj);
+        }
+
+        public boolean equals(ID pk) {
+            return pk != null
+                    && avatar != null && avatar.equals(pk.avatar)
+                    && profile != null && profile.equals(pk.profile);
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder()
+                    .append(avatar)
+                    .append(profile)
+                    .toHashCode();
+        }
     }
 }

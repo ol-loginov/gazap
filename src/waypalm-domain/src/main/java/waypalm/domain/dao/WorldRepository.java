@@ -37,4 +37,6 @@ public interface WorldRepository extends Dao {
     int countAvatar();
 
     List<World> listWorld();
+
+    WorldPublishing getWorldPublishing(World world);
 }

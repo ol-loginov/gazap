@@ -1,6 +1,7 @@
 package waypalm.site.web.extensions;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.dao.WorldRepository;
@@ -11,7 +12,7 @@ public class SummaryExtender extends Extender<SummaryExtender.Content> {
     WorldRepository worldRepository;
 
     @Override
-    protected SummaryExtender.Content populate(WebRequest request, SummaryExtender.Content extension, Object content) {
+    protected SummaryExtender.Content populate(WebRequest request, SummaryExtender.Content extension, ModelMap model) {
         SummaryExtender.Content module = instantiateIfNull(extension, SummaryExtender.Content.class);
         module.worldCount = worldRepository.countWorld();
         module.avatarCount = worldRepository.countAvatar();

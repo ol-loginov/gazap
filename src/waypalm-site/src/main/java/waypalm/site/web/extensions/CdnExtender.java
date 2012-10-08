@@ -1,12 +1,10 @@
 package waypalm.site.web.extensions;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
-import waypalm.common.util.DateUtil;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.site.services.EngineSetup;
-
-import java.util.Calendar;
 
 @ModelExtension("eCdn")
 public class CdnExtender extends Extender<CdnExtender.Content> {
@@ -14,7 +12,7 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
     protected EngineSetup engineSetup;
 
     @Override
-    protected CdnExtender.Content populate(WebRequest request, CdnExtender.Content extension, Object content) {
+    protected CdnExtender.Content populate(WebRequest request, CdnExtender.Content extension, ModelMap model) {
         extension = instantiateIfNull(extension, CdnExtender.Content.class);
         extension.debugMode = engineSetup.isDebugMode();
         extension.server = engineSetup.getSiteUrl();

@@ -1,8 +1,8 @@
 package waypalm.domain.entity;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import waypalm.domain.entity.base.DomainEntity;
-import waypalm.domain.entity.base.DomainHashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,13 +11,17 @@ import java.io.Serializable;
 @Table(name = "ProfileSurfaceRel")
 @DynamicUpdate
 public class ProfileSurfaceRel implements DomainEntity {
-    @Id
+    @SuppressWarnings("UnusedDeclaration")
+    @EmbeddedId
+    private ID id = new ID();
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "profile", nullable = false, updatable = false)
+    @MapsId("profile")
     private Profile profile;
-    @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "surface", nullable = false, updatable = false)
+    @MapsId("surface")
     private Surface surface;
     @Column(name = "author")
     private boolean author;
@@ -74,29 +78,49 @@ public class ProfileSurfaceRel implements DomainEntity {
         this.favourite = favourite;
     }
 
-    public static class PK implements Serializable {
-        private final Surface surface;
-        private final Profile profile;
+    @Embeddable
+    public static class ID implements Serializable {
+        private Integer surface;
+        private Integer profile;
 
-        public PK(Surface surface, Profile profile) {
+        protected ID() {
+        }
+
+        public ID(Profile profile, Surface surface) {
+            this.surface = surface.getId();
+            this.profile = profile.getId();
+        }
+
+        public Integer getSurface() {
+            return surface;
+        }
+
+        public void setSurface(Integer surface) {
             this.surface = surface;
+        }
+
+        public Integer getProfile() {
+            return profile;
+        }
+
+        public void setProfile(Integer profile) {
             this.profile = profile;
         }
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof PK && equals((PK) obj);
+            return obj instanceof ID && equals((ID) obj);
         }
 
-        public boolean equals(PK pk) {
+        public boolean equals(ID pk) {
             return pk != null
-                    && surface != null && surface.isSame(pk.surface)
-                    && profile != null && profile.isSame(pk.profile);
+                    && surface != null && surface.equals(pk.surface)
+                    && profile != null && profile.equals(pk.profile);
         }
 
         @Override
         public int hashCode() {
-            return new DomainHashCodeBuilder()
+            return new HashCodeBuilder()
                     .append(surface)
                     .append(profile)
                     .toHashCode();

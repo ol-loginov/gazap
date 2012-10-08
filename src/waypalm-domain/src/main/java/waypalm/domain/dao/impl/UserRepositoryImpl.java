@@ -65,7 +65,7 @@ public class UserRepositoryImpl extends DaoImpl implements UserRepository {
     }
 
     @Override
-    public ProfileSummary getProfileSummary(Profile user) {
-        return (ProfileSummary) getSession().get(ProfileSummary.class, user);
+    public ProfileSummary getProfileSummary(Profile profile) {
+        return (ProfileSummary) getSession().get(ProfileSummary.class, new ProfileSummary.ID(profile));
     }
 }

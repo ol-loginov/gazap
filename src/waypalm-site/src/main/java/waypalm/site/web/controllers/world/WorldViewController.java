@@ -27,7 +27,8 @@ public class WorldViewController extends BaseController {
             throw new ObjectNotFoundException(World.class, worldSlug);
         }
         return responseBuilder(locale).view("world/world-view")
-                .addObject("entity", world);
+                .addObject("world", world)
+                .addObject("worldPublishing", worldRepository.getWorldPublishing(world));
     }
 
     private World loadWorldBySlug(String worldSlug) {

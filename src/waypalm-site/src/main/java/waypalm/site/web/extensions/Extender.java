@@ -16,10 +16,11 @@ public abstract class Extender<T> implements ModelExtender {
     @Autowired
     protected UserRepository userRepository;
 
+    @SuppressWarnings("unchecked")
     @Override
-    public final void extend(String extensionKey, Object content, WebRequest request, ModelMap model) {
+    public final void extend(String extensionKey, WebRequest request, ModelMap model) {
         Object extensionInstance = model.get(extensionKey);
-        Object extensionApplied = createExtension(request, extensionInstance, content);
+        Object extensionApplied = createExtension(request, (T) extensionInstance, model);
         if (extensionApplied != null) {
             model.put(extensionKey, extensionApplied);
         } else {
@@ -27,11 +28,11 @@ public abstract class Extender<T> implements ModelExtender {
         }
     }
 
-    public T createExtension(WebRequest request, Object extension, Object content) {
-        return populate(request, (T) extension, content);
+    public T createExtension(WebRequest request, T extension, ModelMap model) {
+        return populate(request, extension, model);
     }
 
-    protected abstract T populate(WebRequest request, T extension, Object content);
+    protected abstract T populate(WebRequest request, T extension, ModelMap model);
 
     protected Profile getLoggedUser() {
         return PrincipalProvider.getLoggedUser(userRepository);

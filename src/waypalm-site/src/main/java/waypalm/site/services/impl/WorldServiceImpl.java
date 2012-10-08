@@ -24,7 +24,6 @@ public class WorldServiceImpl implements WorldService {
     public World createWorld(Profile creator, WorldCreateForm form) {
         World world = new World();
         world.setTitle(form.getTitle());
-        world.setAlias("");
         worldRepository.create(world);
 
         WorldPublishing publishing = new WorldPublishing(world);

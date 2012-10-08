@@ -1,5 +1,6 @@
 package waypalm.domain.entity;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.Assert;
 import waypalm.domain.entity.base.DomainEntity;
@@ -12,9 +13,13 @@ import java.io.Serializable;
 @Table(name = "ProfileSummary")
 @DynamicUpdate
 public class ProfileSummary implements DomainEntity {
-    @Id
-    @OneToOne
-    @JoinColumn(name = "profile", updatable = false)
+    @SuppressWarnings("UnusedDeclaration")
+    @EmbeddedId
+    private ID id = new ID();
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "profile", nullable = false, updatable = false)
+    @MapsId("profile")
     private Profile profile;
     @Column(name = "worldFavourite")
     private int worldFavourite;
@@ -80,5 +85,42 @@ public class ProfileSummary implements DomainEntity {
 
     public void setAvatarOwned(int avatarOwned) {
         this.avatarOwned = avatarOwned;
+    }
+
+    @Embeddable
+    public static class ID implements Serializable {
+        private Integer profile;
+
+        protected ID() {
+        }
+
+        public ID(Profile profile) {
+            this.profile = profile.getId();
+        }
+
+        public Integer getProfile() {
+            return profile;
+        }
+
+        public void setProfile(Integer profile) {
+            this.profile = profile;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof ID && equals((ID) obj);
+        }
+
+        public boolean equals(ID pk) {
+            return pk != null
+                    && profile != null && profile.equals(pk.profile);
+        }
+
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder()
+                    .append(profile)
+                    .toHashCode();
+        }
     }
 }

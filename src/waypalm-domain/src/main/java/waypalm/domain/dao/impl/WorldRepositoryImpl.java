@@ -23,6 +23,11 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
     }
 
     @Override
+    public WorldPublishing getWorldPublishing(World world) {
+        return (WorldPublishing) getSession().get(WorldPublishing.class, new WorldPublishing.ID(world.getId()));
+    }
+
+    @Override
     public World findWorldByAlias(String alias) {
         if (!StringUtils.hasText(alias)) {
             return null;
@@ -84,12 +89,12 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
 
     @Override
     public ProfileWorldRel getWorldRelation(World world, Profile profile) {
-        return (ProfileWorldRel) getSession().get(ProfileWorldRel.class, new ProfileWorldRel.PK(world, profile));
+        return (ProfileWorldRel) getSession().get(ProfileWorldRel.class, new ProfileWorldRel.ID(profile, world));
     }
 
     @Override
     public ProfileSurfaceRel getSurfaceRelation(Surface surface, Profile profile) {
-        return (ProfileSurfaceRel) getSession().get(ProfileSurfaceRel.class, new ProfileSurfaceRel.PK(surface, profile));
+        return (ProfileSurfaceRel) getSession().get(ProfileSurfaceRel.class, new ProfileSurfaceRel.ID(profile, surface));
     }
 
     @SuppressWarnings("unchecked")
@@ -110,6 +115,7 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
         return toNumberInt(getSession().createQuery("select count(*) from Avatar").uniqueResult());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<World> listWorld() {
         return (List<World>) getSession().createQuery("from World order by createdAt desc").list();

@@ -1,8 +1,8 @@
 package waypalm.domain.entity;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicUpdate;
 import waypalm.domain.entity.base.DomainEntity;
-import waypalm.domain.entity.base.DomainHashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,13 +11,17 @@ import java.io.Serializable;
 @Table(name = "ProfileWorldRel")
 @DynamicUpdate
 public class ProfileWorldRel implements DomainEntity {
-    @Id
+    @SuppressWarnings("UnusedDeclaration")
+    @EmbeddedId
+    private ID id = new ID();
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "profile", nullable = false, updatable = false)
+    @MapsId("profile")
     private Profile profile;
-    @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "world", nullable = false, updatable = false)
+    @MapsId("world")
     private World world;
     @Column(name = "author")
     private boolean author;
@@ -31,7 +35,7 @@ public class ProfileWorldRel implements DomainEntity {
     protected ProfileWorldRel() {
     }
 
-    public ProfileWorldRel(Profile user, World world) {
+    public ProfileWorldRel(Profile profile, World world) {
         setWorld(world);
         setProfile(profile);
     }
@@ -84,29 +88,49 @@ public class ProfileWorldRel implements DomainEntity {
         this.favourite = favourite;
     }
 
-    public static class PK implements Serializable {
-        private final World world;
-        private final Profile profile;
+    @Embeddable
+    public static class ID implements Serializable {
+        private Integer world;
+        private Integer profile;
 
-        public PK(World world, Profile profile) {
+        protected ID() {
+        }
+
+        public ID(Profile profile, World world) {
+            this.world = world.getId();
+            this.profile = profile.getId();
+        }
+
+        public Integer getWorld() {
+            return world;
+        }
+
+        public void setWorld(Integer world) {
             this.world = world;
+        }
+
+        public Integer getProfile() {
+            return profile;
+        }
+
+        public void setProfile(Integer profile) {
             this.profile = profile;
         }
 
         @Override
         public boolean equals(Object obj) {
-            return obj instanceof PK && equals((PK) obj);
+            return obj instanceof ID && equals((ID) obj);
         }
 
-        public boolean equals(PK pk) {
+        public boolean equals(ID pk) {
             return pk != null
-                    && world != null && world.isSame(pk.world)
-                    && profile != null && profile.isSame(pk.profile);
+                    && world != null && world.equals(pk.world)
+                    && profile != null && profile.equals(pk.profile);
         }
 
         @Override
         public int hashCode() {
-            return new DomainHashCodeBuilder()
+            return new HashCodeBuilder()
                     .append(world)
                     .append(profile)
                     .toHashCode();
