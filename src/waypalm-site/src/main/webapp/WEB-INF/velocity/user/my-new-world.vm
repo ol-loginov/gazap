@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    $eCdn.setAppZone('/my/worlds')
+<head>
+    #parse('shared/html-head.vm')
+    <title>#springMessage('MyWorldsPage.title')</title>
+</head>
+    #parse('_index-macros.vm')
+#* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
+<body id="bodyColumns" class="layout-1-4">
+<div class="content">
+    <div class="left">
+        #landingSidebar('landingSidebarAccount')
+    </div>
+    <div class="center">
+        <div class="section content">
+            <form id="form" action="$cp/my/new/world" method="post">
+                <div class="form-field">
+                    #formFieldLabel(true, 'CreateNewWorld.form.title')
+                    <div class="full-width-input">
+                        #springFormInput('form.title', 'class="validate-good"')
+                    </div>
+                </div>
+                <div class="form-submit clearfix">
+                    <div class="pull-left">
+                        <input type="submit" class="btn-green" value="#springMessage('form.create')"/>
+                    </div>
+                    <div class="pull-right">
+                        #springMessage('form.requiredNotice')
+                    </div>
+                </div>
+            </form>
+            <script type="text/javascript">
+                UI.ajaxForm('#form', function (data) {
+                    // on success
+                    document.location = "$cp/w/" + data.entity.id;
+                }, function () {
+                    // on failure
+                });
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>

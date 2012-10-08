@@ -35,7 +35,7 @@ public class MyEntitiesController extends BaseController {
 
     @RequestMapping(value = "/new/world", method = RequestMethod.GET)
     public ModelAndView createWorldForm(Locale locale) {
-        return responseBuilder(locale).view("world/create-world")
+        return responseBuilder(locale).view("user/my-new-world")
                 .addObject("form", new WorldCreateForm());
     }
 

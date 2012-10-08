@@ -32,7 +32,7 @@ public class WorldServiceImpl implements WorldService {
         worldRepository.create(actor);
 
         UserSummary profileSummary = userRepository.getProfileSummary(creator);
-        profileSummary.setWorldCount(profileSummary.getWorldCount() + 1);
+        profileSummary.setWorldOwned(profileSummary.getWorldOwned() + 1);
         userRepository.save(profileSummary);
 
         return world;

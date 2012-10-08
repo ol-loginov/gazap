@@ -14,10 +14,16 @@ import java.io.Serializable;
 public class UserSummary implements DomainEntity {
     @Id
     private PK id;
-    @Column(name = "worldCount")
-    private int worldCount;
-    @Column(name = "avatarCount")
-    private int avatarCount;
+    @Column(name = "worldTotal")
+    private int worldTotal;
+    @Column(name = "worldOwned")
+    private int worldOwned;
+    @Column(name = "worldOwnedLimit")
+    private int worldOwnedLimit;
+    @Column(name = "avatarTotal")
+    private int avatarTotal;
+    @Column(name = "avatarOwned")
+    private int avatarOwned;
 
     protected UserSummary() {
     }
@@ -34,20 +40,44 @@ public class UserSummary implements DomainEntity {
         this.id = id;
     }
 
-    public int getWorldCount() {
-        return worldCount;
+    public int getWorldTotal() {
+        return worldTotal;
     }
 
-    public void setWorldCount(int worldCount) {
-        this.worldCount = worldCount;
+    public void setWorldTotal(int worldTotal) {
+        this.worldTotal = worldTotal;
     }
 
-    public int getAvatarCount() {
-        return avatarCount;
+    public int getWorldOwned() {
+        return worldOwned;
     }
 
-    public void setAvatarCount(int avatarCount) {
-        this.avatarCount = avatarCount;
+    public void setWorldOwned(int worldOwned) {
+        this.worldOwned = worldOwned;
+    }
+
+    public int getWorldOwnedLimit() {
+        return worldOwnedLimit;
+    }
+
+    public void setWorldOwnedLimit(int worldOwnedLimit) {
+        this.worldOwnedLimit = worldOwnedLimit;
+    }
+
+    public int getAvatarTotal() {
+        return avatarTotal;
+    }
+
+    public void setAvatarTotal(int avatarTotal) {
+        this.avatarTotal = avatarTotal;
+    }
+
+    public int getAvatarOwned() {
+        return avatarOwned;
+    }
+
+    public void setAvatarOwned(int avatarOwned) {
+        this.avatarOwned = avatarOwned;
     }
 
     @Embeddable

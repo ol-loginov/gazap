@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     08.10.2012 9:56:50                           */
+/* Created on:     08.10.2012 11:24:40                          */
 /*==============================================================*/
 
 
@@ -247,8 +247,11 @@ engine = MYISAM;
 create table UserSummary
 (
    user                 int not null,
-   worldCount           int not null default 0,
-   avatarCount          int not null default 0,
+   worldTotal           int not null default 0,
+   worldOwned           int not null default 0,
+   worldOwnedLimit      int not null default 1,
+   avatarTotal          int not null default 0,
+   avatarOwned          int not null default 0,
    primary key (user)
 )
 charset = utf8

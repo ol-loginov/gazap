@@ -17,7 +17,7 @@ UI = {
     },
     ajaxForm:function (/*String*/formSelector, /*Function*/success, /*Function*/failure) {
         var form = $(formSelector),
-            submitter = $('input[type=submit], button.submit'),
+            submitter = $('input[type=submit], button.submit', form),
             validator = null,
             formOptions = {
                 beforeSubmit:function (arr, $form, options) {

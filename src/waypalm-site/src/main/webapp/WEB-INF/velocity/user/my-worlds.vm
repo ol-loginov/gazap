@@ -13,12 +13,19 @@
         #landingSidebar('landingSidebarAccount')
     </div>
     <div class="center">
-        <div class="section">
-            <ul>
-                #foreach($world in $worldList)
-                    <li><a href="$cp/w/$world.slug">$escTool.html($world.title)</a></li>
+        <div class="section content">
+            #if($worldList.empty)
+                <p>#springMessage1('MyWorldList.emptyNotice', $cp)</p>
+            #else
+                #if($eVisitor.worldCreateAvailable)
+                    <p>#springMessage1('MyWorldList.canOwnMore', $cp)</p>
                 #end
-            </ul>
+                <ul>
+                    #foreach($world in $worldList)
+                        <li><a href="$cp/w/$world.slug">$escTool.html($world.title)</a></li>
+                    #end
+                </ul>
+            #end
         </div>
     </div>
 </div>
