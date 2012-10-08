@@ -30,7 +30,7 @@ public class ContributionServiceImpl implements ContributionService {
     private WorldRepository worldRepository;
 
     @Override
-    public ContributionTile addMapTile(UserProfile author, Surface surface, final TileImage file) throws ServiceErrorException {
+    public ContributionTile addMapTile(Profile author, Surface surface, final TileImage file) throws ServiceErrorException {
         String fileName = fileService.storeTile(surface, file, new FileService.ImageValidator() {
             @Override
             public boolean test(String fileFormat, ImageReader reader) throws ServiceErrorException, IOException {
@@ -57,7 +57,7 @@ public class ContributionServiceImpl implements ContributionService {
     }
 
     @Override
-    public void reject(UserProfile visitor, Surface surface, int contributionId) throws ServiceErrorException {
+    public void reject(Profile visitor, Surface surface, int contributionId) throws ServiceErrorException {
         Contribution contribution = worldRepository.getContribution(contributionId);
         if (contribution == null) {
             throw new ServiceErrorException(ServiceError.INVALID_PARAM);

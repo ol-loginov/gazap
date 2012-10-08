@@ -2,10 +2,10 @@ package waypalm.site.validation;
 
 import com.iserv2.test.ServiceTest;
 import com.iserv2.test.Values;
-import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.UserProfile;
 import org.junit.Test;
 import org.mockito.Mock;
+import waypalm.domain.dao.UserRepository;
+import waypalm.domain.entity.Profile;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,32 +27,32 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
     @Test
     public void shouldBeRegistered_ButNotRegistered() {
         service.initialize(true);
-        when(userRepository.findUserByEmail(testEmail)).thenReturn(null);
+        when(userRepository.findProfileByEmail(testEmail)).thenReturn(null);
         assertFalse(service.isValid(testEmail, null));
-        verify(userRepository).findUserByEmail(testEmail);
+        verify(userRepository).findProfileByEmail(testEmail);
     }
 
     @Test
     public void shouldBeRegistered_AndItRegistered() {
         service.initialize(true);
-        when(userRepository.findUserByEmail(testEmail)).thenReturn(new UserProfile());
+        when(userRepository.findProfileByEmail(testEmail)).thenReturn(new Profile());
         assertTrue(service.isValid(testEmail, null));
-        verify(userRepository).findUserByEmail(testEmail);
+        verify(userRepository).findProfileByEmail(testEmail);
     }
 
     @Test
     public void shouldNotBeRegistered_AndNotRegistered() {
         service.initialize(false);
-        when(userRepository.findUserByEmail(testEmail)).thenReturn(null);
+        when(userRepository.findProfileByEmail(testEmail)).thenReturn(null);
         assertTrue(service.isValid(testEmail, null));
-        verify(userRepository).findUserByEmail(testEmail);
+        verify(userRepository).findProfileByEmail(testEmail);
     }
 
     @Test
     public void shouldNotBeRegistered_ButItRegistered() {
         service.initialize(false);
-        when(userRepository.findUserByEmail(testEmail)).thenReturn(new UserProfile());
+        when(userRepository.findProfileByEmail(testEmail)).thenReturn(new Profile());
         assertFalse(service.isValid(testEmail, null));
-        verify(userRepository).findUserByEmail(testEmail);
+        verify(userRepository).findProfileByEmail(testEmail);
     }
 }

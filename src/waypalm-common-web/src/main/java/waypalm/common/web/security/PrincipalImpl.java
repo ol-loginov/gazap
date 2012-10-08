@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import waypalm.domain.entity.UserProfile;
+import waypalm.domain.entity.Profile;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +23,7 @@ public class PrincipalImpl implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled;
 
-    public PrincipalImpl(UserProfile profile) {
+    public PrincipalImpl(Profile profile) {
         this.enabled = true;
 
         if (profile != null) {

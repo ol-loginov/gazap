@@ -9,11 +9,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "UserSummary")
+@Table(name = "ProfileSummary")
 @DynamicUpdate
-public class UserSummary implements DomainEntity {
+public class ProfileSummary implements DomainEntity {
     @Id
-    private PK id;
+    @OneToOne
+    @JoinColumn(name = "profile", updatable = false)
+    private Profile profile;
     @Column(name = "worldFavourite")
     private int worldFavourite;
     @Column(name = "worldOwned")
@@ -25,19 +27,19 @@ public class UserSummary implements DomainEntity {
     @Column(name = "avatarOwned")
     private int avatarOwned;
 
-    protected UserSummary() {
+    protected ProfileSummary() {
     }
 
-    public UserSummary(UserProfile profile) {
-        setId(new PK(profile));
+    public ProfileSummary(Profile profile) {
+        setProfile(profile);
     }
 
-    public PK getId() {
-        return id;
+    public Profile getProfile() {
+        return profile;
     }
 
-    protected void setId(PK id) {
-        this.id = id;
+    protected void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public int getWorldFavourite() {
@@ -78,46 +80,5 @@ public class UserSummary implements DomainEntity {
 
     public void setAvatarOwned(int avatarOwned) {
         this.avatarOwned = avatarOwned;
-    }
-
-    @Embeddable
-    public static class PK implements Serializable {
-        @OneToOne(optional = false)
-        @JoinColumn(name = "user", nullable = false, updatable = false)
-        private UserProfile user;
-
-        protected PK() {
-        }
-
-        public PK(UserProfile user) {
-            Assert.notNull(user);
-            this.user = user;
-        }
-
-        public UserProfile getUser() {
-            return user;
-        }
-
-        protected void setUser(UserProfile user) {
-            this.user = user;
-        }
-
-        @Override
-        public boolean equals(Object instance) {
-            if (instance == null)
-                return false;
-            if (!(instance instanceof PK))
-                return false;
-
-            final PK other = (PK) instance;
-            return user != null && user.isSame(other.user);
-        }
-
-        @Override
-        public int hashCode() {
-            return new DomainHashCodeBuilder()
-                    .append(user)
-                    .toHashCode();
-        }
     }
 }

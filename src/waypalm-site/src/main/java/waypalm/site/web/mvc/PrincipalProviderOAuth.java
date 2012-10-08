@@ -12,8 +12,8 @@ import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import waypalm.common.web.model.SocialProfile;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.SocialLink;
 import waypalm.site.model.ServiceErrorException;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
@@ -28,13 +28,13 @@ public class PrincipalProviderOAuth extends PrincipalProvider implements Authent
         }
     }
 
-    private UserProfile loadUser(Connection<?> connection) throws ServiceErrorException {
+    private Profile loadUser(Connection<?> connection) throws ServiceErrorException {
         ConnectionKey key = connection.getKey();
-        UserSocialLink socialLink = userRepository.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
+        SocialLink socialLink = userRepository.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
         if (socialLink == null) {
             socialLink = userService.createSocialConnection(getLoggedUser(), key, wrap(connection));
         }
-        return socialLink.getUser();
+        return socialLink.getProfile();
     }
 
     private SocialProfile wrap(Connection<?> connection) {

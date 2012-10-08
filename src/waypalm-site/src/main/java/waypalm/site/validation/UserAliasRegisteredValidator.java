@@ -23,6 +23,6 @@ public class UserAliasRegisteredValidator implements ConstraintValidator<UserAli
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return userRepository.findUserByAlias(value) == null ^ shouldBeRegistered;
+        return userRepository.findProfileByAlias(value) == null ^ shouldBeRegistered;
     }
 }

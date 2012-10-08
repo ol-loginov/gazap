@@ -21,21 +21,24 @@ public class WorldServiceImpl implements WorldService {
     protected UserRepository userRepository;
 
     @Override
-    public World createWorld(UserProfile creator, WorldCreateForm form) {
+    public World createWorld(Profile creator, WorldCreateForm form) {
         World world = new World();
         world.setTitle(form.getTitle());
         world.setAlias("");
-        world.setMemo(ObjectUtil.ifNull(form.getMemo(), ""));
-        world.setPublisherTitle(ObjectUtil.ifNull(form.getPublisherTitle(), ""));
-        world.setPublisherUrl(ObjectUtil.ifNull(form.getPublisherUrl(), ""));
         worldRepository.create(world);
 
-        WorldActor actor = new WorldActor(world, creator);
-        actor.setAuthor(true);
-        actor.setEditor(true);
-        worldRepository.create(actor);
+        WorldPublishing publishing = new WorldPublishing(world);
+        publishing.setMemo(ObjectUtil.ifNull(form.getMemo(), ""));
+        publishing.setPublisherTitle(ObjectUtil.ifNull(form.getPublisherTitle(), ""));
+        publishing.setPublisherUrl(ObjectUtil.ifNull(form.getPublisherUrl(), ""));
+        worldRepository.create(publishing);
 
-        UserSummary profileSummary = userRepository.getProfileSummary(creator);
+        ProfileWorldRel rel = new ProfileWorldRel(creator, world);
+        rel.setAuthor(true);
+        rel.setEditor(true);
+        worldRepository.create(rel);
+
+        ProfileSummary profileSummary = userRepository.getProfileSummary(creator);
         profileSummary.setWorldOwned(profileSummary.getWorldOwned() + 1);
         userRepository.save(profileSummary);
 
@@ -43,7 +46,7 @@ public class WorldServiceImpl implements WorldService {
     }
 
     @Override
-    public Surface createSurface(World world, UserProfile creator, MapCreateForm form) {
+    public Surface createSurface(World world, Profile creator, MapCreateForm form) {
         Geometry geometry;
         if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
             GeometryGeoid geoid = new GeometryGeoid();
@@ -67,19 +70,19 @@ public class WorldServiceImpl implements WorldService {
         surface.setGeometry(geometry);
         worldRepository.create(surface);
 
-        SurfaceActor actor = new SurfaceActor(surface, creator);
-        actor.setAuthor(true);
-        actor.setEditor(true);
-        worldRepository.create(actor);
+        ProfileSurfaceRel rel = new ProfileSurfaceRel(creator, surface);
+        rel.setAuthor(true);
+        rel.setEditor(true);
+        worldRepository.create(rel);
 
         return surface;
     }
 
     @Override
-    public List<World> getUserWorldList(UserProfile currentProfile) {
+    public List<World> getUserWorldList(Profile currentProfile) {
         List<World> result = new ArrayList<>();
-        for (WorldActor actor : worldRepository.listWorldActor(currentProfile)) {
-            result.add(actor.getWorld());
+        for (ProfileWorldRel rel : worldRepository.listWorldRelation(currentProfile)) {
+            result.add(rel.getWorld());
         }
         return result;
     }

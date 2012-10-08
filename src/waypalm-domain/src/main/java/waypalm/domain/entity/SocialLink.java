@@ -1,21 +1,21 @@
 package waypalm.domain.entity;
 
-import waypalm.domain.entity.base.IntegerIdentityCU;
 import org.hibernate.annotations.DynamicUpdate;
+import waypalm.domain.entity.base.IntegerIdentityCU;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "UserSocialLink")
+@Table(name = "SocialLink")
 @DynamicUpdate
-public class UserSocialLink extends IntegerIdentityCU {
+public class SocialLink extends IntegerIdentityCU {
     @Column(name = "provider", length = 32)
     private String provider;
     @Column(name = "providerUser", length = 50)
     private String providerUser;
     @ManyToOne
-    @JoinColumn(name = "user", nullable = false)
-    private UserProfile user;
+    @JoinColumn(name = "profile", nullable = false)
+    private Profile profile;
     @Column(name = "userUrl", length = 512, nullable = false)
     private String userUrl;
     @Column(name = "userEmail", length = 128)
@@ -41,12 +41,12 @@ public class UserSocialLink extends IntegerIdentityCU {
         this.providerUser = providerUser;
     }
 
-    public UserProfile getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setUser(UserProfile user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public String getUserUrl() {

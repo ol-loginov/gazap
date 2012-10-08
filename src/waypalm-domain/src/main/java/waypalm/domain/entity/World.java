@@ -15,9 +15,6 @@ import java.util.List;
 public class World extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
-    public static final int MEMO_LENGTH = 512;
-    public static final int PUBLISHER_URL_LENGTH = 128;
-    public static final int PUBLISHER_TITLE_LENGTH = 128;
 
     @Column(name = "title", length = TITLE_LENGTH, unique = true, nullable = false)
     @XmlElement
@@ -25,15 +22,9 @@ public class World extends IntegerIdentityCUD {
     @Column(name = "alias", length = ALIAS_LENGTH, unique = true, nullable = false)
     @XmlElement
     private String alias;
-    @Column(name = "memo", length = MEMO_LENGTH, nullable = false)
-    @XmlElement
-    private String memo;
-    @Column(name = "publisherUrl", length = PUBLISHER_URL_LENGTH, nullable = false)
-    @XmlElement
-    private String publisherUrl;
-    @Column(name = "publisherTitle", length = PUBLISHER_URL_LENGTH, nullable = false)
-    @XmlElement
-    private String publisherTitle;
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "worldGroup", nullable = true)
+    private WorldGroup worldGroup;
     @OneToMany
     @JoinColumn(name = "world")
     private List<Surface> surfaces = new ArrayList<>();
@@ -54,36 +45,20 @@ public class World extends IntegerIdentityCUD {
         this.alias = alias;
     }
 
-    public String getMemo() {
-        return memo;
-    }
-
-    public void setMemo(String memo) {
-        this.memo = memo;
-    }
-
-    public String getPublisherUrl() {
-        return publisherUrl;
-    }
-
-    public void setPublisherUrl(String publisherUrl) {
-        this.publisherUrl = publisherUrl;
-    }
-
-    public String getPublisherTitle() {
-        return publisherTitle;
-    }
-
-    public void setPublisherTitle(String publisherTitle) {
-        this.publisherTitle = publisherTitle;
-    }
-
     public List<Surface> getSurfaces() {
         return surfaces;
     }
 
     public void setSurfaces(List<Surface> surfaces) {
         this.surfaces = surfaces;
+    }
+
+    public WorldGroup getWorldGroup() {
+        return worldGroup;
+    }
+
+    public void setWorldGroup(WorldGroup worldGroup) {
+        this.worldGroup = worldGroup;
     }
 
     @Transient

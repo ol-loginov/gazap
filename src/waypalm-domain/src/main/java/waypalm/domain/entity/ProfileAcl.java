@@ -1,5 +1,5 @@
 package waypalm.domain.entity;
 
-public enum UserAcl {
+public enum ProfileAcl {
     GOD_MODE
 }

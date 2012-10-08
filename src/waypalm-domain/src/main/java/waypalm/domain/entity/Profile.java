@@ -4,14 +4,15 @@ import org.hibernate.annotations.DynamicUpdate;
 import waypalm.domain.entity.base.IntegerIdentityCUD;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Table(name = "UserProfile")
+@Table(name = "Profile")
 @DynamicUpdate
-public class UserProfile extends IntegerIdentityCUD {
+public class Profile extends IntegerIdentityCUD implements Serializable {
     public static final int EMAIL_LENGTH = 128;
     public static final int EMAIL_CONFIRM_TOKEN_LENGTH = 128;
     public static final int PASSWORD_LENGTH = 64;
@@ -21,25 +22,25 @@ public class UserProfile extends IntegerIdentityCUD {
 
     @Column(name = "systemAccount", nullable = false)
     private boolean systemAccount;
-    @Column(length = ALIAS_LENGTH)
+    @Column(name = "alias", length = ALIAS_LENGTH)
     private String alias;
-    @Column(nullable = false, length = EMAIL_LENGTH)
+    @Column(name = "email", nullable = false, length = EMAIL_LENGTH)
     private String email;
-    @Column
+    @Column(name = "emailConfirmDate")
     private Date emailConfirmDate;
-    @Column(length = EMAIL_CONFIRM_TOKEN_LENGTH)
+    @Column(name = "emailConfirmToken", length = EMAIL_CONFIRM_TOKEN_LENGTH)
     private String emailConfirmToken;
-    @Column(nullable = false, length = PASSWORD_LENGTH)
+    @Column(name = "password", nullable = false, length = PASSWORD_LENGTH)
     private String password;
-    @Column(nullable = false, length = PASSWORD_SALT_LENGTH)
+    @Column(name = "passwordSalt", nullable = false, length = PASSWORD_SALT_LENGTH)
     private String passwordSalt;
-    @Column(nullable = false, length = DISPLAY_NAME_LENGTH)
+    @Column(name = "displayName", nullable = false, length = DISPLAY_NAME_LENGTH)
     private String displayName;
     @ElementCollection
-    @CollectionTable(name = "UserAcl", joinColumns = @JoinColumn(name = "userProfile"))
+    @CollectionTable(name = "ProfileAcl", joinColumns = @JoinColumn(name = "profile"))
     @Column(name = "aclRole")
     @Enumerated(EnumType.STRING)
-    private Set<UserAcl> roles = Collections.emptySet();
+    private Set<ProfileAcl> roles = Collections.emptySet();
 
     public boolean isSystemAccount() {
         return systemAccount;
@@ -73,11 +74,11 @@ public class UserProfile extends IntegerIdentityCUD {
         this.displayName = displayName;
     }
 
-    public Set<UserAcl> getRoles() {
+    public Set<ProfileAcl> getRoles() {
         return roles;
     }
 
-    protected void setRoles(Set<UserAcl> roles) {
+    protected void setRoles(Set<ProfileAcl> roles) {
         this.roles = roles;
     }
 

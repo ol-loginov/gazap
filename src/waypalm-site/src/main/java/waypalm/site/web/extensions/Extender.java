@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtender;
 import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.UserProfile;
+import waypalm.domain.entity.Profile;
 import waypalm.site.services.UserAccess;
 import waypalm.site.web.mvc.PrincipalProvider;
 
@@ -33,7 +33,7 @@ public abstract class Extender<T> implements ModelExtender {
 
     protected abstract T populate(WebRequest request, T extension, Object content);
 
-    protected UserProfile getLoggedUser() {
+    protected Profile getLoggedUser() {
         return PrincipalProvider.getLoggedUser(userRepository);
     }
 

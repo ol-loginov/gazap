@@ -50,9 +50,9 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Surface> listSurfaceBelongsToUser(UserProfile user) {
-        return getSession().createQuery("select distinct r.surface from SurfaceActor r where r.user=:user")
-                .setEntity("user", user)
+    public List<Surface> listSurfaceBelongsToUser(Profile profile) {
+        return getSession().createQuery("select distinct r.surface from ProfileSurfaceRel r where r.profile=:profile")
+                .setEntity("profile", profile)
                 .list();
     }
 
@@ -68,14 +68,8 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Contribution> listContributionsToShow(Surface surface, UserProfile viewer, Date after, int limit) {
-        return getSession().createQuery("from Contribution c where c.surface=:surface and c.author=:user and c.decision=:decision and c.createdAt>:after order by c.createdAt")
-                .setEntity("surface", surface)
-                .setEntity("user", viewer)
-                .setParameter("decision", ContributionDecision.NONE)
-                .setParameter("after", after)
-                .setMaxResults(limit)
-                .list();
+    public List<Contribution> listContributionsToShow(Surface surface, Profile profile, Date after, int limit) {
+        throw new IllegalStateException("revise");
     }
 
     @Override
@@ -89,20 +83,20 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
     }
 
     @Override
-    public WorldActor getWorldActor(World world, UserProfile user) {
-        return (WorldActor) getSession().get(WorldActor.class, new WorldActor.PK(user, world));
+    public ProfileWorldRel getWorldRelation(World world, Profile profile) {
+        return (ProfileWorldRel) getSession().get(ProfileWorldRel.class, new ProfileWorldRel.PK(world, profile));
     }
 
     @Override
-    public SurfaceActor getSurfaceActor(Surface surface, UserProfile user) {
-        return (SurfaceActor) getSession().get(SurfaceActor.class, new SurfaceActor.PK(user, surface));
+    public ProfileSurfaceRel getSurfaceRelation(Surface surface, Profile profile) {
+        return (ProfileSurfaceRel) getSession().get(ProfileSurfaceRel.class, new ProfileSurfaceRel.PK(surface, profile));
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<WorldActor> listWorldActor(UserProfile user) {
-        return (List<WorldActor>) getSession().createQuery("from WorldActor where user=:user")
-                .setEntity("user", user)
+    public List<ProfileWorldRel> listWorldRelation(Profile profile) {
+        return (List<ProfileWorldRel>) getSession().createQuery("from ProfileWorldRel where profile=:profile")
+                .setEntity("profile", profile)
                 .list();
     }
 

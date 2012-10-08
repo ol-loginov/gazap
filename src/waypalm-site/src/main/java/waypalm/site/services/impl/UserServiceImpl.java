@@ -12,9 +12,9 @@ import org.springframework.util.StringUtils;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.common.web.security.PasswordSalter;
 import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
-import waypalm.domain.entity.UserSummary;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.ProfileSummary;
+import waypalm.domain.entity.SocialLink;
 import waypalm.site.model.ServiceErrorException;
 import waypalm.site.services.UserService;
 
@@ -29,21 +29,21 @@ public class UserServiceImpl implements UserService {
     @Qualifier("passwordSalter")
     protected PasswordSalter passwordSalter;
 
-    private UserProfile createUserWithRandomPassword(String email) throws ServiceErrorException {
+    private Profile createUserWithRandomPassword(String email) throws ServiceErrorException {
         return createUser(IservHashUtil.isNull(email, ""), IservHashUtil.newUuid());
     }
 
     @Override
     @Transactional
-    public UserProfile createUser(String email, String password) {
-        UserProfile user = new UserProfile();
+    public Profile createUser(String email, String password) {
+        Profile user = new Profile();
         user.setPasswordSalt(IservHashUtil.md5("" + user.getCreatedAt().getTime() + System.nanoTime(), true));
         user.setPassword(passwordEncoder.encodePassword(password, passwordSalter.getSalt(user.getPasswordSalt())));
         user.setEmail(IservHashUtil.isNull(email, ""));
         user.setDisplayName("");
         userRepository.create(user);
 
-        UserSummary userSummary = new UserSummary(user);
+        ProfileSummary userSummary = new ProfileSummary(user);
         userRepository.create(userSummary);
 
         return user;
@@ -51,28 +51,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserSocialLink createSocialConnection(UserProfile user, ConnectionKey key, SocialProfile social) throws ServiceErrorException {
+    public SocialLink createSocialConnection(Profile user, ConnectionKey key, SocialProfile social) throws ServiceErrorException {
         Assert.notNull(social, "social required");
 
-        UserSocialLink socialLink = new UserSocialLink();
+        SocialLink socialLink = new SocialLink();
         socialLink.setProvider(key.getProviderId());
         socialLink.setProviderUser(key.getProviderUserId());
         socialLink.setUserUrl(social.getUrl());
         socialLink.setUserEmail(social.getEmail());
-        socialLink.setUser(user != null ? user : createUserWithRandomPassword(social.getEmail()));
+        socialLink.setProfile(user != null ? user : createUserWithRandomPassword(social.getEmail()));
 
         userRepository.create(socialLink);
         return socialLink;
     }
 
     @Override
-    public UserProfile findUserByAliasOrId(String aliasOrId) {
+    public Profile findUserByAliasOrId(String aliasOrId) {
         if (!StringUtils.hasText(aliasOrId)) {
             return null;
         }
         return Character.isDigit(aliasOrId.charAt(0))
-                ? userRepository.getUser(Integer.parseInt(aliasOrId))
-                : userRepository.findUserByAlias(aliasOrId);
+                ? userRepository.getProfile(Integer.parseInt(aliasOrId))
+                : userRepository.findProfileByAlias(aliasOrId);
     }
 }
 

@@ -12,16 +12,16 @@ public class Surface extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 
+    @ManyToOne
+    @JoinColumn(name = "world", nullable = false, updatable = false)
+    private World world;
     @Column(name = "title", length = TITLE_LENGTH, nullable = false)
     private String title;
-    @Column(name = "alias", length = ALIAS_LENGTH, nullable = true)
+    @Column(name = "alias", length = ALIAS_LENGTH)
     private String alias;
     @OneToOne
     @JoinColumn(name = "geometry", nullable = true)
     private Geometry geometry;
-    @ManyToOne
-    @JoinColumn(name = "world", nullable = false, updatable = false)
-    private World world;
 
     public String getTitle() {
         return title;

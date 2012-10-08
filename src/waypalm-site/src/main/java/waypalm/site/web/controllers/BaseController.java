@@ -6,7 +6,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
-import waypalm.domain.entity.UserProfile;
+import waypalm.domain.entity.Profile;
 import waypalm.site.services.FormatService;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
@@ -32,8 +32,8 @@ public abstract class BaseController {
         return new ResponseBuilderImpl(format, locale);
     }
 
-    public UserProfile requireProfile() {
-        UserProfile profile = auth.getCurrentProfile();
+    public Profile requireProfile() {
+        Profile profile = auth.getCurrentProfile();
         if (profile == null) {
             throw new InsufficientAuthenticationException("require authenticated visitor");
         }

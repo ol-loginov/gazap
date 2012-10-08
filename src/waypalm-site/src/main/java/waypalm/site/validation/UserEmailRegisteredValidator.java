@@ -23,6 +23,6 @@ public class UserEmailRegisteredValidator implements ConstraintValidator<UserEma
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return userRepository.findUserByEmail(value) == null ^ shouldBeRegistered;
+        return userRepository.findProfileByEmail(value) == null ^ shouldBeRegistered;
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.entity.ContributionTile;
 import waypalm.domain.entity.Geometry;
 import waypalm.domain.entity.Surface;
-import waypalm.domain.entity.UserProfile;
+import waypalm.domain.entity.Profile;
 import waypalm.site.exceptions.ObjectIllegalStateException;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.model.ServiceError;
@@ -71,7 +71,7 @@ public class MapGodContributeController extends MapGodControllerBase {
     @RequestMapping(value = ACTION_URL + "/contribution/{contribution}/reject.ajax", method = RequestMethod.POST)
     public ModelAndView rejectChanges(Locale locale, @PathVariable("surface") int surfaceId, @PathVariable("contribution") int contributionId) throws ObjectIllegalStateException, ObjectNotFoundException {
         Surface surface = loadSurfaceById(surfaceId, locale);
-        UserProfile visitor = auth.getCurrentProfile();
+        Profile visitor = auth.getCurrentProfile();
         ApiAnswer answer = new ApiAnswer();
         try {
             contributionService.reject(visitor, surface, contributionId);

@@ -27,7 +27,7 @@ public class PrincipalProviderDirector extends PrincipalProvider implements User
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return createPrincipal(userRepository.findUserByEmail(userName));
+        return createPrincipal(userRepository.findProfileByEmail(userName));
     }
 
     @Override

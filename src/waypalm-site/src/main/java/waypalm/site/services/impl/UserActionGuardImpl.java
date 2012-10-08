@@ -5,10 +5,10 @@ import waypalm.site.services.UserActionGuard;
 import waypalm.domain.entity.*;
 
 public class UserActionGuardImpl implements UserActionGuard {
-    private final UserProfile visitor;
+    private final Profile visitor;
     private final WorldRepository worldRepository;
 
-    public UserActionGuardImpl(UserProfile visitor, WorldRepository worldRepository) {
+    public UserActionGuardImpl(Profile visitor, WorldRepository worldRepository) {
         this.visitor = visitor;
         this.worldRepository = worldRepository;
     }
@@ -16,14 +16,14 @@ public class UserActionGuardImpl implements UserActionGuard {
     @Override
     public boolean controlSurface(Surface surface) {
         if (visitor == null) return false;
-        SurfaceActor actor = worldRepository.getSurfaceActor(surface, visitor);
-        return actor != null && actor.isAuthor();
+        ProfileSurfaceRel rel = worldRepository.getSurfaceRelation(surface, visitor);
+        return rel != null && rel.isAuthor();
     }
 
     @Override
     public boolean controlWorld(World world) {
         if (visitor == null) return false;
-        WorldActor actor = worldRepository.getWorldActor(world, visitor);
-        return actor != null && actor.isAuthor();
+        ProfileWorldRel rel = worldRepository.getWorldRelation(world, visitor);
+        return rel != null && rel.isAuthor();
     }
 }

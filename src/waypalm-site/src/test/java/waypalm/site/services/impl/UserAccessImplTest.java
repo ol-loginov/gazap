@@ -10,8 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import waypalm.common.web.model.SocialProfileProviders;
 import waypalm.common.web.security.PrincipalImpl;
 import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.SocialLink;
 import waypalm.domain.entity.base.EntityUtil;
 
 public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
@@ -29,27 +29,27 @@ public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
 
     @Test
     public void createSocialProvider() {
-        UserSocialLink link;
+        SocialLink link;
 
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("google");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_GOOGLE, service.createSocialProvider(link));
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("www.google.com");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_GOOGLE, service.createSocialProvider(link));
 
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("yandex");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_YANDEX, service.createSocialProvider(link));
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("openid.yandex.ru");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_YANDEX, service.createSocialProvider(link));
 
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("twitter");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_TWITTER, service.createSocialProvider(link));
 
-        link = new UserSocialLink();
+        link = new SocialLink();
         link.setProvider("facebook");
         Assert.assertEquals(SocialProfileProviders.PROVIDER_FACEBOOK, service.createSocialProvider(link));
     }
@@ -70,11 +70,11 @@ public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
         SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken("mega-name", ""));
         Assert.assertFalse(service.isAuthorized());
 
-        UserProfile visitor = EntityUtil.withId(new UserProfile(), 0);
+        Profile visitor = EntityUtil.withId(new Profile(), 0);
         SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken(new PrincipalImpl(visitor), ""));
         Assert.assertFalse(service.isAuthorized());
 
-        visitor = EntityUtil.withId(new UserProfile());
+        visitor = EntityUtil.withId(new Profile());
         SecurityContextHolder.getContext().setAuthentication(new TestingAuthenticationToken(new PrincipalImpl(visitor), ""));
         Assert.assertTrue(service.isAuthorized());
     }

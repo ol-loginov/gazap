@@ -1,16 +1,16 @@
 package waypalm.site.web.mvc;
 
-import waypalm.common.web.security.PrincipalImpl;
-import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.UserProfile;
-import waypalm.site.services.UserAccess;
-import waypalm.site.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import waypalm.common.web.security.PrincipalImpl;
+import waypalm.domain.dao.UserRepository;
+import waypalm.domain.entity.Profile;
+import waypalm.site.services.UserAccess;
+import waypalm.site.services.UserService;
 
 public abstract class PrincipalProvider {
     private AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
@@ -22,7 +22,7 @@ public abstract class PrincipalProvider {
     @Autowired
     protected UserAccess auth;
 
-    protected UserDetails createPrincipal(UserProfile profile) {
+    protected UserDetails createPrincipal(Profile profile) {
         if (profile == null) {
             throw new UsernameNotFoundException("no such user");
         }
@@ -32,14 +32,14 @@ public abstract class PrincipalProvider {
         return principal;
     }
 
-    protected UserProfile getLoggedUser() {
+    protected Profile getLoggedUser() {
         return getLoggedUser(userRepository);
     }
 
-    public static UserProfile getLoggedUser(UserRepository userRepository) {
+    public static Profile getLoggedUser(UserRepository userRepository) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null && authentication.getPrincipal() instanceof PrincipalImpl
-                ? userRepository.getUser(((PrincipalImpl) authentication.getPrincipal()).getUserId())
+                ? userRepository.getProfile(((PrincipalImpl) authentication.getPrincipal()).getUserId())
                 : null;
     }
 }

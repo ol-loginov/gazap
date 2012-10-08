@@ -1,8 +1,8 @@
 package waypalm.site.services;
 
 import waypalm.common.web.model.SocialProfileProvider;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.SocialLink;
 
 import java.util.Collection;
 
@@ -11,9 +11,9 @@ public interface UserAccess {
 
     Collection<SocialProfileProvider> getAvailableSocialProviders();
 
-    SocialProfileProvider createSocialProvider(UserSocialLink link);
+    SocialProfileProvider createSocialProvider(SocialLink link);
 
-    UserActionGuard can(UserProfile profile);
+    UserActionGuard can(Profile profile);
 
-    UserProfile getCurrentProfile();
+    Profile getCurrentProfile();
 }

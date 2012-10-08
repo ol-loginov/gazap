@@ -1,6 +1,6 @@
 package waypalm.site.model.user;
 
-import waypalm.domain.entity.UserProfile;
+import waypalm.domain.entity.Profile;
 import waypalm.site.validation.ReCaptcha;
 import waypalm.site.validation.UserEmail;
 import waypalm.site.validation.UserEmailRegistered;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @ReCaptcha
 public class RegisterForm {
     @UserEmail
-    @Size(min = 1, max = UserProfile.EMAIL_LENGTH)
+    @Size(min = 1, max = Profile.EMAIL_LENGTH)
     @UserEmailRegistered(false)
     private String username;
     @NotNull

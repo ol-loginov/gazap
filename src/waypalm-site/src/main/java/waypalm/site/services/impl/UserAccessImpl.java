@@ -10,8 +10,8 @@ import waypalm.common.web.model.SocialProfileProviders;
 import waypalm.common.web.security.PrincipalImpl;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.SocialLink;
 import waypalm.site.services.UserAccess;
 import waypalm.site.services.UserActionGuard;
 
@@ -48,10 +48,10 @@ public class UserAccessImpl implements UserAccess {
     }
 
     @Override
-    public UserProfile getCurrentProfile() {
+    public Profile getCurrentProfile() {
         PrincipalImpl principal = getCurrentPrincipal();
         if (principal != null) {
-            return userRepository.getUser(principal.getUserId());
+            return userRepository.getProfile(principal.getUserId());
         }
         return null;
     }
@@ -62,7 +62,7 @@ public class UserAccessImpl implements UserAccess {
     }
 
     @Override
-    public SocialProfileProvider createSocialProvider(UserSocialLink link) {
+    public SocialProfileProvider createSocialProvider(SocialLink link) {
         String providerName = SocialProfileProviders.OPENID_PROVIDER_SITES.get(link.getProvider());
         if (providerName == null) {
             providerName = link.getProvider();
@@ -71,7 +71,7 @@ public class UserAccessImpl implements UserAccess {
     }
 
     @Override
-    public UserActionGuard can(UserProfile profile) {
+    public UserActionGuard can(Profile profile) {
         return new UserActionGuardImpl(profile, worldRepository);
     }
 }

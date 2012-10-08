@@ -2,6 +2,7 @@ package waypalm.site.model.world;
 
 import org.hibernate.validator.constraints.URL;
 import waypalm.domain.entity.World;
+import waypalm.domain.entity.WorldPublishing;
 import waypalm.site.validation.WorldTitle;
 
 import javax.validation.constraints.NotNull;
@@ -13,11 +14,11 @@ public class WorldCreateForm {
     @NotNull
     @Size(min = 1, max = World.TITLE_LENGTH)
     private String title;
-    @Size(max = World.MEMO_LENGTH)
+    @Size(max = WorldPublishing.MEMO_LENGTH)
     private String memo;
-    @Size(max = World.PUBLISHER_TITLE_LENGTH)
+    @Size(max = WorldPublishing.PUBLISHER_TITLE_LENGTH)
     private String publisherTitle;
-    @Size(max = World.PUBLISHER_URL_LENGTH)
+    @Size(max = WorldPublishing.PUBLISHER_URL_LENGTH)
     @URL(regexp = "^http(s)?://.*", flags = Pattern.Flag.CASE_INSENSITIVE)
     private String publisherUrl;
 

@@ -21,7 +21,7 @@ public abstract class Contribution extends IntegerIdentityC {
     private Surface surface;
     @ManyToOne
     @JoinColumn(name = "author", nullable = false, updatable = false)
-    private UserProfile author;
+    private Profile profile;
     @Column(name = "decision", nullable = false)
     @Enumerated(EnumType.STRING)
     private ContributionDecision decision = ContributionDecision.NONE;
@@ -59,12 +59,12 @@ public abstract class Contribution extends IntegerIdentityC {
         this.surface = surface;
     }
 
-    public UserProfile getAuthor() {
-        return author;
+    public Profile getAuthor() {
+        return profile;
     }
 
-    public void setAuthor(UserProfile author) {
-        this.author = author;
+    public void setAuthor(Profile profile) {
+        this.profile = profile;
     }
 
     public ContributionDecision getDecision() {

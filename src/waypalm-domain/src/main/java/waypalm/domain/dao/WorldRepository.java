@@ -16,21 +16,21 @@ public interface WorldRepository extends Dao {
 
     Surface findSurfaceByAlias(World world, String alias);
 
-    List<Surface> listSurfaceBelongsToUser(UserProfile user);
+    List<Surface> listSurfaceBelongsToUser(Profile user);
 
     GeometryPlainTile loadGeometryPlainTile(GeometryPlain geometry, int scale, int x, int y);
 
-    List<Contribution> listContributionsToShow(Surface surface, UserProfile viewer, Date after, int limit);
+    List<Contribution> listContributionsToShow(Surface surface, Profile viewer, Date after, int limit);
 
     ContributionTile getContributionTile(int id);
 
     Contribution getContribution(int id);
 
-    WorldActor getWorldActor(World world, UserProfile user);
+    ProfileWorldRel getWorldRelation(World world, Profile profile);
 
-    SurfaceActor getSurfaceActor(Surface surface, UserProfile user);
+    ProfileSurfaceRel getSurfaceRelation(Surface surface, Profile profile);
 
-    List<WorldActor> listWorldActor(UserProfile user);
+    List<ProfileWorldRel> listWorldRelation(Profile profile);
 
     int countWorld();
 

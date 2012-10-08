@@ -11,8 +11,8 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.stereotype.Service;
 import waypalm.common.web.model.SocialProfile;
-import waypalm.domain.entity.UserProfile;
-import waypalm.domain.entity.UserSocialLink;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.SocialLink;
 import waypalm.site.model.ServiceError;
 import waypalm.site.model.ServiceErrorException;
 
@@ -40,7 +40,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
         return IservHashUtil.md5(url.toString());
     }
 
-    private UserProfile loadUser(OpenIDAuthenticationToken token) throws ServiceErrorException {
+    private Profile loadUser(OpenIDAuthenticationToken token) throws ServiceErrorException {
         URL url;
         try {
             url = new URL(token.getIdentityUrl());
@@ -56,7 +56,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
             email = takeFirstAttribute(token.getAttributes(), "axEmail");
         }
 
-        UserSocialLink socialLink = userRepository.findSocialConnection(provider, userName, email);
+        SocialLink socialLink = userRepository.findSocialConnection(provider, userName, email);
         if (socialLink == null) {
             ConnectionKey socialKey = new ConnectionKey(provider, userName);
             SocialProfile socialProfile = new SocialProfile();
@@ -64,7 +64,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
             socialProfile.setEmail(email);
             socialLink = userService.createSocialConnection(getLoggedUser(), socialKey, socialProfile);
         }
-        return socialLink.getUser();
+        return socialLink.getProfile();
     }
 
     private String takeFirstAttribute(List<OpenIDAttribute> attributes, final String name) {

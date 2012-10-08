@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     08.10.2012 21:31:49                          */
+/* Created on:     08.10.2012 21:37:54                          */
 /*==============================================================*/
 
 
@@ -185,7 +185,7 @@ engine = MYISAM;
 /*==============================================================*/
 create table ProfileAcl
 (
-   userProfile          int not null,
+   profile              int not null,
    aclRole              varchar(16) not null
 )
 charset = utf8
@@ -196,11 +196,11 @@ engine = MYISAM;
 /*==============================================================*/
 create table ProfileAvatarRel
 (
-   user                 int not null,
+   profile              int not null,
    avatar               int not null,
    author               bit(1) not null default 0,
    favourite            bit(1) not null default 0,
-   primary key (user, avatar)
+   primary key (profile, avatar)
 )
 charset = utf8
 engine = MYISAM;
@@ -210,13 +210,13 @@ engine = MYISAM;
 /*==============================================================*/
 create table ProfileSummary
 (
-   user                 int not null,
+   profile              int not null,
    worldFavourite       int not null default 0,
    worldOwned           int not null default 0,
    worldOwnedLimit      int not null default 1,
    avatarFavourite      int not null default 0,
    avatarOwned          int not null default 0,
-   primary key (user)
+   primary key (profile)
 )
 charset = utf8
 engine = MYISAM;
@@ -227,11 +227,11 @@ engine = MYISAM;
 create table ProfileSurfaceRel
 (
    surface              int not null,
-   user                 int not null,
+   profile              int not null,
    author               bit(1) not null default 0,
    editor               bit(1) not null default 0,
    favourite            bit(1) not null default 0,
-   primary key (user, surface)
+   primary key (profile, surface)
 )
 charset = utf8
 engine = MYISAM;
@@ -242,12 +242,12 @@ engine = MYISAM;
 create table ProfileWorldRel
 (
    world                int not null,
-   user                 int not null,
+   profile              int not null,
    author               bit(1) not null default 0,
    editor               bit(1) not null default 0,
    avatar               bit(1) not null default 0,
    favourite            bit(1) not null default 0,
-   primary key (user, world)
+   primary key (profile, world)
 )
 charset = utf8
 engine = MYISAM;
@@ -262,7 +262,7 @@ create table SocialLink
    updatedAt            datetime not null,
    provider             varchar(32),
    providerUser         varchar(50),
-   user                 int not null,
+   profile              int not null,
    userUrl              varchar(512),
    userEmail            varchar(128),
    accessToken          varchar(512),
@@ -356,31 +356,31 @@ alter table GeometryPlain add constraint FK_GeometryPlain_id foreign key (id)
 alter table GeometryPlainTile add constraint FK_GeometryPlainTile_geometry foreign key (geometry)
       references GeometryPlain (id) on delete restrict on update restrict;
 
-alter table ProfileAcl add constraint FK_UserAcl_userProfile foreign key (userProfile)
+alter table ProfileAcl add constraint FK_ProfileAcl_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
 alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_avatar foreign key (avatar)
       references Avatar (id) on delete restrict on update restrict;
 
-alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_user foreign key (user)
+alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
-alter table ProfileSummary add constraint FK_UserSummary_user foreign key (user)
+alter table ProfileSummary add constraint FK_ProfileSummary_profile foreign key (profile)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
 alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_surface foreign key (surface)
       references Surface (id) on delete restrict on update restrict;
 
-alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_user foreign key (user)
-      references Profile (id) on delete restrict on update restrict;
-
-alter table ProfileWorldRel add constraint FK_ProfileWorldRel_user foreign key (user)
+alter table ProfileWorldRel add constraint FK_ProfileWorldRel_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
 alter table ProfileWorldRel add constraint FK_ProfileWorldRel_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 
-alter table SocialLink add constraint FK_UserSocialLink_user foreign key (user)
+alter table SocialLink add constraint FK_SocialLink_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
 alter table Surface add constraint FK_Surface_geometry foreign key (id)

@@ -27,7 +27,7 @@ public class ModelViewerImpl implements ModelViewer {
     protected UserAccess auth;
 
     @Override
-    public UserTitle userTitle(UserProfile profile) {
+    public UserTitle profileTitle(Profile profile) {
         UserTitle title = new UserTitle();
         title.setId(profile.getId());
         title.setAlias(profile.getAlias());

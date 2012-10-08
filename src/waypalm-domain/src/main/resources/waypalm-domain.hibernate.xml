@@ -7,10 +7,11 @@
         <mapping class="waypalm.domain.entity.ContributionTile"/>
 
         <mapping class="waypalm.domain.entity.Avatar"/>
+
         <mapping class="waypalm.domain.entity.World"/>
-        <mapping class="waypalm.domain.entity.WorldActor"/>
+        <mapping class="waypalm.domain.entity.WorldGroup"/>
+        <mapping class="waypalm.domain.entity.WorldPublishing"/>
         <mapping class="waypalm.domain.entity.Surface"/>
-        <mapping class="waypalm.domain.entity.SurfaceActor"/>
         <mapping class="waypalm.domain.entity.Geometry"/>
 
         <mapping class="waypalm.domain.entity.GeometryGeoid"/>
@@ -18,9 +19,12 @@
         <mapping class="waypalm.domain.entity.GeometryPlain"/>
         <mapping class="waypalm.domain.entity.GeometryPlainTile"/>
 
-        <mapping class="waypalm.domain.entity.UserProfile"/>
-        <mapping class="waypalm.domain.entity.UserSocialLink"/>
-        <mapping class="waypalm.domain.entity.UserSummary"/>
+        <mapping class="waypalm.domain.entity.Profile"/>
+        <mapping class="waypalm.domain.entity.SocialLink"/>
+        <mapping class="waypalm.domain.entity.ProfileSummary"/>
+        <mapping class="waypalm.domain.entity.ProfileAvatarRel"/>
+        <mapping class="waypalm.domain.entity.ProfileWorldRel"/>
+        <mapping class="waypalm.domain.entity.ProfileSurfaceRel"/>
 
         <event type="pre-insert">
             <listener class="waypalm.domain.dao.SessionListener"/>

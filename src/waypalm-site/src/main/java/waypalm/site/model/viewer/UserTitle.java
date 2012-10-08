@@ -1,6 +1,6 @@
 package waypalm.site.model.viewer;
 
-import waypalm.domain.entity.UserSummary;
+import waypalm.domain.entity.ProfileSummary;
 
 public class UserTitle {
     private int id;
@@ -8,7 +8,7 @@ public class UserTitle {
     private String name;
     private String gravatar;
     private String route;
-    private UserSummary summary;
+    private ProfileSummary summary;
     private boolean me;
 
     public int getId() {
@@ -51,11 +51,11 @@ public class UserTitle {
         this.route = route;
     }
 
-    public UserSummary getSummary() {
+    public ProfileSummary getSummary() {
         return summary;
     }
 
-    public void setSummary(UserSummary summary) {
+    public void setSummary(ProfileSummary summary) {
         this.summary = summary;
     }
 
