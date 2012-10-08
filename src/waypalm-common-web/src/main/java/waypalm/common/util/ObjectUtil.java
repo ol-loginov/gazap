@@ -8,4 +8,8 @@ public class ObjectUtil {
     public static boolean isInteger(String number) {
         return number != null && INTEGER_PATTERN.matcher(number).matches();
     }
+
+    public static <T> T ifNull(T value, T defaultValue) {
+        return value == null ? defaultValue : value;
+    }
 }

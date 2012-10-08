@@ -2,6 +2,7 @@ package waypalm.site.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import waypalm.common.util.ObjectUtil;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
@@ -24,6 +25,9 @@ public class WorldServiceImpl implements WorldService {
         World world = new World();
         world.setTitle(form.getTitle());
         world.setAlias("");
+        world.setMemo(ObjectUtil.ifNull(form.getMemo(), ""));
+        world.setPublisherTitle(ObjectUtil.ifNull(form.getPublisherTitle(), ""));
+        world.setPublisherUrl(ObjectUtil.ifNull(form.getPublisherUrl(), ""));
         worldRepository.create(world);
 
         WorldActor actor = new WorldActor(world, creator);

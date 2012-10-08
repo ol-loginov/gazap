@@ -1,6 +1,6 @@
 #macro(landingSidebar $activeTab)
 <div id="brandLogo">
-    <a href="$cp/" title="navigate to landing page"></a>
+    <a href="$cp/" title=""></a>
 </div>
 <div id="bodyMenu">
     <div class="mini-tabs">

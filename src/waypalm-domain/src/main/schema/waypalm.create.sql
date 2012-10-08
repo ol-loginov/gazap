@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     08.10.2012 16:35:22                          */
+/* Created on:     08.10.2012 18:17:49                          */
 /*==============================================================*/
 
 
@@ -271,6 +271,9 @@ create table World
    deletedAt            datetime,
    title                varchar(64) not null,
    alias                varchar(64),
+   memo                 varchar(512) not null,
+   publisherTitle       varchar(128) not null,
+   publisherUrl         varchar(128) not null,
    primary key (id),
    unique key AK_UniqueTitle (title)
 )

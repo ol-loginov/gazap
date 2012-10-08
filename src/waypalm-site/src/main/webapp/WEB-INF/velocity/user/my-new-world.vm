@@ -21,6 +21,24 @@
                         #springFormInput('form.title', 'class="validate-good"')
                     </div>
                 </div>
+                <div class="form-field">
+                    #formFieldLabel(false, 'CreateNewWorld.form.memo')
+                    <div class="full-width-input">
+                        #springFormTextarea('form.memo', 'class="validate-good"')
+                    </div>
+                </div>
+                <div class="form-field">
+                    #formFieldLabel(false, 'CreateNewWorld.form.publisherTitle')
+                    <div class="full-width-input">
+                        #springFormInput('form.publisherTitle', 'class="validate-good"')
+                    </div>
+                </div>
+                <div class="form-field">
+                    #formFieldLabel(false, 'CreateNewWorld.form.publisherUrl')
+                    <div class="full-width-input">
+                        #springFormInput('form.publisherUrl', 'class="validate-good"')
+                    </div>
+                </div>
                 <div class="form-submit clearfix">
                     <div class="pull-left">
                         <input type="submit" class="btn-green" value="#springMessage('form.create')"/>

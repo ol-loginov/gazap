@@ -1,0 +1,46 @@
+#macro(worldPageSidebar $activeTab)
+<div id="brandLogo">
+    <a href="$cp/" title=""></a>
+</div>
+<div id="bodyMenu">
+    <div class="mini-tabs">
+        #worldPageMiniTabs()
+        <div class="mini-tab-container">
+            <div id="landingSidebarCommon" data-tab="landingSidebarCommon"
+                 #if($activeTab=='landingSidebarCommon')class="active-tab"#end>
+                #landingSidebarCommonContent()
+            </div>
+            <div id="landingSidebarHelp" data-tab="landingSidebarHelp"
+                 #if($activeTab=='landingSidebarHelp')class="active-tab"#end>
+            </div>
+            <div id="landingSidebarWorld" data-tab="landingSidebarWorld"
+                 #if($activeTab=='landingSidebarWorld')class="active-tab"#end>
+            </div>
+        </div>
+    </div>
+</div>
+#end
+
+#macro(worldPageMiniTabs)
+<div class="mini-tab-navigator">
+    <div class="grid-3">
+        <div class="content">
+            <div class="cell-1">
+                <a href="#" data-tab="landingSidebarCommon">
+                    #springMessage('brandMenu.menu')
+                </a>
+            </div>
+            <div class="cell-1">
+                <a href="#" data-tab="landingSidebarHelp">
+                    #springMessage('brandMenu.help')
+                </a>
+            </div>
+            <div class="cell-1">
+                <a href="#" data-tab="landingSidebarWorld">
+                    #springMessage('brandMenu.world')
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+#end

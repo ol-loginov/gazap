@@ -1,21 +1,35 @@
 <!DOCTYPE html>
 <html>
+    $eCdn.setAppZone('/w')
+<head>
     #parse('shared/html-head.vm')
 #* @vtlvariable name="entity" type="waypalm.domain.entity.World" *#
-<body class="sci">
-<header class="sci-header">
-    <div id="logoBar">
-        #parse('shared/html-bars-brand.vm')
+    <title>#springMessage1('WorldPage.title', $escTool.html($entity.title))</title>
+</head>
+    #parse('_index-macros.vm')
+    #parse('world/_world-macros.vm')
+<body id="bodyColumns" class="layout-1-4">
+<div class="content">
+    <div class="left">
+        #worldPageSidebar('landingSidebarWorld')
     </div>
-    <div id="breadcrumbBar">
-        <h1>/ $escTool.html($entity.title)</h1>
-    </div>
-</header>
-<div id="bodyColumns" class="layout-0-7-3">
-    <div class="content">
-        <div class="left"></div>
-        <div class="center"></div>
-        <div class="right"></div>
+    <div class="center">
+        <div class="content">
+            <h1>$escTool.html($entity.title)
+                #if(!$entity.publisherTitle.empty)
+                    <span class="secondary">
+                        #springMessage1('WorldPage.worldTitle.secondary', $escTool.html($entity.publisherTitle))
+                    </span>
+                #end
+            </h1>
+
+            <p>$escTool.html($entity.memo)
+                #if(!$entity.publisherUrl.empty)
+                    #springMessage('WorldPage.worldTitle.memoMore') <a href="$entity.publisherUrl">$escTool.html($entity.publisherUrl)</a>
+                #end
+            </p>
+
+        </div>
     </div>
 </div>
 </body>
