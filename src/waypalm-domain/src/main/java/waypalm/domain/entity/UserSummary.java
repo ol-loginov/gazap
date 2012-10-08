@@ -11,62 +11,52 @@ import java.io.Serializable;
 @Entity
 @Table(name = "UserSummary")
 @DynamicUpdate
-@IdClass(UserSummary.PK.class)
-public class UserSummary implements DomainEntity, Serializable {
+public class UserSummary implements DomainEntity {
     @Id
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user", nullable = false, updatable = false)
-    private UserProfile user;
-    @Column(name = "worldsCreated")
-    private int worldsCreated;
-    @Column(name = "playersCreated")
-    private int playersCreated;
-    @Column(name = "mapsCreated")
-    private int mapsCreated;
+    private PK id;
+    @Column(name = "worldCount")
+    private int worldCount;
+    @Column(name = "avatarCount")
+    private int avatarCount;
 
     protected UserSummary() {
     }
 
     public UserSummary(UserProfile profile) {
-        setUser(profile);
+        setId(new PK(profile));
     }
 
-    public UserProfile getUser() {
-        return user;
+    public PK getId() {
+        return id;
     }
 
-    protected void setUser(UserProfile user) {
-        this.user = user;
+    protected void setId(PK id) {
+        this.id = id;
     }
 
-    public int getWorldsCreated() {
-        return worldsCreated;
+    public int getWorldCount() {
+        return worldCount;
     }
 
-    public void setWorldsCreated(int worldsCreated) {
-        this.worldsCreated = worldsCreated;
+    public void setWorldCount(int worldCount) {
+        this.worldCount = worldCount;
     }
 
-    public int getPlayersCreated() {
-        return playersCreated;
+    public int getAvatarCount() {
+        return avatarCount;
     }
 
-    public void setPlayersCreated(int playersCreated) {
-        this.playersCreated = playersCreated;
+    public void setAvatarCount(int avatarCount) {
+        this.avatarCount = avatarCount;
     }
 
-    public int getMapsCreated() {
-        return mapsCreated;
-    }
-
-    public void setMapsCreated(int mapsCreated) {
-        this.mapsCreated = mapsCreated;
-    }
-
+    @Embeddable
     public static class PK implements Serializable {
+        @OneToOne(optional = false)
+        @JoinColumn(name = "user", nullable = false, updatable = false)
         private UserProfile user;
 
-        public PK() {
+        protected PK() {
         }
 
         public PK(UserProfile user) {

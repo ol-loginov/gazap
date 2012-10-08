@@ -13,5 +13,5 @@ public interface UserRepository extends Dao {
 
     UserProfile findUserByAlias(String alias);
 
-    UserSummary loadSummary(UserProfile profile);
+    UserSummary getProfileSummary(UserProfile profile);
 }

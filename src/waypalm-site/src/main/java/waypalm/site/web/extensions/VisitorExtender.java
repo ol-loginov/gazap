@@ -6,19 +6,25 @@ import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.entity.UserProfile;
 import waypalm.site.model.viewer.UserTitle;
 import waypalm.site.services.ModelViewer;
+import waypalm.site.services.UserService;
+import waypalm.site.services.WorldService;
 
 @ModelExtension("eVisitor")
 public class VisitorExtender extends Extender<VisitorExtender.Content> {
     @Autowired
     protected ModelViewer modelViewer;
+    @Autowired
+    protected UserService userService;
 
     @Override
     protected VisitorExtender.Content populate(WebRequest request, VisitorExtender.Content extension, Object content) {
         UserProfile user = getLoggedUser();
         extension = instantiateIfNull(extension, VisitorExtender.Content.class);
-        extension.user = user != null ? modelViewer.userTitle(user) : null;
-        extension.worldCount = 3;
-        extension.avatarCount = 0;
+        if (user != null) {
+            extension.user = modelViewer.userTitle(user);
+            extension.worldCount = userRepository.getProfileSummary(user).getWorldCount();
+            extension.avatarCount = userRepository.getProfileSummary(user).getAvatarCount();
+        }
         return extension;
     }
 

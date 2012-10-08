@@ -34,7 +34,7 @@ public class ModelViewerImpl implements ModelViewer {
         title.setName(profile.getDisplayName());
         title.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
         title.setRoute("/u/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
-        title.setSummary(userRepository.loadSummary(profile));
+        title.setSummary(userRepository.getProfileSummary(profile));
         title.setMe(profile.isSame(auth.getCurrentProfile()));
         return title;
     }

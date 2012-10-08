@@ -2,6 +2,7 @@ package waypalm.site.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
 import waypalm.site.model.world.MapCreateForm;
@@ -15,6 +16,8 @@ import java.util.List;
 public class WorldServiceImpl implements WorldService {
     @Autowired
     protected WorldRepository worldRepository;
+    @Autowired
+    protected UserRepository userRepository;
 
     @Override
     public World createWorld(UserProfile creator, WorldCreateForm form) {
@@ -27,6 +30,10 @@ public class WorldServiceImpl implements WorldService {
         actor.setAuthor(true);
         actor.setEditor(true);
         worldRepository.create(actor);
+
+        UserSummary profileSummary = userRepository.getProfileSummary(creator);
+        profileSummary.setWorldCount(profileSummary.getWorldCount() + 1);
+        userRepository.save(profileSummary);
 
         return world;
     }

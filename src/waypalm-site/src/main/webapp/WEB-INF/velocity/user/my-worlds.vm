@@ -16,7 +16,7 @@
         <div class="section">
             <ul>
                 #foreach($world in $worldList)
-                    <li><a href="$cp/w/$world.slug">$world.title</a></li>
+                    <li><a href="$cp/w/$world.slug">$escTool.html($world.title)</a></li>
                 #end
             </ul>
         </div>
