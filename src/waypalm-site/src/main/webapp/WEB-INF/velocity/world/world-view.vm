@@ -11,6 +11,7 @@
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
+        #set($world=$entity)
         #worldPageSidebar('landingSidebarWorld')
     </div>
     <div class="center">
@@ -23,11 +24,20 @@
                 #end
             </h1>
 
-            <p>$escTool.html($entity.memo)
+            <p>$escTool.html($entity.memo)</p>
+
+            <ul class="hmenu">
                 #if(!$entity.publisherUrl.empty)
-                    #springMessage('WorldPage.worldTitle.memoMore') <a href="$entity.publisherUrl">$escTool.html($entity.publisherUrl)</a>
+                    <li class="menu-item">
+                        <a href="$entity.publisherUrl" target="_blank">#springMessage('WorldPage.visitHomepage')</a>
+                    </li>
                 #end
-            </p>
+                #if($eVisitor.logged)
+                    <li class="menu-item">
+                        <a href="">#springMessage('WorldPage.favourite')</a>
+                    </li>
+                #end
+            </ul>
 
         </div>
     </div>

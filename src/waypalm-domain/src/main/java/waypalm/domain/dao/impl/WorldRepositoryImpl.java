@@ -115,4 +115,9 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
     public int countAvatar() {
         return toNumberInt(getSession().createQuery("select count(*) from Avatar").uniqueResult());
     }
+
+    @Override
+    public List<World> listWorld() {
+        return (List<World>) getSession().createQuery("from World order by createdAt desc").list();
+    }
 }

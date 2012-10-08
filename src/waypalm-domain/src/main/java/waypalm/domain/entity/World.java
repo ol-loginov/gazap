@@ -4,11 +4,10 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.util.StringUtils;
 import waypalm.domain.entity.base.IntegerIdentityCUD;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "World")
@@ -35,6 +34,9 @@ public class World extends IntegerIdentityCUD {
     @Column(name = "publisherTitle", length = PUBLISHER_URL_LENGTH, nullable = false)
     @XmlElement
     private String publisherTitle;
+    @OneToMany
+    @JoinColumn(name = "world")
+    private List<Surface> surfaces = new ArrayList<>();
 
     public String getTitle() {
         return title;
@@ -74,6 +76,14 @@ public class World extends IntegerIdentityCUD {
 
     public void setPublisherTitle(String publisherTitle) {
         this.publisherTitle = publisherTitle;
+    }
+
+    public List<Surface> getSurfaces() {
+        return surfaces;
+    }
+
+    public void setSurfaces(List<Surface> surfaces) {
+        this.surfaces = surfaces;
     }
 
     @Transient

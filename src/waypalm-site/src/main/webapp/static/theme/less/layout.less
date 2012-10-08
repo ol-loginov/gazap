@@ -110,7 +110,13 @@ body#bodyColumns {
         .section {
             > .section-head {
                 border-top: 1px solid #EEEFFC;
-                color: #A68E4E;
+                color: #CCCC00;
+            }
+
+            &:first-of-type {
+                > .section-head {
+                    border-top: none;
+                }
             }
         }
 
@@ -195,7 +201,8 @@ body#bodyColumns {
 }
 
 .section {
-    margin-bottom: 1em;
+    margin-top: .5em;
+    margin-bottom: .7em;
 
     > form {
         padding: 1em 1em 0;

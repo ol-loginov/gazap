@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     08.10.2012 18:17:49                          */
+/* Created on:     08.10.2012 21:31:49                          */
 /*==============================================================*/
 
 
@@ -18,21 +18,27 @@ drop table if exists GeometryPlain;
 
 drop table if exists GeometryPlainTile;
 
+drop table if exists Profile;
+
+drop table if exists ProfileAcl;
+
+drop table if exists ProfileAvatarRel;
+
+drop table if exists ProfileSummary;
+
+drop table if exists ProfileSurfaceRel;
+
+drop table if exists ProfileWorldRel;
+
+drop table if exists SocialLink;
+
 drop table if exists Surface;
-
-drop table if exists SurfaceActor;
-
-drop table if exists UserAcl;
-
-drop table if exists UserProfile;
-
-drop table if exists UserSocialLink;
-
-drop table if exists UserSummary;
 
 drop table if exists World;
 
-drop table if exists WorldActor;
+drop table if exists WorldGroup;
+
+drop table if exists WorldPublishing;
 
 /*==============================================================*/
 /* Table: Avatar                                                */
@@ -44,7 +50,8 @@ create table Avatar
    updatedAt            datetime not null,
    deletedAt            datetime,
    world                int,
-   owner                int,
+   gameName             varchar(64) not null,
+   gameTitle            varchar(64) not null,
    primary key (id)
 )
 charset = utf8
@@ -150,54 +157,9 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: Surface                                               */
+/* Table: Profile                                               */
 /*==============================================================*/
-create table Surface
-(
-   id                   int not null auto_increment,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   title                varchar(64) not null,
-   alias                varchar(64),
-   geometry             int,
-   world                int not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: SurfaceActor                                          */
-/*==============================================================*/
-create table SurfaceActor
-(
-   surface              int not null,
-   user                 int not null,
-   author               bit(1) not null default 0,
-   editor               bit(1) not null default 0,
-   primary key (user, surface)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: UserAcl                                               */
-/*==============================================================*/
-create table UserAcl
-(
-   userProfile          int not null,
-   aclRole              varchar(16) not null
-)
-charset = utf8
-engine = MYISAM;
-
-insert into UserAcl(userProfile,aclRole)values(1,'GOD_MODE');
-
-/*==============================================================*/
-/* Table: UserProfile                                           */
-/*==============================================================*/
-create table UserProfile
+create table Profile
 (
    id                   int not null auto_increment,
    createdAt            datetime not null,
@@ -218,13 +180,82 @@ create table UserProfile
 charset = utf8
 engine = MYISAM;
 
-insert into UserProfile(createdAt,updatedAt,email,password,passwordSalt,displayName,systemAccount) values(now(),now(),'first','5db93645c96d6cec82ca1bdd0ad96aa7','','The Very First User',1);
-insert into UserProfile(createdAt,updatedAt,email,password,passwordSalt,displayName,systemAccount) values(now(),now(),'oregu@yandex.ru','7AY4QBuAdh1AyPM+QYH+WO82bB/b9UKnmhkS+dPcQGA=','d81714926b1e3a2f7d86feb33796c46','oregu',0);
+/*==============================================================*/
+/* Table: ProfileAcl                                            */
+/*==============================================================*/
+create table ProfileAcl
+(
+   userProfile          int not null,
+   aclRole              varchar(16) not null
+)
+charset = utf8
+engine = MYISAM;
 
 /*==============================================================*/
-/* Table: UserSocialLink                                        */
+/* Table: ProfileAvatarRel                                      */
 /*==============================================================*/
-create table UserSocialLink
+create table ProfileAvatarRel
+(
+   user                 int not null,
+   avatar               int not null,
+   author               bit(1) not null default 0,
+   favourite            bit(1) not null default 0,
+   primary key (user, avatar)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: ProfileSummary                                        */
+/*==============================================================*/
+create table ProfileSummary
+(
+   user                 int not null,
+   worldFavourite       int not null default 0,
+   worldOwned           int not null default 0,
+   worldOwnedLimit      int not null default 1,
+   avatarFavourite      int not null default 0,
+   avatarOwned          int not null default 0,
+   primary key (user)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: ProfileSurfaceRel                                     */
+/*==============================================================*/
+create table ProfileSurfaceRel
+(
+   surface              int not null,
+   user                 int not null,
+   author               bit(1) not null default 0,
+   editor               bit(1) not null default 0,
+   favourite            bit(1) not null default 0,
+   primary key (user, surface)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: ProfileWorldRel                                       */
+/*==============================================================*/
+create table ProfileWorldRel
+(
+   world                int not null,
+   user                 int not null,
+   author               bit(1) not null default 0,
+   editor               bit(1) not null default 0,
+   avatar               bit(1) not null default 0,
+   favourite            bit(1) not null default 0,
+   primary key (user, world)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: SocialLink                                            */
+/*==============================================================*/
+create table SocialLink
 (
    id                   int not null auto_increment,
    createdAt            datetime not null,
@@ -242,23 +273,22 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: UserSummary                                           */
+/* Table: Surface                                               */
 /*==============================================================*/
-create table UserSummary
+create table Surface
 (
-   user                 int not null,
-   worldFavourite       int not null default 0,
-   worldOwned           int not null default 0,
-   worldOwnedLimit      int not null default 1,
-   avatarFavourite      int not null default 0,
-   avatarOwned          int not null default 0,
-   primary key (user)
+   id                   int not null auto_increment,
+   createdAt            datetime not null,
+   updatedAt            datetime not null,
+   deletedAt            datetime,
+   world                int not null,
+   title                varchar(64) not null,
+   alias                varchar(64),
+   geometry             int,
+   primary key (id)
 )
 charset = utf8
 engine = MYISAM;
-
-insert into UserSummary(user) values(1);
-insert into UserSummary(user) values(2);
 
 /*==============================================================*/
 /* Table: World                                                 */
@@ -271,32 +301,42 @@ create table World
    deletedAt            datetime,
    title                varchar(64) not null,
    alias                varchar(64),
+   worldGroup           int,
+   primary key (id),
+   unique key AK_UniqueTitle (title),
+   unique key AK_UniqueAlias (alias)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: WorldGroup                                            */
+/*==============================================================*/
+create table WorldGroup
+(
+   id                   int not null auto_increment,
+   createdAt            datetime not null,
+   updatedAt            datetime not null,
+   deletedAt            datetime,
+   title                varchar(128) not null,
+   primary key (id)
+)
+charset = utf8
+engine = MYISAM;
+
+/*==============================================================*/
+/* Table: WorldPublishing                                       */
+/*==============================================================*/
+create table WorldPublishing
+(
+   world                int not null,
    memo                 varchar(512) not null,
    publisherTitle       varchar(128) not null,
    publisherUrl         varchar(128) not null,
-   primary key (id),
-   unique key AK_UniqueTitle (title)
+   primary key (world)
 )
 charset = utf8
 engine = MYISAM;
-
-/*==============================================================*/
-/* Table: WorldActor                                            */
-/*==============================================================*/
-create table WorldActor
-(
-   world                int not null,
-   user                 int not null,
-   author               bit(1) not null default 0,
-   editor               bit(1) not null default 0,
-   avatar               bit(1) not null default 0,
-   primary key (user, world)
-)
-charset = utf8
-engine = MYISAM;
-
-alter table Avatar add constraint FK_Avatar_owner foreign key (owner)
-      references UserProfile (id) on delete restrict on update restrict;
 
 alter table Avatar add constraint FK_Avatar_world foreign key (world)
       references World (id) on delete restrict on update restrict;
@@ -316,30 +356,42 @@ alter table GeometryPlain add constraint FK_GeometryPlain_id foreign key (id)
 alter table GeometryPlainTile add constraint FK_GeometryPlainTile_geometry foreign key (geometry)
       references GeometryPlain (id) on delete restrict on update restrict;
 
+alter table ProfileAcl add constraint FK_UserAcl_userProfile foreign key (userProfile)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_avatar foreign key (avatar)
+      references Avatar (id) on delete restrict on update restrict;
+
+alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_user foreign key (user)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileSummary add constraint FK_UserSummary_user foreign key (user)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_surface foreign key (surface)
+      references Surface (id) on delete restrict on update restrict;
+
+alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_user foreign key (user)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileWorldRel add constraint FK_ProfileWorldRel_user foreign key (user)
+      references Profile (id) on delete restrict on update restrict;
+
+alter table ProfileWorldRel add constraint FK_ProfileWorldRel_world foreign key (world)
+      references World (id) on delete restrict on update restrict;
+
+alter table SocialLink add constraint FK_UserSocialLink_user foreign key (user)
+      references Profile (id) on delete restrict on update restrict;
+
 alter table Surface add constraint FK_Surface_geometry foreign key (id)
       references Geometry (id) on delete restrict on update restrict;
 
 alter table Surface add constraint FK_Surface_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 
-alter table SurfaceActor add constraint FK_SurfaceRole_surface foreign key (surface)
-      references Surface (id) on delete restrict on update restrict;
+alter table World add constraint FK_World_worldGroup foreign key (worldGroup)
+      references WorldGroup (id) on delete restrict on update restrict;
 
-alter table SurfaceActor add constraint FK_SurfaceRole_user foreign key (user)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table UserAcl add constraint FK_UserAcl_userProfile foreign key (userProfile)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table UserSocialLink add constraint FK_UserSocialLink_user foreign key (user)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table UserSummary add constraint FK_UserSummary_user foreign key (user)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table WorldActor add constraint FK_WorldRole_user foreign key (user)
-      references UserProfile (id) on delete restrict on update restrict;
-
-alter table WorldActor add constraint FK_WorldRole_world foreign key (world)
+alter table WorldPublishing add constraint FK_WorldPublishing_world foreign key (world)
       references World (id) on delete restrict on update restrict;
 

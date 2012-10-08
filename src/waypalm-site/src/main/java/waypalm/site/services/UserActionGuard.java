@@ -1,7 +1,10 @@
 package waypalm.site.services;
 
-public interface UserActionGuard {
-    boolean createSurface(int worldId);
+import waypalm.domain.entity.Surface;
+import waypalm.domain.entity.World;
 
-    boolean editSurface(int surfaceId);
+public interface UserActionGuard {
+    boolean controlSurface(Surface surface);
+
+    boolean controlWorld(World world);
 }

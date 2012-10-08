@@ -10,36 +10,20 @@ public class UserActionGuardImpl implements UserActionGuard {
 
     public UserActionGuardImpl(UserProfile visitor, WorldRepository worldRepository) {
         this.visitor = visitor;
-        this.worldRepository= worldRepository;
+        this.worldRepository = worldRepository;
     }
 
     @Override
-    public boolean createSurface(int worldId) {
-        if (visitor == null) {
-            return false;
-        }
-        World world = worldRepository.getWorld(worldId);
-        if (world != null) {
-            WorldActor actor = worldRepository.getWorldActor(world, visitor);
-            if (actor != null) {
-                return actor.isEditor();
-            }
-        }
-        return false;
+    public boolean controlSurface(Surface surface) {
+        if (visitor == null) return false;
+        SurfaceActor actor = worldRepository.getSurfaceActor(surface, visitor);
+        return actor != null && actor.isAuthor();
     }
 
     @Override
-    public boolean editSurface(int surfaceId) {
-        if (visitor == null) {
-            return false;
-        }
-        Surface surface = worldRepository.getSurface(surfaceId);
-        if (surface != null) {
-            SurfaceActor actor = worldRepository.getSurfaceActor(surface, visitor);
-            if (actor != null) {
-                return actor.isEditor();
-            }
-        }
-        return false;
+    public boolean controlWorld(World world) {
+        if (visitor == null) return false;
+        WorldActor actor = worldRepository.getWorldActor(world, visitor);
+        return actor != null && actor.isAuthor();
     }
 }

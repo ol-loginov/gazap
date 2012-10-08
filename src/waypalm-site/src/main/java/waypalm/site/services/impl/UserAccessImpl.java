@@ -1,5 +1,10 @@
 package waypalm.site.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import waypalm.common.web.model.SocialProfileProvider;
 import waypalm.common.web.model.SocialProfileProviders;
 import waypalm.common.web.security.PrincipalImpl;
@@ -9,11 +14,6 @@ import waypalm.domain.entity.UserProfile;
 import waypalm.domain.entity.UserSocialLink;
 import waypalm.site.services.UserAccess;
 import waypalm.site.services.UserActionGuard;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -71,7 +71,7 @@ public class UserAccessImpl implements UserAccess {
     }
 
     @Override
-    public UserActionGuard can() {
-        return new UserActionGuardImpl(getCurrentProfile(), worldRepository);
+    public UserActionGuard can(UserProfile profile) {
+        return new UserActionGuardImpl(profile, worldRepository);
     }
 }
