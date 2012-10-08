@@ -24,8 +24,8 @@ public class VisitorExtender extends Extender<VisitorExtender.Content> {
             extension.user = modelViewer.userTitle(user);
 
             UserSummary summary = userRepository.getProfileSummary(user);
-            extension.worldTotalCount = summary.getWorldTotal();
-            extension.avatarTotalCount = summary.getAvatarTotal();
+            extension.worldTotalCount = summary.getWorldFavourite() + summary.getWorldOwned();
+            extension.avatarTotalCount = summary.getAvatarFavourite() + summary.getAvatarOwned();
             extension.worldCreateAvailable = summary.getWorldOwned() < summary.getWorldOwnedLimit();
         }
         return extension;

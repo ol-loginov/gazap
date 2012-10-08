@@ -105,4 +105,14 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
                 .setEntity("user", user)
                 .list();
     }
+
+    @Override
+    public int countWorld() {
+        return toNumberInt(getSession().createQuery("select count(*) from World").uniqueResult());
+    }
+
+    @Override
+    public int countAvatar() {
+        return toNumberInt(getSession().createQuery("select count(*) from Avatar").uniqueResult());
+    }
 }

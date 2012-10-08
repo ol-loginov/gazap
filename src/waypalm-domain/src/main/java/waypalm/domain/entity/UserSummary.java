@@ -14,14 +14,14 @@ import java.io.Serializable;
 public class UserSummary implements DomainEntity {
     @Id
     private PK id;
-    @Column(name = "worldTotal")
-    private int worldTotal;
+    @Column(name = "worldFavourite")
+    private int worldFavourite;
     @Column(name = "worldOwned")
     private int worldOwned;
     @Column(name = "worldOwnedLimit")
     private int worldOwnedLimit;
-    @Column(name = "avatarTotal")
-    private int avatarTotal;
+    @Column(name = "avatarFavourite")
+    private int avatarFavourite;
     @Column(name = "avatarOwned")
     private int avatarOwned;
 
@@ -40,12 +40,20 @@ public class UserSummary implements DomainEntity {
         this.id = id;
     }
 
-    public int getWorldTotal() {
-        return worldTotal;
+    public int getWorldFavourite() {
+        return worldFavourite;
     }
 
-    public void setWorldTotal(int worldTotal) {
-        this.worldTotal = worldTotal;
+    public void setWorldFavourite(int worldFavourite) {
+        this.worldFavourite = worldFavourite;
+    }
+
+    public int getAvatarFavourite() {
+        return avatarFavourite;
+    }
+
+    public void setAvatarFavourite(int avatarFavourite) {
+        this.avatarFavourite = avatarFavourite;
     }
 
     public int getWorldOwned() {
@@ -62,14 +70,6 @@ public class UserSummary implements DomainEntity {
 
     public void setWorldOwnedLimit(int worldOwnedLimit) {
         this.worldOwnedLimit = worldOwnedLimit;
-    }
-
-    public int getAvatarTotal() {
-        return avatarTotal;
-    }
-
-    public void setAvatarTotal(int avatarTotal) {
-        this.avatarTotal = avatarTotal;
     }
 
     public int getAvatarOwned() {

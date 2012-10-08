@@ -31,4 +31,8 @@ public interface WorldRepository extends Dao {
     SurfaceActor getSurfaceActor(Surface surface, UserProfile user);
 
     List<WorldActor> listWorldActor(UserProfile user);
+
+    int countWorld();
+
+    int countAvatar();
 }

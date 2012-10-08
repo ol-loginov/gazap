@@ -21,10 +21,12 @@ public class WorldActor implements DomainEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "world", nullable = false, updatable = false)
     private World world;
-    @Column
+    @Column(name = "author")
     private boolean author;
-    @Column
+    @Column(name = "editor")
     private boolean editor;
+    @Column(name = "avatar")
+    private boolean avatar;
 
     protected WorldActor() {
     }
@@ -64,6 +66,14 @@ public class WorldActor implements DomainEntity {
 
     public void setAuthor(boolean author) {
         this.author = author;
+    }
+
+    public boolean isAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(boolean avatar) {
+        this.avatar = avatar;
     }
 
     public static class PK implements Serializable {

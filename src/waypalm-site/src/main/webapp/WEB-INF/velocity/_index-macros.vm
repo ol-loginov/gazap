@@ -85,11 +85,11 @@
     <ul class="option-selector">
         <li #if($eCdn.appZone.equals('/my/worlds'))class="current"#end>
             <a href="$cp/my/worlds">#springMessage('myFavouriteMenu.worlds')
-                #if($eVisitor.worldCount>0)<span class="note">$eVisitor.worldCount</span>#end
+                #if($eVisitor.worldTotalCount>0)<span class="note">$eVisitor.worldTotalCount</span>#end
             </a></li>
         <li #if($eCdn.appZone.equals('/my/avatars'))class="current"#end>
             <a href="$cp/my/avatars">#springMessage('myFavouriteMenu.avatars')
-                #if($eVisitor.avatarCount>0)<span class="note">$eVisitor.avatarCount</span>#end
+                #if($eVisitor.avatarTotalCount>0)<span class="note">$eVisitor.avatarTotalCount</span>#end
             </a></li>
     </ul>
 </div>
