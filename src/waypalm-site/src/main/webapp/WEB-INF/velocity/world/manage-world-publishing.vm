@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    $eCdn.setAppZone('/w/manage/publishing')
+<head>
+    #parse('shared/html-head.vm')
+#* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
+    <title>#springMessage1('ManageWorldPublishing.title', $escTool.html($world.title))</title>
+</head>
+    #parse('_index-macros.vm')
+    #parse('world/_world-macros.vm')
+<body id="bodyColumns" class="layout-1-4">
+<div class="content">
+    <div class="left">
+        #worldPageSidebar('landingSidebarWorld')
+    </div>
+    <div class="center">
+        <div class="content">
+            <h1>$escTool.html($world.title)</h1>
+
+            <div class="section">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
