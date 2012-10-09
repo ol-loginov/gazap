@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.dao.WorldRepository;
+import waypalm.domain.entity.SurfaceKind;
 import waypalm.domain.entity.World;
+import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 
@@ -39,5 +42,14 @@ public class WorldManageController extends BaseController {
         World world = worldService.findWorldBySlug(worldSlug);
         return responseBuilder(locale).view("world/manage-world-publishing")
                 .addObject("world", world);
+    }
+
+    @RequestMapping(value = "/{worldSlug}/surfaces/create", method = RequestMethod.GET)
+    public ModelAndView createWorldSurface(Locale locale, @PathVariable String worldSlug) {
+        World world = worldService.findWorldBySlug(worldSlug);
+        return responseBuilder(locale).view("world/manage-world-surfaces-create")
+                .addObject("world", world)
+                .addObject("form", new SurfaceCreateForm())
+                .addObject("surfaceKindList", SurfaceKind.values());
     }
 }

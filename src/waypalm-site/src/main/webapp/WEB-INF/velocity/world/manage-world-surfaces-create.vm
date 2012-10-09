@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    $eCdn.setAppZone('/w/manage/surfaces')
+<head>
+    #parse('shared/html-head.vm')
+#* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
+#* @vtlvariable name="surfaceKindList" type="waypalm.domain.entity.SurfaceKind[]" *#
+    <title>#springMessage1('CreateWorldSurface.title', $escTool.html($world.title))</title>
+</head>
+    #parse('_index-macros.vm')
+    #parse('world/_world-macros.vm')
+<body id="bodyColumns" class="layout-1-4">
+<div class="content">
+    <div class="left">
+        #worldPageSidebar('landingSidebarWorld')
+    </div>
+    <div class="center">
+        <div class="content">
+            <div class="section content">
+                <form id="form" action="#routeCreateWorldSurface($world)" method="post">
+                    <div class="form-field">
+                        #formFieldLabel(true, 'CreateWorldSurface.form.title')
+                        <div class="full-width-input">
+                            #springFormInput('form.title', 'class="validate-good"')
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        #formFieldLabel(true, 'CreateWorldSurface.form.alias')
+                        <div class="full-width-input">
+                            #springFormInput('form.alias', 'class="validate-good"')
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        #formFieldLabel(true, 'CreateWorldSurface.form.kind')
+                        <div>
+                            #springBind('form.kind')
+                            <select id="$status.expression" name="$status.expression" class='validate-good'>
+                                <option value="" selected="selected"></option>
+                                #foreach($option in $surfaceKindList)
+                                    <option value="$option">#springMessage("SurfaceKind.$option")</option>
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-submit clearfix">
+                        <div class="pull-left">
+                            <input type="submit" class="btn-green" value="#springMessage('form.create')"/>
+                        </div>
+                        <div class="pull-right">
+                            #springMessage('form.requiredNotice')
+                        </div>
+                    </div>
+                </form>
+                <script type="text/javascript">
+                    UI.ajaxForm('#form', function (data) {
+                        // on success
+                        document.location = "$cp/w/" + data.entity.world.slug + '/' + data.entity.slug;
+                    }, function () {
+                        // on failure
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

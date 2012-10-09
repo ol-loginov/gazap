@@ -1,4 +1,5 @@
 #macro(worldPageSidebar $activeTab)
+#* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
 <div id="brandLogo">
     <a href="$cp/" title=""></a>
 </div>
@@ -6,42 +7,46 @@
     <div class="mini-tabs">
         #worldPageMiniTabs()
         <div class="mini-tab-container">
-            <div id="landingSidebarCommon" data-tab="landingSidebarCommon" #if($activeTab=='landingSidebarCommon')class="active-tab"#end>
+            <div id="landingSidebarCommon" data-tab="landingSidebarCommon"
+                 #if($activeTab=='landingSidebarCommon')class="active-tab"#end>
                 #landingSidebarCommonContent()
             </div>
-            <div id="landingSidebarHelp" data-tab="landingSidebarHelp" #if($activeTab=='landingSidebarHelp')class="active-tab"#end>
+            <div id="landingSidebarHelp" data-tab="landingSidebarHelp"
+                 #if($activeTab=='landingSidebarHelp')class="active-tab"#end>
             </div>
-            <div id="landingSidebarWorld" data-tab="landingSidebarWorld" #if($activeTab=='landingSidebarWorld')class="active-tab"#end>
-            #* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
+            <div id="landingSidebarWorld" data-tab="landingSidebarWorld"
+                 #if($activeTab=='landingSidebarWorld')class="active-tab"#end>
                 #if($eCan.controlWorld($world))
                     <div class="section">
                         <h1 class="section-head">#springMessage('WorldPage.sidebar.controlSection.title')</h1>
                         <ul class="option-selector">
                             <li #if($eCdn.appZone.equals('/w/manage/details'))class="current"#end>
-                                <a href="$cp/manage/w/$world.slug/details">#springMessage('WorldPage.sidebar.controlSection.details')</a></li>
+                                <a href="$cp/manage/w/$world.slug/details">#springMessage('WorldPage.sidebar.controlSection.details')</a>
+                            </li>
                             <li #if($eCdn.appZone.equals('/w/manage/publishing'))class="current"#end>
-                                <a href="$cp/manage/w/$world.slug/publishing">#springMessage('WorldPage.sidebar.controlSection.publishing')</a></li>
+                                <a href="$cp/manage/w/$world.slug/publishing">#springMessage('WorldPage.sidebar.controlSection.publishing')</a>
+                            </li>
                             <li #if($eCdn.appZone.equals('/w/manage/surfaces'))class="current"#end>
-                                <a href="$cp/manage/w/$world.slug/surfaces">#springMessage('WorldPage.sidebar.controlSection.surfaces')</a></li>
+                                <a href="$cp/manage/w/$world.slug/surfaces">#springMessage('WorldPage.sidebar.controlSection.surfaces')</a>
+                            </li>
                             #if($eCdn.appZone.startsWith('/w/manage/'))
-                                <li><a href="$cp/w/$world.slug">#springMessage('WorldPage.sidebar.controlSection.worldPage')</a></li>
+                                <li>
+                                    <a href="$cp/w/$world.slug">#springMessage('WorldPage.sidebar.controlSection.worldPage')</a>
+                                </li>
                             #end
                         </ul>
                     </div>
                 #end
-                <div class="section">
-                    <h1 class="section-head">#springMessage('WorldPage.sidebar.surfaceSection.title')</h1>
-                #* @vtlvariable name="entity" type="waypalm.domain.entity.World" *#
-                    #if($entity.surfaces.empty)
-                        <p>#springMessage('WorldPage.sidebar.surfaceSection.empty')</p>
-                    #else
+                #if(!$world.surfaces.empty)
+                    <div class="section">
+                        <h1 class="section-head">#springMessage('WorldPage.sidebar.surfaceSection.title')</h1>
                         <ul class="option-selector">
-                            #foreach($surface in $entity.surfaces)
+                            #foreach($surface in $world.surfaces)
                                 <li>$escTool.html($surface.title)</li>
                             #end
                         </ul>
-                    #end
-                </div>
+                    </div>
+                #end
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
+#parse('shared/macros-route.vm')
 #parse('shared/macros-spring.vm')
 #parse('shared/macros-form.vm')
-#set($cp=$eCdn.contextPath)
 #set($themeRoot="$cp/static/theme")
 #set($libRoot="$themeRoot/lib")
 #set($scriptsRoot="$themeRoot/scripts")

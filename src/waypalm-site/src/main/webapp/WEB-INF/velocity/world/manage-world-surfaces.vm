@@ -18,6 +18,7 @@
             <h1>$escTool.html($world.title)</h1>
 
             <div class="section">
+                <a class="btn lower btn-green" href="#routeCreateWorldSurface($world)">define new surface</a>
             </div>
         </div>
     </div>

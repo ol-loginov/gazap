@@ -17,25 +17,25 @@
     <div class="center">
         <div class="content">
             <h1>$escTool.html($world.title)
-                #if(!$worldPublishing.publisherTitle.empty)
+                #if($worldPublishing.publisherTitle)
                     <span class="secondary">
                         #springMessage1('WorldPage.worldTitle.secondary', $escTool.html($worldPublishing.publisherTitle))
                     </span>
                 #end
             </h1>
-            #if(!$worldPublishing.memo.empty)
+            #if($worldPublishing.memo)
                 <p>$escTool.html($worldPublishing.memo)</p>
             #end
 
             <ul class="hmenu">
-                #if(!$worldPublishing.publisherUrl.empty)
+                #if($worldPublishing.publisherUrl)
                     <li class="menu-item">
                         <a href="$worldPublishing.publisherUrl"
                            target="_blank">#springMessage('WorldPage.visitHomepage')</a></li>
                 #end
                 #if($eVisitor.logged)
-                    <li class="menu-item"><a>
-                        #springMessage('WorldPage.favourite')</a></li>
+                    <li class="menu-item">
+                        <a>#springMessage('WorldPage.favourite')</a></li>
                 #end
             </ul>
 
