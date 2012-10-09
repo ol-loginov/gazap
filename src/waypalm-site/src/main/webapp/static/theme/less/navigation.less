@@ -151,13 +151,13 @@ ul.hmenu {
         float: left;
         list-style: none;
         text-transform: uppercase;
-        font-size: 90%;
+        font-size: 93%;
         line-height: 100%;
         font-family: @captionFontFamily;
         font-weight: bold;
         margin: 0 .5em;
         padding: .5em;
-        background: #CCCC00;
+        background: fade(#FFCC33, 75%);
 
         &:first-of-type {
             margin-left: 0;
@@ -168,6 +168,14 @@ ul.hmenu {
         > a {
             text-decoration: none;
             color: #ffffff;
+            text-shadow: 0 -1px 1px darken(#84CD1C, 10%), 0 1px 1px #111;
+        }
+
+        &:hover {
+            background: #FFCC33;
+            > a {
+                color: #ffffff;
+            }
         }
     }
 }

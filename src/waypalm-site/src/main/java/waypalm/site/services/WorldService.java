@@ -17,4 +17,6 @@ public interface WorldService {
     World createWorld(Profile creator, WorldCreateForm form);
 
     List<World> getUserWorldList(Profile currentProfile);
+
+    World findWorldBySlug(String slugText);
 }

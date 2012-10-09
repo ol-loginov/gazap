@@ -10,6 +10,7 @@ import waypalm.common.util.ObjectUtil;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;
+import waypalm.site.services.WorldService;
 import waypalm.site.web.controllers.BaseController;
 
 import java.util.Locale;
@@ -19,26 +20,17 @@ import java.util.Locale;
 public class WorldViewController extends BaseController {
     @Autowired
     WorldRepository worldRepository;
+    @Autowired
+    WorldService worldService;
 
     @RequestMapping("/{worldSlug}")
     public ModelAndView viewWorld(Locale locale, @PathVariable String worldSlug) throws ObjectNotFoundException {
-        World world = loadWorldBySlug(worldSlug);
+        World world = worldService.findWorldBySlug(worldSlug);
         if (world == null) {
             throw new ObjectNotFoundException(World.class, worldSlug);
         }
         return responseBuilder(locale).view("world/world-view")
                 .addObject("world", world)
                 .addObject("worldPublishing", worldRepository.getWorldPublishing(world));
-    }
-
-    private World loadWorldBySlug(String worldSlug) {
-        if (!StringUtils.hasText(worldSlug)) {
-            return null;
-        }
-        if (ObjectUtil.isInteger(worldSlug)) {
-            return worldRepository.getWorld(Integer.parseInt(worldSlug));
-        } else {
-            return worldRepository.findWorldByAlias(worldSlug);
-        }
     }
 }

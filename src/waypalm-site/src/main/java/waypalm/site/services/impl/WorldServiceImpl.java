@@ -2,6 +2,7 @@ package waypalm.site.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import waypalm.common.util.ObjectUtil;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
@@ -84,5 +85,17 @@ public class WorldServiceImpl implements WorldService {
             result.add(rel.getWorld());
         }
         return result;
+    }
+
+    @Override
+    public World findWorldBySlug(String slugText) {
+        if (!StringUtils.hasText(slugText)) {
+            return null;
+        }
+        if (ObjectUtil.isInteger(slugText)) {
+            return worldRepository.getWorld(Integer.parseInt(slugText));
+        } else {
+            return worldRepository.findWorldByAlias(slugText);
+        }
     }
 }

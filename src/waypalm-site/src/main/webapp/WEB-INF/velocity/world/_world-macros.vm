@@ -17,9 +17,15 @@
                     <div class="section">
                         <h1 class="section-head">#springMessage('WorldPage.sidebar.controlSection.title')</h1>
                         <ul class="option-selector">
-                            <li><a href="$cp/manage/w/$world.slug/details">#springMessage('WorldPage.sidebar.controlSection.details')</a></li>
-                            <li><a href="$cp/manage/w/$world.slug/publishing">#springMessage('WorldPage.sidebar.controlSection.publishing')</a></li>
-                            <li><a href="$cp/manage/w/$world.slug/surfaces">#springMessage('WorldPage.sidebar.controlSection.surfaces')</a></li>
+                            <li #if($eCdn.appZone.equals('/w/manage/details'))class="current"#end>
+                                <a href="$cp/manage/w/$world.slug/details">#springMessage('WorldPage.sidebar.controlSection.details')</a></li>
+                            <li #if($eCdn.appZone.equals('/w/manage/publishing'))class="current"#end>
+                                <a href="$cp/manage/w/$world.slug/publishing">#springMessage('WorldPage.sidebar.controlSection.publishing')</a></li>
+                            <li #if($eCdn.appZone.equals('/w/manage/surfaces'))class="current"#end>
+                                <a href="$cp/manage/w/$world.slug/surfaces">#springMessage('WorldPage.sidebar.controlSection.surfaces')</a></li>
+                            #if($eCdn.appZone.startsWith('/w/manage/'))
+                                <li><a href="$cp/w/$world.slug">#springMessage('WorldPage.sidebar.controlSection.worldPage')</a></li>
+                            #end
                         </ul>
                     </div>
                 #end
