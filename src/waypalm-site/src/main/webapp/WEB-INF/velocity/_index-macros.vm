@@ -108,14 +108,14 @@
 <div class="section">
     <form method="post" action="$cp/auth">
         <div class="form-field">
-            #formFieldLabel(true, 'LoginForm.login.label')
+            #formFieldLabel(true, 'LoginForm.login.label', '')
             <div class="full-width-input">
                 <input type="email" name="j_username"
                        placeholder="#springMessage('LoginForm.login.placeholder')"/>
             </div>
         </div>
         <div class="form-field">
-            #formFieldLabel(true, 'LoginForm.password.label')
+            #formFieldLabel(true, 'LoginForm.password.label', '')
             <div class="full-width-input">
                 <input type="password" name="j_password"
                        placeholder="#springMessage('LoginForm.password.placeholder')"/>

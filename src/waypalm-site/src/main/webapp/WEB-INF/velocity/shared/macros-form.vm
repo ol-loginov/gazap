@@ -1,5 +1,5 @@
-#macro(formFieldLabel $required $label)
-<label>
+#macro(formFieldLabel $required $label $attributes)
+<label $attributes>
     #springMessage($label)
     #if($required)<span class="required">∗</span>#end
 </label>

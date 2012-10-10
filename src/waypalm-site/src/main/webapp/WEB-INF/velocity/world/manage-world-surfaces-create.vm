@@ -19,28 +19,30 @@
             <div class="section content">
                 <form id="form" action="#routeCreateWorldSurface($world)" method="post">
                     <div class="form-field">
-                        #formFieldLabel(true, 'CreateWorldSurface.form.title')
+                        #formFieldLabel(true, 'CreateWorldSurface.form.title', '')
                         <div class="full-width-input">
                             #springFormInput('form.title', 'class="validate-good"')
                         </div>
                     </div>
                     <div class="form-field">
-                        #formFieldLabel(true, 'CreateWorldSurface.form.alias')
+                        #formFieldLabel(true, 'CreateWorldSurface.form.alias', '')
                         <div class="full-width-input">
                             #springFormInput('form.alias', 'class="validate-good"')
                         </div>
                     </div>
                     <div class="form-field">
-                        #formFieldLabel(true, 'CreateWorldSurface.form.kind')
+                        #formFieldLabel(true, 'CreateWorldSurface.form.kind', '')
                         <div>
-                            #springBind('form.kind')
                             <select id="$status.expression" name="$status.expression" class='validate-good'>
-                                <option value="" selected="selected"></option>
                                 #foreach($option in $surfaceKindList)
                                     <option value="$option">#springMessage("SurfaceKind.$option")</option>
                                 #end
                             </select>
                         </div>
+                    </div>
+                    <div class="form-field">
+                        #formFieldLabel(false, 'CreateWorldSurface.form.plainClockwise', 'for="plainClockwise"')
+                        #springFormCheckbox('form.plainClockwise','')
                     </div>
                     <div class="form-submit clearfix">
                         <div class="pull-left">
