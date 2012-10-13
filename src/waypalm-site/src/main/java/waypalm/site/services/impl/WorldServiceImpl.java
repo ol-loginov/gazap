@@ -7,7 +7,7 @@ import waypalm.common.util.ObjectUtil;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
-import waypalm.site.model.world.MapCreateForm;
+import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.model.world.WorldCreateForm;
 import waypalm.site.services.WorldService;
 
@@ -25,6 +25,7 @@ public class WorldServiceImpl implements WorldService {
     public World createWorld(Profile creator, WorldCreateForm form) {
         World world = new World();
         world.setTitle(form.getTitle());
+        world.setHidden(true);
         worldRepository.create(world);
 
         WorldPublishing publishing = new WorldPublishing(world);
@@ -36,6 +37,7 @@ public class WorldServiceImpl implements WorldService {
         ProfileWorldRel rel = new ProfileWorldRel(creator, world);
         rel.setAuthor(true);
         rel.setEditor(true);
+        rel.setFavourite(true);
         worldRepository.create(rel);
 
         ProfileSummary profileSummary = userRepository.getProfileSummary(creator);
@@ -46,34 +48,36 @@ public class WorldServiceImpl implements WorldService {
     }
 
     @Override
-    public Surface createSurface(World world, Profile creator, MapCreateForm form) {
+    public Surface createSurface(World world, Profile creator, SurfaceCreateForm form) {
         Geometry geometry;
-        if (Geometry.Geoid.CLASS.equals(form.getGeometryClass())) {
-            GeometryGeoid geoid = new GeometryGeoid();
-            geoid.setRadiusX(form.getGeoidRadiusX());
-            geoid.setRadiusY(form.getGeoidRadiusY());
-            geoid.setRadiusZ(form.getGeoidRadiusZ());
-            geometry = geoid;
-        } else if (Geometry.Plain.CLASS.equals(form.getGeometryClass())) {
-            GeometryPlain plain = new GeometryPlain();
-            plain.setScaleMax(1);
-            plain.setScaleMin(1);
-            geometry = plain;
-        } else {
-            throw new IllegalArgumentException("geometry " + form.getGeometryClass() + " is not supported");
+        switch (form.getGeometry()) {
+            case PLANE:
+                GeometryPlain plain = new GeometryPlain();
+                plain.setOrientation(form.getPlainOrientation());
+                geometry = plain;
+                break;
+            default:
+                throw new IllegalArgumentException("Surface kind is not supported");
         }
         worldRepository.create(geometry);
 
         Surface surface = new Surface();
         surface.setWorld(world);
+        surface.setAlias(form.getAlias());
         surface.setTitle(form.getTitle());
+        surface.setMain(false);
+        surface.setHidden(true);
         surface.setGeometry(geometry);
         worldRepository.create(surface);
 
         ProfileSurfaceRel rel = new ProfileSurfaceRel(creator, surface);
         rel.setAuthor(true);
         rel.setEditor(true);
+        rel.setFavourite(true);
         worldRepository.create(rel);
+
+        world.setSurfaceCount(world.getSurfaceCount() + 1);
+        worldRepository.save(world);
 
         return surface;
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.entity.Geometry;
 import waypalm.domain.entity.Surface;
+import waypalm.domain.entity.SurfaceGeometry;
 import waypalm.site.exceptions.ObjectIllegalStateException;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.model.viewer.ContributionV;
@@ -29,7 +30,7 @@ public class MapGodApproveController extends MapGodControllerBase {
         }
 
         Surface surface = loadSurfaceById(surfaceId, locale);
-        if (Geometry.Plain.CLASS.equals(surface.getGeometry().getGeometryClass())) {
+        if (SurfaceGeometry.PLANE == surface.getGeometry().getGeometry()) {
             return responseBuilder(locale).view("map/plain-geometry-approve")
                     .addObject("surface", viewer.surfaceTitle(surface))
                     .addObject("geometry", surface.getGeometry());

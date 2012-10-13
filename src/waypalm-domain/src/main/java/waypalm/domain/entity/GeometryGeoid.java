@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "GeometryGeoid")
 @DynamicUpdate
-@DiscriminatorValue(Geometry.Geoid.CLASS)
+@DiscriminatorValue("GEOID")
 public class GeometryGeoid extends Geometry {
     @Column(name = "radiusZ")
     private float radiusZ;
@@ -20,7 +20,7 @@ public class GeometryGeoid extends Geometry {
     private float radiusY;
 
     public GeometryGeoid() {
-        super(Geoid.CLASS);
+        super(SurfaceGeometry.GEOID);
     }
 
     public float getRadiusZ() {

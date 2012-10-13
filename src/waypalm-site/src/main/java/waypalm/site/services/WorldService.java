@@ -5,13 +5,14 @@ import waypalm.domain.entity.Surface;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.World;
 import waypalm.site.model.world.MapCreateForm;
+import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.model.world.WorldCreateForm;
 
 import java.util.List;
 
 public interface WorldService {
     @Transactional
-    Surface createSurface(World world, Profile creator, MapCreateForm form);
+    Surface createSurface(World world, Profile creator, SurfaceCreateForm form);
 
     @Transactional
     World createWorld(Profile creator, WorldCreateForm form);

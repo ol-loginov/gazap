@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     08.10.2012 21:37:54                          */
+/* Created on:     13.10.2012 2:17:58                           */
 /*==============================================================*/
 
 
@@ -98,11 +98,11 @@ engine = MYISAM;
 create table Geometry
 (
    id                   int not null auto_increment,
+   version              int not null default 0,
    createdAt            datetime not null,
    updatedAt            datetime not null,
    deletedAt            datetime,
-   class                varchar(16) not null,
-   version              int not null default 0,
+   geometry             varchar(16) not null,
    primary key (id)
 )
 charset = utf8
@@ -128,12 +128,7 @@ engine = MYISAM;
 create table GeometryPlain
 (
    id                   int not null,
-   westMax              int not null,
-   northMax             int not null,
-   eastMax              int not null comment '	',
-   southMax             int not null,
-   scaleMin             int not null,
-   scaleMax             int not null,
+   orientation          varchar(12) not null,
    primary key (id)
 )
 charset = utf8
@@ -278,13 +273,16 @@ engine = MYISAM;
 create table Surface
 (
    id                   int not null auto_increment,
+   version              int not null default 1,
    createdAt            datetime not null,
    updatedAt            datetime not null,
    deletedAt            datetime,
    world                int not null,
+   hidden               bit(1),
    title                varchar(64) not null,
    alias                varchar(64),
    geometry             int,
+   main                 bit(1) not null default 0,
    primary key (id)
 )
 charset = utf8
@@ -296,12 +294,15 @@ engine = MYISAM;
 create table World
 (
    id                   int not null auto_increment,
+   version              int not null default 0,
    createdAt            datetime not null,
    updatedAt            datetime not null,
    deletedAt            datetime,
+   hidden               bit(1) not null,
    title                varchar(64) not null,
    alias                varchar(64),
    worldGroup           int,
+   surfaceCount         int not null,
    primary key (id),
    unique key AK_UniqueTitle (title),
    unique key AK_UniqueAlias (alias)

@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.dao.WorldRepository;
-import waypalm.domain.entity.Geometry;
-import waypalm.domain.entity.GeometryPlain;
-import waypalm.domain.entity.GeometryPlainTile;
-import waypalm.domain.entity.Surface;
+import waypalm.domain.entity.*;
 import waypalm.site.exceptions.ObjectIllegalStateException;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.services.FileService;
@@ -51,7 +48,7 @@ public class MapTileProviderController extends MapGodControllerBase {
             return NOP_PNG;
         }
 
-        if (map.getGeometry() == null || !Geometry.Plain.CLASS.equals(map.getGeometry().getGeometryClass())) {
+        if (map.getGeometry() == null || !SurfaceGeometry.PLANE.equals(map.getGeometry().getGeometry())) {
             return NOP_PNG;
         }
 

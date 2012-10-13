@@ -23,6 +23,8 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
     }
 
     public static class Content {
+        private int controlId;
+
         private boolean debugMode;
         private String server;
         private long serverStart;
@@ -56,6 +58,15 @@ public class CdnExtender extends Extender<CdnExtender.Content> {
 
         public boolean isDebugMode() {
             return debugMode;
+        }
+
+        public String getNextCid() {
+            ++controlId;
+            return getCid();
+        }
+
+        public String getCid() {
+            return "c" + controlId;
         }
     }
 }

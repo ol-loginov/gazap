@@ -1,8 +1,11 @@
 package waypalm.site.model.world;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import waypalm.domain.entity.Geometry;
 import waypalm.domain.entity.Surface;
-import waypalm.domain.entity.SurfaceKind;
+import waypalm.domain.entity.SurfaceGeometry;
+import waypalm.domain.entity.SurfaceOrientation;
+import waypalm.site.validation.ValidationGroups;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,9 +17,9 @@ public class SurfaceCreateForm {
     @Size(max = Surface.ALIAS_LENGTH)
     private String alias;
     @NotNull
-    private SurfaceKind kind;
-
-    private boolean plainClockwise;
+    private SurfaceGeometry geometry;
+    @NotNull(groups = ValidationGroups.PlainGeometry.class)
+    private SurfaceOrientation plainOrientation;
 
     public String getTitle() {
         return title;
@@ -34,19 +37,19 @@ public class SurfaceCreateForm {
         this.alias = alias;
     }
 
-    public SurfaceKind getKind() {
-        return kind;
+    public SurfaceGeometry getGeometry() {
+        return geometry;
     }
 
-    public void setKind(SurfaceKind kind) {
-        this.kind = kind;
+    public void setGeometry(SurfaceGeometry geometry) {
+        this.geometry = geometry;
     }
 
-    public boolean isPlainClockwise() {
-        return plainClockwise;
+    public SurfaceOrientation getPlainOrientation() {
+        return plainOrientation;
     }
 
-    public void setPlainClockwise(boolean plainClockwise) {
-        this.plainClockwise = plainClockwise;
+    public void setPlainOrientation(SurfaceOrientation plainOrientation) {
+        this.plainOrientation = plainOrientation;
     }
 }

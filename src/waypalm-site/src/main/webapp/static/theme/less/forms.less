@@ -1,5 +1,4 @@
 form {
-    text-align: left;
 }
 
 .form-field {
@@ -81,5 +80,93 @@ input[type=submit] {
 
     &.btn-green {
         .btn-colorizer(#7CBC0A, #9DD53A);
+    }
+}
+
+label.flag-toggle {
+    @borderWidth: 0;
+    @borderColor: #90CB27;
+
+    @color1: #ffffff;
+    @noBackground: #FFFFFF;
+    @noText: fade(@borderColor, 20%);
+    @yesBackground: #90CB27;
+    @yesText: #FFFFFF;
+    @yesBorder: #90CB27;
+
+    > input {
+        display: none;
+    }
+
+    .indicator-style(){
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: .7em;
+        padding: .3em;
+        border: none;
+        line-height: 1.1em;
+        display: inline-block;
+        border: solid @borderWidth fade(@borderColor, 20%);
+    }
+
+    .indicator-fadout(){
+        background: @noBackground;
+        color: @noText;
+        border-color: @noBackground;
+    }
+
+    .indicator-highlight(){
+        background: @yesBackground;
+        color: @yesText;
+        border-color: @yesBackground;
+    }
+
+    > input + .flag-indicator {
+        .one-liner();
+        cursor: pointer;
+
+        > .off,
+        > .on {
+            .indicator-style();
+        }
+    }
+
+    > input + .flag-indicator {
+        > .off {
+            .indicator-highlight();
+            border-right: solid @borderWidth @borderColor;
+            .border-radius(2*@borderWidth 0 0 2*@borderWidth);
+        }
+        > .on {
+            .indicator-fadout();
+            border-left: solid @borderWidth @borderColor;
+            .border-radius(0 2*@borderWidth 2*@borderWidth 0);
+        }
+    }
+    > input:checked + .flag-indicator {
+        > .off {
+            .indicator-fadout();
+        }
+        > .on {
+            .indicator-highlight();
+        }
+    }
+    &:hover {
+        > input + .flag-indicator {
+            > .on {
+                color: @yesBackground;
+            }
+            > .off {
+                color: @yesText;
+            }
+        }
+        > input:checked + .flag-indicator {
+            > .on {
+                color: @yesText;
+            }
+            > .off {
+                color: @yesBackground;
+            }
+        }
     }
 }

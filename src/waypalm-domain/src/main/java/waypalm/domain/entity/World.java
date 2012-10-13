@@ -7,8 +7,6 @@ import waypalm.domain.entity.base.IntegerIdentityCUD;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "World")
@@ -17,6 +15,12 @@ public class World extends IntegerIdentityCUD implements Serializable {
     public static final int TITLE_LENGTH = 64;
     public static final int ALIAS_LENGTH = 64;
 
+    @Version
+    @Column(name = "version")
+    private int version;
+    @Column(name = "hidden")
+    @XmlElement
+    private boolean hidden;
     @Column(name = "title", length = TITLE_LENGTH, unique = true, nullable = false)
     @XmlElement
     private String title;
@@ -25,10 +29,11 @@ public class World extends IntegerIdentityCUD implements Serializable {
     private String alias;
     @ManyToOne(optional = true)
     @JoinColumn(name = "worldGroup", nullable = true)
+    @XmlElement
     private WorldGroup worldGroup;
-    @OneToMany
-    @JoinColumn(name = "world")
-    private List<Surface> surfaces = new ArrayList<>();
+    @Column(name = "surfaceCount")
+    @XmlElement
+    private int surfaceCount;
 
     public String getTitle() {
         return title;
@@ -46,14 +51,6 @@ public class World extends IntegerIdentityCUD implements Serializable {
         this.alias = alias;
     }
 
-    public List<Surface> getSurfaces() {
-        return surfaces;
-    }
-
-    public void setSurfaces(List<Surface> surfaces) {
-        this.surfaces = surfaces;
-    }
-
     public WorldGroup getWorldGroup() {
         return worldGroup;
     }
@@ -62,7 +59,24 @@ public class World extends IntegerIdentityCUD implements Serializable {
         this.worldGroup = worldGroup;
     }
 
+    public int getSurfaceCount() {
+        return surfaceCount;
+    }
+
+    public void setSurfaceCount(int surfaceCount) {
+        this.surfaceCount = surfaceCount;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
     @Transient
+    @XmlElement(name = "slug")
     public String getSlug() {
         return StringUtils.hasText(getAlias()) ? getAlias() : Integer.toString(getId());
     }

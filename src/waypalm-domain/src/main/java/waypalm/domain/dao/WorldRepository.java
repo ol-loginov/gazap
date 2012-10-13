@@ -38,5 +38,7 @@ public interface WorldRepository extends Dao {
 
     List<World> listWorld();
 
+    List<World> listSurfaceBelongsToWorld(World world);
+
     WorldPublishing getWorldPublishing(World world);
 }

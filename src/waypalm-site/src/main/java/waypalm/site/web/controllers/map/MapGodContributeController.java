@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import waypalm.domain.entity.ContributionTile;
-import waypalm.domain.entity.Geometry;
-import waypalm.domain.entity.Surface;
-import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.*;
 import waypalm.site.exceptions.ObjectIllegalStateException;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.model.ServiceError;
@@ -50,7 +47,7 @@ public class MapGodContributeController extends MapGodControllerBase {
 
         Surface mapInstance = loadSurfaceById(surfaceId, locale);
 
-        if (Geometry.Plain.CLASS.equals(mapInstance.getGeometry().getGeometryClass())) {
+        if (SurfaceGeometry.PLANE == mapInstance.getGeometry().getGeometry()) {
             return responseBuilder(locale).view("map/plain-geometry-edit")
                     .addObject("surface", viewer.surfaceTitle(mapInstance))
                     .addObject("geometry", mapInstance.getGeometry());

@@ -4,7 +4,8 @@
 <head>
     #parse('shared/html-head.vm')
 #* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
-#* @vtlvariable name="surfaceKindList" type="waypalm.domain.entity.SurfaceKind[]" *#
+#* @vtlvariable name="surfaceGeometryList" type="waypalm.domain.entity.SurfaceGeometry[]" *#
+#* @vtlvariable name="surfaceOrientationList" type="waypalm.domain.entity.SurfaceOrientation[]" *#
     <title>#springMessage1('CreateWorldSurface.title', $escTool.html($world.title))</title>
 </head>
     #parse('_index-macros.vm')
@@ -25,24 +26,30 @@
                         </div>
                     </div>
                     <div class="form-field">
-                        #formFieldLabel(true, 'CreateWorldSurface.form.alias', '')
+                        #formFieldLabel(false, 'CreateWorldSurface.form.alias', '')
                         <div class="full-width-input">
                             #springFormInput('form.alias', 'class="validate-good"')
                         </div>
                     </div>
                     <div class="form-field">
-                        #formFieldLabel(true, 'CreateWorldSurface.form.kind', '')
+                        #formFieldLabel(true, 'CreateWorldSurface.form.geometry', '')
                         <div>
-                            <select id="$status.expression" name="$status.expression" class='validate-good'>
-                                #foreach($option in $surfaceKindList)
-                                    <option value="$option">#springMessage("SurfaceKind.$option")</option>
+                            <select id="geometry" name="geometry" class='validate-good'>
+                                #foreach($option in $surfaceGeometryList)
+                                    <option value="$option">#springMessage("SurfaceGeometry.$option")</option>
                                 #end
                             </select>
                         </div>
                     </div>
                     <div class="form-field">
-                        #formFieldLabel(false, 'CreateWorldSurface.form.plainClockwise', 'for="plainClockwise"')
-                        #springFormCheckbox('form.plainClockwise','')
+                        #formFieldLabel(true, 'CreateWorldSurface.form.plainOrientation', '')
+                        <div>
+                            <select id="plainOrientation" name="plainOrientation" class='validate-good'>
+                                #foreach($option in $surfaceOrientationList)
+                                    <option value="$option">#springMessage("SurfaceOrientation.$option")</option>
+                                #end
+                            </select>
+                        </div>
                     </div>
                     <div class="form-submit clearfix">
                         <div class="pull-left">
@@ -56,7 +63,7 @@
                 <script type="text/javascript">
                     UI.ajaxForm('#form', function (data) {
                         // on success
-                        document.location = "$cp/w/" + data.entity.world.slug + '/' + data.entity.slug;
+                        document.location = "$cp/manage/w/$world.slug/surfaces";
                     }, function () {
                         // on failure
                     });

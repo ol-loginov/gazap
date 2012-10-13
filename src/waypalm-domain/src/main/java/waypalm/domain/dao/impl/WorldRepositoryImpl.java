@@ -120,4 +120,12 @@ public class WorldRepositoryImpl extends DaoImpl implements WorldRepository {
     public List<World> listWorld() {
         return (List<World>) getSession().createQuery("from World order by createdAt desc").list();
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<World> listSurfaceBelongsToWorld(World world) {
+        return (List<World>) getSession().createQuery("from Surface where world=:world")
+                .setEntity("world", world)
+                .list();
+    }
 }
