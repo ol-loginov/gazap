@@ -5,12 +5,12 @@
     #parse('shared/html-head.vm')
     <title>#springMessage('MyWorldsPage.title')</title>
 </head>
-    #parse('_index-macros.vm')
 #* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        #landingSidebar('landingSidebarAccount')
+        #set($landingSidebarActiveTab='landingSidebarAccount')
+        #parse('_landingSidebar.vm')
     </div>
     <div class="center">
         <div class="section content">
@@ -20,11 +20,21 @@
                 #if($eVisitor.worldCreateAvailable)
                     <p>#springMessage1('MyWorldList.canOwnMore', $cp)</p>
                 #end
-                <ul>
+                <div class="float-list">
                     #foreach($world in $worldList)
-                        <li><a href="$cp/w/$world.slug">$escTool.html($world.title)</a></li>
+                        <a href="$cp/w/$world.slug" class="world-thumb float-list-item">
+                            <label>
+                                <h3>$escTool.html($world.title)</h3></label>
+                            <img src="$cp/static/theme/images/content/world-320-256.png" title=""/>
+                        </a>
+
+                        <a href="$cp/w/$world.slug" class="world-thumb float-list-item">
+                            <label>
+                                <h3>$escTool.html($world.title)</h3></label>
+                            <img src="$cp/static/theme/images/content/world-320-256.png" title=""/>
+                        </a>
                     #end
-                </ul>
+                </div>
             #end
         </div>
     </div>

@@ -84,12 +84,12 @@ input[type=submit] {
 }
 
 label.flag-toggle {
-    @borderWidth: 0;
+    @borderWidth: 1px;
     @borderColor: #90CB27;
 
     @color1: #ffffff;
     @noBackground: #FFFFFF;
-    @noText: fade(@borderColor, 20%);
+    @noText: fade(@borderColor, 50%);
     @yesBackground: #90CB27;
     @yesText: #FFFFFF;
     @yesBorder: #90CB27;
@@ -112,13 +112,15 @@ label.flag-toggle {
     .indicator-fadout(){
         background: @noBackground;
         color: @noText;
-        border-color: @noBackground;
+        border-color: @borderColor;
+        text-decoration: none;
     }
 
     .indicator-highlight(){
         background: @yesBackground;
         color: @yesText;
         border-color: @yesBackground;
+        text-decoration: underline;
     }
 
     > input + .flag-indicator {

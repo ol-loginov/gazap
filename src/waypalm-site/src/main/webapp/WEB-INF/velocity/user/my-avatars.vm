@@ -5,11 +5,11 @@
     #parse('shared/html-head.vm')
     <title>#springMessage('MyAvatarsPage.title')</title>
 </head>
-    #parse('_index-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        #landingSidebar('landingSidebarAccount')
+        #set($landingSidebarActiveTab='landingSidebarAccount')
+        #parse('_landingSidebar.vm')
     </div>
     <div class="center"></div>
 </div>

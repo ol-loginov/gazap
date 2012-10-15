@@ -212,3 +212,33 @@ body#bodyColumns {
         padding: 1em 1em 0;
     }
 }
+
+a.world-thumb {
+    display: block;
+    position: relative;
+    background: white;
+    text-decoration: none;
+    box-shadow: 0 0 2px #222;
+
+    > img {
+        width: 320px;
+        height: 256px;
+        vertical-align: bottom;
+        display: block;
+    }
+    > label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background: fade(#aaa, 50%);
+        > h3 {
+            .one-liner();
+            padding: .2em;
+            color: white;
+            cursor: pointer;
+        }
+    }
+}

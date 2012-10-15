@@ -68,7 +68,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
     }
 
     private String takeFirstAttribute(List<OpenIDAttribute> attributes, final String name) {
-        OpenIDAttribute attr = IservCollections.find(attributes, new Predicate<OpenIDAttribute>() {
+        OpenIDAttribute attr = IservCollections.findFirst(attributes, new Predicate<OpenIDAttribute>() {
             @Override
             public boolean test(OpenIDAttribute item) {
                 return name.equals(item.getName());

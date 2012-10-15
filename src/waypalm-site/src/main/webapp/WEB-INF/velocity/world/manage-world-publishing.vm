@@ -6,12 +6,11 @@
 #* @vtlvariable name="world" type="waypalm.domain.entity.World" *#
     <title>#springMessage1('ManageWorldPublishing.title', $escTool.html($world.title))</title>
 </head>
-    #parse('_index-macros.vm')
-    #parse('world/_world-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        #worldPageSidebar('landingSidebarWorld')
+        #set($worldPageSidebarActiveTab='landingSidebarWorld')
+        #parse('world/_worldPageSidebar.vm')
     </div>
     <div class="center">
         <div class="content">

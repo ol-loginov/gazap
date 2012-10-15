@@ -48,3 +48,17 @@ ul {
 .small-text {
     font-size: 75%;
 }
+
+.float-list {
+    .clearfix();
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    > .float-list-item {
+        list-style: none;
+        float: left;
+        padding: 0;
+        margin: 0 1em 1em 0;
+    }
+}

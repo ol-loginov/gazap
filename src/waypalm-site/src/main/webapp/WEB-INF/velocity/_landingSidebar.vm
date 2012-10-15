@@ -1,0 +1,133 @@
+#* @vtlvariable name="landingSidebarActiveTab" type="java.lang.String" *#
+<div id="brandLogo">
+    <a href="$cp/" title=""></a>
+</div>
+<div id="bodyMenu">
+    <div class="mini-tabs">
+        <div class="mini-tab-navigator">
+            <div class="grid-3">
+                <div class="content">
+                    <div class="cell-1">
+                        <a href="#" data-tab="landingSidebarCommon">
+                            #springMessage('brandMenu.menu')
+                        </a>
+                    </div>
+                    <div class="cell-1">
+                        <a href="#" data-tab="landingSidebarHelp">
+                            #springMessage('brandMenu.help')
+                        </a>
+                    </div>
+                    <div class="cell-1">
+                        <a href="#" data-tab="landingSidebarAccount">
+                            #springMessage('brandMenu.account')
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mini-tab-container">
+            <div id="landingSidebarCommon" data-tab="landingSidebarCommon"
+                 #if($landingSidebarActiveTab=='landingSidebarCommon')class="active-tab"#end>
+
+                <h1>#springMessage('LandingPage.readyToBegin')</h1>
+                <ul class="option-selector">
+                    <li #if($eCdn.appZone.equals('/worlds'))class="current"#end>
+                        <a href="$cp/worlds">#springMessage('commonMenu.worlds')
+                            #if($eSummary.worldCount>0)<span class="note">$eSummary.worldCount</span>#end
+                        </a></li>
+                    <li #if($eCdn.appZone.equals('/avatars'))class="current"#end>
+                        <a href="$cp/avatars">#springMessage('commonMenu.avatars')
+                            #if($eSummary.avatarCount>0)<span class="note">$eSummary.avatarCount</span>#end
+                        </a></li>
+                </ul>
+            </div>
+            <div id="landingSidebarHelp" data-tab="landingSidebarHelp"
+                 #if($landingSidebarActiveTab=='landingSidebarHelp')class="active-tab"#end>
+            </div>
+            <div id="landingSidebarAccount" data-tab="landingSidebarAccount"
+                 #if($landingSidebarActiveTab=='landingSidebarAccount')class="active-tab"#end>
+
+                #if($eVisitor.logged)
+                    <div class="user-card  section">
+                        <a class="user-thumb" href="$cp$eVisitor.user.route">
+                            <img src="http://www.gravatar.com/avatar/${eVisitor.user.gravatar}?s=64" alt=""/>
+                        </a>
+
+                        <div class="data-name">
+                            <span class="name">$escTool.html($eVisitor.user.name)</span>
+                            #if($eVisitor.user.alias)
+                                <span class="alias">aka <a href="$cp/u/$eVisitor.user.alias">$eVisitor.user.alias</a></span>
+                            #end
+                            <form action="$cp/auth/logout" method="post">
+                                <input type="submit" class="lower" value="#springMessage('LogoutForm.submit')"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h1 class="section-head">#springMessage('myFavouriteMenu.caption')</h1>
+                        <ul class="option-selector">
+                            <li #if($eCdn.appZone.equals('/my/worlds'))class="current"#end>
+                                <a href="$cp/my/worlds">#springMessage('myFavouriteMenu.worlds')
+                                    #if($eVisitor.worldTotalCount>0)<span class="note">$eVisitor.worldTotalCount</span>#end
+                                </a></li>
+                            <li #if($eCdn.appZone.equals('/my/avatars'))class="current"#end>
+                                <a href="$cp/my/avatars">#springMessage('myFavouriteMenu.avatars')
+                                    #if($eVisitor.avatarTotalCount>0)<span class="note">$eVisitor.avatarTotalCount</span>#end
+                                </a></li>
+                        </ul>
+                    </div>
+                    <div class="section">
+                        <h1 class="section-head">#springMessage('mySettingsMenu.caption')</h1>
+                        <ul class="option-selector">
+                            <li #if($eCdn.appZone.equals('/my/publicity'))class="current"#end>
+                                <a href="$cp/my/publicity">#springMessage('mySettingsMenu.publicity')</a></li>
+                            <li #if($eCdn.appZone.equals('/my/socials'))class="current"#end>
+                                <a href="$cp/my/socials">#springMessage('mySettingsMenu.socials')</a></li>
+                        </ul>
+                    </div>
+                #else
+
+                    <div class="section">
+                        <form method="post" action="$cp/auth">
+                            <div class="form-field">
+                                #formFieldLabel(true, 'LoginForm.login.label', '')
+                                <div class="full-width-input">
+                                    <input type="email" name="j_username"
+                                           placeholder="#springMessage('LoginForm.login.placeholder')"/>
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                #formFieldLabel(true, 'LoginForm.password.label', '')
+                                <div class="full-width-input">
+                                    <input type="password" name="j_password"
+                                           placeholder="#springMessage('LoginForm.password.placeholder')"/>
+                                </div>
+                            </div>
+                            <div class="form-submit clearfix">
+                                <div class="pull-left">
+                                    <input type="submit" class="lower btn-green" value="#springMessage('LoginForm.submit')"/>
+                                </div>
+                                <div class="pull-right">
+                                    #springMessage('form.requiredNotice')
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="section">
+                        <h1 class="section-head">#springMessage('loginViaOther.caption')</h1>
+                        <span>Facebook, Twitter, Google...</span>
+                    </div>
+                    <div class="section">
+                        <h1 class="section-head">#springMessage('registrationSection.caption')</h1>
+                        <ul class="option-selector">
+                            <li #if($eCdn.appZone.equals('/auth/register'))class="current"#end>
+                                <a href="$cp/auth/register">#springMessage('registrationSection.register')</a></li>
+                            <li #if($eCdn.appZone.equals('/auth/restore'))class="current"#end>
+                                <a href="$cp/auth/restore">#springMessage('registrationSection.resetPassword')</a></li>
+                        </ul>
+                    </div>
+                #end
+            </div>
+        </div>
+    </div>
+</div>

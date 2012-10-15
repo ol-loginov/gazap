@@ -7,38 +7,21 @@
 #* @vtlvariable name="worldPublishing" type="waypalm.domain.entity.WorldPublishing" *#
     <title>#springMessage1('WorldPage.title', $escTool.html($world.title))</title>
 </head>
-    #parse('_index-macros.vm')
-    #parse('world/_world-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        #worldPageSidebar('landingSidebarWorld')
+        #set($worldPageSidebarActiveTab='landingSidebarWorld')
+        #parse('world/_worldPageSidebar.vm')
     </div>
     <div class="center">
         <div class="content">
             <h1>$escTool.html($world.title)
-                #if($worldPublishing.publisherTitle)
+                #if($worldPublishing.publisherTitle != '')
                     <span class="secondary">
                         #springMessage1('WorldPage.worldTitle.secondary', $escTool.html($worldPublishing.publisherTitle))
                     </span>
                 #end
             </h1>
-            #if($worldPublishing.memo)
-                <p>$escTool.html($worldPublishing.memo)</p>
-            #end
-
-            <ul class="hmenu">
-                #if($worldPublishing.publisherUrl)
-                    <li class="menu-item">
-                        <a href="$worldPublishing.publisherUrl"
-                           target="_blank">#springMessage('WorldPage.visitHomepage')</a></li>
-                #end
-                #if($eVisitor.logged)
-                    <li class="menu-item">
-                        <a>#springMessage('WorldPage.favourite')</a></li>
-                #end
-            </ul>
-
         </div>
     </div>
 </div>

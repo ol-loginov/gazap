@@ -4,7 +4,6 @@ import org.springframework.transaction.annotation.Transactional;
 import waypalm.domain.entity.Surface;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.World;
-import waypalm.site.model.world.MapCreateForm;
 import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.model.world.WorldCreateForm;
 

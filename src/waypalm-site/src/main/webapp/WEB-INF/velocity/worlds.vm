@@ -6,11 +6,11 @@
     <title>#springMessage('LandingPage.title')</title>
 </head>
 #* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
-    #parse('_index-macros.vm')
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">
     <div class="left">
-        #landingSidebar('landingSidebarCommon')
+        #set($landingSidebarActiveTab='landingSidebarCommon')
+        #parse('_landingSidebar.vm')
     </div>
     <div class="center">
         <div class="content">
