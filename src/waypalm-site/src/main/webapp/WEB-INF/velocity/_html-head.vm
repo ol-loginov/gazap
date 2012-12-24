@@ -1,0 +1,32 @@
+#parse('_macros-spring.vm')
+#set($cp="$eCdn.contextPath")
+#set($themeRoot="$cp/static/theme")
+#set($libRoot="$themeRoot/lib")
+#set($scriptsRoot="$themeRoot/scripts")
+<meta name="viewport" content="user-scalable=1.0,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+#if($eCdn.debugMode)
+<link rel="stylesheet/less" href="$cp/static/theme/less/theme.less"/>
+<script type="text/javascript" src="$libRoot/less/less-1.3.0.min.js"></script>
+#else
+<link rel="stylesheet" href="$cp/static/theme/dist/theme.min.css?_=$eCdn.serverStart"/>
+#end
+
+<script type="text/javascript">
+    V = {};
+    E = {language: '$eCdn.locale', 'SCE': '#springMessage('E.SCE')'};
+</script>
+
+<script type="text/javascript" src="$libRoot/head/head-0.96.min.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery.form-3.18.js"></script>
+<script type="text/javascript" src="$libRoot/jquery/jquery.validate-1.10.0.js"></script>
+<script type="text/javascript" src="$libRoot/bootstrap/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>
+<script type="text/javascript" src="$libRoot/backbone/backbone-0.5.3.min.js"></script>
+<script type="text/javascript" src="$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$libRoot/waypalm/waypalm.tabs-mini.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$scriptsRoot/defaults.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$scriptsRoot/ui.js?_=$eCdn.serverStart"></script>

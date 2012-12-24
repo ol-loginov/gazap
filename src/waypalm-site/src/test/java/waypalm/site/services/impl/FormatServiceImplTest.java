@@ -4,13 +4,12 @@ import com.iserv2.test.ServiceTest;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import waypalm.site.services.impl.FormatServiceImpl;
 
 public class FormatServiceImplTest extends ServiceTest<FormatServiceImpl> {
     private ResourceBundleMessageSource messageSource;
 
     @Override
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("message");

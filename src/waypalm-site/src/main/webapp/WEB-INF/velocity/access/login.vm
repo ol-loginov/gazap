@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    $eCdn.setAppZone('/auth')
+<head>
+    #parse('_html-head.vm')
+    <title>#springMessage('layout.title.landingPage')</title>
+</head>
+<body>
+    #parse('_layout-basic-header.vm')
+<div class="container">
+    <div class="row-fluid">
+        <div class="span6">
+            <form class="form-signin">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <input class="input-block-level" type="text" placeholder="Email address">
+                <input class="input-block-level" type="password" placeholder="Password">
+                <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+            </form>
+        </div>
+        <div class="span6">
+            as
+        </div>
+    </div>
+</div>
+<!-- /container -->
+</body>
+</html>

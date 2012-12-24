@@ -28,11 +28,11 @@ public class LoginController extends BaseController {
 
     private AuthenticationRequestHelper authenticationRequestHelper = new AuthenticationRequestHelper();
 
-    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.GET, params = "_target=modal")
+    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.GET)
     public ModelAndView getLoginPageModal(Locale locale) {
         LoginMethods dialog = new LoginMethods();
         dialog.getAuthProviders().addAll(userAccess.getAvailableSocialProviders());
-        return responseBuilder(locale).view("access/login.modal", dialog);
+        return responseBuilder(locale).view("access/login", dialog);
     }
 
     @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.POST)

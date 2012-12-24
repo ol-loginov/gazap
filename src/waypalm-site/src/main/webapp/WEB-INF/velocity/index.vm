@@ -2,16 +2,18 @@
 <html>
     $eCdn.setAppZone('/')
 <head>
-    #parse('shared/html-head.vm')
-    <title>#springMessage('LandingPage.title')</title>
+    #parse('_html-head.vm')
+    <title>#springMessage('layout.title.landingPage')</title>
 </head>
-<body id="bodyColumns" class="layout-1-4">
-<div class="content">
-    <div class="left">
-        #set($landingSidebarActiveTab='landingSidebarCommon')
-        #parse('_landingSidebar.vm')
-    </div>
-    <div class="center"></div>
+<body>
+    #parse('_layout-basic-header.vm')
+<div class="container">
+
+    <h1>Bootstrap starter template</h1>
+
+    <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
+
 </div>
+<!-- /container -->
 </body>
 </html>

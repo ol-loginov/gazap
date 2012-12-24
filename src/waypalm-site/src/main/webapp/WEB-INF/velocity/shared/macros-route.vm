@@ -1,3 +1,0 @@
-#set($cp=$eCdn.contextPath)
-
-#macro(routeCreateWorldSurface $world)$cp/manage/w/$world.slug/surfaces/create#end

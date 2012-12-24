@@ -19,7 +19,7 @@ public class UserAccessImplTest extends ServiceTest<UserAccessImpl> {
     private UserRepository userRepository;
 
     @Override
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         service.userRepository = userRepository;
 

@@ -18,7 +18,7 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
     private UserRepository userRepository;
 
     @Override
-    public void setUp() {
+    public void setUp() throws Exception {
         super.setUp();
         testEmail = Values.string(10);
         service.userRepository = userRepository;
