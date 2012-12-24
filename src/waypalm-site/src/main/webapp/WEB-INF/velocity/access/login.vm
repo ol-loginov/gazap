@@ -5,19 +5,22 @@
     #parse('_html-head.vm')
     <title>#springMessage('layout.title.landingPage')</title>
 </head>
-<body>
+<body class="login-page">
     #parse('_layout-basic-header.vm')
 <div class="container">
     <div class="row-fluid">
-        <div class="span6">
-            <form class="form-signin">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <input class="input-block-level" type="text" placeholder="Email address">
-                <input class="input-block-level" type="password" placeholder="Password">
-                <button class="btn btn-large btn-primary" type="submit">Sign in</button>
-            </form>
+        <div class="span6 ">
+            <div class="auth-column">
+                <h2 class="form-signin-heading">#springMessage('page.Login.form.header')</h2>
+
+                <form>
+                    <input class="input-block-level" type="email" name="j_username" placeholder="#springMessage('page.Login.form.email.placeholder')">
+                    <input class="input-block-level" type="password" name="j_password" placeholder="#springMessage('page.Login.form.password.placeholder')">
+                    <button class="btn btn-primary" type="submit">#springMessage('page.Login.form.submit')</button>
+                </form>
+            </div>
         </div>
-        <div class="span6">
+        <div class="span6 auth-column">
             as
         </div>
     </div>
