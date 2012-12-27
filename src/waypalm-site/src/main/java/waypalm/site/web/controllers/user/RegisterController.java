@@ -9,48 +9,23 @@ import org.springframework.web.servlet.ModelAndView;
 import waypalm.site.model.user.RegisterForm;
 import waypalm.site.services.UserService;
 import waypalm.site.web.controllers.BaseController;
-import waypalm.site.web.controllers.ResponseBuilder;
-import waypalm.site.web.model.ApiAnswer;
-import waypalm.site.web.views.access.Register;
 
 import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/auth/register")
 public class RegisterController extends BaseController {
     @Autowired
     protected UserService userService;
 
-    @RequestMapping(value = "/auth/register", method = RequestMethod.GET, params = "_target=modal")
-    public ModelAndView showFormAjax(Locale locale) {
-        Register response = new Register();
-        response.setForm(new RegisterForm());
-        return responseBuilder(locale).view("access/register.modal", response);
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView showRegistrationForm(Locale locale) {
+        return responseBuilder(locale).view("access/register");
     }
 
-    @RequestMapping(value = "/auth/register.ajax", method = RequestMethod.POST)
-    public ModelAndView submitForm(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
-        ResponseBuilder responseBuilder = responseBuilder(locale);
-        ApiAnswerWithLoginUrl response = new ApiAnswerWithLoginUrl();
-        if (formBinding.hasErrors()) {
-            responseBuilder.validationErrors(response, formBinding);
-        } else {
-            userService.createUser(form.getUsername(), form.getPassword());
-            response.setSuccess(true);
-            response.setLoginUrl(LoginController.LOGIN_ROUTE);
-        }
-        return responseBuilder.json(response);
-    }
-
-    public static class ApiAnswerWithLoginUrl extends ApiAnswer {
-        private String loginUrl;
-
-        public String getLoginUrl() {
-            return loginUrl;
-        }
-
-        public void setLoginUrl(String loginUrl) {
-            this.loginUrl = loginUrl;
-        }
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView proceedRegistration(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
+        throw new IllegalStateException("not implemented");
     }
 }

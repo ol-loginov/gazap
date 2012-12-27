@@ -8,22 +8,23 @@
 <body class="login-page">
     #parse('_layout-basic-header.vm')
 <div class="container">
-    <div class="row-fluid">
-        <div class="span6 ">
-            <div class="auth-column">
-                <h2 class="form-signin-heading">#springMessage('page.Login.form.header')</h2>
+    <div class="auth-column">
+        <h2 class="form-signin-heading">#springMessage('page.Login.widget.form')</h2>
 
-                <form>
-                    <input class="input-block-level" type="email" name="j_username" placeholder="#springMessage('page.Login.form.email.placeholder')">
-                    <input class="input-block-level" type="password" name="j_password" placeholder="#springMessage('page.Login.form.password.placeholder')">
-                    <button class="btn btn-primary" type="submit">#springMessage('page.Login.form.submit')</button>
-                </form>
-            </div>
-        </div>
-        <div class="span6 auth-column">
-            as
+        <form method="post">
+            <input class="input-block-level" type="email" name="username" placeholder="#springMessage('page.Login.form.email.placeholder')">
+            <input class="input-block-level" type="password" name="password" placeholder="#springMessage('page.Login.form.password.placeholder')">
+            <button class="btn btn-primary" type="submit">#springMessage('page.Login.form.submit')</button>
+        </form>
+    </div>
+    <div class="auth-column" style="padding-top: 1em;">
+        <h3 class="form-signin-heading">#springMessage('page.Login.widget.register')</h3>
+
+        <div>
+            #springMessage1('page.Login.widget.register.text', "$cp/auth/register")
         </div>
     </div>
+</div>
 </div>
 <!-- /container -->
 </body>

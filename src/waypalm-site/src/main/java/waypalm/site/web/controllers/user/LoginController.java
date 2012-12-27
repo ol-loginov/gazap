@@ -1,16 +1,14 @@
 package waypalm.site.web.controllers.user;
 
-import waypalm.site.services.UserAccess;
-import waypalm.site.web.controllers.BaseController;
-import waypalm.site.web.model.ApiAnswerType;
-import waypalm.site.web.mvc.AuthenticationRequestHelper;
-import waypalm.site.web.mvc.AuthenticationResponse;
-import waypalm.site.web.views.access.LoginMethods;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import waypalm.site.services.UserAccess;
+import waypalm.site.web.controllers.BaseController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,28 +16,23 @@ import java.io.IOException;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/auth")
 public class LoginController extends BaseController {
     private final static String FORM_LOGIN_FILTER = "/j_spring_security_check";
-
-    public final static String LOGIN_ROUTE = "/auth";
 
     @Autowired
     protected UserAccess userAccess;
 
-    private AuthenticationRequestHelper authenticationRequestHelper = new AuthenticationRequestHelper();
-
-    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.GET)
-    public ModelAndView getLoginPageModal(Locale locale) {
-        LoginMethods dialog = new LoginMethods();
-        dialog.getAuthProviders().addAll(userAccess.getAvailableSocialProviders());
-        return responseBuilder(locale).view("access/login", dialog);
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView getLoginPage(Locale locale, HttpServletRequest request) {
+        AuthenticationException exception = (AuthenticationException) request.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        return responseBuilder(locale).view("access/login")
+                .addObject("authProviders", userAccess.getAvailableSocialProviders())
+                .addObject("authError", exception);
     }
 
-    @RequestMapping(value = LOGIN_ROUTE, method = RequestMethod.POST)
-    public ModelAndView proceedFormLoginModal(Locale locale, HttpServletRequest request) throws IOException, ServletException {
-        authenticationRequestHelper
-                .useAnswer(request, ApiAnswerType.JSON)
-                .useResponse(request, AuthenticationResponse.STATUS);
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
         return responseBuilder(locale).forward(FORM_LOGIN_FILTER);
     }
 }

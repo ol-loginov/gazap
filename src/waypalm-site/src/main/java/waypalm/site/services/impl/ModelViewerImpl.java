@@ -10,7 +10,7 @@ import waypalm.site.model.viewer.ContributionV;
 import waypalm.site.model.viewer.SurfaceTitle;
 import waypalm.site.model.viewer.UserTitle;
 import waypalm.site.model.viewer.WorldTitle;
-import waypalm.site.services.FormatService;
+import waypalm.common.services.FormatService;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.ModelViewerSet;
 import waypalm.site.services.UserAccess;

@@ -18,6 +18,15 @@
 
     <!-- security -->
     <security:http pattern="/static/**/*" security="none"/>
+    <security:http pattern="/favicon.ico" security="none"/>
+    <security:http pattern="/robots.txt" security="none"/>
+
+    <bean id="principalProvider" class="waypalm.site.web.mvc.PrincipalProviderDirector"/>
+    <bean class="waypalm.site.web.mvc.PrincipalProviderOAuth"/>
+    <bean class="waypalm.site.web.mvc.PrincipalProviderOpenID"/>
+
+    <bean id="authenticationFailureHandler" class="waypalm.site.web.mvc.AuthenticationFailureHandler"/>
+    <bean id="authenticationSuccessHandler" class="waypalm.site.web.mvc.AuthenticationSuccessHandler"/>
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref="principalProvider">
@@ -36,12 +45,13 @@
 
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 
-        <security:form-login login-page="/auth" default-target-url="/"/>
+        <security:form-login login-page="/auth" default-target-url="/" username-parameter="username" password-parameter="password"
+                             authentication-failure-handler-ref="authenticationFailureHandler"
+                             authentication-success-handler-ref="authenticationSuccessHandler"/>
 
         <security:openid-login user-service-ref="principalProvider">
             <security:attribute-exchange>
-                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"
-                                           count="1"/>
+                <security:openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true" count="1"/>
                 <security:openid-attribute name="axEmail" type="http://axschema.org/contact/email/"/>
                 <security:openid-attribute name="axFirstname" type="http://axschema.org/namePerson/first"/>
                 <security:openid-attribute name="axLastname" type="http://axschema.org/namePerson/last"/>
@@ -54,7 +64,10 @@
 
     <bean id="oauthAuthenticationFilter" class="waypalm.site.web.mvc.oauth.OAuthAuthenticationFilter"
           p:authenticationManager-ref="authenticationManager"
-          p:rememberMeServices-ref="rememberMeServices"/>
+          p:rememberMeServices-ref="rememberMeServices"
+          p:authenticationFailureHandler-ref="authenticationFailureHandler"
+          p:authenticationSuccessHandler-ref="authenticationSuccessHandler"/>
+
     <bean id="oauthAuthenticationProvider" class="waypalm.site.web.mvc.oauth.OAuthAuthenticationProvider"
           p:userDetailsService-ref="principalProvider"/>
 

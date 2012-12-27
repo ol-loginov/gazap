@@ -1,4 +1,4 @@
-package waypalm.site.services;
+package waypalm.common.services;
 
 import java.util.Locale;
 

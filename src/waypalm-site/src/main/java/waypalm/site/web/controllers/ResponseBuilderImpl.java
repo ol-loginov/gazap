@@ -6,8 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import waypalm.common.services.FormatService;
 import waypalm.site.model.ServiceError;
-import waypalm.site.services.FormatService;
 import waypalm.site.web.model.ApiAnswer;
 import waypalm.site.web.model.ApiFieldMessage;
 
@@ -26,7 +26,7 @@ public class ResponseBuilderImpl implements ResponseBuilder {
 
     @Override
     public ModelAndView json(Object val) {
-        return view("jsonView", val);
+        return view("jsonView").addObject("content", val);
     }
 
     @Override
@@ -37,11 +37,6 @@ public class ResponseBuilderImpl implements ResponseBuilder {
     @Override
     public ModelAndView forward(String url) {
         return new ModelAndView(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
-    }
-
-    @Override
-    public ModelAndView view(String viewName, final Object content) {
-        return view(viewName).addObject("content", content);
     }
 
     @Override

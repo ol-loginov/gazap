@@ -18,7 +18,6 @@
     <context:component-scan base-package="waypalm.domain.dao"/>
     <context:component-scan base-package="waypalm.site.services"/>
     <context:component-scan base-package="waypalm.site.validation"/>
-    <context:component-scan base-package="waypalm.site.web.mvc"/>
 
     <bean id="passwordEncoder" class="waypalm.common.web.security.PasswordEncoder"/>
     <bean id="passwordSalter" class="waypalm.common.web.security.PasswordSalter" p:saltBase="0xDEADBEEF"/>

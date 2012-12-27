@@ -13,7 +13,6 @@ import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
 import waypalm.site.services.UserAccess;
-import waypalm.site.services.UserActionGuard;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -68,10 +67,5 @@ public class UserAccessImpl implements UserAccess {
             providerName = link.getProvider();
         }
         return SocialProfileProviders.SOCIAL_PROFILE_PROVIDERS.get(providerName);
-    }
-
-    @Override
-    public UserActionGuard can(Profile profile) {
-        return new UserActionGuardImpl(profile, worldRepository);
     }
 }

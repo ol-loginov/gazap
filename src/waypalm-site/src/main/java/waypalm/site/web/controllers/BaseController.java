@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.SmartValidator;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.World;
-import waypalm.domain.entity.base.DomainEntity;
 import waypalm.site.exceptions.ObjectNotFoundException;
-import waypalm.site.services.FormatService;
+import waypalm.common.services.FormatService;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
 

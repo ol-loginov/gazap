@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.social.connect.ConnectionKey;
-import org.springframework.stereotype.Service;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
@@ -21,7 +20,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
-@Service("principalProvider.OpenID")
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
     @Override
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {

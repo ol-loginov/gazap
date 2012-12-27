@@ -2,7 +2,7 @@ package waypalm.site.services.impl;
 
 import com.iserv2.commons.text.FormatPluralizer;
 import com.iserv2.commons.text.FormatPluralizerMap;
-import waypalm.site.services.FormatService;
+import waypalm.common.services.FormatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;

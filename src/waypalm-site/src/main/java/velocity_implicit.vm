@@ -4,6 +4,4 @@
 #* @vtlvariable name="dateTool" type="org.apache.velocity.tools.generic.DateTool" *#
 #* @vtlvariable name="eCdn" type="waypalm.site.web.extensions.CdnExtender.Content" *#
 #* @vtlvariable name="eVisitor" type="waypalm.site.web.extensions.VisitorExtender.Content" *#
-#* @vtlvariable name="eCan" type="waypalm.site.web.extensions.CanExtender.Content" *#
-#* @vtlvariable name="eSummary" type="waypalm.site.web.extensions.SummaryExtender.Content" *#
 #* @vtlvariable name="cp" type="java.lang.String" *#

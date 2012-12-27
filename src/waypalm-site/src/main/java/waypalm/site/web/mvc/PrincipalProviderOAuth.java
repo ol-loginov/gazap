@@ -17,7 +17,6 @@ import waypalm.domain.entity.SocialLink;
 import waypalm.site.model.ServiceErrorException;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
-@Service("principalProvider.OAuth")
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
     @Override
     public UserDetails loadUserDetails(OAuthAuthenticationToken token) {

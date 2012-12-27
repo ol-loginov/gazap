@@ -13,7 +13,5 @@ public interface UserAccess {
 
     SocialProfileProvider createSocialProvider(SocialLink link);
 
-    UserActionGuard can(Profile profile);
-
     Profile getCurrentProfile();
 }
