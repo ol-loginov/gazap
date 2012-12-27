@@ -2,32 +2,25 @@ package waypalm.site.web.mvc;
 
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
-import waypalm.site.model.ServiceErrorException;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
     @Override
     public UserDetails loadUserDetails(OAuthAuthenticationToken token) {
-        try {
-            return createPrincipal(loadUser(token.getConnection()));
-        } catch (ServiceErrorException e) {
-            throw new UsernameNotFoundException("internal error", e);
-        }
+        return createPrincipal(loadUser(token.getConnection()));
     }
 
-    private Profile loadUser(Connection<?> connection) throws ServiceErrorException {
+    private Profile loadUser(Connection<?> connection) {
         ConnectionKey key = connection.getKey();
         SocialLink socialLink = userRepository.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
         if (socialLink == null) {

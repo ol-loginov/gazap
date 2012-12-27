@@ -1,12 +1,10 @@
 package waypalm.site.services.impl;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import waypalm.common.util.IOUtils;
 import waypalm.domain.entity.Surface;
-import waypalm.site.model.ServiceError;
-import waypalm.site.model.ServiceErrorException;
 import waypalm.site.model.TileImage;
 import waypalm.site.services.FileService;
 
@@ -40,16 +38,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String storeTile(Surface surface, TileImage tileImage, ImageValidator imageSelector) throws ServiceErrorException {
+    public String storeTile(Surface surface, TileImage tileImage, ImageValidator imageSelector) throws IOException {
         String fileName = String.format("c%ds%dx%dy%d-%d",
                 tileImage.getTileScale(), tileImage.getTileSize(), tileImage.getTileX(), tileImage.getTileY(),
                 System.currentTimeMillis());
 
-        try {
-            storeFile(getMapFolder(surface), fileName, tileImage.getFileInputStream());
-        } catch (IOException e) {
-            throw new ServiceErrorException(ServiceError.INTERNAL_ERROR, e);
-        }
+        storeFile(getMapFolder(surface), fileName, tileImage.getFileInputStream());
 
         File tempFile = getTileFile(surface, fileName);
 
@@ -63,13 +57,9 @@ public class FileServiceImpl implements FileService {
             is = new FileInputStream(tempFile);
             fileName = fileName + "." + fileExtension;
             storeFile(getMapFolder(surface), fileName, is);
-        } catch (IOException e) {
-            throw new ServiceErrorException(ServiceError.INTERNAL_ERROR, e);
         } finally {
             IOUtils.closeQuietly(is);
-            if (tempFile != null) {
-                tempFile.delete();
-            }
+            IOUtils.deleteQuietly(tempFile);
         }
 
         return fileName;
@@ -78,12 +68,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public void deleteTile(Surface surface, String file) {
         File target = getTileFile(surface, file);
-        if (target.exists()) {
-            target.delete();
-        }
+        IOUtils.deleteQuietly(target);
     }
 
-    private String validateTileImage(File file, ImageValidator imageSelector) throws ServiceErrorException {
+    private String validateTileImage(File file, ImageValidator imageSelector) throws IOException {
         FileInputStream is = null;
         try {
             is = new FileInputStream(file);
@@ -104,8 +92,6 @@ public class FileServiceImpl implements FileService {
             }
 
             return fileReader == null ? null : fileFormat;
-        } catch (IOException e) {
-            throw new ServiceErrorException(ServiceError.INVALID_FILE_FORMAT, e);
         } finally {
             IOUtils.closeQuietly(is);
         }

@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.dao.WorldRepository;
-import waypalm.domain.entity.*;
+import waypalm.domain.entity.Surface;
+import waypalm.domain.entity.SurfaceGeometry;
+import waypalm.domain.entity.SurfaceOrientation;
+import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.services.WorldService;
@@ -77,7 +80,7 @@ public class WorldManageController extends BaseController {
         }
 
         if (formBinding.hasErrors()) {
-            response.validationErrors(answer, formBinding);
+            answer.setSuccess(false);
             return response.json(answer);
         }
 

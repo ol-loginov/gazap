@@ -7,7 +7,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
-import waypalm.site.model.ServiceError;
 import waypalm.site.web.model.ApiAnswer;
 import waypalm.site.web.model.ApiFieldMessage;
 
@@ -42,15 +41,6 @@ public class ResponseBuilderImpl implements ResponseBuilder {
     @Override
     public ModelAndView view(String viewName) {
         return new ModelAndView(viewName);
-    }
-
-    @Override
-    public ResponseBuilderImpl validationErrors(ApiAnswer apiAnswer, Errors errors) {
-        apiAnswer.setSuccess(false);
-        apiAnswer.setCode(ServiceError.VALIDATION_FAILED.code());
-        apiAnswer.setMessage(formatService.getMessage(locale, apiAnswer.getCode()));
-        apiAnswer.setErrorList(storeErrors(errors.getAllErrors()));
-        return this;
     }
 
     private ApiFieldMessage[] storeErrors(List<ObjectError> errors) {

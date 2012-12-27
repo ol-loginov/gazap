@@ -1,6 +1,7 @@
 package waypalm.common.web.extensions;
 
-import org.springframework.beans.factory.BeanInitializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -15,12 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModelExtenderInterceptor implements WebRequestInterceptor {
-    private Map<String, ModelExtender> extenders;
+    private static final Logger logger = LoggerFactory.getLogger(ModelExtenderInterceptor.class);
+
+    private final Map<String, ModelExtender> extenders = new HashMap<>();
     private String basePackage;
 
     @Autowired
     AutowireCapableBeanFactory beanFactory;
-
 
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
@@ -30,11 +32,8 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
     @PostConstruct
     public void pickExtenders() {
         if (basePackage == null) {
+            logger.error("no base package set, skip extending");
             return;
-        }
-        Map<String, ModelExtender> extenders = new HashMap<>();
-        if (this.extenders != null) {
-            extenders.putAll(extenders);
         }
 
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
@@ -44,12 +43,18 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
             try {
                 extenderClass = (Class<ModelExtender>) Class.forName(bd.getBeanClassName());
             } catch (Exception e) {
-                throw new BeanInitializationException("extender class is wrong or not available " + bd.getBeanClassName());
+                logger.error("extender class is wrong or not available " + bd.getBeanClassName());
+                continue;
             }
-            String extensionName = extenderClass.getAnnotation(ModelExtension.class).value();
-            extenders.put(extensionName, beanFactory.createBean(extenderClass));
+
+            ModelExtension modelExtension = extenderClass.getAnnotation(ModelExtension.class);
+            if (modelExtension == null) {
+                logger.error("extender should have @ModelExtension annotation (" + bd.getBeanClassName() + ")");
+                continue;
+            }
+
+            extenders.put(modelExtension.value(), beanFactory.createBean(extenderClass));
         }
-        this.extenders = extenders;
     }
 
     @Override
@@ -58,18 +63,13 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
 
     @Override
     public void postHandle(WebRequest request, ModelMap model) throws Exception {
-        if (model == null) {
+        if (model == null || extenders.isEmpty()) {
             return;
         }
-        if (hasExtenders()) {
-            for (Map.Entry<String, ModelExtender> kv : extenders.entrySet()) {
-                kv.getValue().extend(kv.getKey(), request, model);
-            }
-        }
-    }
 
-    private boolean hasExtenders() {
-        return extenders != null && !extenders.isEmpty();
+        for (Map.Entry<String, ModelExtender> kv : extenders.entrySet()) {
+            kv.getValue().extend(kv.getKey(), request, model);
+        }
     }
 
     @Override

@@ -12,8 +12,6 @@ import org.springframework.social.connect.ConnectionKey;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
-import waypalm.site.model.ServiceError;
-import waypalm.site.model.ServiceErrorException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,11 +21,7 @@ import java.util.Locale;
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
     @Override
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
-        try {
-            return createPrincipal(loadUser(token));
-        } catch (ServiceErrorException e) {
-            throw new UsernameNotFoundException("internal error", e);
-        }
+        return createPrincipal(loadUser(token));
     }
 
     private String createOpenIDProvider(URL url) {
@@ -38,12 +32,12 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
         return IservHashUtil.md5(url.toString());
     }
 
-    private Profile loadUser(OpenIDAuthenticationToken token) throws ServiceErrorException {
+    private Profile loadUser(OpenIDAuthenticationToken token) {
         URL url;
         try {
             url = new URL(token.getIdentityUrl());
         } catch (MalformedURLException e) {
-            throw new ServiceErrorException(ServiceError.AUTH_WRONG_IDENTITY_URL);
+            throw new IllegalArgumentException("wrong identity url");
         }
 
         String provider = createOpenIDProvider(url);

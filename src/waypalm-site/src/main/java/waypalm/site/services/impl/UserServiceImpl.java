@@ -15,7 +15,6 @@ import waypalm.domain.dao.UserRepository;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.ProfileSummary;
 import waypalm.domain.entity.SocialLink;
-import waypalm.site.model.ServiceErrorException;
 import waypalm.site.services.UserService;
 
 @Service
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Qualifier("passwordSalter")
     protected PasswordSalter passwordSalter;
 
-    private Profile createUserWithRandomPassword(String email) throws ServiceErrorException {
+    private Profile createUserWithRandomPassword(String email) {
         return createUser(IservHashUtil.isNull(email, ""), IservHashUtil.newUuid());
     }
 
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public SocialLink createSocialConnection(Profile user, ConnectionKey key, SocialProfile social) throws ServiceErrorException {
+    public SocialLink createSocialConnection(Profile user, ConnectionKey key, SocialProfile social) {
         Assert.notNull(social, "social required");
 
         SocialLink socialLink = new SocialLink();

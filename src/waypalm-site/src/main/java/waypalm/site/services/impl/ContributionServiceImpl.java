@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.*;
-import waypalm.site.model.ServiceError;
-import waypalm.site.model.ServiceErrorException;
+import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.model.TileImage;
 import waypalm.site.services.ContributionService;
 import waypalm.site.services.FileService;
@@ -30,17 +29,16 @@ public class ContributionServiceImpl implements ContributionService {
     private WorldRepository worldRepository;
 
     @Override
-    public ContributionTile addMapTile(Profile author, Surface surface, final TileImage file) throws ServiceErrorException {
+    public ContributionTile addMapTile(Profile author, Surface surface, final TileImage file) throws IOException {
         String fileName = fileService.storeTile(surface, file, new FileService.ImageValidator() {
             @Override
-            public boolean test(String fileFormat, ImageReader reader) throws ServiceErrorException, IOException {
-                return reader.getHeight(0) == file.getTileSize() && reader.getWidth(0) == file.getTileSize()
-                        && ALLOWED_TILE_FORMATS.contains(fileFormat.toLowerCase(Locale.ENGLISH));
+            public boolean test(String fileFormat, ImageReader reader) throws IOException {
+                return reader.getHeight(0) == file.getTileSize() && reader.getWidth(0) == file.getTileSize() && ALLOWED_TILE_FORMATS.contains(fileFormat.toLowerCase(Locale.ENGLISH));
             }
         });
 
         if (fileName == null) {
-            throw new ServiceErrorException(ServiceError.INVALID_PARAM);
+            throw new IllegalArgumentException("wrong file image");
         }
 
         ContributionTile tile = new ContributionTile();
@@ -57,10 +55,10 @@ public class ContributionServiceImpl implements ContributionService {
     }
 
     @Override
-    public void reject(Profile visitor, Surface surface, int contributionId) throws ServiceErrorException {
+    public void reject(Profile visitor, Surface surface, int contributionId) throws ObjectNotFoundException {
         Contribution contribution = worldRepository.getContribution(contributionId);
         if (contribution == null) {
-            throw new ServiceErrorException(ServiceError.INVALID_PARAM);
+            throw new ObjectNotFoundException(Contribution.class, contributionId);
         }
 
         if (ContributionTile.CLASS.equals(contribution.getContributionClass())) {
@@ -68,7 +66,7 @@ public class ContributionServiceImpl implements ContributionService {
             fileService.deleteTile(surface, tile.getFile());
             worldRepository.delete(tile);
         } else {
-            throw new ServiceErrorException(ServiceError.INVALID_PARAM);
+            throw new IllegalStateException("not implemented");
         }
     }
 }
