@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.user;
+package waypalm.site.web.controllers.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;

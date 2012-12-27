@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.user;
+package waypalm.site.web.controllers.auth;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
