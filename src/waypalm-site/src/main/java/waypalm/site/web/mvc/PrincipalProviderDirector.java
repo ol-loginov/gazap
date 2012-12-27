@@ -1,27 +1,29 @@
 package waypalm.site.web.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
 public class PrincipalProviderDirector extends PrincipalProvider implements UserDetailsService, AuthenticationUserDetailsService {
-    private PrincipalProviderOAuth oauthProvider;
-    private PrincipalProviderOpenID openidProvider;
+    private AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider;
+    private AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider;
 
     @Autowired
-    protected void setOauthProvider(PrincipalProviderOAuth oauthProvider) {
+    @Qualifier("principalProviderOAuth")
+    protected void setOauthProvider(AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider) {
         this.oauthProvider = oauthProvider;
     }
 
     @Autowired
-    protected void setOpenidProvider(PrincipalProviderOpenID openidProvider) {
+    @Qualifier("principalProviderOpenID")
+    protected void setOpenidProvider(AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider) {
         this.openidProvider = openidProvider;
     }
 

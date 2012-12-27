@@ -1,5 +1,6 @@
 package waypalm.site.services;
 
+import org.springframework.transaction.annotation.Transactional;
 import waypalm.common.web.model.SocialProfileProvider;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
@@ -13,5 +14,5 @@ public interface UserAccess {
 
     SocialProfileProvider createSocialProvider(SocialLink link);
 
-    Profile getCurrentProfile();
+    Profile loadCurrentProfile();
 }

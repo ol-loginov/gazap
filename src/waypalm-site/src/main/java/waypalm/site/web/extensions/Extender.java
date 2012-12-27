@@ -5,16 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtender;
-import waypalm.domain.dao.UserRepository;
-import waypalm.domain.entity.Profile;
 import waypalm.site.services.UserAccess;
-import waypalm.site.web.mvc.PrincipalProvider;
 
 public abstract class Extender<T> implements ModelExtender {
     @Autowired
     protected UserAccess auth;
-    @Autowired
-    protected UserRepository userRepository;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -33,10 +28,6 @@ public abstract class Extender<T> implements ModelExtender {
     }
 
     protected abstract T populate(WebRequest request, T extension, ModelMap model);
-
-    protected Profile getLoggedUser() {
-        return PrincipalProvider.getLoggedUser(userRepository);
-    }
 
     protected <T> T instantiateIfNull(T value, Class<T> valueClass) {
         if (value == null) {

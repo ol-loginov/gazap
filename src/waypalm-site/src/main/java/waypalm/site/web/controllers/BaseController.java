@@ -6,10 +6,10 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import waypalm.common.services.FormatService;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;
-import waypalm.common.services.FormatService;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
 
@@ -36,7 +36,7 @@ public abstract class BaseController {
     }
 
     public Profile requireProfile() {
-        Profile profile = auth.getCurrentProfile();
+        Profile profile = auth.loadCurrentProfile();
         if (profile == null) {
             throw new InsufficientAuthenticationException("require authenticated visitor");
         }

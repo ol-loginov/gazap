@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.social.connect.ConnectionKey;
+import org.springframework.transaction.annotation.Transactional;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
@@ -20,6 +21,7 @@ import java.util.Locale;
 
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
     @Override
+    @Transactional
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {
         return createPrincipal(loadUser(token));
     }
@@ -54,7 +56,7 @@ public class PrincipalProviderOpenID extends PrincipalProvider implements Authen
             SocialProfile socialProfile = new SocialProfile();
             socialProfile.setUrl(token.getIdentityUrl());
             socialProfile.setEmail(email);
-            socialLink = userService.createSocialConnection(getLoggedUser(), socialKey, socialProfile);
+            socialLink = userService.createSocialConnection(auth.loadCurrentProfile(), socialKey, socialProfile);
         }
         return socialLink.getProfile();
     }

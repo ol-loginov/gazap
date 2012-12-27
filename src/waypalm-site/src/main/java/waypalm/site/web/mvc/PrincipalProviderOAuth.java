@@ -8,6 +8,7 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
@@ -16,6 +17,7 @@ import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
     @Override
+    @Transactional
     public UserDetails loadUserDetails(OAuthAuthenticationToken token) {
         return createPrincipal(loadUser(token.getConnection()));
     }
@@ -24,7 +26,7 @@ public class PrincipalProviderOAuth extends PrincipalProvider implements Authent
         ConnectionKey key = connection.getKey();
         SocialLink socialLink = userRepository.findSocialConnection(key.getProviderId(), key.getProviderUserId(), null);
         if (socialLink == null) {
-            socialLink = userService.createSocialConnection(getLoggedUser(), key, wrap(connection));
+            socialLink = userService.createSocialConnection(auth.loadCurrentProfile(), key, wrap(connection));
         }
         return socialLink.getProfile();
     }

@@ -2,8 +2,6 @@ package waypalm.site.web.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import waypalm.common.web.security.PrincipalImpl;
@@ -30,16 +28,5 @@ public abstract class PrincipalProvider {
         PrincipalImpl principal = new PrincipalImpl(profile);
         checker.check(principal);
         return principal;
-    }
-
-    protected Profile getLoggedUser() {
-        return getLoggedUser(userRepository);
-    }
-
-    public static Profile getLoggedUser(UserRepository userRepository) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && authentication.getPrincipal() instanceof PrincipalImpl
-                ? userRepository.getProfile(((PrincipalImpl) authentication.getPrincipal()).getUserId())
-                : null;
     }
 }

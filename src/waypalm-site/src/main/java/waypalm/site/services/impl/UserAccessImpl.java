@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import waypalm.common.web.model.SocialProfileProvider;
 import waypalm.common.web.model.SocialProfileProviders;
 import waypalm.common.web.security.PrincipalImpl;
@@ -47,7 +48,8 @@ public class UserAccessImpl implements UserAccess {
     }
 
     @Override
-    public Profile getCurrentProfile() {
+    @Transactional
+    public Profile loadCurrentProfile() {
         PrincipalImpl principal = getCurrentPrincipal();
         if (principal != null) {
             return userRepository.getProfile(principal.getUserId());
