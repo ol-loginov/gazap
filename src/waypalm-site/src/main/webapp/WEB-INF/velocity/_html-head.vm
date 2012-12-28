@@ -28,6 +28,5 @@
 <script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>
 <script type="text/javascript" src="$libRoot/backbone/backbone-0.5.3.min.js"></script>
 <script type="text/javascript" src="$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"></script>
-<script type="text/javascript" src="$libRoot/waypalm/waypalm.tabs-mini.js?_=$eCdn.serverStart"></script>
 <script type="text/javascript" src="$scriptsRoot/defaults.js?_=$eCdn.serverStart"></script>
 <script type="text/javascript" src="$scriptsRoot/ui.js?_=$eCdn.serverStart"></script>
