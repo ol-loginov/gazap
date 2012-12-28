@@ -24,6 +24,7 @@
 <script type="text/javascript" src="$libRoot/jquery/jquery.form-3.18.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery.validate-1.10.0.js"></script>
 <script type="text/javascript" src="$libRoot/bootstrap/bootstrap-collapse.js"></script>
+<script type="text/javascript" src="$libRoot/bootstrap/bootstrap-dropdown.js"></script>
 <script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>
 <script type="text/javascript" src="$libRoot/backbone/backbone-0.5.3.min.js"></script>
 <script type="text/javascript" src="$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"></script>

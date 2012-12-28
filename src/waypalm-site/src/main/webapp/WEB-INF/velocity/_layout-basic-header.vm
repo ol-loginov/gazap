@@ -18,9 +18,23 @@
                     </li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li>
-                        <a href="$cp/auth">#springMessage('layout.navbar.login.label')</a>
-                    </li>
+                    #if($eVisitor.logged)
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                Account
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="$cp/auth/logout">#springMessage('layout.navbar.logout.label')</a>
+                                </li>
+                            </ul>
+                        </li>
+                    #else
+                        <li>
+                            <a href="$cp/auth">#springMessage('layout.navbar.login.label')</a>
+                        </li>
+                    #end
                 </ul>
             </div>
             <!--/.nav-collapse -->

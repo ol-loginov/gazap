@@ -2,9 +2,7 @@ package waypalm.domain.entity;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.util.Assert;
 import waypalm.domain.entity.base.DomainEntity;
-import waypalm.domain.entity.base.DomainHashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -112,8 +110,7 @@ public class ProfileSummary implements DomainEntity {
         }
 
         public boolean equals(ID pk) {
-            return pk != null
-                    && profile != null && profile.equals(pk.profile);
+            return pk != null && profile != null && profile.equals(pk.profile);
         }
 
         @Override

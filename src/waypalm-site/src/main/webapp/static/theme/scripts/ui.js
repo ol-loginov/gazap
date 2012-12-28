@@ -1,8 +1,8 @@
 UI = {
-    isJsonResponse:function (xhr) {
+    isJsonResponse: function (xhr) {
         return /json\b/i.test(xhr.getResponseHeader("content-type"));
     },
-    ajaxErrorsToValidationList:function (errors) {
+    ajaxErrorsToValidationList: function (errors) {
         var res = {};
         $.each(errors, function () {
             if (this.field) {
@@ -15,20 +15,20 @@ UI = {
         });
         return res;
     },
-    ajaxForm:function (/*String*/formSelector, /*Function*/success, /*Function*/failure) {
+    ajaxForm: function (/*String*/formSelector, /*Function*/success, /*Function*/failure) {
         var form = $(formSelector),
             submitter = $('input[type=submit], button.submit', form),
             validator = null,
             formOptions = {
-                beforeSubmit:function (arr, $form, options) {
-                    if (!validator) validator = form.validate({onsubmit:false});
+                beforeSubmit: function (arr, $form, options) {
+                    if (!validator) validator = form.validate({onsubmit: false});
                     submitter.attr('disabled', 'disabled').addClass('busy');
                 },
-                error:function (status, xhr) {
+                error: function (status, xhr) {
                     submitter.removeAttr('disabled').removeClass('busy');
                     failure();
                 },
-                success:function (data, status, xhr, $form) {
+                success: function (data, status, xhr, $form) {
                     submitter.removeAttr('disabled').removeClass('busy');
                     if (!data.success) {
                         validator.form();
@@ -56,7 +56,7 @@ UI = {
         if (!href) {
             return true;
         }
-        $.fancybox.open({type:'ajax', href:addModalParameter(href), padding:0});
+        $.fancybox.open({type: 'ajax', href: addModalParameter(href), padding: 0});
         return false;
     });
     $('.modal-closer').live('click', function () {
@@ -64,10 +64,3 @@ UI = {
         return false;
     });
 })(jQuery);
-
-$(function () {
-    $.validator.setDefaults({onfocusout:false, onkeyup:false});
-    $.validator.addMethod("validate-good", function (value, element) {
-        return true;
-    }, "");
-});
