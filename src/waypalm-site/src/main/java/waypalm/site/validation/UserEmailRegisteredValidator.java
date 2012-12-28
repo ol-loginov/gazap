@@ -1,7 +1,8 @@
 package waypalm.site.validation;
 
-import waypalm.domain.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import waypalm.domain.dao.UserRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -22,6 +23,7 @@ public class UserEmailRegisteredValidator implements ConstraintValidator<UserEma
     }
 
     @Override
+    @Transactional
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return userRepository.findProfileByEmail(value) == null ^ shouldBeRegistered;
     }

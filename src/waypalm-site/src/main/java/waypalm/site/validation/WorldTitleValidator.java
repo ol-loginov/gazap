@@ -2,6 +2,7 @@ package waypalm.site.validation;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.World;
 
@@ -23,6 +24,7 @@ public class WorldTitleValidator implements ConstraintValidator<WorldTitle, Obje
     }
 
     @Override
+    @Transactional
     public boolean isValid(Object object, ConstraintValidatorContext context) {
         if (object == null) {
             return false;

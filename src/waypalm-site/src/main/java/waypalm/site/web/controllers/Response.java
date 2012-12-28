@@ -2,7 +2,7 @@ package waypalm.site.web.controllers;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public interface ResponseBuilder {
+public interface Response {
     ModelAndView json(Object answer);
 
     ModelAndView redirect(String url);

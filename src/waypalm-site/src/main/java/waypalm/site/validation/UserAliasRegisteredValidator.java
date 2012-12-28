@@ -1,5 +1,6 @@
 package waypalm.site.validation;
 
+import org.springframework.transaction.annotation.Transactional;
 import waypalm.domain.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ public class UserAliasRegisteredValidator implements ConstraintValidator<UserAli
     }
 
     @Override
+    @Transactional
     public boolean isValid(String value, ConstraintValidatorContext context) {
         return userRepository.findProfileByAlias(value) == null ^ shouldBeRegistered;
     }

@@ -18,7 +18,7 @@ import waypalm.site.services.WorldService;
 import waypalm.site.validation.ValidationGroups;
 import waypalm.site.web.controllers.BaseController;
 import waypalm.site.web.controllers.EntityApiAnswer;
-import waypalm.site.web.controllers.ResponseBuilder;
+import waypalm.site.web.controllers.Response;
 
 import javax.validation.Valid;
 import java.util.Locale;
@@ -68,7 +68,7 @@ public class WorldManageController extends BaseController {
         World world = requireEntity(worldService.findWorldBySlug(worldSlug), worldSlug);
         EntityApiAnswer<Surface> answer = new EntityApiAnswer<>();
 
-        ResponseBuilder response = responseBuilder(locale);
+        Response response = responseBuilder(locale);
         if (!formBinding.hasErrors()) {
             switch (form.getGeometry()) {
                 case PLANE:

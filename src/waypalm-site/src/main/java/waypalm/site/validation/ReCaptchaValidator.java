@@ -27,8 +27,6 @@ public class ReCaptchaValidator implements ConstraintValidator<ReCaptcha, Object
         BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(value);
         String challenge = (String) beanWrapper.getPropertyValue(challengeField);
         String response = (String) beanWrapper.getPropertyValue(responseField);
-        return StringUtils.hasText(challenge)
-                && StringUtils.hasText(response)
-                && captchaValidator.validate(challenge, response);
+        return captchaValidator.validate(challenge, response);
     }
 }

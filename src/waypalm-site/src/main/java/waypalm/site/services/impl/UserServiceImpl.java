@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         Profile user = new Profile();
         user.setPasswordSalt(IservHashUtil.md5("" + user.getCreatedAt().getTime() + System.nanoTime(), true));
         user.setPassword(passwordEncoder.encodePassword(password, passwordSalter.getSalt(user.getPasswordSalt())));
-        user.setEmail(IservHashUtil.isNull(email, ""));
+        user.setEmail(email);
         user.setDisplayName("");
         userRepository.create(user);
 

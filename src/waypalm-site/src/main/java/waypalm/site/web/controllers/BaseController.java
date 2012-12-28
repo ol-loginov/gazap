@@ -31,7 +31,7 @@ public abstract class BaseController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    protected ResponseBuilder responseBuilder(Locale locale) {
+    protected Response responseBuilder(Locale locale) {
         return new ResponseBuilderImpl(format, locale);
     }
 

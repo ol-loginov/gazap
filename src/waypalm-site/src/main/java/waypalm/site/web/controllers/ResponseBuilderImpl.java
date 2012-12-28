@@ -2,19 +2,17 @@ package waypalm.site.web.controllers;
 
 import com.iserv2.commons.lang.collections.IservCollections;
 import org.springframework.context.MessageSourceResolvable;
-import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
-import waypalm.site.web.model.ApiAnswer;
 import waypalm.site.web.model.ApiFieldMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class ResponseBuilderImpl implements ResponseBuilder {
+public class ResponseBuilderImpl implements Response {
     private final FormatService formatService;
     private final Locale locale;
 

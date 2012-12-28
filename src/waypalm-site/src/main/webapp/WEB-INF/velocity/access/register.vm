@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    $eCdn.setAppZone('/auth')
+<head>
+    #parse('_html-head.vm')
+    <title>#springMessage('layout.title.landingPage')</title>
+</head>
+<body class="login-page">
+    #parse('_layout-basic-header.vm')
+<div class="container">
+    <div class="auth-column">
+        <h2 class="form-signin-heading">#springMessage('page.Register.widget.form')</h2>
+
+        <form method="post">
+            <input class="input-block-level" type="email" name="username" placeholder="#springMessage('page.Register.form.email.placeholder')" autocomplete="off">
+            <input class="input-block-level" type="password" name="password" placeholder="#springMessage('page.Register.form.password.placeholder')" autocomplete="off">
+            <button class="btn btn-primary" type="submit">#springMessage('page.Register.form.submit')</button>
+        </form>
+    </div>
+</div>
+</div>
+<!-- /container -->
+</body>
+</html>
