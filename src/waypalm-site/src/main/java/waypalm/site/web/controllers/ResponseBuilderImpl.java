@@ -2,14 +2,15 @@ package waypalm.site.web.controllers;
 
 import com.iserv2.commons.lang.collections.IservCollections;
 import org.springframework.context.MessageSourceResolvable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
-import waypalm.site.web.model.ApiFieldMessage;
+import waypalm.common.web.controllers.Response;
+import waypalm.common.web.model.FormErrors;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class ResponseBuilderImpl implements Response {
@@ -41,20 +42,26 @@ public class ResponseBuilderImpl implements Response {
         return new ModelAndView(viewName);
     }
 
-    private ApiFieldMessage[] storeErrors(List<ObjectError> errors) {
-        if (errors == null) {
-            return null;
+    @Override
+    public FormErrors getFormErrors(BindingResult formBinding) {
+        if (formBinding == null || !formBinding.hasErrors()) {
+            return new FormErrors();
         }
-        List<ApiFieldMessage> resultList = new ArrayList<ApiFieldMessage>();
-        for (ObjectError err : errors) {
-            ApiFieldMessage fieldError = new ApiFieldMessage();
-            if (err instanceof org.springframework.validation.FieldError) {
-                fieldError.setField(((org.springframework.validation.FieldError) err).getField());
-            }
-            fieldError.setMessage(getErrorMessage(err));
-            resultList.add(fieldError);
+
+        FormErrors formErrors = new FormErrors();
+        for (FieldError formBindingFieldError : formBinding.getFieldErrors()) {
+            FormErrors.FieldError fieldError = new FormErrors.FieldError();
+            fieldError.setField(formBindingFieldError.getField());
+            fieldError.setMessage(formatService.getMessage(locale, formBindingFieldError));
+            formErrors.getFieldErrors().add(fieldError);
         }
-        return resultList.toArray(new ApiFieldMessage[resultList.size()]);
+
+        for (ObjectError formBindingFieldError : formBinding.getGlobalErrors()) {
+            FormErrors.GlobalError fieldError = new FormErrors.GlobalError();
+            fieldError.setMessage(formatService.getMessage(locale, formBindingFieldError));
+            formErrors.getGlobalErrors().add(fieldError);
+        }
+        return formErrors;
     }
 
     public String getErrorMessage(MessageSourceResolvable message) {

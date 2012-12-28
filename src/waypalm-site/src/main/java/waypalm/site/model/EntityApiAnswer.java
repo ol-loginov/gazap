@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers;
+package waypalm.site.model;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import waypalm.site.web.model.ApiAnswer;

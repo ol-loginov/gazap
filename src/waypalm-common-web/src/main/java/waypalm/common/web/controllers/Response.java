@@ -1,6 +1,8 @@
-package waypalm.site.web.controllers;
+package waypalm.common.web.controllers;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
+import waypalm.common.web.model.FormErrors;
 
 public interface Response {
     ModelAndView json(Object answer);
@@ -10,4 +12,6 @@ public interface Response {
     ModelAndView forward(String url);
 
     ModelAndView view(String viewName);
+
+    FormErrors getFormErrors(BindingResult formBinding);
 }

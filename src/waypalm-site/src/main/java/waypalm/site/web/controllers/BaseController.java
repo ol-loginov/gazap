@@ -7,6 +7,7 @@ import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import waypalm.common.services.FormatService;
+import waypalm.common.web.controllers.Response;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;

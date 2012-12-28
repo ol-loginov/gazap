@@ -5,15 +5,42 @@
     #parse('_html-head.vm')
     <title>#springMessage('layout.title.landingPage')</title>
 </head>
+#* @vtlvariable name="form" type="waypalm.site.model.user.RegisterForm" *#
+#* @vtlvariable name="formErrors" type="waypalm.common.web.model.FormErrors" *#
 <body class="login-page">
     #parse('_layout-basic-header.vm')
 <div class="container">
     <div class="auth-column">
-        <h2 class="form-signin-heading">#springMessage('page.Register.widget.form')</h2>
+        #if($formErrors)
+            <div class="alert alert-error">
+                <h4>#springMessage('page.Register.fault.header')</h4>
+            </div>
+        #else
+            <div class="alert alert-success">
+                <h4>#springMessage('page.Register.widget.form')</h4>
+            </div>
+        #end
 
         <form method="post">
-            <input class="input-block-level" type="email" name="username" placeholder="#springMessage('page.Register.form.email.placeholder')" autocomplete="off">
-            <input class="input-block-level" type="password" name="password" placeholder="#springMessage('page.Register.form.password.placeholder')" autocomplete="off">
+            <div class="control-group #if($formErrors.hasFieldError("username"))error#end">
+                <div class="controls inline-at-right">
+                    #if($formErrors.hasFieldError("username"))
+                        <span class="help-inline">$formErrors.getFieldError("username")</span>
+                    #end
+                    <input class="input-block-level" type="email" name="username" autocomplete="off"
+                           placeholder="#springMessage('page.Register.form.username.placeholder')"
+                           value="$!form.username">
+                </div>
+            </div>
+            <div class="control-group #if($formErrors.hasFieldError("password"))error#end">
+                <div class="controls inline-at-right">
+                    #if($formErrors.hasFieldError("password"))
+                        <span class="help-inline">$formErrors.getFieldError("password")</span>
+                    #end
+                    <input class="input-block-level" type="password" name="password" autocomplete="off"
+                           placeholder="#springMessage('page.Register.form.password.placeholder')">
+                </div>
+            </div>
             <button class="btn btn-primary" type="submit">#springMessage('page.Register.form.submit')</button>
         </form>
     </div>

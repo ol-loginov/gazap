@@ -25,7 +25,9 @@
     <bean id="principalProviderOAuth" class="waypalm.site.web.mvc.PrincipalProviderOAuth"/>
     <bean id="principalProviderOpenID" class="waypalm.site.web.mvc.PrincipalProviderOpenID"/>
 
-    <bean id="authenticationFailureHandler" class="waypalm.site.web.mvc.AuthenticationFailureHandler"/>
+    <bean id="authenticationFailureHandler" class="waypalm.site.web.mvc.AuthenticationFailureHandler"
+          p:useForward="true"
+          p:defaultFailureUrl="/auth/error"/>
     <bean id="authenticationSuccessHandler" class="waypalm.site.web.mvc.AuthenticationSuccessHandler"/>
 
     <security:authentication-manager alias="authenticationManager">

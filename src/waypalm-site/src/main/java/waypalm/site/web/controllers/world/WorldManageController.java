@@ -17,8 +17,8 @@ import waypalm.site.model.world.SurfaceCreateForm;
 import waypalm.site.services.WorldService;
 import waypalm.site.validation.ValidationGroups;
 import waypalm.site.web.controllers.BaseController;
-import waypalm.site.web.controllers.EntityApiAnswer;
-import waypalm.site.web.controllers.Response;
+import waypalm.site.model.EntityApiAnswer;
+import waypalm.common.web.controllers.Response;
 
 import javax.validation.Valid;
 import java.util.Locale;

@@ -10,12 +10,13 @@ import javax.validation.constraints.Size;
 
 @ReCaptcha
 public class RegisterForm {
-    @UserEmail
-    @Size(min = 1, max = Profile.EMAIL_LENGTH)
-    @UserEmailRegistered(false)
+    @NotNull(message = "{validation.RegisterForm.username.isNull}")
+    @Size(min = 1, max = Profile.EMAIL_LENGTH, message = "{validation.RegisterForm.username.wrongSize}")
+    @UserEmail(message = "{validation.RegisterForm.username.notEmail}")
+    @UserEmailRegistered(value = false, message = "{validation.RegisterForm.username.alreadyRegistered}")
     private String username;
-    @NotNull
-    @Size(min = 1)
+    @NotNull(message = "{validation.RegisterForm.password.isNull}")
+    @Size(min = 1, message = "{validation.RegisterForm.password.wrongSize}")
     private String password;
     private String recaptcha_challenge_field;
     private String recaptcha_response_field;

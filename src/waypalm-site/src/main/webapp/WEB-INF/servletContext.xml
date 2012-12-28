@@ -19,7 +19,7 @@
               p:basePackage="waypalm.site.web.extensions"/>
     </mvc:interceptors>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven validator="validator"/>
     <tx:annotation-driven transaction-manager="waypalm.dao.transactionManager"/>
 
     <mvc:resources mapping="/static/**" location="/static/"/>
