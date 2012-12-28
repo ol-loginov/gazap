@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #parse('_html-head.vm')
+    <title>Meet 500!</title>
+</head>
+<body>
+    #parse('_layout-basic-header.vm')
+<div class="container">
+    <h1>500</h1>
+</div>
+</body>
+</html>

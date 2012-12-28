@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #parse('_html-head.vm')
+    <title>Meet 404!</title>
+</head>
+<body>
+    #parse('_layout-basic-header.vm')
+<div class="container">
+    <h1>404</h1>
+</div>
+</body>
+</html>
