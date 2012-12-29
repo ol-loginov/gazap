@@ -26,6 +26,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
+                                    <a href="$cp/constructor">#springMessage('layout.navbar.constructor.label')</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
                                     <a href="$cp/auth/logout">#springMessage('layout.navbar.logout.label')</a>
                                 </li>
                             </ul>
