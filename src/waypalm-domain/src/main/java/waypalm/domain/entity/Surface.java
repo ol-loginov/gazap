@@ -1,7 +1,6 @@
 package waypalm.domain.entity;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.util.StringUtils;
 import waypalm.domain.entity.base.IntegerIdentityCUD;
 
 import javax.persistence.*;
@@ -14,20 +13,13 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlSeeAlso({GeometryPlain.class, GeometryGeoid.class})
 public class Surface extends IntegerIdentityCUD {
     public static final int TITLE_LENGTH = 64;
-    public static final int ALIAS_LENGTH = 64;
 
     @Version
     @Column(name = "version")
     private int version;
-    @Column(name = "hidden")
-    @XmlElement
-    private boolean hidden;
     @Column(name = "title", length = TITLE_LENGTH, nullable = false)
     @XmlElement(name = "title")
     private String title;
-    @Column(name = "main", length = ALIAS_LENGTH)
-    @XmlElement(name = "main")
-    private boolean main;
     @OneToOne
     @JoinColumn(name = "geometry", nullable = true)
     @XmlElement(name = "geometry")
@@ -41,41 +33,11 @@ public class Surface extends IntegerIdentityCUD {
         this.title = title;
     }
 
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
     public Geometry getGeometry() {
         return geometry;
     }
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
-    }
-
-    public boolean isMain() {
-        return main;
-    }
-
-    public void setMain(boolean main) {
-        this.main = main;
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
-    @Transient
-    @XmlElement(name = "slug")
-    public String getSlug() {
-        return StringUtils.hasText(getAlias()) ? getAlias() : Integer.toString(getId());
     }
 }

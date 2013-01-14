@@ -2,15 +2,14 @@ package waypalm.site.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import waypalm.common.util.ObjectUtil;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
-import waypalm.domain.entity.*;
+import waypalm.domain.entity.GeometryPlain;
+import waypalm.domain.entity.Profile;
+import waypalm.domain.entity.ProfileSurfaceRel;
+import waypalm.domain.entity.Surface;
+import waypalm.site.model.constructor.CreatePlaneForm;
 import waypalm.site.services.WorldService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class WorldServiceImpl implements WorldService {
@@ -20,14 +19,13 @@ public class WorldServiceImpl implements WorldService {
     protected UserRepository userRepository;
 
     @Override
-    public Surface createSurface(Profile creator, Geometry geometry) {
+    public Surface createSurface(Profile creator, CreatePlaneForm planeForm) {
+        GeometryPlain geometry = new GeometryPlain();
+        geometry.setOrientation(planeForm.getOrientation());
         worldRepository.create(geometry);
 
         Surface surface = new Surface();
-        surface.setAlias(form.getAlias());
-        surface.setTitle(form.getTitle());
-        surface.setMain(false);
-        surface.setHidden(true);
+        surface.setTitle(planeForm.getTitle());
         surface.setGeometry(geometry);
         worldRepository.create(surface);
 
@@ -37,30 +35,6 @@ public class WorldServiceImpl implements WorldService {
         rel.setFavourite(true);
         worldRepository.create(rel);
 
-        world.setSurfaceCount(world.getSurfaceCount() + 1);
-        worldRepository.save(world);
-
         return surface;
-    }
-
-    @Override
-    public List<World> getUserWorldList(Profile currentProfile) {
-        List<World> result = new ArrayList<>();
-        for (ProfileWorldRel rel : worldRepository.listWorldRelation(currentProfile)) {
-            result.add(rel.getWorld());
-        }
-        return result;
-    }
-
-    @Override
-    public World findWorldBySlug(String slugText) {
-        if (!StringUtils.hasText(slugText)) {
-            return null;
-        }
-        if (ObjectUtil.isInteger(slugText)) {
-            return worldRepository.getWorld(Integer.parseInt(slugText));
-        } else {
-            return worldRepository.findWorldByAlias(slugText);
-        }
     }
 }

@@ -8,12 +8,12 @@
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
+    <ul class="wizard-steps">
+        <li><span class="step step-1">#springMessage("constructor.firstWizard.stepLabel")</span></li>
+    </ul>
     <ul>
         <li>
-            <a href="$cp/constructor/surface">New Surface</a>
-        </li>
-        <li>
-            <a href="$cp/constructor/world">New World</a>
+            <a href="$cp/constructor/surface/plane">New Surface</a>
         </li>
     </ul>
 </div>
