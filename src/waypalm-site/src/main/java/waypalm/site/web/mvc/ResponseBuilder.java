@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers;
+package waypalm.site.web.mvc;
 
 import com.iserv2.commons.lang.collections.IservCollections;
 import org.springframework.context.MessageSourceResolvable;
@@ -13,11 +13,11 @@ import waypalm.common.web.model.FormErrors;
 
 import java.util.Locale;
 
-public class ResponseBuilderImpl implements Response {
+public class ResponseBuilder implements Response {
     private final FormatService formatService;
     private final Locale locale;
 
-    public ResponseBuilderImpl(FormatService formatService, Locale locale) {
+    public ResponseBuilder(FormatService formatService, Locale locale) {
         this.formatService = formatService;
         this.locale = locale;
     }

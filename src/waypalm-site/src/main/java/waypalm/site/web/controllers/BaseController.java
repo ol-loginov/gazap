@@ -13,6 +13,7 @@ import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
+import waypalm.site.web.mvc.ResponseBuilder;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -33,7 +34,7 @@ public abstract class BaseController {
     }
 
     protected Response responseBuilder(Locale locale) {
-        return new ResponseBuilderImpl(format, locale);
+        return new ResponseBuilder(format, locale);
     }
 
     public Profile requireProfile() {

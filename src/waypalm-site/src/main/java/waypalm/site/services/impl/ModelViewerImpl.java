@@ -28,10 +28,9 @@ public class ModelViewerImpl implements ModelViewer {
     public UserTitle profileTitle(Profile profile) {
         UserTitle title = new UserTitle();
         title.setId(profile.getId());
-        title.setAlias(profile.getAlias());
         title.setName(profile.getDisplayName());
         title.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
-        title.setRoute("/u/" + (profile.getAlias() == null ? Integer.toString(profile.getId()) : profile.getAlias()));
+        title.setRoute("/u/" + profile.getId());
         title.setSummary(userRepository.getProfileSummary(profile));
         title.setMe(profile.isSame(auth.loadCurrentProfile()));
         return title;

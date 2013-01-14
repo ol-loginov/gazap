@@ -10,16 +10,16 @@ import waypalm.site.web.controllers.BaseController;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/auth/restore")
-public class RestoreController extends BaseController {
+@RequestMapping("/auth/recall")
+public class RecallController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showForm(Locale locale) {
-        return responseBuilder(locale).view("access/restore");
+        return responseBuilder(locale).view("auth/recall");
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView submitForm(Locale locale, RestoreForm form) {
-        return responseBuilder(locale).view("access/restore")
+        return responseBuilder(locale).view("auth/recall")
                 .addObject("form", form);
     }
 }

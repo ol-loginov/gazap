@@ -1,4 +1,4 @@
-package waypalm.site.web.controllers.landing;
+package waypalm.site.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +10,7 @@ import waypalm.site.web.controllers.BaseController;
 import java.util.Locale;
 
 @Controller
-public class IndexController extends BaseController {
+public class LandingController extends BaseController {
     @Autowired
     WorldService worldService;
 

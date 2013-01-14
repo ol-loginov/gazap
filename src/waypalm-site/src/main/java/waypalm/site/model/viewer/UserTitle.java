@@ -4,7 +4,6 @@ import waypalm.domain.entity.ProfileSummary;
 
 public class UserTitle {
     private int id;
-    private String alias;
     private String name;
     private String gravatar;
     private String route;
@@ -17,14 +16,6 @@ public class UserTitle {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     public String getName() {

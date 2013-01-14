@@ -29,7 +29,7 @@ public class LoginController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getLoginPage(Locale locale) {
-        return responseBuilder(locale).view("access/login")
+        return responseBuilder(locale).view("auth/login")
                 .addObject("authProviders", userAccess.getAvailableSocialProviders());
     }
 
@@ -41,7 +41,7 @@ public class LoginController extends BaseController {
     @RequestMapping("/error")
     public ModelAndView getLoginError(Locale locale, HttpServletRequest request) {
         AuthenticationException authError = authenticationFailureHandler.getAuthenticationException(request);
-        return responseBuilder(locale).view("access/login")
+        return responseBuilder(locale).view("auth/login")
                 .addObject("authProviders", userAccess.getAvailableSocialProviders())
                 .addObject("authError", authError != null)
                 .addObject("authErrorBadCredentials", authError instanceof BadCredentialsException)
