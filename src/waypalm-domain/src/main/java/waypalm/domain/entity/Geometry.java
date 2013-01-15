@@ -1,7 +1,7 @@
 package waypalm.domain.entity;
 
-import waypalm.domain.entity.base.IntegerIdentityCUD;
 import org.hibernate.annotations.DynamicUpdate;
+import waypalm.domain.entity.base.IntegerIdentityCUD;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,16 +18,21 @@ public abstract class Geometry extends IntegerIdentityCUD {
     @Column(name = "geometry", updatable = false)
     @XmlElement(name = "geometry")
     @Enumerated(EnumType.STRING)
-    private SurfaceGeometry geometry;
+    private Type type;
 
     protected Geometry() {
     }
 
-    protected Geometry(SurfaceGeometry geometry) {
-        this.geometry = geometry;
+    protected Geometry(Type type) {
+        this.type = type;
     }
 
-    public SurfaceGeometry getGeometry() {
-        return geometry;
+    public Type getType() {
+        return type;
+    }
+
+    public static enum Type {
+        PLANE,
+        GEOID
     }
 }

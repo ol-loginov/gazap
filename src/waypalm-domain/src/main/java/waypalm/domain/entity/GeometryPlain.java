@@ -11,17 +11,22 @@ import javax.persistence.*;
 public class GeometryPlain extends Geometry {
     @Column(name = "orientation", nullable = false)
     @Enumerated(EnumType.STRING)
-    private SurfaceOrientation orientation;
+    private Orientation orientation;
 
     public GeometryPlain() {
-        super(SurfaceGeometry.PLANE);
+        super(Type.PLANE);
     }
 
-    public SurfaceOrientation getOrientation() {
+    public Orientation getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(SurfaceOrientation orientation) {
+    public void setOrientation(Orientation orientation) {
         this.orientation = orientation;
+    }
+
+    public static enum Orientation {
+        LEFT_HAND,
+        RIGHT_HAND
     }
 }

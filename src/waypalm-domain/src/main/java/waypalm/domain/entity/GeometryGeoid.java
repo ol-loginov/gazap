@@ -20,7 +20,7 @@ public class GeometryGeoid extends Geometry {
     private float radiusY;
 
     public GeometryGeoid() {
-        super(SurfaceGeometry.GEOID);
+        super(Type.GEOID);
     }
 
     public float getRadiusZ() {

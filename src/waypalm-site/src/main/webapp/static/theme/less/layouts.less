@@ -1,5 +1,6 @@
 body {
     padding-top: @navbarHeight + 20px;
+    font-size: @baseFontSize;
 }
 
 body.login-page {
@@ -24,62 +25,4 @@ body.login-page {
     margin-right: 6px;
     margin-top: -3px;
     margin-bottom: -3px;
-}
-
-ul.wizard-steps {
-    padding: 5px 0;
-    margin: 0;
-    list-style: none;
-    line-height: 22px;
-    display: block;
-    font-size: 12px;
-
-    li {
-        padding: 0;
-        margin: 0;
-        display: inline;
-
-        a,
-        span {
-            text-transform: uppercase;
-            background-color: #009800;
-            color: #ffffff;
-            font-weight: bold;
-            padding: 5px 20px;
-            text-decoration: none;
-
-            .step-icon() {
-                margin-right: .5em;
-                margin-left: -1em;
-                border-radius: 8px;
-                padding: 0 5px;
-                background-color: #ffffff;
-                color: #009800;
-            }
-
-            &.step-1:before {
-                .step-icon();
-                content: "1";
-            }
-
-            &.step-2:before {
-                .step-icon();
-                content: "2";
-            }
-
-            &.step-3:before {
-                .step-icon();
-                content: "3";
-            }
-
-            &.passed {
-                background-color: #69d769;
-            }
-
-            &.disabled {
-                background-color: #dedede;
-                color: #fff;
-            }
-        }
-    }
 }

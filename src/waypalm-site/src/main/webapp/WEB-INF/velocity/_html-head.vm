@@ -9,7 +9,7 @@
 
 #if($eCdn.debugMode)
 <link rel="stylesheet/less" href="$cp/static/theme/less/theme.less"/>
-<script type="text/javascript" src="$libRoot/less/less-1.3.0.min.js"></script>
+<script type="text/javascript" src="$libRoot/less/less-1.3.3.min.js"></script>
 #else
 <link rel="stylesheet" href="$cp/static/theme/dist/theme.min.css?_=$eCdn.serverStart"/>
 #end

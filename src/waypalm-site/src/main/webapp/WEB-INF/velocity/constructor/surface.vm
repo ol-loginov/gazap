@@ -8,12 +8,10 @@
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
-    <h5>#springMessage("constructor.selectEntityToCreate")</h5>
-    <ul>
-        <li>
-            <a href="$cp/constructor/surface">New Surface</a>
-        </li>
-    </ul>
+    <form method="post" action="$cp/constructor/surface">
+    </form>
+    <script type="text/javascript">
+    </script>
 </div>
 <!-- /container -->
 </body>

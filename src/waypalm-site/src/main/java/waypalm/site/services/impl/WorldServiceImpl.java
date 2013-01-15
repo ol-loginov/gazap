@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
-import waypalm.domain.entity.GeometryPlain;
-import waypalm.domain.entity.Profile;
-import waypalm.domain.entity.ProfileSurfaceRel;
-import waypalm.domain.entity.Surface;
-import waypalm.site.model.constructor.CreatePlaneForm;
+import waypalm.domain.entity.*;
+import waypalm.site.model.constructor.CreateSurfaceForm;
 import waypalm.site.services.WorldService;
 
 @Service
@@ -19,13 +16,19 @@ public class WorldServiceImpl implements WorldService {
     protected UserRepository userRepository;
 
     @Override
-    public Surface createSurface(Profile creator, CreatePlaneForm planeForm) {
-        GeometryPlain geometry = new GeometryPlain();
-        geometry.setOrientation(planeForm.getOrientation());
+    public Surface createSurface(Profile creator, CreateSurfaceForm surfaceForm) {
+        Geometry geometry;
+        switch (surfaceForm.getType()) {
+            case PLANE:
+                geometry = createPlaneGeometry(surfaceForm);
+                break;
+            default:
+                throw new IllegalArgumentException("surface type " + surfaceForm.getType() + " is not supported");
+        }
         worldRepository.create(geometry);
 
         Surface surface = new Surface();
-        surface.setTitle(planeForm.getTitle());
+        surface.setTitle("Untitled");
         surface.setGeometry(geometry);
         worldRepository.create(surface);
 
@@ -36,5 +39,11 @@ public class WorldServiceImpl implements WorldService {
         worldRepository.create(rel);
 
         return surface;
+    }
+
+    private GeometryPlain createPlaneGeometry(CreateSurfaceForm surfaceForm) {
+        GeometryPlain geometry = new GeometryPlain();
+        geometry.setOrientation(surfaceForm.getPlainOrientation());
+        return geometry;
     }
 }

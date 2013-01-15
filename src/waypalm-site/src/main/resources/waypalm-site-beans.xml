@@ -60,7 +60,6 @@
                 <value>classpath:/waypalm-site</value>
                 <value>classpath:/i18n/messages</value>
                 <value>WEB-INF/i18n/ui</value>
-                <value>WEB-INF/i18n/validation</value>
             </list>
         </property>
     </bean>
