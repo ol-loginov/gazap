@@ -5,11 +5,21 @@
     #parse('_html-head.vm')
     <title>#springMessage('layout.title.constructor')</title>
 </head>
-    #set($siteNavbarMode='tools')
     #set($siteRoute='/tools/surface')
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
+    <table class="table">
+        <thead></thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        Your surface list is empty. Start with <a href="/tools/surface/new">new surface</a>.
+    </p>
 </div>
 <!-- /container -->
 </body>

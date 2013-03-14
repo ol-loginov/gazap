@@ -1,0 +1,13 @@
+@fatcowIconSpritePath: "../img/fatcowicons.png";
+@fatcowIconSpriteSize: 16px;
+
+[class^="icon-fc-"],
+[class*=" icon-fc-"] {
+    width: @fatcowIconSpriteSize;
+    height: @fatcowIconSpriteSize;
+    line-height: @fatcowIconSpriteSize;
+    background-image: url("@{fatcowIconSpritePath}");
+    background-position: @fatcowIconSpriteSize @fatcowIconSpriteSize;
+}
+
+.icon-fc-doc { background-position: 0 0; }

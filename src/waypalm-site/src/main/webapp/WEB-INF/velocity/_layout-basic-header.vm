@@ -1,18 +1,17 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="$cp/">#springMessage('layout.navbar.brand')</a>
+            <a class="brand" href="/">#springMessage('layout.navbar.brand')</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    #if($siteNavbarMode == 'tools')
-                        <li><a href="$cp/" class="switch-navbar-mode">#springMessage('layout.navbar.tools.leave')</a></li>
-                        <li #if($siteRoute=="/tools/surface")class="active"#end><a href="$cp/tools/surface"><span>#springMessage('layout.navbar.tools.surfaces')</span></a></li>
+                    #if($siteRoute.startsWith('/tools'))
+                        <li #if($siteRoute.startsWith("/tools/surface"))class="active"#end><a href="/tools/surface"><span>#springMessage('layout.navbar.tools.surfaces')</span></a></li>
                     #else
                         #if($eVisitor.logged)
-                            <li><a href="$cp/tools" class="switch-navbar-mode">#springMessage('layout.navbar.tools')</a></li>
+                            <li><a href="/tools" class="switch-navbar-mode">#springMessage('layout.navbar.tools')</a></li>
                         #end
-                        <li #if($siteRoute=="/browse")class="active"#end><a href="$cp/browse">#springMessage('layout.navbar.browse')</a></li>
+                        <li #if($siteRoute.startsWith("/browse"))class="active"#end><a href="/browse">#springMessage('layout.navbar.browse')</a></li>
                     #end
                 </ul>
                 #if($eVisitor.logged)
@@ -26,7 +25,7 @@
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="$cp/auth/logout">#springMessage('layout.navbar.logout')</a>
+                                    <a href="/auth/logout">#springMessage('layout.navbar.logout')</a>
                                 </li>
                             </ul>
                         </li>
@@ -34,7 +33,7 @@
                 #else
                     <ul class="nav pull-right">
                         <li>
-                            <a href="$cp/auth">#springMessage('layout.navbar.login')</a>
+                            <a href="/auth">#springMessage('layout.navbar.login')</a>
                         </li>
                     </ul>
                 #end

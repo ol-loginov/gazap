@@ -12,7 +12,12 @@ import java.util.Locale;
 @RequestMapping("/tools/surface")
 public class ToolsSurfaceController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getPlaneSurfaceWizard(Locale locale) {
+    public ModelAndView showSurfaceList(Locale locale) {
         return responseBuilder(locale).view("tools/surface-list");
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public ModelAndView showSurfaceWizard(Locale locale) {
+        return responseBuilder(locale).view("tools/surface-new");
     }
 }
