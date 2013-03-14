@@ -1,24 +1,22 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </a>
             <a class="brand" href="$cp/">#springMessage('layout.navbar.brand')</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <!--li>
-                        <a href="$cp/mission">#springMessage('layout.navbar.mission.label')</a>
-                    </li-->
-                    <li>
-                        <a href="$cp/browse">#springMessage('layout.navbar.browse.label')</a>
-                    </li>
+                    #if($siteNavbarMode == 'tools')
+                        <li><a href="$cp/" class="switch-navbar-mode">#springMessage('layout.navbar.tools.leave')</a></li>
+                        <li #if($siteRoute=="/tools/surface")class="active"#end><a href="$cp/tools/surface"><span>#springMessage('layout.navbar.tools.surfaces')</span></a></li>
+                    #else
+                        #if($eVisitor.logged)
+                            <li><a href="$cp/tools" class="switch-navbar-mode">#springMessage('layout.navbar.tools')</a></li>
+                        #end
+                        <li #if($siteRoute=="/browse")class="active"#end><a href="$cp/browse">#springMessage('layout.navbar.browse')</a></li>
+                    #end
                 </ul>
-                <ul class="nav pull-right">
-                    #if($eVisitor.logged)
+                #if($eVisitor.logged)
+                    <ul class="nav pull-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img class="gravatar s24" src="//gravatar.com/avatar/$eVisitor.user.gravatar?s=24"/>
@@ -26,21 +24,20 @@
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a href="$cp/constructor">#springMessage('layout.navbar.constructor.label')</a>
-                                </li>
                                 <li class="divider"></li>
                                 <li>
-                                    <a href="$cp/auth/logout">#springMessage('layout.navbar.logout.label')</a>
+                                    <a href="$cp/auth/logout">#springMessage('layout.navbar.logout')</a>
                                 </li>
                             </ul>
                         </li>
-                    #else
+                    </ul>
+                #else
+                    <ul class="nav pull-right">
                         <li>
-                            <a href="$cp/auth">#springMessage('layout.navbar.login.label')</a>
+                            <a href="$cp/auth">#springMessage('layout.navbar.login')</a>
                         </li>
-                    #end
-                </ul>
+                    </ul>
+                #end
             </div>
             <!--/.nav-collapse -->
         </div>

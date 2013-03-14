@@ -5,3 +5,5 @@
 #* @vtlvariable name="eCdn" type="waypalm.site.web.extensions.CdnExtender.Content" *#
 #* @vtlvariable name="eVisitor" type="waypalm.site.web.extensions.VisitorExtender.Content" *#
 #* @vtlvariable name="cp" type="java.lang.String" *#
+#* @vtlvariable name="siteNavbarMode" type="java.lang.String" *#
+#* @vtlvariable name="siteRoute" type="java.lang.String" *#

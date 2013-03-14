@@ -19,16 +19,10 @@ public class ProfileSummary implements DomainEntity {
     @JoinColumn(name = "profile", nullable = false, updatable = false)
     @MapsId("profile")
     private Profile profile;
-    @Column(name = "worldFavourite")
-    private int worldFavourite;
-    @Column(name = "worldOwned")
-    private int worldOwned;
-    @Column(name = "worldOwnedLimit")
-    private int worldOwnedLimit;
-    @Column(name = "avatarFavourite")
-    private int avatarFavourite;
-    @Column(name = "avatarOwned")
-    private int avatarOwned;
+    @Column(name = "surfaceOwned")
+    private int surfaceOwned;
+    @Column(name = "surfaceOwnedLimit")
+    private int surfaceOwnedLimit;
 
     protected ProfileSummary() {
     }
@@ -45,44 +39,20 @@ public class ProfileSummary implements DomainEntity {
         this.profile = profile;
     }
 
-    public int getWorldFavourite() {
-        return worldFavourite;
+    public int getSurfaceOwned() {
+        return surfaceOwned;
     }
 
-    public void setWorldFavourite(int worldFavourite) {
-        this.worldFavourite = worldFavourite;
+    public void setSurfaceOwned(int surfaceOwned) {
+        this.surfaceOwned = surfaceOwned;
     }
 
-    public int getAvatarFavourite() {
-        return avatarFavourite;
+    public int getSurfaceOwnedLimit() {
+        return surfaceOwnedLimit;
     }
 
-    public void setAvatarFavourite(int avatarFavourite) {
-        this.avatarFavourite = avatarFavourite;
-    }
-
-    public int getWorldOwned() {
-        return worldOwned;
-    }
-
-    public void setWorldOwned(int worldOwned) {
-        this.worldOwned = worldOwned;
-    }
-
-    public int getWorldOwnedLimit() {
-        return worldOwnedLimit;
-    }
-
-    public void setWorldOwnedLimit(int worldOwnedLimit) {
-        this.worldOwnedLimit = worldOwnedLimit;
-    }
-
-    public int getAvatarOwned() {
-        return avatarOwned;
-    }
-
-    public void setAvatarOwned(int avatarOwned) {
-        this.avatarOwned = avatarOwned;
+    public void setSurfaceOwnedLimit(int surfaceOwnedLimit) {
+        this.surfaceOwnedLimit = surfaceOwnedLimit;
     }
 
     @Embeddable

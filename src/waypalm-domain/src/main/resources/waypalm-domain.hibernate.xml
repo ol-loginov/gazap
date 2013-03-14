@@ -3,28 +3,9 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping class="waypalm.domain.entity.Contribution"/>
-        <mapping class="waypalm.domain.entity.ContributionTile"/>
-
-        <mapping class="waypalm.domain.entity.Avatar"/>
-
-        <mapping class="waypalm.domain.entity.World"/>
-        <mapping class="waypalm.domain.entity.WorldGroup"/>
-        <mapping class="waypalm.domain.entity.WorldPublishing"/>
-        <mapping class="waypalm.domain.entity.Surface"/>
-        <mapping class="waypalm.domain.entity.Geometry"/>
-
-        <mapping class="waypalm.domain.entity.GeometryGeoid"/>
-
-        <mapping class="waypalm.domain.entity.GeometryPlain"/>
-        <mapping class="waypalm.domain.entity.GeometryPlainTile"/>
-
         <mapping class="waypalm.domain.entity.Profile"/>
         <mapping class="waypalm.domain.entity.SocialLink"/>
         <mapping class="waypalm.domain.entity.ProfileSummary"/>
-        <mapping class="waypalm.domain.entity.ProfileAvatarRel"/>
-        <mapping class="waypalm.domain.entity.ProfileWorldRel"/>
-        <mapping class="waypalm.domain.entity.ProfileSurfaceRel"/>
 
         <event type="pre-insert">
             <listener class="waypalm.domain.dao.SessionListener"/>
