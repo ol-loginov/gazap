@@ -1,155 +1,16 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     13.10.2012 2:17:58                           */
+/* Created on:     14.03.2013 19:10:22                          */
 /*==============================================================*/
 
-
-drop table if exists Avatar;
-
-drop table if exists Contribution;
-
-drop table if exists ContributionTile;
-
-drop table if exists Geometry;
-
-drop table if exists GeometryGeoid;
-
-drop table if exists GeometryPlain;
-
-drop table if exists GeometryPlainTile;
 
 drop table if exists Profile;
 
 drop table if exists ProfileAcl;
 
-drop table if exists ProfileAvatarRel;
-
 drop table if exists ProfileSummary;
 
-drop table if exists ProfileSurfaceRel;
-
-drop table if exists ProfileWorldRel;
-
 drop table if exists SocialLink;
-
-drop table if exists Surface;
-
-drop table if exists World;
-
-drop table if exists WorldGroup;
-
-drop table if exists WorldPublishing;
-
-/*==============================================================*/
-/* Table: Avatar                                                */
-/*==============================================================*/
-create table Avatar
-(
-   id                   int not null auto_increment,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   world                int,
-   gameName             varchar(64) not null,
-   gameTitle            varchar(64) not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: Contribution                                          */
-/*==============================================================*/
-create table Contribution
-(
-   id                   int not null auto_increment,
-   createdAt            datetime not null,
-   class                varchar(16) not null,
-   version              int not null default 0,
-   map                  int not null,
-   author               int not null,
-   decision             varchar(16) not null,
-   approveLevel         int not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: ContributionTile                                      */
-/*==============================================================*/
-create table ContributionTile
-(
-   id                   int not null,
-   x                    int not null,
-   y                    int not null,
-   size                 int not null,
-   scale                int not null,
-   action               varchar(16) not null,
-   file                 varchar(64),
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: Geometry                                              */
-/*==============================================================*/
-create table Geometry
-(
-   id                   int not null auto_increment,
-   version              int not null default 0,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   geometry             varchar(16) not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: GeometryGeoid                                         */
-/*==============================================================*/
-create table GeometryGeoid
-(
-   id                   int not null,
-   radiusZ              float not null,
-   radiusX              float not null,
-   radiusY              float not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: GeometryPlain                                         */
-/*==============================================================*/
-create table GeometryPlain
-(
-   id                   int not null,
-   orientation          varchar(12) not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: GeometryPlainTile                                     */
-/*==============================================================*/
-create table GeometryPlainTile
-(
-   id                   int not null,
-   geometry             int not null,
-   x                    int not null,
-   y                    int not null,
-   size                 int not null,
-   scale                int not null,
-   file                 varchar(64) not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
 
 /*==============================================================*/
 /* Table: Profile                                               */
@@ -166,11 +27,9 @@ create table Profile
    emailConfirmToken    varchar(128),
    password             varchar(64) not null,
    passwordSalt         varchar(32) not null,
-   alias                varchar(32),
    displayName          varchar(64) not null,
    primary key (id),
-   unique key AK_UniqueEmail (email),
-   unique key AK_UniqueAlias (alias)
+   unique key AK_UniqueEmail (email)
 )
 charset = utf8
 engine = MYISAM;
@@ -187,62 +46,14 @@ charset = utf8
 engine = MYISAM;
 
 /*==============================================================*/
-/* Table: ProfileAvatarRel                                      */
-/*==============================================================*/
-create table ProfileAvatarRel
-(
-   profile              int not null,
-   avatar               int not null,
-   author               bit(1) not null default 0,
-   favourite            bit(1) not null default 0,
-   primary key (profile, avatar)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
 /* Table: ProfileSummary                                        */
 /*==============================================================*/
 create table ProfileSummary
 (
    profile              int not null,
-   worldFavourite       int not null default 0,
-   worldOwned           int not null default 0,
-   worldOwnedLimit      int not null default 1,
-   avatarFavourite      int not null default 0,
-   avatarOwned          int not null default 0,
+   surfaceOwned         int not null default 0,
+   surfaceOwnedLimit    int not null default 1,
    primary key (profile)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: ProfileSurfaceRel                                     */
-/*==============================================================*/
-create table ProfileSurfaceRel
-(
-   surface              int not null,
-   profile              int not null,
-   author               bit(1) not null default 0,
-   editor               bit(1) not null default 0,
-   favourite            bit(1) not null default 0,
-   primary key (profile, surface)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: ProfileWorldRel                                       */
-/*==============================================================*/
-create table ProfileWorldRel
-(
-   world                int not null,
-   profile              int not null,
-   author               bit(1) not null default 0,
-   editor               bit(1) not null default 0,
-   avatar               bit(1) not null default 0,
-   favourite            bit(1) not null default 0,
-   primary key (profile, world)
 )
 charset = utf8
 engine = MYISAM;
@@ -267,132 +78,12 @@ create table SocialLink
 charset = utf8
 engine = MYISAM;
 
-/*==============================================================*/
-/* Table: Surface                                               */
-/*==============================================================*/
-create table Surface
-(
-   id                   int not null auto_increment,
-   version              int not null default 1,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   world                int not null,
-   hidden               bit(1),
-   title                varchar(64) not null,
-   alias                varchar(64),
-   geometry             int,
-   main                 bit(1) not null default 0,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: World                                                 */
-/*==============================================================*/
-create table World
-(
-   id                   int not null auto_increment,
-   version              int not null default 0,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   hidden               bit(1) not null,
-   title                varchar(64) not null,
-   alias                varchar(64),
-   worldGroup           int,
-   surfaceCount         int not null,
-   primary key (id),
-   unique key AK_UniqueTitle (title),
-   unique key AK_UniqueAlias (alias)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: WorldGroup                                            */
-/*==============================================================*/
-create table WorldGroup
-(
-   id                   int not null auto_increment,
-   createdAt            datetime not null,
-   updatedAt            datetime not null,
-   deletedAt            datetime,
-   title                varchar(128) not null,
-   primary key (id)
-)
-charset = utf8
-engine = MYISAM;
-
-/*==============================================================*/
-/* Table: WorldPublishing                                       */
-/*==============================================================*/
-create table WorldPublishing
-(
-   world                int not null,
-   memo                 varchar(512) not null,
-   publisherTitle       varchar(128) not null,
-   publisherUrl         varchar(128) not null,
-   primary key (world)
-)
-charset = utf8
-engine = MYISAM;
-
-alter table Avatar add constraint FK_Avatar_world foreign key (world)
-      references World (id) on delete restrict on update restrict;
-
-alter table Contribution add constraint FK_Contribution_map foreign key (map)
-      references Surface (id) on delete restrict on update restrict;
-
-alter table ContributionTile add constraint FK_ContributionTile_id foreign key (id)
-      references Contribution (id) on delete restrict on update restrict;
-
-alter table GeometryGeoid add constraint FK_GeometryGeoid_id foreign key (id)
-      references Geometry (id) on delete restrict on update restrict;
-
-alter table GeometryPlain add constraint FK_GeometryPlain_id foreign key (id)
-      references Geometry (id) on delete restrict on update restrict;
-
-alter table GeometryPlainTile add constraint FK_GeometryPlainTile_geometry foreign key (geometry)
-      references GeometryPlain (id) on delete restrict on update restrict;
-
 alter table ProfileAcl add constraint FK_ProfileAcl_profile foreign key (profile)
-      references Profile (id) on delete restrict on update restrict;
-
-alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_avatar foreign key (avatar)
-      references Avatar (id) on delete restrict on update restrict;
-
-alter table ProfileAvatarRel add constraint FK_ProfileAvatarRel_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
 alter table ProfileSummary add constraint FK_ProfileSummary_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
 
-alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_profile foreign key (profile)
-      references Profile (id) on delete restrict on update restrict;
-
-alter table ProfileSurfaceRel add constraint FK_ProfileSurfaceRel_surface foreign key (surface)
-      references Surface (id) on delete restrict on update restrict;
-
-alter table ProfileWorldRel add constraint FK_ProfileWorldRel_profile foreign key (profile)
-      references Profile (id) on delete restrict on update restrict;
-
-alter table ProfileWorldRel add constraint FK_ProfileWorldRel_world foreign key (world)
-      references World (id) on delete restrict on update restrict;
-
 alter table SocialLink add constraint FK_SocialLink_profile foreign key (profile)
       references Profile (id) on delete restrict on update restrict;
-
-alter table Surface add constraint FK_Surface_geometry foreign key (id)
-      references Geometry (id) on delete restrict on update restrict;
-
-alter table Surface add constraint FK_Surface_world foreign key (world)
-      references World (id) on delete restrict on update restrict;
-
-alter table World add constraint FK_World_worldGroup foreign key (worldGroup)
-      references WorldGroup (id) on delete restrict on update restrict;
-
-alter table WorldPublishing add constraint FK_WorldPublishing_world foreign key (world)
-      references World (id) on delete restrict on update restrict;
 
