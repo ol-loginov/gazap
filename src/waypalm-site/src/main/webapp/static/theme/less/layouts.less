@@ -43,3 +43,46 @@ body {
     }
 }
 
+label.ux-radio {
+    overflow: hidden;
+    display: inline;
+    position: relative;
+
+    > input[type=radio] {
+        position: absolute;
+        display: block;
+        top: -3em;
+        left: 0;
+        width: 1px;
+        height: 1px;
+
+        &:checked {
+            + .ux-radio-label {
+                background-color: #db7093;
+            }
+        }
+        &:focus {
+            + .ux-radio-label {
+                background-color: #db9755;
+            }
+        }
+    }
+
+    &.ux-radio-image {
+        > input[type=radio] {
+            + .ux-radio-label {
+                display: block;
+                > img {
+                    border: none;
+                    margin: .5em;
+                }
+                > .ux-radio-image-legend {
+                    display: block;
+                    padding: 0 .5em .5em;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+

@@ -23,6 +23,7 @@
 <script type="text/javascript" src="$libRoot/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery.form-3.18.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery.validate-1.10.0.js"></script>
+<script type="text/javascript" src="$libRoot/jquery.ui/jquery-ui-1.9.2.custom.min.js"></script>
 <script type="text/javascript" src="$libRoot/bootstrap/bootstrap-collapse.js"></script>
 <script type="text/javascript" src="$libRoot/bootstrap/bootstrap-dropdown.js"></script>
 <script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>

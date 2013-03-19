@@ -1,8 +1,8 @@
-package waypalm.site.model.viewer;
+package waypalm.site.model.view;
 
 import waypalm.domain.entity.ProfileSummary;
 
-public class UserTitle {
+public class UserName {
     private int id;
     private String name;
     private String gravatar;

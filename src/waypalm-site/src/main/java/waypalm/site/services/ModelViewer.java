@@ -1,8 +1,8 @@
 package waypalm.site.services;
 
 import waypalm.domain.entity.Profile;
-import waypalm.site.model.viewer.UserTitle;
+import waypalm.site.model.view.UserName;
 
 public interface ModelViewer {
-    UserTitle profileTitle(Profile profile);
+    UserName createUserName(Profile profile);
 }

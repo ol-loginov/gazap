@@ -5,7 +5,7 @@
     #parse('_html-head.vm')
     <title>#springMessage('layout.title.constructor')</title>
 </head>
-    #set($siteRoute='/tools/surface')
+    #set($siteRoute='/tools/area')
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
@@ -13,12 +13,12 @@
         <thead></thead>
         <tbody>
         <tr>
-            <td>1</td>
+            <td></td>
         </tr>
         </tbody>
     </table>
     <p>
-        Your surface list is empty. Start with <a href="/tools/surface/new">new surface</a>.
+        Your area list is empty. Start with <a href="/tools/area/new">new area</a>.
     </p>
 </div>
 <!-- /container -->

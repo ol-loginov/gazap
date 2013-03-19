@@ -5,7 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.entity.Profile;
-import waypalm.site.model.viewer.UserTitle;
+import waypalm.site.model.view.UserName;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserService;
 
@@ -21,15 +21,15 @@ public class VisitorExtender extends Extender<VisitorExtender.Content> {
         Profile user = auth.loadCurrentProfile();
         extension = instantiateIfNull(extension, VisitorExtender.Content.class);
         if (user != null) {
-            extension.user = modelViewer.profileTitle(user);
+            extension.user = modelViewer.createUserName(user);
         }
         return extension;
     }
 
     public static class Content {
-        private UserTitle user;
+        private UserName user;
 
-        public UserTitle getUser() {
+        public UserName getUser() {
             return user;
         }
 

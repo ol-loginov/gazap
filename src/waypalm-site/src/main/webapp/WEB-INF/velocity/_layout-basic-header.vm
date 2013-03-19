@@ -6,7 +6,7 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     #if($siteRoute.startsWith('/tools'))
-                        <li #if($siteRoute.startsWith("/tools/surface"))class="active"#end><a href="/tools/surface"><span>#springMessage('layout.navbar.tools.surfaces')</span></a></li>
+                        <li #if($siteRoute.startsWith("/tools/area"))class="active"#end><a href="/tools/area"><span>#springMessage('layout.navbar.tools.areas')</span></a></li>
                     #else
                         #if($eVisitor.logged)
                             <li><a href="/tools" class="switch-navbar-mode">#springMessage('layout.navbar.tools')</a></li>

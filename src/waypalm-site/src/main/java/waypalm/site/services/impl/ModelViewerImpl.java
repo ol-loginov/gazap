@@ -8,7 +8,7 @@ import waypalm.common.util.GravatarHelper;
 import waypalm.domain.dao.UserRepository;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.Profile;
-import waypalm.site.model.viewer.UserTitle;
+import waypalm.site.model.view.UserName;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
 
@@ -25,14 +25,14 @@ public class ModelViewerImpl implements ModelViewer {
 
     @Override
     @Transactional
-    public UserTitle profileTitle(Profile profile) {
-        UserTitle title = new UserTitle();
-        title.setId(profile.getId());
-        title.setName(profile.getDisplayName());
-        title.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
-        title.setRoute("/u/" + profile.getId());
-        title.setSummary(userRepository.getProfileSummary(profile));
-        title.setMe(profile.isSame(auth.loadCurrentProfile()));
-        return title;
+    public UserName createUserName(Profile profile) {
+        UserName name = new UserName();
+        name.setId(profile.getId());
+        name.setName(profile.getDisplayName());
+        name.setGravatar(GravatarHelper.hashOrDefault(profile.getEmail()));
+        name.setRoute("/u/" + profile.getId());
+        name.setSummary(userRepository.getProfileSummary(profile));
+        name.setMe(profile.isSame(auth.loadCurrentProfile()));
+        return name;
     }
 }
