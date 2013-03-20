@@ -21,6 +21,7 @@ public class JaxbJacksonObjectMapper extends ObjectMapper {
                 .withAnnotationIntrospector(new JaxbAnnotationIntrospector())
                 .with(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING)
                 .without(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS)
+                .without(SerializationConfig.Feature.WRITE_EMPTY_JSON_ARRAYS)
                 .withSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
     }
 

@@ -2,14 +2,14 @@ package waypalm.site.web.mvc;
 
 import com.iserv2.commons.lang.collections.IservCollections;
 import org.springframework.context.MessageSourceResolvable;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
 import waypalm.common.web.controllers.Response;
-import waypalm.common.web.model.FormErrors;
+import waypalm.common.web.model.ObjectErrors;
 
 import java.util.Locale;
 
@@ -43,21 +43,21 @@ public class ResponseBuilder implements Response {
     }
 
     @Override
-    public FormErrors getFormErrors(BindingResult formBinding) {
+    public ObjectErrors getValidationErrors(Errors formBinding) {
         if (formBinding == null || !formBinding.hasErrors()) {
-            return new FormErrors();
+            return null;
         }
 
-        FormErrors formErrors = new FormErrors();
+        ObjectErrors formErrors = new ObjectErrors();
         for (FieldError formBindingFieldError : formBinding.getFieldErrors()) {
-            FormErrors.FieldError fieldError = new FormErrors.FieldError();
+            ObjectErrors.FieldError fieldError = new ObjectErrors.FieldError();
             fieldError.setField(formBindingFieldError.getField());
             fieldError.setMessage(formatService.getMessage(locale, formBindingFieldError));
             formErrors.getFieldErrors().add(fieldError);
         }
 
         for (ObjectError formBindingFieldError : formBinding.getGlobalErrors()) {
-            FormErrors.GlobalError fieldError = new FormErrors.GlobalError();
+            ObjectErrors.GlobalError fieldError = new ObjectErrors.GlobalError();
             fieldError.setMessage(formatService.getMessage(locale, formBindingFieldError));
             formErrors.getGlobalErrors().add(fieldError);
         }

@@ -11,7 +11,7 @@
 <div class="container">
     <p>New area begins with title and geometry</p>
 
-    <form method="post" class="form-horizontal">
+    <form id="form" method="post" class="form-horizontal">
         <div class="control-group">
             <label class="control-label" for="title">#springMessage('page.constructor.newArea.form.title.label')</label>
 
@@ -24,14 +24,14 @@
 
             <div class="controls">
                 <label class="ux-radio pull-left ux-radio-image">
-                    <input type="radio" name="kind" value="plain" checked="checked">
+                    <input type="radio" name="kind" value="PLANE" checked="checked">
                     <span class="ux-radio-label">
-                        <img src="$themeRoot/img/constructor/kind.plain.png" alt="">
-                        <span class="ux-radio-image-legend">#springMessage('page.constructor.newArea.form.kind.plain')</span>
+                        <img src="$themeRoot/img/constructor/kind.plane.png" alt="">
+                        <span class="ux-radio-image-legend">#springMessage('page.constructor.newArea.form.kind.plane')</span>
                     </span>
                 </label>
                 <label class="ux-radio pull-left ux-radio-image">
-                    <input type="radio" name="kind" value="building">
+                    <input type="radio" name="kind" value="BUILDING">
                     <span class="ux-radio-label">
                         <img src="$themeRoot/img/constructor/kind.building.png" alt="">
                         <span class="ux-radio-image-legend">#springMessage('page.constructor.newArea.form.kind.building')</span>
@@ -45,6 +45,11 @@
             </div>
         </div>
     </form>
+    <script type="text/javascript">
+        $('#form')
+                .append($('<input type="hidden" name="_response" value="json">'))
+                .ajaxForm();
+    </script>
 </div>
 <!-- /container -->
 </body>

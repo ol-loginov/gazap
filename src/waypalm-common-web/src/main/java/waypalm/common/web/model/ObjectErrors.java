@@ -1,10 +1,16 @@
 package waypalm.common.web.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FormErrors {
+@XmlAccessorType(XmlAccessType.NONE)
+public class ObjectErrors {
+    @XmlElement
     private List<FieldError> fields;
+    @XmlElement
     private List<GlobalError> globals;
 
     public List<FieldError> getFieldErrors() {
@@ -51,7 +57,9 @@ public class FormErrors {
         return !hasFieldErrors() && !hasGlobalErrors();
     }
 
+    @XmlAccessorType(XmlAccessType.NONE)
     public static class GlobalError {
+        @XmlElement
         private String message;
 
         public String getMessage() {
@@ -63,7 +71,9 @@ public class FormErrors {
         }
     }
 
+    @XmlAccessorType(XmlAccessType.NONE)
     public static class FieldError extends GlobalError {
+        @XmlElement
         private String field;
 
         public String getField() {

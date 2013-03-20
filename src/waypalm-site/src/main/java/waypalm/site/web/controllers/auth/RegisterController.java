@@ -31,7 +31,7 @@ public class RegisterController extends BaseController {
         if (formBinding.hasErrors()) {
             return response.view("auth/register")
                     .addObject("form", form)
-                    .addObject("formErrors", response.getFormErrors(formBinding));
+                    .addObject("formErrors", response.getValidationErrors(formBinding));
         }
         userService.createUser(form.getUsername(), form.getPassword());
         return response.forward("/auth");

@@ -53,7 +53,7 @@
     <tx:annotation-driven transaction-manager="waypalm.dao.transactionManager"/>
 
     <!-- property files -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSourceWithLocaleChoice"
           p:defaultEncoding="UTF-8" p:fileEncodings="UTF-8" p:useCodeAsDefaultMessage="true" p:cacheSeconds="5">
         <property name="basenames">
             <list>
