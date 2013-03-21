@@ -2,8 +2,8 @@
 <html>
     $eCdn.setAppZone('/my/socials')
 <head>
-    #parse('shared/html-head.vm')
-    <title>#springMessage('SettingsSocialsPage.title')</title>
+    #parse('_html-head.vm')
+    <title>#t('SettingsSocialsPage.title')</title>
 </head>
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">

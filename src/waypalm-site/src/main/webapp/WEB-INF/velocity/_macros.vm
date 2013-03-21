@@ -1,0 +1,5 @@
+#* @vtlvariable name="springMacroRequestContext" type="org.springframework.web.servlet.support.RequestContext" *#
+#macro(h $text)$!escTool.html($text)#end
+#macro(u $text)$!escTool.url($text)#end
+#macro(t $code)$!springMacroRequestContext.getMessage($code)#end
+#macro(tn $code $args)$!springMacroRequestContext.getMessage($code, $args)#end

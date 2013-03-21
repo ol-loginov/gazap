@@ -3,7 +3,7 @@
     $eCdn.setAppZone('/')
 <head>
     #parse('_html-head.vm')
-    <title>#springMessage('layout.title.landingPage')</title>
+    <title>#t('layout.title.landingPage')</title>
 </head>
 <body>
     #parse('_layout-basic-header.vm')

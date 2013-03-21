@@ -11,7 +11,7 @@
 <div id="mainColumn" class="profile-page">
     <h1 class="accountName">
         #if($content.user.name)
-            <span class="noname">#springMessage('UserProfilePage.user.noName')</span>
+            <span class="noname">#t('UserProfilePage.user.noName')</span>
         #else
             $content.user.name
         #end
@@ -20,7 +20,7 @@
 
     <section id="accountMaps">
         <h3>
-            #springMessage('UserProfilePage.accountMaps.h')
+            #t('UserProfilePage.accountMaps.h')
             <span class="actions">
                 #if($content.user.me)
                     <a id="createMap" class=" btn-mini" href="${sc}/map/create">создать карту</a>
@@ -30,7 +30,7 @@
 
         #if($content.maps.empty)
             <p class="empty">
-                #springMessage('UserProfilePage.accountMaps.empty')
+                #t('UserProfilePage.accountMaps.empty')
             </p>
         #else
             <ul class="list">
@@ -44,14 +44,10 @@
     </section>
 
     <section id="accountWorlds">
-        <h3>
-            #springMessage('UserProfilePage.accountWorlds.h')
-        </h3>
+        <h3>#t('UserProfilePage.accountWorlds.h')</h3>
 
         #if($content.worlds.empty)
-            <p class="empty">
-                #springMessage('UserProfilePage.accountWorlds.empty')
-            </p>
+            <p class="empty">#t('UserProfilePage.accountWorlds.empty')</p>
         #else
             <ul class="list">
                 #foreach($e in $content.worlds)
@@ -70,13 +66,9 @@
     </section>
 
     <section id="accountAvatars">
-        <h3>
-            #springMessage('UserProfilePage.accountAvatars.h')
-        </h3>
+        <h3>#t('UserProfilePage.accountAvatars.h')</h3>
 
-        <p class="empty">
-            #springMessage('UserProfilePage.accountAvatars.empty')
-        </p>
+        <p class="empty">#t('UserProfilePage.accountAvatars.empty')</p>
     </section>
 
     <div class="clear"></div>

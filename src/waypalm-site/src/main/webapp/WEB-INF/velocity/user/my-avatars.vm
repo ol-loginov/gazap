@@ -2,8 +2,8 @@
 <html>
     $eCdn.setAppZone('/my/avatars')
 <head>
-    #parse('shared/html-head.vm')
-    <title>#springMessage('MyAvatarsPage.title')</title>
+    #parse('_html-head.vm')
+    <title>#t('MyAvatarsPage.title')</title>
 </head>
 <body id="bodyColumns" class="layout-1-4">
 <div class="content">

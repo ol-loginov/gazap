@@ -1,17 +1,19 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="/">#springMessage('layout.navbar.brand')</a>
+            <a class="brand" href="/">#t('layout.navbar.brand')</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     #if($siteRoute.startsWith('/tools'))
-                        <li #if($siteRoute.startsWith("/tools/area"))class="active"#end><a href="/tools/area"><span>#springMessage('layout.navbar.tools.areas')</span></a></li>
+                        <li #if($siteRoute.startsWith("/tools/area"))class="active"#end>
+                            <a href="/tools/area"><span>#t('layout.navbar.tools.areas')</span></a>
+                        </li>
                     #else
                         #if($eVisitor.logged)
-                            <li><a href="/tools" class="switch-navbar-mode">#springMessage('layout.navbar.tools')</a></li>
+                            <li><a href="/tools" class="switch-navbar-mode">#t('layout.navbar.tools')</a></li>
                         #end
-                        <li #if($siteRoute.startsWith("/browse"))class="active"#end><a href="/browse">#springMessage('layout.navbar.browse')</a></li>
+                        <li #if($siteRoute.startsWith("/browse"))class="active"#end><a href="/browse">#t('layout.navbar.browse')</a></li>
                     #end
                 </ul>
                 #if($eVisitor.logged)
@@ -24,17 +26,13 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
-                                <li>
-                                    <a href="/auth/logout">#springMessage('layout.navbar.logout')</a>
-                                </li>
+                                <li><a href="/auth/logout">#t('layout.navbar.logout')</a></li>
                             </ul>
                         </li>
                     </ul>
                 #else
                     <ul class="nav pull-right">
-                        <li>
-                            <a href="/auth">#springMessage('layout.navbar.login')</a>
-                        </li>
+                        <li><a href="/auth">#t('layout.navbar.login')</a></li>
                     </ul>
                 #end
             </div>

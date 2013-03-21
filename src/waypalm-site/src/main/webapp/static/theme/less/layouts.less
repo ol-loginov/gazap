@@ -47,6 +47,7 @@ label.ux-radio {
     overflow: hidden;
     display: inline;
     position: relative;
+    .border-radius(.4em);
 
     > input[type=radio] {
         position: absolute;
@@ -86,3 +87,18 @@ label.ux-radio {
     }
 }
 
+form {
+    .ajax-submit-indicator {
+        display: none;
+    }
+
+    &.ajax-submit-in-progress {
+        input[type=submit],
+        button[type=submit] {
+            display: none;
+        }
+        .ajax-submit-indicator {
+            display: inherit;
+        }
+    }
+}

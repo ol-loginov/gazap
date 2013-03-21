@@ -1,5 +1,5 @@
-#parse('_macros-spring.vm')
-#set($cp="$eCdn.contextPath")
+#parse('_macros.vm')
+#set($cp="$!eCdn.contextPath")
 #set($themeRoot="$cp/static/theme")
 #set($libRoot="$themeRoot/lib")
 #set($scriptsRoot="$themeRoot/scripts")
@@ -16,7 +16,7 @@
 
 <script type="text/javascript">
     V = {};
-    E = {language: '$eCdn.locale', 'SCE': '#springMessage('E.SCE')'};
+    E = {language: '$eCdn.locale', 'SCE': '#t('E.SCE')'};
 </script>
 
 <script type="text/javascript" src="$libRoot/head/head-0.96.min.js"></script>
@@ -29,5 +29,6 @@
 <script type="text/javascript" src="$libRoot/backbone/undescore-1.1.7.min.js"></script>
 <script type="text/javascript" src="$libRoot/backbone/backbone-0.5.3.min.js"></script>
 <script type="text/javascript" src="$libRoot/waypalm/waypalm.exists.js?_=$eCdn.serverStart"></script>
+<script type="text/javascript" src="$libRoot/waypalm/waypalm.ui.js?_=$eCdn.serverStart"></script>
 <script type="text/javascript" src="$scriptsRoot/defaults.js?_=$eCdn.serverStart"></script>
 <script type="text/javascript" src="$scriptsRoot/ui.js?_=$eCdn.serverStart"></script>

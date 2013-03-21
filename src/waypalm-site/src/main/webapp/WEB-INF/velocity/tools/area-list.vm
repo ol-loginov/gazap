@@ -3,7 +3,7 @@
     $eCdn.setAppZone('/constructor')
 <head>
     #parse('_html-head.vm')
-    <title>#springMessage('layout.title.constructor')</title>
+    <title>#t('layout.title.constructor')</title>
 </head>
     #set($siteRoute='/tools/area')
 <body>

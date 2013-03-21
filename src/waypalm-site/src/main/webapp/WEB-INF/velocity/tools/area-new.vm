@@ -3,52 +3,51 @@
     $eCdn.setAppZone('/constructor')
 <head>
     #parse('_html-head.vm')
-    <title>#springMessage('layout.title.constructor')</title>
+    <title>#t('layout.title.constructor')</title>
 </head>
     #set($siteRoute='/tools/area')
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
-    <p>New area begins with title and geometry</p>
-
     <form id="form" method="post" class="form-horizontal">
         <div class="control-group">
-            <label class="control-label" for="title">#springMessage('page.constructor.newArea.form.title.label')</label>
+            <label class="control-label" for="title">#t('page.constructor.newArea.form.title.label')</label>
 
             <div class="controls">
-                <input type="text" id="title" name="title" placeholder="#springMessage('page.constructor.newArea.form.title.placeholder')" class="input-block-level">
+                <input type="text" id="title" name="title" placeholder="#t('page.constructor.newArea.form.title.placeholder')"
+                       class="input-block-level">
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">#springMessage('page.constructor.newArea.form.kind.label')</label>
+            <label class="control-label">#t('page.constructor.newArea.form.kind.label')</label>
 
             <div class="controls">
                 <label class="ux-radio pull-left ux-radio-image">
                     <input type="radio" name="kind" value="PLANE" checked="checked">
                     <span class="ux-radio-label">
                         <img src="$themeRoot/img/constructor/kind.plane.png" alt="">
-                        <span class="ux-radio-image-legend">#springMessage('page.constructor.newArea.form.kind.plane')</span>
+                        <span class="ux-radio-image-legend">#t('page.constructor.newArea.form.kind.plane')</span>
                     </span>
                 </label>
                 <label class="ux-radio pull-left ux-radio-image">
                     <input type="radio" name="kind" value="BUILDING">
                     <span class="ux-radio-label">
                         <img src="$themeRoot/img/constructor/kind.building.png" alt="">
-                        <span class="ux-radio-image-legend">#springMessage('page.constructor.newArea.form.kind.building')</span>
+                        <span class="ux-radio-image-legend">#t('page.constructor.newArea.form.kind.building')</span>
                     </span>
                 </label>
             </div>
         </div>
         <div class="control-group">
             <div class="controls">
-                <button type="submit" class="btn">Sign in</button>
+                <button type="submit" class="btn">#t('page.constructor.newArea.form.submit')</button>
             </div>
         </div>
     </form>
     <script type="text/javascript">
         $('#form')
                 .append($('<input type="hidden" name="_response" value="json">'))
-                .ajaxForm();
+                .ajaxForm(A.ajaxFormController());
     </script>
 </div>
 <!-- /container -->

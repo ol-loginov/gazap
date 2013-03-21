@@ -2,8 +2,8 @@
 <html>
     $eCdn.setAppZone('/my/worlds')
 <head>
-    #parse('shared/html-head.vm')
-    <title>#springMessage('MyWorldsPage.title')</title>
+    #parse('_html-head.vm')
+    <title>#t('MyWorldsPage.title')</title>
 </head>
 #* @vtlvariable name="worldList" type="java.util.List<waypalm.domain.entity.World>" *#
 <body id="bodyColumns" class="layout-1-4">
@@ -41,11 +41,9 @@
                 </div>
                 <div class="form-submit clearfix">
                     <div class="pull-left">
-                        <input type="submit" class="btn-green" value="#springMessage('form.create')"/>
+                        <input type="submit" class="btn-green" value="#t('form.create')"/>
                     </div>
-                    <div class="pull-right">
-                        #springMessage('form.requiredNotice')
-                    </div>
+                    <div class="pull-right">#t('form.requiredNotice')</div>
                 </div>
             </form>
             <script type="text/javascript">

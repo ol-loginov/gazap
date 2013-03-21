@@ -1,2 +1,0 @@
-#* @vtlvariable name="springMacroRequestContext" type="org.springframework.web.servlet.support.RequestContext" *#
-#macro( springMessage1 $code $arg)$springMacroRequestContext.getMessage($code, [$arg])#end

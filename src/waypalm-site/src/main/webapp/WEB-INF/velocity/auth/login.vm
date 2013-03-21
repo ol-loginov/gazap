@@ -3,7 +3,7 @@
     $eCdn.setAppZone('/auth')
 <head>
     #parse('_html-head.vm')
-    <title>#springMessage('layout.title.landingPage')</title>
+    <title>#t('layout.title.landingPage')</title>
 </head>
 #* @vtlvariable name="authError" type="org.springframework.security.core.AuthenticationException" *#
 #* @vtlvariable name="authErrorBadCredentials" type="java.lang.Boolean" *#
@@ -16,37 +16,34 @@
         #if($authError)
             <div class="alert alert-block">
                 #if($authErrorBadCredentials)
-                    <h4>#springMessage('page.Login.faultBadCredentials.header')</h4>
-                    #springMessage1('page.Login.faultBadCredentials.suggestion', $totalRecallLink)
+                    <h4>#t('page.Login.faultBadCredentials.header')</h4>
+                    #tn('page.Login.faultBadCredentials.suggestion', [$totalRecallLink])
                 #elseif($authErrorUsernameNotFound)
-                    <h4>#springMessage('page.Login.faultUsernameNotFound.header')</h4>
-                    #springMessage1('page.Login.faultUsernameNotFound.suggestion', $totalRecallLink)
+                    <h4>#t('page.Login.faultUsernameNotFound.header')</h4>
+                    #tn('page.Login.faultUsernameNotFound.suggestion', [$totalRecallLink])
                 #else
-                    <h4>#springMessage('page.Login.fault.header')</h4>
-                    #springMessage1('page.Login.fault.suggestion', $authError.localizedMessage)
+                    <h4>#t('page.Login.fault.header')</h4>
+                    #tn('page.Login.fault.suggestion', [$authError.localizedMessage])
                 #end
             </div>
         #else
-            <h2 class="form-signin-heading">#springMessage('page.Login.widget.form')</h2>
+            <h2 class="form-signin-heading">#t('page.Login.widget.form')</h2>
         #end
 
         <form method="post">
-            <input class="input-block-level" type="email" name="username" placeholder="#springMessage('page.Login.form.email.placeholder')">
-            <input class="input-block-level" type="password" name="password" placeholder="#springMessage('page.Login.form.password.placeholder')">
+            <input class="input-block-level" type="email" name="username" placeholder="#t('page.Login.form.email.placeholder')">
+            <input class="input-block-level" type="password" name="password" placeholder="#t('page.Login.form.password.placeholder')">
 
             <div>
-                <button class="btn btn-primary" type="submit">#springMessage('page.Login.form.submit')</button>
-                <span style="padding-left: 1em;font-size: 90%;">
-                    #springMessage1('page.Login.form.remember', $totalRecallLink)
-                </span>
+                <button class="btn btn-primary" type="submit">#t('page.Login.form.submit')</button>
+                <span style="padding-left: 1em;font-size: 90%;">#tn('page.Login.form.remember', [$totalRecallLink])</span>
             </div>
         </form>
         <div style="text-align: center;">
-            <strong>#springMessage('page.Login.widget.register')</strong>
-            #springMessage1('page.Login.widget.register.text', "$cp/auth/register")
+            <strong>#t('page.Login.widget.register')</strong>
+            #tn('page.Login.widget.register.text', ["$cp/auth/register"])
         </div>
     </div>
-</div>
 </div>
 <!-- /container -->
 </body>

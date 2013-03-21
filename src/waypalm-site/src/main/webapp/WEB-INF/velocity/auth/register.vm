@@ -3,7 +3,7 @@
     $eCdn.setAppZone('/auth')
 <head>
     #parse('_html-head.vm')
-    <title>#springMessage('layout.title.landingPage')</title>
+    <title>#t('layout.title.landingPage')</title>
 </head>
 #* @vtlvariable name="form" type="waypalm.site.model.user.RegisterForm" *#
 #* @vtlvariable name="formErrors" type="waypalm.common.web.model.FormErrors" *#
@@ -13,11 +13,11 @@
     <div class="auth-column">
         #if($formErrors)
             <div class="alert alert-error">
-                <h4>#springMessage('page.Register.fault.header')</h4>
+                <h4>#t('page.Register.fault.header')</h4>
             </div>
         #else
             <div class="alert alert-success">
-                <h4>#springMessage('page.Register.widget.form')</h4>
+                <h4>#t('page.Register.widget.form')</h4>
             </div>
         #end
 
@@ -28,7 +28,7 @@
                         <span class="help-inline">$formErrors.getFieldError("username")</span>
                     #end
                     <input class="input-block-level" type="email" name="username" autocomplete="off"
-                           placeholder="#springMessage('page.Register.form.username.placeholder')"
+                           placeholder="#t('page.Register.form.username.placeholder')"
                            value="$!form.username">
                 </div>
             </div>
@@ -38,10 +38,10 @@
                         <span class="help-inline">$formErrors.getFieldError("password")</span>
                     #end
                     <input class="input-block-level" type="password" name="password" autocomplete="off"
-                           placeholder="#springMessage('page.Register.form.password.placeholder')">
+                           placeholder="#t('page.Register.form.password.placeholder')">
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">#springMessage('page.Register.form.submit')</button>
+            <button class="btn btn-primary" type="submit">#t('page.Register.form.submit')</button>
         </form>
     </div>
 </div>
