@@ -8,6 +8,4 @@ public interface FormatService {
     String getMessage(Locale locale, String code, Object... args);
 
     String getMessage(Locale locale, MessageSourceResolvable resolvable);
-
-    String pluralize(Locale locale, long value, String code);
 }

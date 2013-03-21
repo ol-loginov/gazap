@@ -61,6 +61,10 @@
             <groupId>com.iserv2</groupId>
             <artifactId>iserv2-commons-mvc_base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.iserv2</groupId>
+            <artifactId>iserv2-commons-lang-text</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
