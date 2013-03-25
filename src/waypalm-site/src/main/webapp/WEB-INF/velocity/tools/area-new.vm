@@ -9,7 +9,7 @@
 <body>
     #parse('_layout-basic-header.vm')
 <div class="container">
-    <form id="form" method="post" class="form-horizontal">
+    <form id="form" method="post" class="form-horizontal form-tools-area-new">
         <div class="control-group">
             <label class="control-label" for="title">#t('page.constructor.newArea.form.title.label')</label>
 
@@ -22,20 +22,47 @@
             <label class="control-label">#t('page.constructor.newArea.form.kind.label')</label>
 
             <div class="controls">
-                <label class="ux-radio pull-left ux-radio-image">
+                <label class="ux-radio area-kind-plain pull-left">
                     <input type="radio" name="kind" value="PLANE" checked="checked">
                     <span class="ux-radio-label">
                         <img src="$themeRoot/img/constructor/kind.plane.png" alt="">
                         <span class="ux-radio-image-legend">#t('page.constructor.newArea.form.kind.plane')</span>
                     </span>
                 </label>
-                <label class="ux-radio pull-left ux-radio-image">
-                    <input type="radio" name="kind" value="BUILDING">
-                    <span class="ux-radio-label">
-                        <img src="$themeRoot/img/constructor/kind.building.png" alt="">
-                        <span class="ux-radio-image-legend">#t('page.constructor.newArea.form.kind.building')</span>
-                    </span>
-                </label>
+            </div>
+        </div>
+        <div class="control-group form-content-for-kind-plain">
+            <label class="control-label">#t('page.constructor.newArea.form.geometry.label')</label>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisX')</label>
+
+                    <div class="controls">
+                        <label class="ux-radio pull-left area-geometry-plain-axisX value-left">
+                            <input type="radio" name="geometryPlain.axisX" value="LEFT">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.left')</span>
+                        </label>
+                        <label class="ux-radio pull-left area-geometry-plain-axisX value-right">
+                            <input type="radio" name="geometryPlain.axisX" value="RIGHT" checked="checked">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.right')</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisY')</label>
+
+                    <div class="controls">
+                        <label class="ux-radio pull-left area-geometry-plain-axisY value-up">
+                            <input type="radio" name="geometryPlain.axisY" value="UP">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.up')</span>
+                        </label>
+                        <label class="ux-radio pull-left area-geometry-plain-axisY value-down">
+                            <input type="radio" name="geometryPlain.axisY" value="DOWN" checked="checked">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.down')</span>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="control-group">

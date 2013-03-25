@@ -43,46 +43,19 @@ body {
     }
 }
 
-label.ux-radio {
-    overflow: hidden;
-    display: inline;
-    position: relative;
-    .border-radius(.4em);
-
-    > input[type=radio] {
-        position: absolute;
+form {
+    label.ux-radio {
+        overflow: hidden;
         display: block;
-        top: -3em;
-        left: 0;
-        width: 1px;
-        height: 1px;
+        position: relative;
 
-        &:checked {
-            + .ux-radio-label {
-                background-color: #db7093;
-            }
-        }
-        &:focus {
-            + .ux-radio-label {
-                background-color: #db9755;
-            }
-        }
-    }
-
-    &.ux-radio-image {
-        > input[type=radio] {
-            + .ux-radio-label {
-                display: block;
-                > img {
-                    border: none;
-                    margin: .5em;
-                }
-                > .ux-radio-image-legend {
-                    display: block;
-                    padding: 0 .5em .5em;
-                    text-align: center;
-                }
-            }
+        > input {
+            position: absolute;
+            display: block;
+            top: -3em;
+            left: 0;
+            width: 1px;
+            height: 1px;
         }
     }
 }
@@ -99,6 +72,75 @@ form {
         }
         .ajax-submit-indicator {
             display: inherit;
+        }
+    }
+}
+
+form.form-tools-area-new {
+    label.ux-radio {
+        &.area-kind-plain {
+            .border-radius(.4em);
+
+            > input {
+                &:checked {
+                    + .ux-radio-label {
+                        background-color: #db7093;
+                    }
+                }
+                &:focus {
+                    + .ux-radio-label {
+                        background-color: #db9755;
+                    }
+                }
+
+                + .ux-radio-label {
+                    display: block;
+                    > img {
+                        border: none;
+                        margin: .5em;
+                    }
+                    > .ux-radio-image-legend {
+                        display: block;
+                        padding: 0 .5em .5em;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+
+        &.area-geometry-plain-axisX,
+        &.area-geometry-plain-axisY {
+            > .ux-radio-label {
+                .btn();
+                width: 5em;
+                text-transform: uppercase;
+                font-size: 80%;
+            }
+            > input {
+                &:checked {
+                    + .ux-radio-label {
+                        .btn-success();
+                    }
+                }
+                &:focus {
+                    + .ux-radio-label {
+                        .tab-focus();
+                    }
+                }
+            }
+
+            &.value-left,
+            &.value-up {
+                > .ux-radio-label {
+                    .border-radius(@baseBorderRadius 0 0 @baseBorderRadius);
+                }
+            }
+            &.value-right,
+            &.value-down {
+                > .ux-radio-label {
+                    .border-radius(0 @baseBorderRadius @baseBorderRadius 0);
+                }
+            }
         }
     }
 }
