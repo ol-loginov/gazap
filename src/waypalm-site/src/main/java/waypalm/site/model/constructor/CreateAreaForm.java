@@ -6,9 +6,9 @@ import waypalm.domain.entity.AreaKind;
 import javax.validation.constraints.NotNull;
 
 public class CreateAreaForm {
-    @NotBlank(message = "{validation.CreateAreaForm.title.isEmpty}")
+    @NotBlank
     private String title;
-    @NotNull(message = "{validation.CreateAreaForm.kind.isEmpty}")
+    @NotNull
     private AreaKind kind;
 
     public String getTitle() {
