@@ -1,21 +1,38 @@
 var A = {};
 
-(function (undefined) {
+(function ($, undefined) {
     A.ajaxFormController = function () {
         var submitClass = 'ajax-submit-in-progress';
+
+        function success(response, status, xhr, form) {
+            form.removeClass(submitClass);
+        }
+
+        function error(xhr, status, err, form) {
+            form.removeClass(submitClass);
+        }
+
+        function beforeSubmit(params, form) {
+            params.push({name: "_response", type: "hidden", value: "json"});
+            form.addClass(submitClass);
+        }
+
+        return A.ajaxFormControllerRaw(success, error, beforeSubmit);
+    };
+
+    A.ajaxFormControllerRaw = function (successCallback, errorCallback, beforeSubmit) {
         var controller = {
             form: null,
             beforeSubmit: function (params, $form, opts) {
-                controller.form = $form;
-                controller.form.addClass(submitClass);
+                if ($.isFunction(beforeSubmit)) beforeSubmit(params, $form, opts);
             },
             error: function (xhr, status, err) {
-                controller.form.removeClass(submitClass);
+                if ($.isFunction(errorCallback)) errorCallback(xhr, status, err, controller.form);
             },
             success: function (response, status, xhr) {
-                controller.form.removeClass(submitClass);
+                if ($.isFunction(successCallback)) successCallback(response, status, xhr, controller.form);
             }
         };
         return controller;
     };
-})();
+})(jQuery);

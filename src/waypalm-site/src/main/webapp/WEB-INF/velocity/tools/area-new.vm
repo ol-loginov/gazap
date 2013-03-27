@@ -27,35 +27,38 @@
                 </select>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisX')</label>
+        <div class="geometry-kind-options" data-geometry="plain" style="padding-left: 80px;">
+            <div>
+                <div class="control-group">
+                    <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisX')</label>
 
-            <div class="controls">
-                <label class="ux-radio pull-left area-geometry-plain-axisX value-left">
-                    <input type="radio" name="geometryPlain.axisX" value="LEFT">
-                    <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.left')</span>
-                </label>
-                <label class="ux-radio pull-left area-geometry-plain-axisX value-right">
-                    <input type="radio" name="geometryPlain.axisX" value="RIGHT" checked="checked">
-                    <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.right')</span>
-                </label>
+                    <div class="controls">
+                        <label class="ux-radio pull-left area-geometry-plain-axisX value-left">
+                            <input type="radio" name="geometryPlain.axisX" value="LEFT">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.left')</span>
+                        </label>
+                        <label class="ux-radio pull-left area-geometry-plain-axisX value-right">
+                            <input type="radio" name="geometryPlain.axisX" value="RIGHT" checked="checked">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisX.right')</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisY')</label>
+
+                    <div class="controls">
+                        <label class="ux-radio pull-left area-geometry-plain-axisY value-up">
+                            <input type="radio" name="geometryPlain.axisY" value="UP">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.up')</span>
+                        </label>
+                        <label class="ux-radio pull-left area-geometry-plain-axisY value-down">
+                            <input type="radio" name="geometryPlain.axisY" value="DOWN" checked="checked">
+                            <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.down')</span>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label">#t('page.constructor.newArea.form.geometry_plane.axisY')</label>
-
-            <div class="controls">
-                <label class="ux-radio pull-left area-geometry-plain-axisY value-up">
-                    <input type="radio" name="geometryPlain.axisY" value="UP">
-                    <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.up')</span>
-                </label>
-                <label class="ux-radio pull-left area-geometry-plain-axisY value-down">
-                    <input type="radio" name="geometryPlain.axisY" value="DOWN" checked="checked">
-                    <span class="ux-radio-label">#t('page.constructor.newArea.form.geometry_plane.axisY.down')</span>
-                </label>
-            </div>
-        </div>
-
         <div class="control-group">
             <div class="controls">
                 <button type="submit" class="btn">#t('page.constructor.newArea.form.submit')</button>
@@ -63,9 +66,11 @@
         </div>
     </form>
     <script type="text/javascript">
-        $('#form')
-                .append($('<input type="hidden" name="_response" value="json">'))
-                .ajaxForm(A.ajaxFormController());
+
+        (function () {
+            var form = $('#form');
+            form.ajaxForm(A.ajaxFormController());
+        })();
     </script>
 </div>
 <!-- /container -->
