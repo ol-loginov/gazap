@@ -1,3 +1,7 @@
+#* @vtlvariable name="form" type="waypalm.site.model.constructor.CreateAreaForm" *#
 <div>
-    asdasd
+    #if($form.kind == "PLANE")#set($setup =  $form.geometryPlain)
+        #set($previewCode = "${setup.axisX}-${setup.axisY}")
+        <img alt="" title="" src="$eCdn.contextPath/static/theme/img/constructor/preview.plane.${previewCode}.png"/>
+    #end
 </div>

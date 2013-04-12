@@ -34,8 +34,9 @@ public class ToolsAreaController extends BaseController {
         return responseBuilder(locale).json(response);
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_response=preview")
+    @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_intent=preview")
     public ModelAndView createAreaPreview(Locale locale, CreateAreaForm areaForm) {
-        return responseBuilder(locale).view("tools/area-new.preview");
+        return responseBuilder(locale).view("tools/area-new.preview")
+                .addObject("form", areaForm);
     }
 }
