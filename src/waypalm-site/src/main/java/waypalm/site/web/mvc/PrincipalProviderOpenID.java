@@ -11,8 +11,11 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.common.web.model.SocialProfile;
+import waypalm.domain.dao.UserRepository;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
+import waypalm.site.services.UserAccess;
+import waypalm.site.services.UserService;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +23,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
+    public PrincipalProviderOpenID(UserService userService, UserRepository userRepository, UserAccess auth) {
+        super(userService, userRepository, auth);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserDetails(OpenIDAuthenticationToken token) throws UsernameNotFoundException {

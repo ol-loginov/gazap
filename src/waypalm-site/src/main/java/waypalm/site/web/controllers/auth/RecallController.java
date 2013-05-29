@@ -5,21 +5,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.site.model.user.RestoreForm;
-import waypalm.site.web.controllers.BaseController;
-
-import java.util.Locale;
+import waypalm.site.web.controllers.BaseController2;
 
 @Controller
 @RequestMapping("/auth/recall")
-public class RecallController extends BaseController {
+public class RecallController extends BaseController2 {
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showForm(Locale locale) {
-        return responseBuilder(locale).view("auth/recall");
+    public ModelAndView showForm() {
+        return view("auth/recall");
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView submitForm(Locale locale, RestoreForm form) {
-        return responseBuilder(locale).view("auth/recall")
+    public ModelAndView submitForm(RestoreForm form) {
+        return view("auth/recall")
                 .addObject("form", form);
     }
 }

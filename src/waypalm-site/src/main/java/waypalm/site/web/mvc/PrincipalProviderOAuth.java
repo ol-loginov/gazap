@@ -11,11 +11,18 @@ import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import waypalm.common.web.model.SocialProfile;
+import waypalm.domain.dao.UserRepository;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
+import waypalm.site.services.UserAccess;
+import waypalm.site.services.UserService;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
+    public PrincipalProviderOAuth(UserService userService, UserRepository userRepository, UserAccess auth) {
+        super(userService, userRepository, auth);
+    }
+
     @Override
     @Transactional
     public UserDetails loadUserDetails(OAuthAuthenticationToken token) {

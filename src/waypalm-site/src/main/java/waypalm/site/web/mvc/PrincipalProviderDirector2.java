@@ -9,11 +9,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
+import waypalm.domain.dao.UserRepository;
+import waypalm.site.services.UserAccess;
+import waypalm.site.services.UserService;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
-public class PrincipalProviderDirector extends PrincipalProvider implements UserDetailsService, AuthenticationUserDetailsService {
+import javax.inject.Inject;
+
+public class PrincipalProviderDirector2 extends PrincipalProvider implements UserDetailsService, AuthenticationUserDetailsService {
     private AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider;
     private AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider;
+
+    @Inject
+    public PrincipalProviderDirector2(UserService userService, UserRepository userRepository, UserAccess auth) {
+        super(userService, userRepository, auth);
+    }
 
     @Autowired
     @Qualifier("principalProviderOAuth")
