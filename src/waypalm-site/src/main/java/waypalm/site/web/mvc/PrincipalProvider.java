@@ -14,16 +14,12 @@ import javax.inject.Inject;
 public abstract class PrincipalProvider {
     private AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
 
-    protected UserService userService;
-    protected UserRepository userRepository;
-    protected UserAccess auth;
-
     @Inject
-    public PrincipalProvider(UserService userService, UserRepository userRepository, UserAccess auth) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-        this.auth = auth;
-    }
+    protected UserService userService;
+    @Inject
+    protected UserRepository userRepository;
+    @Inject
+    protected UserAccess auth;
 
     protected UserDetails createPrincipal(Profile profile) {
         if (profile == null) {
