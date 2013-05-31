@@ -14,9 +14,20 @@ import waypalm.common.web.model.SocialProfile
 import org.springframework.social.connect.ConnectionKey
 import org.springframework.security.openid.OpenIDAttribute
 import waypalm.common.util.ifNull
+import java.util.Locale
+import com.iserv2.commons.lang.IservHashUtil
+import javax.inject.Inject
+import waypalm.site.services.UserAccess
+import waypalm.domain.dao.UserRepository
+import waypalm.site.services.UserService
+import javax.inject.Named
 
-OpenIDAuthentication
-public class PrincipalProviderOpenID()
+Named OpenID
+public class PrincipalProviderOpenID [Inject](
+        var userService: UserService,
+        var userRepository: UserRepository,
+        var auth: UserAccess
+)
 : PrincipalProvider()
 , AuthenticationUserDetailsService<OpenIDAuthenticationToken>
 {
@@ -37,25 +48,31 @@ public class PrincipalProviderOpenID()
         val userName = createOpenIDUserName(url);
         val email = takeFirstAttribute(token.getAttributes(), "email").ifNull(takeFirstAttribute(token.getAttributes(), "axEmail").ifNull(""));
 
-        val socialLink = userRepository!!.findSocialConnection(provider, userName, email);
+        val socialLink = userRepository.findSocialConnection(provider, userName, email);
         if (socialLink == null) {
-            val socialKey = ConnectionKey(provider, userName)
-            val socialProfile = SocialProfile()
-            socialProfile.setUrl(token.getIdentityUrl());
-            socialProfile.setEmail(email);
-            return userService.createSocialConnection(auth!!.loadCurrentProfile(), socialKey, socialProfile)!!.profile;
+            return userService.createSocialConnection(auth.loadCurrentProfile()
+                    , ConnectionKey(provider, userName)
+                    , SocialProfile(url = token.getIdentityUrl()!!, email = email)
+            )!!.profile;
         }
         return socialLink.profile;
     }
 
     fun takeFirstAttribute(attributes: List<OpenIDAttribute>?, name: String): String? {
         var attr = attributes!!
-                .find{name.equals(it.getName()) && it.getCount() > 1}
+                .find{ name.equals(it.getName()) && it.getCount() > 1 }
         return attr?.getValues()!!.get(0)
+    }
+
+    fun createOpenIDProvider(url: URL): String {
+        return url.getHost()!!.toLowerCase(Locale.ENGLISH);
+    }
+
+    fun createOpenIDUserName(url: URL): String {
+        return IservHashUtil.md5(url.toString())!!;
     }
 }
 
-
 Retention(RetentionPolicy.RUNTIME)
 Qualifier
-public annotation class OpenIDAuthentication
+public annotation class OpenID

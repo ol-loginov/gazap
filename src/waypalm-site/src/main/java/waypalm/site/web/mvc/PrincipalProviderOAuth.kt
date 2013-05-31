@@ -14,9 +14,18 @@ import waypalm.common.util.ifNull
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import javax.inject.Qualifier
+import waypalm.domain.dao.UserRepository
+import waypalm.site.services.UserService
+import waypalm.site.services.UserAccess
+import javax.inject.Inject
+import javax.inject.Named
 
-OAuthAuthentication
-public class PrincipalProviderOAuth ()
+Named OAuth
+public class PrincipalProviderOAuth [Inject](
+        var userService: UserService,
+        var userRepository: UserRepository,
+        var auth: UserAccess
+)
 : PrincipalProvider()
 , AuthenticationUserDetailsService<OAuthAuthenticationToken>
 {
@@ -27,9 +36,9 @@ public class PrincipalProviderOAuth ()
 
     fun loadUser(connection: Connection<*>): Profile {
         val connectionKey = connection.getKey()!!
-        val socialLink = userRepository!!.findSocialConnection(connectionKey.getProviderId(), connectionKey.getProviderUserId(), null)
+        val socialLink = userRepository.findSocialConnection(connectionKey.getProviderId(), connectionKey.getProviderUserId(), null)
         if(socialLink == null){
-            return userService!!.createSocialConnection(auth!!.loadCurrentProfile(), connectionKey, wrap(connection))!!.profile
+            return userService.createSocialConnection(auth.loadCurrentProfile(), connectionKey, wrap(connection))!!.profile
         }
         return socialLink.profile
     }
@@ -62,4 +71,4 @@ public class PrincipalProviderOAuth ()
 
 Retention(RetentionPolicy.RUNTIME)
 Qualifier
-public annotation class OAuthAuthentication
+public annotation class OAuth

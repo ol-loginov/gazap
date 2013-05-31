@@ -8,25 +8,42 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import javax.inject.Inject
 import org.springframework.transaction.annotation.Transactional
+import waypalm.domain.dao.UserRepository
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker
+import waypalm.domain.entity.Profile
+import waypalm.common.web.security.PrincipalImpl
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 
-public class PrincipalProviderDirector(): PrincipalProvider()
+public abstract class PrincipalProvider {
+    var checker: AccountStatusUserDetailsChecker = AccountStatusUserDetailsChecker()
+
+    protected fun createPrincipal(profile: Profile?): UserDetails {
+        if (profile == null) {
+            throw UsernameNotFoundException("no such user");
+        }
+        var principal = PrincipalImpl(profile);
+        checker.check(principal);
+        return principal;
+    }
+}
+
+public class PrincipalProviderDirector [Inject](
+        var userRepository: UserRepository,
+        var principalProviderOAuth: AuthenticationUserDetailsService<OAuthAuthenticationToken>,
+        var principalProviderOpenID: AuthenticationUserDetailsService<OpenIDAuthenticationToken>
+): PrincipalProvider()
 , UserDetailsService
 , AuthenticationUserDetailsService<AbstractAuthenticationToken>
 {
-    Inject OAuthAuthentication
-            var oauthProvider: AuthenticationUserDetailsService<OAuthAuthenticationToken>? = null
-    Inject OpenIDAuthentication
-            var openidProvider: AuthenticationUserDetailsService<OpenIDAuthenticationToken>? = null
-
     Transactional
     public override fun loadUserByUsername(username: String?): UserDetails {
-        return createPrincipal(userRepository!!.findProfileByEmail(username))!!
+        return createPrincipal(userRepository.findProfileByEmail(username))
     }
 
     public override fun loadUserDetails(token: AbstractAuthenticationToken?): UserDetails? {
         when(token){
-            is OAuthAuthenticationToken -> return oauthProvider!!.loadUserDetails(token as OAuthAuthenticationToken)
-            is OpenIDAuthenticationToken -> return openidProvider!!.loadUserDetails(token as OpenIDAuthenticationToken)
+            is OAuthAuthenticationToken -> return principalProviderOAuth.loadUserDetails(token as OAuthAuthenticationToken)
+            is OpenIDAuthenticationToken -> return principalProviderOpenID.loadUserDetails(token as OpenIDAuthenticationToken)
             else -> return null
         }
     }

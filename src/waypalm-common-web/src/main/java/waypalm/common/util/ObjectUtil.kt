@@ -18,5 +18,5 @@ fun <T> List<T>.firstSure(fallback: T): T {
 }
 
 fun <T> Array<T>.firstSure(fallback: T): T {
-    return if(this.isEmpty()) fallback else this[0]
+    return if(this.size == 0) fallback else this[0]
 }

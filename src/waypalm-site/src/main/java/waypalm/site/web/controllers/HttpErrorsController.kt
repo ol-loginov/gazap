@@ -1,15 +1,14 @@
 package waypalm.site.web.controllers
 
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.servlet.ModelAndView
-import waypalm.site.services.UserAccess
-import org.springframework.beans.factory.annotation.Autowired
+import javax.inject.Named
+import javax.inject.Inject
 
-Controller
+Named
 RequestMapping(array("/errors"))
-public class HttpErrorsController(): BaseController() {
-
+public class HttpErrorsController [Inject](
+        override var services: ControllerServices
+): ControllerBase {
     fun genericHttp(code: String): ModelAndView {
         return view("errors/http." + code);
     }

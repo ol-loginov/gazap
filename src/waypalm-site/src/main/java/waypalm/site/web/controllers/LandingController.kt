@@ -1,13 +1,14 @@
 package waypalm.site.web.controllers
 
-import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.stereotype.Controller
-import waypalm.site.services.UserAccess
-import org.springframework.beans.factory.annotation.Autowired
+import javax.inject.Named
+import javax.inject.Inject
 
-Controller
-public class LandingController(): BaseController(){
+Named
+RequestMapping
+public class LandingController [Inject](
+        override var services: ControllerServices
+): ControllerBase{
     RequestMapping(array("/index", "/index.*"))
     public fun welcome(): ModelAndView
     {
