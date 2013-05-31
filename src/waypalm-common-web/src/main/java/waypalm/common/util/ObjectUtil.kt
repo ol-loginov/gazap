@@ -12,3 +12,11 @@ fun String?.ifNull(default: String): String {
 fun <T, O>  T.select(selector: (it: T)->O): O {
     return selector(this)
 }
+
+fun <T> List<T>.firstSure(fallback: T): T {
+    return if(this.isEmpty()) fallback  else this.get(0)
+}
+
+fun <T> Array<T>.firstSure(fallback: T): T {
+    return if(this.isEmpty()) fallback else this[0]
+}
