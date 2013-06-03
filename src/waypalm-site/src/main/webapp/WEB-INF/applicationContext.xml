@@ -70,8 +70,7 @@
           p:authenticationManager-ref="authenticationManager"
           p:rememberMeServices-ref="rememberMeServices"
           p:authenticationFailureHandler-ref="authenticationFailureHandler"
-          p:authenticationSuccessHandler-ref="authenticationSuccessHandler"
-          p:overrideSecureUrl="${setup.social.connect.overrideSecureUrl}"/>
+          p:authenticationSuccessHandler-ref="authenticationSuccessHandler"/>
 
     <bean id="oauthAuthenticationProvider" class="waypalm.site.web.mvc.oauth.OAuthAuthenticationProvider"
           p:userDetailsService-ref="principalProvider"/>
