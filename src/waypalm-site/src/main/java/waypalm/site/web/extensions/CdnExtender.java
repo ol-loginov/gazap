@@ -1,14 +1,15 @@
 package waypalm.site.web.extensions;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
 import waypalm.site.services.EngineSetup;
 
+import javax.inject.Inject;
+
 @ModelExtension("eCdn")
 public class CdnExtender extends Extender<CdnExtender.Content> {
-    @Autowired
+    @Inject
     protected EngineSetup engineSetup;
 
     @Override

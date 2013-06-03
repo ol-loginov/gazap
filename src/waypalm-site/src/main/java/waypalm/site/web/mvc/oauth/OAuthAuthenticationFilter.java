@@ -1,6 +1,5 @@
 package waypalm.site.web.mvc.oauth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -14,6 +13,7 @@ import org.springframework.social.support.URIBuilder;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import javax.inject.Inject;
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,18 +33,10 @@ public class OAuthAuthenticationFilter extends AbstractAuthenticationProcessingF
         super(FILTER_ROUTE);
     }
 
-    private ConnectionFactoryLocator connectionFactoryLocator;
-    private String overrideSecureUrl;
-
+    @Inject
+    ConnectionFactoryLocator connectionFactoryLocator;
     @Value("${setup.social.connect.overrideSecureUrl}")
-    protected void setOverrideSecureUrl(String overrideSecureUrl) {
-        this.overrideSecureUrl = overrideSecureUrl;
-    }
-
-    @Autowired
-    protected void setConnectionFactoryLocatorProvider(ConnectionFactoryLocator connectionFactoryLocator) {
-        this.connectionFactoryLocator = connectionFactoryLocator;
-    }
+    String overrideSecureUrl;
 
     public void setReturnToUrlParameters(Set<String> returnToUrlParameters) {
         Assert.notNull(returnToUrlParameters, "returnToUrlParameters cannot be null");
@@ -55,7 +47,7 @@ public class OAuthAuthenticationFilter extends AbstractAuthenticationProcessingF
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
         if (returnToUrlParameters.isEmpty() && getRememberMeServices() instanceof AbstractRememberMeServices) {
-            returnToUrlParameters = new HashSet<String>();
+            returnToUrlParameters = new HashSet<>();
             returnToUrlParameters.add(((AbstractRememberMeServices) getRememberMeServices()).getParameter());
         }
     }

@@ -1,16 +1,16 @@
 package waypalm.site.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
-import org.springframework.stereotype.Service;
 import waypalm.common.services.FormatService;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Locale;
 
-@Service
+@Named
 public class FormatServiceImpl implements FormatService {
-    @Autowired
+    @Inject
     MessageSource messageSource;
 
     @Override

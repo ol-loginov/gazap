@@ -1,11 +1,9 @@
 package waypalm.site.services.impl;
 
 import com.iserv2.commons.lang.IservHashUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.social.connect.ConnectionKey;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -17,14 +15,17 @@ import waypalm.domain.entity.ProfileSummary;
 import waypalm.domain.entity.SocialLink;
 import waypalm.site.services.UserService;
 
-@Service
+import javax.inject.Inject;
+import javax.inject.Named;
+
+@Named
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Inject
     protected UserRepository userRepository;
-    @Autowired
+    @Inject
     @Qualifier("passwordEncoder")
     protected PasswordEncoder passwordEncoder;
-    @Autowired
+    @Inject
     @Qualifier("passwordSalter")
     protected PasswordSalter passwordSalter;
 

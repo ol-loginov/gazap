@@ -2,7 +2,6 @@ package waypalm.common.web.extensions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -12,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.context.request.WebRequestInterceptor;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class ModelExtenderInterceptor implements WebRequestInterceptor {
     private final Map<String, ModelExtender> extenders = new HashMap<>();
     private String basePackage;
 
-    @Autowired
+    @Inject
     AutowireCapableBeanFactory beanFactory;
 
     public void setBasePackage(String basePackage) {

@@ -1,6 +1,5 @@
 package waypalm.site.web.extensions;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtension;
@@ -9,11 +8,13 @@ import waypalm.site.model.view.UserName;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserService;
 
+import javax.inject.Inject;
+
 @ModelExtension("eVisitor")
 public class VisitorExtender extends Extender<VisitorExtender.Content> {
-    @Autowired
+    @Inject
     protected ModelViewer modelViewer;
-    @Autowired
+    @Inject
     protected UserService userService;
 
     @Override

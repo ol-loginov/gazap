@@ -1,9 +1,10 @@
 package waypalm.site.services;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
-@Service
+import javax.inject.Named;
+
+@Named
 public class EngineSetup {
     public static final long startTime = System.currentTimeMillis();
 

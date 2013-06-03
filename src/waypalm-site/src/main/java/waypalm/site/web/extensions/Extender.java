@@ -1,14 +1,15 @@
 package waypalm.site.web.extensions;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.WebRequest;
 import waypalm.common.web.extensions.ModelExtender;
 import waypalm.site.services.UserAccess;
 
+import javax.inject.Inject;
+
 public abstract class Extender<T> implements ModelExtender {
-    @Autowired
+    @Inject
     protected UserAccess auth;
 
     @SuppressWarnings("unchecked")

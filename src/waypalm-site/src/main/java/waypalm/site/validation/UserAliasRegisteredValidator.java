@@ -2,15 +2,15 @@ package waypalm.site.validation;
 
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.domain.dao.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class UserAliasRegisteredValidator implements ConstraintValidator<UserAliasRegistered, String> {
     private boolean shouldBeRegistered;
 
-    @Autowired
+    @Inject
     protected UserRepository userRepository;
 
     @Override
