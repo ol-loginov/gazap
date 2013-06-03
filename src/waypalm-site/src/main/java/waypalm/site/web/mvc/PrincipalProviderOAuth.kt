@@ -31,7 +31,7 @@ public class PrincipalProviderOAuth [Inject](
 {
     Transactional
     public override fun loadUserDetails(token: OAuthAuthenticationToken?): UserDetails? {
-        return createPrincipal(loadUser(token!!.getConnection()!!))
+        return createPrincipal(loadUser(token!!.connection!!))
     }
 
     fun loadUser(connection: Connection<*>): Profile {

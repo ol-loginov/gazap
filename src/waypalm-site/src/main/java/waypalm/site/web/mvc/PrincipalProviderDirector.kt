@@ -13,6 +13,9 @@ import org.springframework.security.authentication.AccountStatusUserDetailsCheck
 import waypalm.domain.entity.Profile
 import waypalm.common.web.security.PrincipalImpl
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import javax.inject.Qualifier
+import java.lang.annotation.RetentionPolicy
+import java.lang.annotation.Retention
 
 public abstract class PrincipalProvider {
     var checker: AccountStatusUserDetailsChecker = AccountStatusUserDetailsChecker()
@@ -27,6 +30,7 @@ public abstract class PrincipalProvider {
     }
 }
 
+AuthDirector
 public class PrincipalProviderDirector [Inject](
         var userRepository: UserRepository,
         var principalProviderOAuth: AuthenticationUserDetailsService<OAuthAuthenticationToken>,
@@ -48,3 +52,7 @@ public class PrincipalProviderDirector [Inject](
         }
     }
 }
+
+Retention(RetentionPolicy.RUNTIME)
+Qualifier
+public annotation class AuthDirector
