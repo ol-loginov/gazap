@@ -15,13 +15,11 @@ public class OAuthAuthenticationProvider [Inject] (
         if (authentication == null || !supports(authentication.getClass())) {
             return null;
         }
-
         if (authentication is OAuthAuthenticationToken) {
             val response = authentication as OAuthAuthenticationToken;
             val userDetails = userDetailsService.loadUserDetails(response)!!;
             return OAuthAuthenticationToken(userDetails, userDetails.getAuthorities())
         }
-
         return null;
     }
 
