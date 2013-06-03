@@ -18,7 +18,7 @@ public class CdnExtender [Inject](
         res.server = engineSetup.getSiteUrl()!!;
         res.serverStart = engineSetup.getStartTime();
         res.contextPath = engineSetup.getServletContext()!!;
-        res.locale = request.getLocale().getLanguage();
+        res.locale = request.getLocale()!!.getLanguage();
         return res;
     }
 
