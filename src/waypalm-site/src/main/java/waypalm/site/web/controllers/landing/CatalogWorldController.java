@@ -1,17 +1,18 @@
 package waypalm.site.web.controllers.landing;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.site.web.controllers.BaseController;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Locale;
 
-@Controller
+@Named
+@RequestMapping
 public class CatalogWorldController extends BaseController {
-    @Autowired
+    @Inject
     WorldRepository worldRepository;
 
     @RequestMapping("/worlds")

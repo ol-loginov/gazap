@@ -1,7 +1,5 @@
 package waypalm.site.web.mvc;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,18 +9,20 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
+import javax.inject.Inject;
+
 public class PrincipalProviderDirector extends PrincipalProvider implements UserDetailsService, AuthenticationUserDetailsService {
     private AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider;
     private AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider;
 
-    @Autowired
-    @Qualifier("principalProviderOAuth")
+    @Inject
+    @OAuth
     protected void setOauthProvider(AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider) {
         this.oauthProvider = oauthProvider;
     }
 
-    @Autowired
-    @Qualifier("principalProviderOpenID")
+    @Inject
+    @OpenID
     protected void setOpenidProvider(AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider) {
         this.openidProvider = openidProvider;
     }

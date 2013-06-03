@@ -1,11 +1,10 @@
 package waypalm.site.validation;
 
-import waypalm.site.services.RecaptchaValidator;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import waypalm.site.services.RecaptchaValidator;
 
+import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -13,7 +12,7 @@ public class ReCaptchaValidator implements ConstraintValidator<ReCaptcha, Object
     private String challengeField;
     private String responseField;
 
-    @Autowired
+    @Inject
     private RecaptchaValidator captchaValidator;
 
     @Override

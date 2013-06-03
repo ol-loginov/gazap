@@ -1,6 +1,5 @@
 package waypalm.site.web.mvc;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,14 +9,16 @@ import waypalm.domain.entity.Profile;
 import waypalm.site.services.UserAccess;
 import waypalm.site.services.UserService;
 
+import javax.inject.Inject;
+
 public abstract class PrincipalProvider {
     private AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
 
-    @Autowired
+    @Inject
     protected UserService userService;
-    @Autowired
+    @Inject
     protected UserRepository userRepository;
-    @Autowired
+    @Inject
     protected UserAccess auth;
 
     protected UserDetails createPrincipal(Profile profile) {

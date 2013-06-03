@@ -1,17 +1,17 @@
 package waypalm.site.validation;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.domain.dao.WorldRepository;
 import waypalm.domain.entity.World;
 
+import javax.inject.Inject;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.beans.PropertyDescriptor;
 
 public class WorldTitleValidator implements ConstraintValidator<WorldTitle, Object> {
-    @Autowired
+    @Inject
     protected WorldRepository worldRepository;
 
     private String idField;

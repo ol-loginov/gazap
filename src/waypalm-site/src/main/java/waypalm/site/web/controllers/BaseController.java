@@ -1,6 +1,5 @@
 package waypalm.site.web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.SmartValidator;
@@ -15,17 +14,18 @@ import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
 import waypalm.site.web.mvc.ResponseBuilder;
 
+import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Locale;
 
 public abstract class BaseController {
-    @Autowired
+    @Inject
     protected UserAccess auth;
-    @Autowired
+    @Inject
     protected FormatService format;
-    @Autowired
+    @Inject
     protected ModelViewer viewer;
-    @Autowired
+    @Inject
     protected SmartValidator validator;
 
     @InitBinder

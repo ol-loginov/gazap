@@ -15,6 +15,10 @@ import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
+import javax.inject.Named;
+
+@Named
+@OAuth
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
     @Override
     @Transactional

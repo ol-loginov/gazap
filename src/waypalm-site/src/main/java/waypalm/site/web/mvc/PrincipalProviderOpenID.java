@@ -14,11 +14,14 @@ import waypalm.common.web.model.SocialProfile;
 import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
 
+import javax.inject.Named;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+@Named
+@OpenID
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
     @Override
     @Transactional

@@ -1,7 +1,5 @@
 package waypalm.site.web.controllers.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,13 +9,15 @@ import waypalm.site.model.user.RegisterForm;
 import waypalm.site.services.UserService;
 import waypalm.site.web.controllers.BaseController;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.validation.Valid;
 import java.util.Locale;
 
-@Controller
+@Named
 @RequestMapping("/auth/register")
 public class RegisterController extends BaseController {
-    @Autowired
+    @Inject
     protected UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)

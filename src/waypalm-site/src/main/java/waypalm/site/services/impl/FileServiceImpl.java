@@ -2,7 +2,6 @@ package waypalm.site.services.impl;
 
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import waypalm.common.util.IOUtils;
 import waypalm.domain.entity.Surface;
 import waypalm.site.model.TileImage;
@@ -12,13 +11,14 @@ import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.inject.Named;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
 
-@Service
+@Named
 public class FileServiceImpl implements FileService {
     @Value("${FileServiceImpl.tilesFolder}")
     private String tilesFolder;

@@ -1,10 +1,8 @@
 package waypalm.site.services.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import waypalm.common.web.model.SocialProfileProvider;
 import waypalm.common.web.model.SocialProfileProviders;
@@ -15,14 +13,16 @@ import waypalm.domain.entity.Profile;
 import waypalm.domain.entity.SocialLink;
 import waypalm.site.services.UserAccess;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Collection;
 import java.util.Collections;
 
-@Service
+@Named
 public class UserAccessImpl implements UserAccess {
-    @Autowired
+    @Inject
     protected UserRepository userRepository;
-    @Autowired
+    @Inject
     protected WorldRepository worldRepository;
 
     @Override
