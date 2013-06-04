@@ -25,7 +25,7 @@ public class VisitorExtender [Inject](
         }
     }
 
-    protected override fun populate(request: WebRequest, extension: VisitorExtender.Content, model: ModelMap): VisitorExtender.Content {
+    protected override fun populate(request: WebRequest, extension: VisitorExtender.Content?, model: ModelMap): VisitorExtender.Content {
         val user = auth.loadCurrentProfile()
         var result = instantiateIfNull(extension, javaClass<VisitorExtender.Content>())
         if (user != null) {

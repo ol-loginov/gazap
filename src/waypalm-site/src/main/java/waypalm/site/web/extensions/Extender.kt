@@ -18,13 +18,13 @@ public abstract class Extender<T> ()
         }
     }
 
-    public fun  createExtension(request: WebRequest, extension: T, model: ModelMap): T {
+    public fun  createExtension(request: WebRequest, extension: T?, model: ModelMap): T? {
         return populate(request, extension, model);
     }
 
-    protected abstract fun populate(request: WebRequest, extension: T, model: ModelMap): T ;
+    protected abstract fun populate(request: WebRequest, extension: T?, model: ModelMap): T?;
 
-    protected fun instantiateIfNull<C>(value: C, valueClass: Class<C>): C {
+    protected fun instantiateIfNull<C>(value: C?, valueClass: Class<C>): C {
         return if (value != null) value else BeanUtils.instantiate(valueClass)!!
     }
 }

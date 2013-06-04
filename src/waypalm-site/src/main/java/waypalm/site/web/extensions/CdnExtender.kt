@@ -10,14 +10,14 @@ ModelExtension("eCdn")
 public class CdnExtender [Inject](
         var engineSetup: EngineSetup
 )
-: Extender<CdnExtender.Content> ()
+: Extender<CdnExtender.Content>()
 {
-    protected override fun populate(request: WebRequest, extension: CdnExtender.Content, model: ModelMap): CdnExtender.Content {
+    protected override fun populate(request: WebRequest, extension: CdnExtender.Content?, model: ModelMap): CdnExtender.Content {
         var res = instantiateIfNull(extension, javaClass<Content>());
-        res.debugMode = engineSetup.isDebugMode();
-        res.server = engineSetup.getSiteUrl()!!;
-        res.serverStart = engineSetup.getStartTime();
-        res.contextPath = engineSetup.getServletContext()!!;
+        res.debugMode = engineSetup.debugMode;
+        res.server = engineSetup.siteUrl
+        res.serverStart = engineSetup.startTime
+        res.contextPath = engineSetup.servletContext
         res.locale = request.getLocale()!!.getLanguage();
         return res;
     }
