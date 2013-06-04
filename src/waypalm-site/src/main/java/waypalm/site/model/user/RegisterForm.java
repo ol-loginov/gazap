@@ -1,14 +1,14 @@
 package waypalm.site.model.user;
 
 import waypalm.domain.entity.Profile;
-import waypalm.site.validation.ReCaptcha;
+import waypalm.site.validation.Captcha;
 import waypalm.site.validation.UserEmail;
 import waypalm.site.validation.UserEmailRegistered;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@ReCaptcha
+@Captcha
 public class RegisterForm {
     @NotNull(message = "{validation.RegisterForm.username.isNull}")
     @Size(min = 1, max = Profile.EMAIL_LENGTH, message = "{validation.RegisterForm.username.wrongSize}")

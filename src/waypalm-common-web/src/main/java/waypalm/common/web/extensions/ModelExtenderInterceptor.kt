@@ -1,6 +1,7 @@
 package waypalm.common.web.extensions
 
 import javax.inject.Inject
+import org.springframework.core.`type`.filter.AnnotationTypeFilter
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory
 import org.springframework.web.context.request.WebRequestInterceptor
 import org.slf4j.Logger

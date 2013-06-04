@@ -18,15 +18,19 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
     private UserRepository userRepository;
 
     @Override
+    protected UserEmailRegisteredValidator createImpl() throws Exception {
+        return new UserEmailRegisteredValidator(userRepository);
+    }
+
+    @Override
     public void setUp() throws Exception {
         super.setUp();
         testEmail = Values.string(10);
-        service.userRepository = userRepository;
     }
 
     @Test
     public void shouldBeRegistered_ButNotRegistered() {
-        service.initialize(true);
+        service.setShouldBeRegistered(true);
         when(userRepository.findProfileByEmail(testEmail)).thenReturn(null);
         assertFalse(service.isValid(testEmail, null));
         verify(userRepository).findProfileByEmail(testEmail);
@@ -34,7 +38,7 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
 
     @Test
     public void shouldBeRegistered_AndItRegistered() {
-        service.initialize(true);
+        service.setShouldBeRegistered(true);
         when(userRepository.findProfileByEmail(testEmail)).thenReturn(new Profile());
         assertTrue(service.isValid(testEmail, null));
         verify(userRepository).findProfileByEmail(testEmail);
@@ -42,7 +46,7 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
 
     @Test
     public void shouldNotBeRegistered_AndNotRegistered() {
-        service.initialize(false);
+        service.setShouldBeRegistered(false);
         when(userRepository.findProfileByEmail(testEmail)).thenReturn(null);
         assertTrue(service.isValid(testEmail, null));
         verify(userRepository).findProfileByEmail(testEmail);
@@ -50,7 +54,7 @@ public class UserEmailRegisteredValidatorTest extends ServiceTest<UserEmailRegis
 
     @Test
     public void shouldNotBeRegistered_ButItRegistered() {
-        service.initialize(false);
+        service.setShouldBeRegistered(false);
         when(userRepository.findProfileByEmail(testEmail)).thenReturn(new Profile());
         assertFalse(service.isValid(testEmail, null));
         verify(userRepository).findProfileByEmail(testEmail);

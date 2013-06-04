@@ -41,7 +41,7 @@ public class OAuth1Flow(
             throw AuthenticationException("lost request token");
         }
 
-        val token = request.getParameter("oauth_token");
+        //val token = request.getParameter("oauth_token");
         val verifier = request.getParameter("oauth_verifier");
 
         val operations = connectionFactory.getOAuthOperations()!!;
