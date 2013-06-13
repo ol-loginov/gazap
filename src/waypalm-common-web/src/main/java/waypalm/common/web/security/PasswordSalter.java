@@ -3,6 +3,7 @@ package waypalm.common.web.security;
 import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@AppSecurity
 public class PasswordSalter implements SaltSource {
     private String saltBase;
 
