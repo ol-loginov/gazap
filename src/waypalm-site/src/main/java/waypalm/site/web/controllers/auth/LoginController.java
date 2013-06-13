@@ -15,7 +15,6 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Locale;
 
 @Named
 @RequestMapping("/auth")
@@ -28,20 +27,20 @@ public class LoginController extends BaseController {
     protected AuthenticationFailureHandler authenticationFailureHandler;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getLoginPage(Locale locale) {
-        return responseBuilder(locale).view("auth/login")
+    public ModelAndView getLoginPage() {
+        return view("auth/login")
                 .addObject("authProviders", userAccess.getAvailableSocialProviders());
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView proceedFormLogin(Locale locale, HttpServletRequest request) throws IOException, ServletException {
-        return responseBuilder(locale).forward(FORM_LOGIN_FILTER);
+    public ModelAndView proceedFormLogin() throws IOException, ServletException {
+        return forward(FORM_LOGIN_FILTER);
     }
 
     @RequestMapping("/error")
-    public ModelAndView getLoginError(Locale locale, HttpServletRequest request) {
+    public ModelAndView getLoginError(HttpServletRequest request) {
         AuthenticationException authError = authenticationFailureHandler.getAuthenticationException(request);
-        return responseBuilder(locale).view("auth/login")
+        return view("auth/login")
                 .addObject("authProviders", userAccess.getAvailableSocialProviders())
                 .addObject("authError", authError != null)
                 .addObject("authErrorBadCredentials", authError instanceof BadCredentialsException)

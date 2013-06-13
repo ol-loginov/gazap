@@ -16,27 +16,27 @@ import java.util.Locale;
 @RequestMapping("/tools/area")
 public class ToolsAreaController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showAreaList(Locale locale) {
-        return responseBuilder(locale).view("tools/area-list");
+    public ModelAndView showAreaList() {
+        return view("tools/area-list");
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public ModelAndView showAreaWizard(Locale locale) {
-        return responseBuilder(locale).view("tools/area-new");
+    public ModelAndView showAreaWizard() {
+        return view("tools/area-new");
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_response=json")
     public ModelAndView createArea(Locale locale, @Valid CreateAreaForm areaForm, BindingResult areaFormBinding) {
         AnswerEntity response = new AnswerEntity();
         if (areaFormBinding.hasErrors()) {
-            response.setErrors(responseBuilder(locale).getValidationErrors(areaFormBinding));
+            response.setErrors(getValidationErrors(locale, areaFormBinding));
         }
-        return responseBuilder(locale).json(response);
+        return json(response);
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_intent=preview")
-    public ModelAndView createAreaPreview(Locale locale, CreateAreaForm areaForm) {
-        return responseBuilder(locale).view("tools/area-new.preview")
+    public ModelAndView createAreaPreview(CreateAreaForm areaForm) {
+        return view("tools/area-new.preview")
                 .addObject("form", areaForm);
     }
 }

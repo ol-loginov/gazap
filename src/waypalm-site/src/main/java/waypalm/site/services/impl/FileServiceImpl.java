@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Locale;
 
+import static org.apache.commons.io.IOUtils.copyLarge;
+
 @Named
 public class FileServiceImpl implements FileService {
     @Value("${FileServiceImpl.tilesFolder}")
@@ -47,18 +49,17 @@ public class FileServiceImpl implements FileService {
 
         File tempFile = getTileFile(surface, fileName);
 
-        InputStream is = null;
         try {
             String fileExtension = validateTileImage(tempFile, imageSelector);
             if (fileExtension == null) {
                 return null;
             }
 
-            is = new FileInputStream(tempFile);
-            fileName = fileName + "." + fileExtension;
-            storeFile(getMapFolder(surface), fileName, is);
+            try (InputStream is = new FileInputStream(tempFile)) {
+                fileName = fileName + "." + fileExtension;
+                storeFile(getMapFolder(surface), fileName, is);
+            }
         } finally {
-            IOUtils.closeQuietly(is);
             IOUtils.deleteQuietly(tempFile);
         }
 
@@ -106,12 +107,8 @@ public class FileServiceImpl implements FileService {
         }
 
         File output = new File(targetFolder, fileName);
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(output);
-            IOUtils.copyLarge(file, outputStream);
-        } finally {
-            IOUtils.closeQuietly(outputStream);
+        try (FileOutputStream outputStream = new FileOutputStream(output)) {
+            copyLarge(file, outputStream);
         }
     }
 

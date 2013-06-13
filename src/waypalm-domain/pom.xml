@@ -35,10 +35,6 @@
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
-            <plugin>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <groupId>org.jetbrains.kotlin</groupId>
-            </plugin>
         </plugins>
     </build>
 

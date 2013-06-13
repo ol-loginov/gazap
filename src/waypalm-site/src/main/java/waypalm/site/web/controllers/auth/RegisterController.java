@@ -4,7 +4,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import waypalm.common.web.controllers.Response;
 import waypalm.site.model.user.RegisterForm;
 import waypalm.site.services.UserService;
 import waypalm.site.web.controllers.BaseController;
@@ -21,19 +20,18 @@ public class RegisterController extends BaseController {
     protected UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showRegistrationForm(Locale locale) {
-        return responseBuilder(locale).view("auth/register");
+    public ModelAndView showRegistrationForm() {
+        return view("auth/register");
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView proceedRegistration(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
-        Response response = responseBuilder(locale);
         if (formBinding.hasErrors()) {
-            return response.view("auth/register")
+            return view("auth/register")
                     .addObject("form", form)
-                    .addObject("formErrors", response.getValidationErrors(formBinding));
+                    .addObject("formErrors", getValidationErrors(locale, formBinding));
         }
         userService.createUser(form.getUsername(), form.getPassword());
-        return response.forward("/auth");
+        return forward("/auth");
     }
 }
