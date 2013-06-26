@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn
 Entity
 Table(name = "SocialLink")
 DynamicUpdate
-public class SocialLink(): IntegerIdentityCU() {
+public class SocialLink() : IntegerIdentityCU() {
     Column(length = 32, nullable = false)
     public var provider: String = ""
     Column(length = 50, nullable = false)

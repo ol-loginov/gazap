@@ -1,8 +1,8 @@
 package waypalm.common.web.model
 
 public class SocialProfile(
-        var url: String = "",
-        var email: String = "",
-        var displayName: String = "",
-        var nick: String = ""
+        public var url: String = "",
+        public var email: String = "",
+        public var displayName: String = "",
+        public var nick: String = ""
 )
