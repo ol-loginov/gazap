@@ -5,7 +5,22 @@ var A = {};
         return $.isFunction(desiredFunction) ? desiredFunction : $.noop;
     };
 
-    A.showFormErrors = function (form, errorList) {
+    A.showFormErrors = function (form, fieldErrors) {
+        form.find('[name]').each(function () {
+            var field = $(this), fieldName = field.attr('name'), errorSpans = '';
+            $.each(fieldErrors, function () {
+                if (this.field == fieldName) {
+                    errorSpans += '<span class="help-inline">' + this.message + '</span>';
+                }
+            });
+
+            var fieldHasErrors = errorSpans.length > 0;
+            field.closest('.control-group').toggleClass('error', fieldHasErrors);
+            field.closest('.controls').find('span.help-inline').remove();
+            if (fieldHasErrors) {
+                field.closest('.controls').append($(errorSpans));
+            }
+        });
     };
 
     A.ajaxFormController = function (onSuccess, onError, onBeforeSubmit) {
@@ -13,8 +28,8 @@ var A = {};
         var currentForm = null;
         return A.ajaxFormControllerRaw(
             function (data) {
-                if (data.errors && data.errors.length > 0) {
-                    A.showFormErrors(currentForm, data.errors);
+                if (data.errors && data.errors.fields) {
+                    A.showFormErrors(currentForm, data.errors.fields);
                 }
                 currentForm.removeClass(submitClass);
                 return A.needF(onSuccess).apply(this, arguments);

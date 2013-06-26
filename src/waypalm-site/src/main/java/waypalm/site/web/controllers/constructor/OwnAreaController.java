@@ -30,7 +30,9 @@ public class OwnAreaController extends BaseController {
         AnswerEntity response = new AnswerEntity();
         if (areaFormBinding.hasErrors()) {
             response.setErrors(getValidationErrors(locale, areaFormBinding));
+            return json(response);
         }
+
         return json(response);
     }
 
