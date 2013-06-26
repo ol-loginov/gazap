@@ -34,4 +34,6 @@ public class RegisterController extends BaseController {
         userService.createUser(form.getUsername(), form.getPassword());
         return forward("/auth");
     }
+
+
 }

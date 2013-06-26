@@ -44,8 +44,8 @@
         <security:intercept-url pattern="/my/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/manage" access="isAuthenticated()"/>
         <security:intercept-url pattern="/manage/**" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/tools" access="isAuthenticated()"/>
-        <security:intercept-url pattern="/tools/**" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/own" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/own/**" access="isAuthenticated()"/>
 
         <security:logout logout-success-url="/" logout-url="/auth/logout"/>
 

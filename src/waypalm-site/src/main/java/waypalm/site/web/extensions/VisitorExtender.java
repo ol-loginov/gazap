@@ -6,6 +6,7 @@ import waypalm.common.web.extensions.ModelExtension;
 import waypalm.domain.entity.Profile;
 import waypalm.site.model.view.UserName;
 import waypalm.site.services.ModelViewer;
+import waypalm.site.services.UserAccess;
 import waypalm.site.services.UserService;
 
 import javax.inject.Inject;
@@ -13,9 +14,11 @@ import javax.inject.Inject;
 @ModelExtension("eVisitor")
 public class VisitorExtender extends Extender<VisitorExtender.Content> {
     @Inject
-    protected ModelViewer modelViewer;
+    ModelViewer modelViewer;
     @Inject
-    protected UserService userService;
+    UserService userService;
+    @Inject
+    UserAccess auth;
 
     @Override
     protected VisitorExtender.Content populate(WebRequest request, VisitorExtender.Content extension, ModelMap model) {

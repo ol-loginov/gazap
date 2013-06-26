@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
 import waypalm.common.web.model.ObjectErrors;
 import waypalm.domain.entity.Profile;
-import waypalm.domain.entity.base.DomainEntity;
+import waypalm.domain.entity.World;
 import waypalm.site.exceptions.ObjectNotFoundException;
 import waypalm.site.services.ModelViewer;
 import waypalm.site.services.UserAccess;
@@ -28,7 +28,7 @@ public abstract class BaseController {
     @Inject
     protected UserAccess auth;
     @Inject
-    protected FormatService res;
+    protected FormatService format;
     @Inject
     protected ModelViewer viewer;
     @Inject
@@ -39,37 +39,24 @@ public abstract class BaseController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    public Profile requireProfile() {
-        Profile profile = auth.loadCurrentProfile();
-        if (profile == null) {
-            throw new InsufficientAuthenticationException("require authenticated visitor");
-        }
-        return profile;
-    }
-
-    protected static <K extends Serializable, E extends DomainEntity> E requireEntity(Class<E> entityClass, E entity, K id) throws ObjectNotFoundException {
-        if (entity == null)
-            throw new ObjectNotFoundException(entityClass, id);
-        return entity;
-    }
-
-    public ModelAndView json(Object val) {
-        return view("jsonView").addObject("content", val);
-    }
 
     public ModelAndView redirect(String url) {
-        return new ModelAndView(UrlBasedViewResolver.REDIRECT_URL_PREFIX + url);
+        return view(UrlBasedViewResolver.REDIRECT_URL_PREFIX + url);
     }
 
     public ModelAndView forward(String url) {
-        return new ModelAndView(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
+        return view(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
     }
 
     public ModelAndView view(String viewName) {
         return new ModelAndView(viewName);
     }
 
-    public ObjectErrors getValidationErrors(Locale locale, Errors formBinding) {
+    public ModelAndView json(Object val) {
+        return view("jsonView").addObject("content", val);
+    }
+
+    protected ObjectErrors getValidationErrors(Locale locale, Errors formBinding) {
         if (formBinding == null || !formBinding.hasErrors()) {
             return null;
         }
@@ -78,23 +65,37 @@ public abstract class BaseController {
         for (FieldError formBindingFieldError : formBinding.getFieldErrors()) {
             ObjectErrors.FieldError fieldError = new ObjectErrors.FieldError();
             fieldError.setField(formBindingFieldError.getField());
-            fieldError.setMessage(res.getMessage(locale, formBindingFieldError));
+            fieldError.setMessage(format.getMessage(locale, formBindingFieldError));
             formErrors.getFieldErrors().add(fieldError);
         }
 
         for (ObjectError formBindingFieldError : formBinding.getGlobalErrors()) {
             ObjectErrors.GlobalError fieldError = new ObjectErrors.GlobalError();
-            fieldError.setMessage(res.getMessage(locale, formBindingFieldError));
+            fieldError.setMessage(format.getMessage(locale, formBindingFieldError));
             formErrors.getGlobalErrors().add(fieldError);
         }
         return formErrors;
     }
 
-    public String getErrorMessage(Locale locale, MessageSourceResolvable message) {
+    protected String getErrorMessage(Locale locale, MessageSourceResolvable message) {
         if (message == null) {
             return null;
         }
         String code = IservCollections.firstOrNull(message.getCodes());
-        return res.getMessage(locale, code == null ? "message.unknown" : code, message.getArguments());
+        return format.getMessage(locale, code == null ? "message.unknown" : code, message.getArguments());
+    }
+
+    public Profile requireProfile() {
+        Profile profile = auth.loadCurrentProfile();
+        if (profile == null) {
+            throw new InsufficientAuthenticationException("require authenticated visitor");
+        }
+        return profile;
+    }
+
+    protected static <K extends Serializable> World requireEntity(World entity, K id) throws ObjectNotFoundException {
+        if (entity == null)
+            throw new ObjectNotFoundException(World.class, id);
+        return entity;
     }
 }

@@ -14,8 +14,7 @@
             <label class="control-label" for="title">#t('page.constructor.newArea.form.title.label')</label>
 
             <div class="controls">
-                <input type="text" id="title" name="title" placeholder="#t('page.constructor.newArea.form.title.placeholder')"
-                       class="input-block-level">
+                <input type="text" id="title" name="title" placeholder="#t('page.constructor.newArea.form.title.placeholder')" class="span5">
             </div>
         </div>
         <div class="control-group">

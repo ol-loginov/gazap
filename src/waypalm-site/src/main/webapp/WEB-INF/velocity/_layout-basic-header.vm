@@ -5,16 +5,10 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    #if($siteRoute.startsWith('/tools'))
-                        <li #if($siteRoute.startsWith("/tools/area"))class="active"#end>
-                            <a href="/tools/area"><span>#t('layout.navbar.tools.areas')</span></a>
-                        </li>
-                    #else
-                        #if($eVisitor.logged)
-                            <li><a href="/tools" class="switch-navbar-mode">#t('layout.navbar.tools')</a></li>
-                        #end
-                        <li #if($siteRoute.startsWith("/browse"))class="active"#end><a href="/browse">#t('layout.navbar.browse')</a></li>
+                    #if($eVisitor.logged)
+                        <li><a href="/own" class="switch-navbar-mode">#t('layout.navbar.own')</a></li>
                     #end
+                    <li #if($siteRoute.startsWith("/browse"))class="active"#end><a href="/browse">#t('layout.navbar.browse')</a></li>
                 </ul>
                 #if($eVisitor.logged)
                     <ul class="nav pull-right">

@@ -18,7 +18,7 @@ import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 import javax.inject.Named;
 
 @Named
-@OAuth
+@PrincipalProviderDirector.OAuth
 public class PrincipalProviderOAuth extends PrincipalProvider implements AuthenticationUserDetailsService<OAuthAuthenticationToken> {
     @Override
     @Transactional
