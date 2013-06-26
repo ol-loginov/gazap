@@ -386,7 +386,6 @@
         </pluginManagement>
     </build>
 
-
     <reporting>
         <outputDirectory>${basedir}/target/site</outputDirectory>
         <plugins>
@@ -401,30 +400,6 @@
                         </reports>
                     </reportSet>
                 </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <check>
-                        <branchRate>85</branchRate>
-                        <lineRate>85</lineRate>
-                        <haltOnFailure>true</haltOnFailure>
-                        <totalBranchRate>85</totalBranchRate>
-                        <totalLineRate>85</totalLineRate>
-                        <packageLineRate>85</packageLineRate>
-                        <packageBranchRate>85</packageBranchRate>
-                    </check>
-                    <!--instrumentation>
-                        <ignores>
-                            <ignore>com.yapa.domain.*</ignore>
-                        </ignores>
-                        <excludes>
-                            <exclude>com/yapa/domain/**/*.class</exclude>
-                        </excludes>
-                    </instrumentation-->
-                </configuration>
             </plugin>
         </plugins>
     </reporting>
