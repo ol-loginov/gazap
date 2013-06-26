@@ -12,7 +12,7 @@ import waypalm.site.services.UserService;
 import javax.inject.Inject;
 
 public abstract class PrincipalProvider {
-    private AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
+    AccountStatusUserDetailsChecker checker = new AccountStatusUserDetailsChecker();
 
     @Inject
     protected UserService userService;

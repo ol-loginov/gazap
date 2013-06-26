@@ -29,7 +29,7 @@ public class ToolsAreaController extends BaseController {
     public ModelAndView createArea(Locale locale, @Valid CreateAreaForm areaForm, BindingResult areaFormBinding) {
         AnswerEntity response = new AnswerEntity();
         if (areaFormBinding.hasErrors()) {
-            response.setErrors(responseBuilder(locale).getValidationErrors(areaFormBinding));
+            response.setErrors(getValidationErrors(locale, areaFormBinding));
         }
         return json(response);
     }

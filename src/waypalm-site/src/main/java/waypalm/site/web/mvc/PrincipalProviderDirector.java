@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import waypalm.site.web.mvc.oauth.OAuthAuthenticationToken;
 
 import javax.inject.Inject;
+import javax.inject.Qualifier;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 public class PrincipalProviderDirector extends PrincipalProvider implements UserDetailsService, AuthenticationUserDetailsService {
     private AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider;
@@ -42,5 +45,15 @@ public class PrincipalProviderDirector extends PrincipalProvider implements User
             return openidProvider.loadUserDetails((OpenIDAuthenticationToken) token);
         }
         return null;
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Qualifier
+    public static @interface OpenID {
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Qualifier
+    public static @interface OAuth {
     }
 }

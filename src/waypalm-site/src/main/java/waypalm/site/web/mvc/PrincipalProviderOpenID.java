@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Named
-@OpenID
+@PrincipalProviderDirector.OpenID
 public class PrincipalProviderOpenID extends PrincipalProvider implements AuthenticationUserDetailsService<OpenIDAuthenticationToken> {
     @Override
     @Transactional

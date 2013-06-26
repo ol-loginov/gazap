@@ -22,8 +22,6 @@
     <security:http pattern="/robots.txt" security="none"/>
 
     <bean id="principalProvider" class="waypalm.site.web.mvc.PrincipalProviderDirector"/>
-    <bean id="principalProviderOAuth" class="waypalm.site.web.mvc.PrincipalProviderOAuth"/>
-    <bean id="principalProviderOpenID" class="waypalm.site.web.mvc.PrincipalProviderOpenID"/>
 
     <bean id="authenticationFailureHandler" class="waypalm.site.web.mvc.AuthenticationFailureHandler"
           p:useForward="true"

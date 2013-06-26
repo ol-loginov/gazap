@@ -9,9 +9,6 @@ import waypalm.site.services.UserAccess;
 import javax.inject.Inject;
 
 public abstract class Extender<T> implements ModelExtender {
-    @Inject
-    protected UserAccess auth;
-
     @SuppressWarnings("unchecked")
     @Override
     public final void extend(String extensionKey, WebRequest request, ModelMap model) {
