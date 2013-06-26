@@ -19,7 +19,6 @@
     E = {language: '$eCdn.locale', 'SCE': '#t('E.SCE')'};
 </script>
 
-<script type="text/javascript" src="$libRoot/head/head-0.96.min.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery.form-3.18.js"></script>
 <script type="text/javascript" src="$libRoot/jquery/jquery.validate-1.10.0.js"></script>

@@ -19,13 +19,13 @@ public class PrincipalProviderDirector extends PrincipalProvider implements User
     private AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider;
 
     @Inject
-    @OAuth
+    @PrincipalProviderDirector.OAuth
     protected void setOauthProvider(AuthenticationUserDetailsService<OAuthAuthenticationToken> oauthProvider) {
         this.oauthProvider = oauthProvider;
     }
 
     @Inject
-    @OpenID
+    @PrincipalProviderDirector.OpenID
     protected void setOpenidProvider(AuthenticationUserDetailsService<OpenIDAuthenticationToken> openidProvider) {
         this.openidProvider = openidProvider;
     }

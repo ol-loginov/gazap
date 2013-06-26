@@ -13,16 +13,16 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("/tools/area")
-public class ToolsAreaController extends BaseController {
+@RequestMapping("/own/area")
+public class OwnAreaController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showAreaList() {
-        return view("tools/area-list");
+        return view("own/area-list");
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView showAreaWizard() {
-        return view("tools/area-new");
+        return view("own/area-new");
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_response=json")
@@ -36,7 +36,7 @@ public class ToolsAreaController extends BaseController {
 
     @RequestMapping(value = "/new", method = RequestMethod.POST, params = "_intent=preview")
     public ModelAndView createAreaPreview(CreateAreaForm areaForm) {
-        return view("tools/area-new.preview")
+        return view("own/area-new.preview")
                 .addObject("form", areaForm);
     }
 }
