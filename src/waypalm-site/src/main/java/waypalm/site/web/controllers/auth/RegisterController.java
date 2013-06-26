@@ -21,15 +21,15 @@ public class RegisterController extends BaseController {
     protected UserService userService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showRegistrationForm(Locale locale) {
-        return responseBuilder(locale).view("auth/register");
+    public ModelAndView showRegistrationForm() {
+        return view("auth/register");
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView proceedRegistration(Locale locale, @Valid RegisterForm form, BindingResult formBinding) {
         Response response = responseBuilder(locale);
         if (formBinding.hasErrors()) {
-            return response.view("auth/register")
+            return view("auth/register")
                     .addObject("form", form)
                     .addObject("formErrors", response.getValidationErrors(formBinding));
         }

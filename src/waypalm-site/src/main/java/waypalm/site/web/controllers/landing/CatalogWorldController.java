@@ -7,7 +7,6 @@ import waypalm.site.web.controllers.BaseController;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Locale;
 
 @Named
 @RequestMapping
@@ -16,8 +15,8 @@ public class CatalogWorldController extends BaseController {
     WorldRepository worldRepository;
 
     @RequestMapping("/worlds")
-    public ModelAndView worlds(Locale locale) {
-        return responseBuilder(locale).view("worlds")
+    public ModelAndView worlds() {
+        return view("worlds")
                 .addObject("worldList", worldRepository.listWorld());
     }
 }

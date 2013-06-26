@@ -23,11 +23,6 @@ public class ResponseBuilder implements Response {
     }
 
     @Override
-    public ModelAndView json(Object val) {
-        return view("jsonView").addObject("content", val);
-    }
-
-    @Override
     public ModelAndView redirect(String url) {
         return new ModelAndView(UrlBasedViewResolver.REDIRECT_URL_PREFIX + url);
     }
@@ -35,11 +30,6 @@ public class ResponseBuilder implements Response {
     @Override
     public ModelAndView forward(String url) {
         return new ModelAndView(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
-    }
-
-    @Override
-    public ModelAndView view(String viewName) {
-        return new ModelAndView(viewName);
     }
 
     @Override

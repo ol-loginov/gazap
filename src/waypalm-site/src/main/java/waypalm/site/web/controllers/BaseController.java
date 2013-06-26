@@ -5,6 +5,8 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import waypalm.common.services.FormatService;
 import waypalm.common.web.controllers.Response;
 import waypalm.domain.entity.Profile;
@@ -36,6 +38,23 @@ public abstract class BaseController {
     protected Response responseBuilder(Locale locale) {
         return new ResponseBuilder(format, locale);
     }
+
+    public ModelAndView redirect(String url) {
+        return view(UrlBasedViewResolver.REDIRECT_URL_PREFIX + url);
+    }
+
+    public ModelAndView forward(String url) {
+        return view(UrlBasedViewResolver.FORWARD_URL_PREFIX + url);
+    }
+
+    public ModelAndView view(String viewName) {
+        return new ModelAndView(viewName);
+    }
+
+    public ModelAndView json(Object val) {
+        return view("jsonView").addObject("content", val);
+    }
+
 
     public Profile requireProfile() {
         Profile profile = auth.loadCurrentProfile();
