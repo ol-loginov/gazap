@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>waypalm domain model</name>
-     <artifactId>waypalm-domain</artifactId>
+    <artifactId>waypalm-domain</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
@@ -33,6 +33,25 @@
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <username>${app.db.user}</username>
+                    <password>${app.db.pass}</password>
+                    <url>${app.db.url}</url>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <changeLogFile>src/main/liquibase/changelog.xml</changeLogFile>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>liquibase</groupId>
+                        <artifactId>mysql.extension</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
