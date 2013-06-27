@@ -5,8 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>waypalm domain model</name>
-    <groupId>waypalm</groupId>
-    <artifactId>waypalm-domain</artifactId>
+     <artifactId>waypalm-domain</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
 
@@ -97,6 +96,10 @@
         </dependency>
 
         <!-- domain -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

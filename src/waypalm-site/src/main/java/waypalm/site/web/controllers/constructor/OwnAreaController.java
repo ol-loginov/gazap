@@ -7,14 +7,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import waypalm.site.model.AnswerEntity;
 import waypalm.site.model.constructor.CreateAreaForm;
+import waypalm.site.services.AreaManager;
 import waypalm.site.web.controllers.BaseController;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
 @RequestMapping("/own/area")
 public class OwnAreaController extends BaseController {
+    @Inject
+    AreaManager areaManager;
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showAreaList() {
         return view("own/area-list");
@@ -32,6 +37,8 @@ public class OwnAreaController extends BaseController {
             response.setErrors(getValidationErrors(locale, areaFormBinding));
             return json(response);
         }
+
+        areaManager.create(areaForm);
 
         return json(response);
     }
